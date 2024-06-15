@@ -1,0 +1,4 @@
+PORT=3000
+APIURL=localhost
+APIPORT=5000
+REACT_APP_LOCALHOST_KEY="chat-app-current-user"

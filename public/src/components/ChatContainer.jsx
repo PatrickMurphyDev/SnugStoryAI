@@ -33,13 +33,15 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
-  const handleSendMsg = async (msg) => {
+  const handleSendMsg = async (msg, modelOption) => {
+    modelOption = modelOption || 0;
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
     socket.current.emit("send-msg", {
       to: currentChat._id,
       from: data._id,
+      llmodel: modelOption,
       msg,
     });
     await axios.post(sendMessageRoute, {

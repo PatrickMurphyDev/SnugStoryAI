@@ -6,6 +6,7 @@ const MessageSchema = mongoose.Schema(
       text: { type: String, required: true },
     },
     users: Array,
+    llmodel: {type: Number, default: 0}, // 0: no ai, 1: llama3, 2: openaiGPT4, 3: UncensoredLlama2
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

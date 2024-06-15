@@ -9,6 +9,7 @@
     "axios": "^0.28.1",
     "buffer": "^6.0.3",
     "emoji-picker-react": "^3.5.1",
+    "llmclient": "^8.1.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -22,6 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "startprd": "react-scripts start NODE_ENV=prd",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
