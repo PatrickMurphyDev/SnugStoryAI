@@ -33,32 +33,42 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
-  const handleSendMsg = async (msg, modelOption) => {
-    modelOption = modelOption || 0;
+  const handleSendMsg = async (msg, AIChecked) => {
+    AIChecked = AIChecked || 0;
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
     socket.current.emit("send-msg", {
       to: currentChat._id,
       from: data._id,
-      llmodel: modelOption,
+      llmodel: AIChecked,
+      senderIsAI: 0,
       msg,
     });
     await axios.post(sendMessageRoute, {
       from: data._id,
       to: currentChat._id,
+      llmodel: AIChecked,
+      senderIsAI: 0,
       message: msg,
     });
 
     const msgs = [...messages];
-    msgs.push({ fromSelf: true, message: msg });
+    msgs.push({ fromSelf: true, senderIsAI: 0, message: msg });
     setMessages(msgs);
   };
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
+        setArrivalMessage({ fromSelf: false, senderIsAI: 0, message: msg });
+      });
+      socket.current.on("msg-recieve-ai", (msg) => {
+        setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
+        // TODO: update chat input state to enable chat submit
+      });
+      socket.current.on("msg-start-ai", (msg) => {
+        // TODO: update ChatInput state to disable ChatInput submit
       });
     }
   }, []);
@@ -94,6 +104,8 @@ export default function ChatContainer({ currentChat, socket }) {
               <div
                 className={`message ${
                   message.fromSelf ? "sended" : "recieved"
+                } ${
+                  message.senderIsAI ? "AIResponse" : "NonAIResponse"
                 }`}
               >
                 <div className="content ">
@@ -177,6 +189,12 @@ const Container = styled.div`
       justify-content: flex-start;
       .content {
         background-color: #9900ff20;
+      }
+    }
+    .AIResponse {
+      margin-left: 5em;
+      .content {
+        background-color: #4F735621;
       }
     }
   }

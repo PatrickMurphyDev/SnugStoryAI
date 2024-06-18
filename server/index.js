@@ -43,7 +43,7 @@ const server = app.listen(process.env.PORT, () =>
 
 const promptAI = async (data, sockets) => {
   var { sendUserSocket, fromUserSocket } = sockets;
-  console.log("Send AI");
+  console.log("Send AI");``
   const response = await ollama.generate(data.msg);
   socket.to(sendUserSocket).emit("msg-recieve", response.output);
   io.to(fromUserSocket).emit("msg-recieve", response.output);
@@ -82,9 +82,11 @@ io.on("connection", async (socket) => {
     // if AI requested
     if (data.modelOption !== 0) {
       console.log("Send AI");
+      socket.to(sendUserSocket).emit("msg-start-ai", data.msg);
+      io.to(fromUserSocket).emit("msg-start-ai", data.msg);
       const response = await ollama.generate(data.msg);
-      socket.to(sendUserSocket).emit("msg-recieve", response.output);
-      io.to(fromUserSocket).emit("msg-recieve", response.output);
+      socket.to(sendUserSocket).emit("msg-recieve-ai", response.output);
+      io.to(fromUserSocket).emit("msg-recieve-ai", response.output);
 
 
       //persist

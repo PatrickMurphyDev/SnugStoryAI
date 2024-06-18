@@ -7,6 +7,10 @@ import Picker from "emoji-picker-react";
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [AIChecked, setAIChecked] = useState(false);
+  const handleAICheckedChange = () => {
+    setAIChecked(!AIChecked);
+  };
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
@@ -20,7 +24,7 @@ export default function ChatInput({ handleSendMsg }) {
   const sendChat = (event) => {
     event.preventDefault();
     if (msg.length > 0) {
-      handleSendMsg(msg);
+      handleSendMsg(msg,AIChecked);
       setMsg("");
     }
   };
@@ -40,6 +44,16 @@ export default function ChatInput({ handleSendMsg }) {
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
+        <div className="input-ai-flag">
+        <label>
+        <input
+          type="checkbox"
+          checked={AIChecked}
+          onChange={handleAICheckedChange}
+        />
+        AI
+      </label>
+        </div>
         <button type="submit">
           <IoMdSend />
         </button>

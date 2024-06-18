@@ -13,6 +13,10 @@ module.exports.getMessages = async (req, res, next) => {
     const projectedMessages = messages.map((msg) => {
       return {
         fromSelf: msg.sender.toString() === from,
+        llmodel: msg.llmodel,
+        sender: msg.sender,
+        senderIsAI: msg.senderIsAI,
+        users: msg.users,
         message: msg.message.text,
       };
     });
