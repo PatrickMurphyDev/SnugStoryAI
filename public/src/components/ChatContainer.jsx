@@ -6,11 +6,18 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 
+// ChatContainer component for managing chat interactions
 export default function ChatContainer({ currentChat, socket }) {
+  // State for storing chat messages
   const [messages, setMessages] = useState([]);
+  // Ref for scrolling to the latest message
   const scrollRef = useRef();
+  // State for storing incoming messages
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  // State for chat submit status
+  const [isProcessingResponse, setIsProcessingResponse] = useState(false);
 
+  // Fetch previous messages when currentChat changes
   useEffect(async () => {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
@@ -22,6 +29,7 @@ export default function ChatContainer({ currentChat, socket }) {
     setMessages(response.data);
   }, [currentChat]);
 
+  // Ensure the current chat is set when currentChat changes
   useEffect(() => {
     const getCurrentChat = async () => {
       if (currentChat) {
@@ -33,6 +41,7 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
+  // Handle sending a message
   const handleSendMsg = async (msg, AIChecked) => {
     AIChecked = AIChecked || 0;
     const data = await JSON.parse(
@@ -58,29 +67,36 @@ export default function ChatContainer({ currentChat, socket }) {
     setMessages(msgs);
   };
 
+  // Handle receiving messages via socket
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
+        console.log('msg-recieve: ', msg);
         setArrivalMessage({ fromSelf: false, senderIsAI: 0, message: msg });
       });
       socket.current.on("msg-recieve-ai", (msg) => {
+        console.log('msg-recieve-ai: ', msg);
         setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
-        // TODO: update chat input state to enable chat submit
+        setIsProcessingResponse(false);
       });
       socket.current.on("msg-start-ai", (msg) => {
-        // TODO: update ChatInput state to disable ChatInput submit
+        console.log('msg-start-ai: ', msg);
+        setIsProcessingResponse(true);
       });
     }
   }, []);
 
+  // Update messages state when a new message arrives
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
+  // Scroll to the latest message when messages change
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Render chat container
   return (
     <Container>
       <div className="chat-header">
@@ -116,11 +132,12 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
-      <ChatInput handleSendMsg={handleSendMsg} />
+      <ChatInput handleSendMsg={handleSendMsg} isProcessingResponse={isProcessingResponse} />
     </Container>
   );
 }
 
+// Styled-components for styling the chat container
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 80% 10%;

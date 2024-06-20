@@ -4,7 +4,7 @@ import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
-export default function ChatInput({ handleSendMsg }) {
+export default function ChatInput({ handleSendMsg, isProcessingResponse }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [AIChecked, setAIChecked] = useState(false);
@@ -54,7 +54,7 @@ export default function ChatInput({ handleSendMsg }) {
         AI
       </label>
         </div>
-        <button type="submit">
+        <button type="submit" className={isProcessingResponse ? "disabled" : ""}>
           <IoMdSend />
         </button>
       </form>
@@ -148,6 +148,9 @@ const Container = styled.div`
         svg {
           font-size: 1rem;
         }
+      }
+      button.disabled {
+        background-color: grey;
       }
       svg {
         font-size: 2rem;
