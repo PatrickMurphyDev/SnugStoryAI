@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{endpoint}} Endpoint Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{endpoint}} Endpoint Docs</h1>
+    </header>
+    <div class="content">
+        <h2>Description</h2>
+        <p>{{description}}</p>
+
+        <h2>Endpoint Schema</h2>
+        <pre>{{schema}}</pre>
+
+        <h2>Endpoint Methods</h2>
+        <table>
+            <tr>
+                <th>URL Method</th>
+                <th>Description</th>
+                <th>Sample</th>
+            </tr>
+            {{#each methods}}
+            <tr>
+                <td>{{this.method}}</td>
+                <td>{{this.description}}</td>
+                <td><a href="#{{this.sampleId}}">Sample</a></td>
+            </tr>
+            {{/each}}
+        </table>
+
+        <h2>Sample Payloads</h2>
+        {{#each methods}}
+        <h3 id="{{this.sampleId}}">{{this.method}} {{../endpoint}} Sample</h3>
+        <pre>{{this.sample}}</pre>
+        {{/each}}
+
+        <p><a href="../index.html">Back to API V1 Docs</a></p>
+    </div>
+</body>
+</html>

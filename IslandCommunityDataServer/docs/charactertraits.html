@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/charactertraits Endpoint Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>/charactertraits Endpoint Docs</h1>
+    </header>
+    <div class="content">
+        <h2>Description</h2>
+        <p>The /charactertraits endpoint allows for managing character trait data, including creating, retrieving, updating, and deleting character traits.</p>
+
+        <h2>Endpoint Schema</h2>
+        <pre>{
+    &quot;character_id&quot;: &quot;ObjectId&quot;,
+    &quot;trait_id&quot;: &quot;ObjectId&quot;,
+    &quot;value&quot;: &quot;String&quot;
+}</pre>
+
+        <h2>Endpoint Methods</h2>
+        <table>
+            <tr>
+                <th>URL Method</th>
+                <th>Description</th>
+                <th>Sample</th>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>Create a new character trait</td>
+                <td><a href="#post-charactertrait-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>Get all character traits</td>
+                <td><a href="#get-charactertraits-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET /:id</td>
+                <td>Get a character trait by ID</td>
+                <td><a href="#get-charactertrait-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>PUT /:id</td>
+                <td>Update a character trait by ID</td>
+                <td><a href="#put-charactertrait-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>DELETE /:id</td>
+                <td>Delete a character trait by ID</td>
+                <td><a href="#delete-charactertrait-sample">Sample</a></td>
+            </tr>
+        </table>
+
+        <h2>Sample Payloads</h2>
+        <h3 id="post-charactertrait-sample">POST /charactertraits Sample</h3>
+        <pre>{
+    &quot;character_id&quot;: &quot;60d5f9e68f1b2c001c8e6fff&quot;,
+    &quot;trait_id&quot;: &quot;60d5f8e68f1b2c001c8e5aaa&quot;,
+    &quot;value&quot;: &quot;Brave&quot;
+}</pre>
+        <h3 id="get-charactertraits-sample">GET /charactertraits Sample</h3>
+        <pre>[
+    {
+        &quot;_id&quot;: &quot;60d5fae68f1b2c001c8e7fff&quot;,
+        &quot;character_id&quot;: &quot;60d5f9e68f1b2c001c8e6fff&quot;,
+        &quot;trait_id&quot;: &quot;60d5f8e68f1b2c001c8e5aaa&quot;,
+        &quot;value&quot;: &quot;Brave&quot;
+    }
+]</pre>
+        <h3 id="get-charactertrait-sample">GET /:id /charactertraits Sample</h3>
+        <pre>{
+    &quot;_id&quot;: &quot;60d5fae68f1b2c001c8e7fff&quot;,
+    &quot;character_id&quot;: &quot;60d5f9e68f1b2c001c8e6fff&quot;,
+    &quot;trait_id&quot;: &quot;60d5f8e68f1b2c001c8e5aaa&quot;,
+    &quot;value&quot;: &quot;Brave&quot;
+}</pre>
+        <h3 id="put-charactertrait-sample">PUT /:id /charactertraits Sample</h3>
+        <pre>{
+    &quot;value&quot;: &quot;Courageous&quot;
+}</pre>
+        <h3 id="delete-charactertrait-sample">DELETE /:id /charactertraits Sample</h3>
+        <pre>{
+    &quot;message&quot;: &quot;Character trait deleted successfully&quot;
+}</pre>
+
+        <p><a href="../index.html">Back to API V1 Docs</a></p>
+    </div>
+</body>
+</html>

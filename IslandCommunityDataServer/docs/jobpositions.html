@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/jobpositions Endpoint Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>/jobpositions Endpoint Docs</h1>
+    </header>
+    <div class="content">
+        <h2>Description</h2>
+        <p>The /jobpositions endpoint allows for managing job position data, including creating, retrieving, updating, and deleting job positions.</p>
+
+        <h2>Endpoint Schema</h2>
+        <pre>{
+    &quot;organization_id&quot;: &quot;ObjectId&quot;,
+    &quot;title&quot;: &quot;String&quot;,
+    &quot;description&quot;: &quot;String&quot;,
+    &quot;requirements&quot;: [&quot;String&quot;],
+    &quot;salary&quot;: &quot;Number&quot;
+}</pre>
+
+        <h2>Endpoint Methods</h2>
+        <table>
+            <tr>
+                <th>URL Method</th>
+                <th>Description</th>
+                <th>Sample</th>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>Create a new job position</td>
+                <td><a href="#post-jobposition-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>Get all job positions</td>
+                <td><a href="#get-jobpositions-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET /:id</td>
+                <td>Get a job position by ID</td>
+                <td><a href="#get-jobposition-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>PUT /:id</td>
+                <td>Update a job position by ID</td>
+                <td><a href="#put-jobposition-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>DELETE /:id</td>
+                <td>Delete a job position by ID</td>
+                <td><a href="#delete-jobposition-sample">Sample</a></td>
+            </tr>
+        </table>
+
+        <h2>Sample Payloads</h2>
+        <h3 id="post-jobposition-sample">POST /jobpositions Sample</h3>
+        <pre>{
+    &quot;organization_id&quot;: &quot;60d5f7e68f1b2c001c8e4fdd&quot;,
+    &quot;title&quot;: &quot;Software Engineer&quot;,
+    &quot;description&quot;: &quot;Develops and maintains software&quot;,
+    &quot;requirements&quot;: [&quot;BSc in Computer Science&quot;, &quot;3+ years of experience&quot;],
+    &quot;salary&quot;: 100000
+}</pre>
+        <h3 id="get-jobpositions-sample">GET /jobpositions Sample</h3>
+        <pre>[
+    {
+        &quot;_id&quot;: &quot;60d5f8e68f1b2c001c8e4fff&quot;,
+        &quot;organization_id&quot;: &quot;60d5f7e68f1b2c001c8e4fdd&quot;,
+        &quot;title&quot;: &quot;Software Engineer&quot;,
+        &quot;description&quot;: &quot;Develops and maintains software&quot;,
+        &quot;requirements&quot;: [&quot;BSc in Computer Science&quot;, &quot;3+ years of experience&quot;],
+        &quot;salary&quot;: 100000
+    }
+]</pre>
+        <h3 id="get-jobposition-sample">GET /:id /jobpositions Sample</h3>
+        <pre>{
+    &quot;_id&quot;: &quot;60d5f8e68f1b2c001c8e4fff&quot;,
+    &quot;organization_id&quot;: &quot;60d5f7e68f1b2c001c8e4fdd&quot;,
+    &quot;title&quot;: &quot;Software Engineer&quot;,
+    &quot;description&quot;: &quot;Develops and maintains software&quot;,
+    &quot;requirements&quot;: [&quot;BSc in Computer Science&quot;, &quot;3+ years of experience&quot;],
+    &quot;salary&quot;: 100000
+}</pre>
+        <h3 id="put-jobposition-sample">PUT /:id /jobpositions Sample</h3>
+        <pre>{
+    &quot;title&quot;: &quot;Senior Software Engineer&quot;,
+    &quot;description&quot;: &quot;Leads the software development team&quot;,
+    &quot;requirements&quot;: [&quot;BSc in Computer Science&quot;, &quot;5+ years of experience&quot;],
+    &quot;salary&quot;: 120000
+}</pre>
+        <h3 id="delete-jobposition-sample">DELETE /:id /jobpositions Sample</h3>
+        <pre>{
+    &quot;message&quot;: &quot;Job position deleted successfully&quot;
+}</pre>
+
+        <p><a href="../index.html">Back to API V1 Docs</a></p>
+    </div>
+</body>
+</html>

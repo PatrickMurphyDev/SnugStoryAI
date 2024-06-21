@@ -1,0 +1,778 @@
+{
+    "locations": [
+      {
+        "_id": 0,
+        "locationType": "civic",
+        "locationTitle": "Island Town Hall",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "government",
+          "businessName": "Island Town Hall",
+          "buildingKey": "Town Hall",
+          "businessType": "Civic Building",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Mayor",
+              "payRange": {"low": 50000, "high": 70000},
+              "education_level_required": "Bachelor's Degree"
+            },
+            {
+              "position": "Council Member",
+              "payRange": {"low": 20000, "high": 30000},
+              "education_level_required": "Bachelor's Degree"
+            },
+            {
+              "position": "Administrative Staff",
+              "payRange": {"low": 30000, "high": 40000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Community Meetings", "Administrative Functions"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 1,
+        "locationType": "commercial",
+        "locationTitle": "Island General Store",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "retail",
+          "businessName": "Island General Store",
+          "businessType": "Retail Store",
+          "buildingKey": "General Store",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Storekeeper",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Cashier",
+              "payRange": {"low": 20000, "high": 25000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Stock Clerk",
+              "payRange": {"low": 20000, "high": 25000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Retail Sales"],
+          "productsOffered": ["Groceries", "Household Items"],
+          "productsPurchasing": ["Supplies", "Goods for Resale"]
+        }
+      },
+      {
+        "_id": 2,
+        "locationType": "civic",
+        "locationTitle": "Island Post Office",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "postal services",
+          "businessName": "Island Post Office",
+          "businessType": "Postal Services",
+          "buildingKey": "Post Office",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Postal Worker",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Mail Delivery", "Package Delivery"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 3,
+        "locationType": "civic",
+        "locationTitle": "Island Schoolhouse",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "education",
+          "businessName": "Island Schoolhouse",
+          "businessType": "Educational Institution",
+          "buildingKey": "School",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Teacher",
+              "payRange": {"low": 40000, "high": 60000},
+              "education_level_required": "Bachelor's Degree"
+            },
+            {
+              "position": "Principal",
+              "payRange": {"low": 60000, "high": 80000},
+              "education_level_required": "Master's Degree"
+            },
+            {
+              "position": "Janitor",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Education"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 4,
+        "locationType": "civic",
+        "locationTitle": "Island Clinic",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "healthcare",
+          "businessName": "Island Clinic",
+          "businessType": "Healthcare Facility",
+          "buildingKey": "Medical Clinic",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Doctor",
+              "payRange": {"low": 80000, "high": 150000},
+              "education_level_required": "Medical Degree"
+            },
+            {
+              "position": "Nurse",
+              "payRange": {"low": 50000, "high": 70000},
+              "education_level_required": "Nursing Degree"
+            },
+            {
+              "position": "Receptionist",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Healthcare"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 5,
+        "locationType": "civic",
+        "locationTitle": "Island Library",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "education",
+          "businessName": "Island Library",
+          "businessType": "Library",
+          "buildingKey": "Library",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Librarian",
+              "payRange": {"low": 35000, "high": 50000},
+              "education_level_required": "Bachelor's Degree"
+            }
+          ],
+          "servicesOffered": ["Book Lending", "Public Computers"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 6,
+        "locationType": "civic",
+        "locationTitle": "Island Fire Station",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "emergency services",
+          "businessName": "Island Fire Station",
+          "businessType": "Emergency Services",
+          "buildingKey": "Fire Department",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Firefighter",
+              "payRange": {"low": 40000, "high": 60000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Firefighting", "Emergency Response"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 7,
+        "locationType": "commercial",
+        "locationTitle": "Island Harbor",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "maritime",
+          "businessName": "Island Harbor",
+          "businessType": "Maritime Services",
+          "buildingKey": "Harbor",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Harbor Master",
+              "payRange": {"low": 40000, "high": 60000},
+              "education_level_required": "Bachelor's Degree"
+            },
+            {
+              "position": "Dock Worker",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Boat Docking", "Fishing Activities"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 8,
+        "locationType": "commercial",
+        "locationTitle": "Island Café",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "food service",
+          "businessName": "Island Café",
+          "businessType": "Café",
+          "buildingKey": "Resturant",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Café Owner",
+              "payRange": {"low": 30000, "high": 50000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Chef",
+              "payRange": {"low": 35000, "high": 50000},
+              "education_level_required": "Culinary Degree"
+            },
+            {
+              "position": "Waitstaff",
+              "payRange": {"low": 20000, "high": 25000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Dining"],
+          "productsOffered": ["Food", "Beverages"],
+          "productsPurchasing": ["Ingredients", "Beverages"]
+        }
+      },
+      {
+        "_id": 9,
+        "locationType": "commercial_residential",
+        "locationTitle": "Island Inn",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "hospitality",
+          "businessName": "Island Inn",
+          "businessType": "Lodging",
+          "buildingKey": "Hotel",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Innkeeper",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Housekeeping",
+              "payRange": {"low": 20000, "high": 30000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Lodging"],
+          "productsOffered": [],
+          "productsPurchasing": ["Supplies for Guests"]
+        }
+      },
+      {
+        "_id": 10,
+        "locationType": "civic",
+        "locationTitle": "Island Community Center",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "recreation",
+          "businessName": "Island Community Center",
+          "businessType": "Recreational Facility",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Event Coordinator",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "Bachelor's Degree"
+            }
+          ],
+          "servicesOffered": ["Events", "Recreational Activities"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 11,
+        "locationType": "commercial",
+        "locationTitle": "Island Fishing Supply Store",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "retail",
+          "businessName": "Island Fishing Supply Store",
+          "businessType": "Retail Store",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Storekeeper",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Retail Sales"],
+          "productsOffered": ["Fishing Gear"],
+          "productsPurchasing": ["Fishing Equipment"]
+        }
+      },
+      {
+        "_id": 12,
+        "locationType": "commercial",
+        "locationTitle": "Island Artisan Shops",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "retail",
+          "businessName": "Island Artisan Shops",
+          "businessType": "Retail Store",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Artist/Artisan",
+              "payRange": {"low": 30000, "high": 50000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Retail Sales"],
+          "productsOffered": ["Crafts", "Artwork"],
+          "productsPurchasing": ["Art Supplies"]
+        }
+      },
+      {
+        "_id": 13,
+        "locationType": "civic",
+        "locationTitle": "Island Church",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "religion",
+          "businessName": "Island Church",
+          "businessType": "Place of Worship",
+          "buildingKey": "Church",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Clergy",
+              "payRange": {"low": 25000, "high": 45000},
+              "education_level_required": "Bachelor's Degree"
+            }
+          ],
+          "servicesOffered": ["Worship Services"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 14,
+        "locationType": "civic",
+        "locationTitle": "Island Park/Playground",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "recreation",
+          "businessName": "Island Park/Playground",
+          "businessType": "Recreational Area",
+          "buildingKey": "Park",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [],
+          "servicesOffered": ["Recreational Area"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 15,
+        "locationType": "commercial_residential",
+        "locationTitle": "Island Farm/Garden",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "agriculture",
+          "businessName": "Island Farm/Garden",
+          "businessType": "Agriculture",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Farmer/Gardener",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Agricultural Activities"],
+          "productsOffered": ["Produce"],
+          "productsPurchasing": ["Seeds", "Farming Equipment"]
+        }
+      },
+      {
+        "_id": 16,
+        "locationType": "commercial",
+        "locationTitle": "Island Workshop/Garage",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "maintenance",
+          "businessName": "Island Workshop/Garage",
+          "businessType": "Maintenance",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Mechanic/Handyman",
+              "payRange": {"low": 30000, "high": 50000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Repairs", "Maintenance"],
+          "productsOffered": [],
+          "productsPurchasing": ["Tools", "Parts"]
+        }
+      },
+      {
+        "_id": 17,
+        "locationType": "commercial",
+        "locationTitle": "Island Bakery",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "food service",
+          "businessName": "Island Bakery",
+          "businessType": "Bakery",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Baker",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Baking"],
+          "productsOffered": ["Bread", "Pastries"],
+          "productsPurchasing": ["Baking Ingredients"]
+        }
+      },
+      {
+        "_id": 18,
+        "locationType": "commercial",
+        "locationTitle": "Island Pub",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "food service",
+          "businessName": "Island Pub",
+          "businessType": "Bar",
+          "buildingKey": "Bar",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Bartender",
+              "payRange": {"low": 25000, "high": 35000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Serving Drinks"],
+          "productsOffered": ["Alcoholic Beverages"],
+          "productsPurchasing": ["Beverages"]
+        }
+      },
+      {
+        "_id": 19,
+        "locationType": "commercial_residential",
+        "locationTitle": "Island Guest Cottages",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "hospitality",
+          "businessName": "Island Guest Cottages",
+          "businessType": "Lodging",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Innkeeper",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Lodging"],
+          "productsOffered": [],
+          "productsPurchasing": ["Supplies for Guests"]
+        }
+      },
+      {
+        "_id": 20,
+        "locationType": "commercial",
+        "locationTitle": "Island Gym/Fitness",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "fitness",
+          "businessName": "Island Fitness Center",
+          "businessType": "Fitness Center",
+          "buildingKey": "Gym",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Fitness Instructor",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "Certification"
+            }
+          ],
+          "servicesOffered": ["Fitness Classes", "Personal Training"],
+          "productsOffered": ["Fitness Equipment"],
+          "productsPurchasing": ["Fitness Supplies"]
+        }
+      },
+      {
+        "_id": 21,
+        "locationType": "commercial",
+        "locationTitle": "Island Coffee Shop",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "food service",
+          "businessName": "Island Coffee House",
+          "businessType": "Coffee Shop",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Barista",
+              "payRange": {"low": 20000, "high": 30000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Coffee", "Pastries"],
+          "productsOffered": ["Coffee", "Snacks"],
+          "productsPurchasing": ["Coffee Beans", "Pastries"]
+        }
+      },
+      {
+        "_id": 22,
+        "locationType": "commercial",
+        "locationTitle": "Island Clothing Store",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "retail",
+          "businessName": "Island Boutique",
+          "businessType": "Clothing Store",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Store Manager",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Sales Associate",
+              "payRange": {"low": 20000, "high": 30000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Retail Sales"],
+          "productsOffered": ["Clothing", "Accessories"],
+          "productsPurchasing": ["Clothing Inventory"]
+        }
+      },
+      {
+        "_id": 23,
+        "locationType": "civic",
+        "locationTitle": "Island Lighthouse",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "maritime",
+          "businessName": "Island Lighthouse",
+          "businessType": "Lighthouse",
+          "buildingKey": "Lighthouse",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Lighthouse Keeper",
+              "payRange": {"low": 25000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Marina Manager",
+              "payRange": {"low": 45000, "high": 75000},
+              "education_level_required": "High School Diploma"
+            },
+          ],
+          "servicesOffered": ["Navigational Aid", "Moorage"],
+          "productsOffered": ["Boats"],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 24,
+        "locationType": "commercial",
+        "locationTitle": "Island Fishing Gear Store",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "retail",
+          "businessName": "Island Fishing Outfitters",
+          "businessType": "Fishing Gear Store",
+          "buildingKey": "Fishing Tackle Store",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Store Manager",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Sales Associate",
+              "payRange": {"low": 20000, "high": 30000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Retail Sales"],
+          "productsOffered": ["Fishing Gear", "Outdoor Equipment"],
+          "productsPurchasing": ["Fishing Supplies"]
+        }
+      },
+      {
+        "_id": 25,
+        "locationType": "commercial",
+        "locationTitle": "Island Law Office",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "legal services",
+          "businessName": "Island Legal Services",
+          "businessType": "Law Office",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Lawyer",
+              "payRange": {"low": 60000, "high": 125000},
+              "education_level_required": "Juris Doctor (JD)"
+            },
+            {
+              "position": "Paralegal",
+              "payRange": {"low": 35000, "high": 50000},
+              "education_level_required": "Associate's Degree"
+            }
+          ],
+          "servicesOffered": ["Legal Advice", "Representation"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      },
+      {
+        "_id": 26,
+        "locationType": "commercial",
+        "locationTitle": "Island Hardware Store",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "retail",
+          "businessName": "Island Hardware",
+          "businessType": "Hardware Store",
+          "isCivicEntity": false,
+          "jobPositionDescriptions": [
+            {
+              "position": "Store Manager",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Sales Associate",
+              "payRange": {"low": 20000, "high": 30000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Retail Sales"],
+          "productsOffered": ["Tools", "Building Materials"],
+          "productsPurchasing": ["Hardware Supplies"]
+        }
+      },
+      {
+        "_id": 27,
+        "locationType": "civic",
+        "locationTitle": "Island Police Station/Jail",
+        "locationResidenceDetails": {
+          "Residents": []
+        },
+        "locationBusinessDetails": {
+          "industryCategory": "law enforcement",
+          "businessName": "Island Police Station",
+          "businessType": "Police Station",
+          "buildingKey": "Police Department",
+          "isCivicEntity": true,
+          "jobPositionDescriptions": [
+            {
+              "position": "Police Officer",
+              "payRange": {"low": 40000, "high": 60000},
+              "education_level_required": "High School Diploma"
+            },
+            {
+              "position": "Jail Guard",
+              "payRange": {"low": 30000, "high": 45000},
+              "education_level_required": "High School Diploma"
+            }
+          ],
+          "servicesOffered": ["Law Enforcement", "Detention"],
+          "productsOffered": [],
+          "productsPurchasing": []
+        }
+      }
+    ]
+  }
+  

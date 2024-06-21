@@ -1,7 +1,7 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-import {
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const {
   createIsland,
   getIslands,
   getIslandById,
@@ -37,26 +37,16 @@ import {
   getCharacterById,
   updateCharacter,
   deleteCharacter,
-  createPhysicalTraits,
-  getPhysicalTraits,
-  getPhysicalTraitsById,
-  updatePhysicalTraits,
-  deletePhysicalTraits,
-  createSkills,
-  getSkills,
-  getSkillsById,
-  updateSkills,
-  deleteSkills,
-  createPsychologicalTraits,
-  getPsychologicalTraits,
-  getPsychologicalTraitsById,
-  updatePsychologicalTraits,
-  deletePsychologicalTraits,
-  createSocialTraits,
-  getSocialTraits,
-  getSocialTraitsById,
-  updateSocialTraits,
-  deleteSocialTraits,
+  createCharacterTrait,
+  getCharacterTraits,
+  getCharacterTraitById,
+  updateCharacterTrait,
+  deleteCharacterTrait,
+  createTrait,
+  getTraits,
+  getTraitById,
+  updateTrait,
+  deleteTrait,
   createResources,
   getResources,
   getResourcesById,
@@ -87,17 +77,22 @@ import {
   getCharacterRelationshipById,
   updateCharacterRelationship,
   deleteCharacterRelationship,
-} from './crud';
+} = require('./crud');
 
 const app = express();
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3020;
 
-// MongoDB connection
-mongoose.connect('mongodb://localhost:27017/island_project', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+// MongoDB connection 
+mongoose.connect('mongodb://127.0.0.1:27017/island_project');
+
+app.get(['/', '/index.html'], (req, res)=>{
+  res.sendFile('index.html', { root : __dirname});
+});
+
+app.get('/docs/:endpoint.html', (req, res)=>{
+  res.sendFile('/docs/' + req.params.endpoint + '.html', { root : __dirname});
 });
 
 // REST API endpoints for Island
@@ -149,33 +144,19 @@ app.get('/characters/:id', getCharacterById);
 app.put('/characters/:id', updateCharacter);
 app.delete('/characters/:id', deleteCharacter);
 
-// REST API endpoints for PhysicalTraits
-app.post('/physicaltraits', createPhysicalTraits);
-app.get('/physicaltraits', getPhysicalTraits);
-app.get('/physicaltraits/:id', getPhysicalTraitsById);
-app.put('/physicaltraits/:id', updatePhysicalTraits);
-app.delete('/physicaltraits/:id', deletePhysicalTraits);
+// REST API endpoints for CharacterTrait
+app.post('/charactertraits', createCharacterTrait);
+app.get('/charactertraits', getCharacterTraits);
+app.get('/charactertraits/:id', getCharacterTraitById);
+app.put('/charactertraits/:id', updateCharacterTrait);
+app.delete('/charactertraits/:id', deleteCharacterTrait);
 
-// REST API endpoints for Skills
-app.post('/skills', createSkills);
-app.get('/skills', getSkills);
-app.get('/skills/:id', getSkillsById);
-app.put('/skills/:id', updateSkills);
-app.delete('/skills/:id', deleteSkills);
-
-// REST API endpoints for PsychologicalTraits
-app.post('/psychologicaltraits', createPsychologicalTraits);
-app.get('/psychologicaltraits', getPsychologicalTraits);
-app.get('/psychologicaltraits/:id', getPsychologicalTraitsById);
-app.put('/psychologicaltraits/:id', updatePsychologicalTraits);
-app.delete('/psychologicaltraits/:id', deletePsychologicalTraits);
-
-// REST API endpoints for SocialTraits
-app.post('/socialtraits', createSocialTraits);
-app.get('/socialtraits', getSocialTraits);
-app.get('/socialtraits/:id', getSocialTraitsById);
-app.put('/socialtraits/:id', updateSocialTraits);
-app.delete('/socialtraits/:id', deleteSocialTraits);
+// REST API endpoints for Trait
+app.post('/traits', createTrait);
+app.get('/traits', getTraits);
+app.get('/traits/:id', getTraitById);
+app.put('/traits/:id', updateTrait);
+app.delete('/traits/:id', deleteTrait);
 
 // REST API endpoints for Resources
 app.post('/resources', createResources);

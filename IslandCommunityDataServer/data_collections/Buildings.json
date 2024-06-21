@@ -1,0 +1,7 @@
+{"Buildings": {"civic":{
+    "required": ["Town Hall", "Library", "Post Office", "Fire Department", "Police Department", "Park", "School", "Lighthouse", "Medical Clinic"],
+    "optional": ["Church", "Community Center", "Outdoor Concert Venue", "Skate Park"]
+ },"private":{
+    "required": ["General Store", "Fishing Tackle Store", "Hotel", "Resturant", "Bar", "Gym", "Harbor"],
+    "optional": ["Clothing Store", "Hardware Store", "Mechanic", "Art Gallery","Law Office","Apartment Building"]
+ }}}

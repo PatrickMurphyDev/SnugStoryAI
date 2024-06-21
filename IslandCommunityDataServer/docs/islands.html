@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/islands Endpoint Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>/islands Endpoint Docs</h1>
+    </header>
+    <div class="content">
+        <h2>Description</h2>
+        <p>The /islands endpoint allows for managing island data, including creating, retrieving, updating, and deleting islands.</p>
+
+        <h2>Endpoint Schema</h2>
+        <pre>{
+    &quot;name&quot;: &quot;String&quot;,
+    &quot;location&quot;: &quot;String&quot;,
+    &quot;description&quot;: &quot;String&quot;,
+    &quot;areas&quot;: [&quot;ObjectId&quot;]
+}</pre>
+
+        <h2>Endpoint Methods</h2>
+        <table>
+            <tr>
+                <th>URL Method</th>
+                <th>Description</th>
+                <th>Sample</th>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>Create a new island</td>
+                <td><a href="#post-island-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>Get all islands</td>
+                <td><a href="#get-islands-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET /:id</td>
+                <td>Get an island by ID</td>
+                <td><a href="#get-island-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>PUT /:id</td>
+                <td>Update an island by ID</td>
+                <td><a href="#put-island-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>DELETE /:id</td>
+                <td>Delete an island by ID</td>
+                <td><a href="#delete-island-sample">Sample</a></td>
+            </tr>
+        </table>
+
+        <h2>Sample Payloads</h2>
+        <h3 id="post-island-sample">POST /islands Sample</h3>
+        <pre>{
+    &quot;name&quot;: &quot;Fantasy Island&quot;,
+    &quot;location&quot;: &quot;Pacific Ocean&quot;,
+    &quot;description&quot;: &quot;A beautiful tropical island&quot;
+}</pre>
+        <h3 id="get-islands-sample">GET /islands Sample</h3>
+        <pre>[
+    {
+        &quot;_id&quot;: &quot;60d5f4848f1b2c001c8e4fcb&quot;,
+        &quot;name&quot;: &quot;Fantasy Island&quot;,
+        &quot;location&quot;: &quot;Pacific Ocean&quot;,
+        &quot;description&quot;: &quot;A beautiful tropical island&quot;
+    }
+]</pre>
+        <h3 id="get-island-sample">GET /:id /islands Sample</h3>
+        <pre>{
+    &quot;_id&quot;: &quot;60d5f4848f1b2c001c8e4fcb&quot;,
+    &quot;name&quot;: &quot;Fantasy Island&quot;,
+    &quot;location&quot;: &quot;Pacific Ocean&quot;,
+    &quot;description&quot;: &quot;A beautiful tropical island&quot;
+}</pre>
+        <h3 id="put-island-sample">PUT /:id /islands Sample</h3>
+        <pre>{
+    &quot;name&quot;: &quot;Updated Island&quot;,
+    &quot;location&quot;: &quot;Atlantic Ocean&quot;,
+    &quot;description&quot;: &quot;A newly updated beautiful island&quot;
+}</pre>
+        <h3 id="delete-island-sample">DELETE /:id /islands Sample</h3>
+        <pre>{
+    &quot;message&quot;: &quot;Island deleted successfully&quot;
+}</pre>
+
+        <p><a href="../index.html">Back to API V1 Docs</a></p>
+    </div>
+</body>
+</html>

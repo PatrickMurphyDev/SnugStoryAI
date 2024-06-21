@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/behavioralpatterns Endpoint Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>/behavioralpatterns Endpoint Docs</h1>
+    </header>
+    <div class="content">
+        <h2>Description</h2>
+        <p>The /behavioralpatterns endpoint allows for managing behavioral pattern data, including creating, retrieving, updating, and deleting behavioral patterns.</p>
+
+        <h2>Endpoint Schema</h2>
+        <pre>{
+    &quot;character_id&quot;: &quot;ObjectId&quot;,
+    &quot;pattern&quot;: &quot;String&quot;,
+    &quot;description&quot;: &quot;String&quot;
+}</pre>
+
+        <h2>Endpoint Methods</h2>
+        <table>
+            <tr>
+                <th>URL Method</th>
+                <th>Description</th>
+                <th>Sample</th>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>Create new behavioral patterns</td>
+                <td><a href="#post-behavioralpatterns-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>Get all behavioral patterns</td>
+                <td><a href="#get-behavioralpatterns-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET /:id</td>
+                <td>Get behavioral patterns by ID</td>
+                <td><a href="#get-behavioralpatterns-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>PUT /:id</td>
+                <td>Update behavioral patterns by ID</td>
+                <td><a href="#put-behavioralpatterns-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>DELETE /:id</td>
+                <td>Delete behavioral patterns by ID</td>
+                <td><a href="#delete-behavioralpatterns-sample">Sample</a></td>
+            </tr>
+        </table>
+
+        <h2>Sample Payloads</h2>
+        <h3 id="post-behavioralpatterns-sample">POST /behavioralpatterns Sample</h3>
+        <pre>{
+    &quot;character_id&quot;: &quot;60d5f9e68f1b2c001c8e6fff&quot;,
+    &quot;pattern&quot;: &quot;Morning Jog&quot;,
+    &quot;description&quot;: &quot;Character goes for a jog every morning&quot;
+}</pre>
+        <h3 id="get-behavioralpatterns-sample">GET /behavioralpatterns Sample</h3>
+        <pre>[
+    {
+        &quot;_id&quot;: &quot;60d5fbe68f1b2c001c8e8fff&quot;,
+        &quot;character_id&quot;: &quot;60d5f9e68f1b2c001c8e6fff&quot;,
+        &quot;pattern&quot;: &quot;Morning Jog&quot;,
+        &quot;description&quot;: &quot;Character goes for a jog every morning&quot;
+    }
+]</pre>
+        <h3 id="get-behavioralpatterns-sample">GET /:id /behavioralpatterns Sample</h3>
+        <pre>{
+    &quot;_id&quot;: &quot;60d5fbe68f1b2c001c8e8fff&quot;,
+    &quot;character_id&quot;: &quot;60d5f9e68f1b2c001c8e6fff&quot;,
+    &quot;pattern&quot;: &quot;Morning Jog&quot;,
+    &quot;description&quot;: &quot;Character goes for a jog every morning&quot;
+}</pre>
+        <h3 id="put-behavioralpatterns-sample">PUT /:id /behavioralpatterns Sample</h3>
+        <pre>{
+    &quot;description&quot;: &quot;Character jogs in the park every morning&quot;
+}</pre>
+        <h3 id="delete-behavioralpatterns-sample">DELETE /:id /behavioralpatterns Sample</h3>
+        <pre>{
+    &quot;message&quot;: &quot;Behavioral patterns deleted successfully&quot;
+}</pre>
+
+        <p><a href="../index.html">Back to API V1 Docs</a></p>
+    </div>
+</body>
+</html>

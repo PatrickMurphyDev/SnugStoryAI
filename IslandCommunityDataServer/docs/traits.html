@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/traits Endpoint Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>/traits Endpoint Docs</h1>
+    </header>
+    <div class="content">
+        <h2>Description</h2>
+        <p>The /traits endpoint allows for managing trait data, including creating, retrieving, updating, and deleting traits.</p>
+
+        <h2>Endpoint Schema</h2>
+        <pre>{
+    &quot;name&quot;: &quot;String&quot;,
+    &quot;description&quot;: &quot;String&quot;,
+    &quot;category&quot;: &quot;String&quot;
+}</pre>
+
+        <h2>Endpoint Methods</h2>
+        <table>
+            <tr>
+                <th>URL Method</th>
+                <th>Description</th>
+                <th>Sample</th>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>Create a new trait</td>
+                <td><a href="#post-trait-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>Get all traits</td>
+                <td><a href="#get-traits-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>GET /:id</td>
+                <td>Get a trait by ID</td>
+                <td><a href="#get-trait-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>PUT /:id</td>
+                <td>Update a trait by ID</td>
+                <td><a href="#put-trait-sample">Sample</a></td>
+            </tr>
+            <tr>
+                <td>DELETE /:id</td>
+                <td>Delete a trait by ID</td>
+                <td><a href="#delete-trait-sample">Sample</a></td>
+            </tr>
+        </table>
+
+        <h2>Sample Payloads</h2>
+        <h3 id="post-trait-sample">POST /traits Sample</h3>
+        <pre>{
+    &quot;name&quot;: &quot;Bravery&quot;,
+    &quot;description&quot;: &quot;The quality of being brave&quot;,
+    &quot;category&quot;: &quot;psychological&quot;
+}</pre>
+        <h3 id="get-traits-sample">GET /traits Sample</h3>
+        <pre>[
+    {
+        &quot;_id&quot;: &quot;60d5fbe68f1b2c001c8e8fff&quot;,
+        &quot;name&quot;: &quot;Bravery&quot;,
+        &quot;description&quot;: &quot;The quality of being brave&quot;,
+        &quot;category&quot;: &quot;psychological&quot;
+    }
+]</pre>
+        <h3 id="get-trait-sample">GET /:id /traits Sample</h3>
+        <pre>{
+    &quot;_id&quot;: &quot;60d5fbe68f1b2c001c8e8fff&quot;,
+    &quot;name&quot;: &quot;Bravery&quot;,
+    &quot;description&quot;: &quot;The quality of being brave&quot;,
+    &quot;category&quot;: &quot;psychological&quot;
+}</pre>
+        <h3 id="put-trait-sample">PUT /:id /traits Sample</h3>
+        <pre>{
+    &quot;description&quot;: &quot;The quality of being courageous&quot;
+}</pre>
+        <h3 id="delete-trait-sample">DELETE /:id /traits Sample</h3>
+        <pre>{
+    &quot;message&quot;: &quot;Trait deleted successfully&quot;
+}</pre>
+
+        <p><a href="../index.html">Back to API V1 Docs</a></p>
+    </div>
+</body>
+</html>

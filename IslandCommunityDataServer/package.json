@@ -1,8 +1,20 @@
 {
+  "name": "island_project",
+  "version": "1.0.0",
+  "description": "A Node.js project for managing an island-based project data.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "express": "^4.19.2",
-    "mongodb": "^6.7.0",
-    "mongoose": "^8.4.3"
-  }
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "author": "",
+  "license": "ISC"
 }

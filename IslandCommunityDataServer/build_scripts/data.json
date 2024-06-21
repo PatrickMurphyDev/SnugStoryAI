@@ -1,0 +1,559 @@
+{
+    "endpoints": [
+        {
+            "endpoint": "/islands",
+            "description": "The /islands endpoint allows for managing island data, including creating, retrieving, updating, and deleting islands.",
+            "schema": "{\n    \"name\": \"String\",\n    \"location\": \"String\",\n    \"description\": \"String\",\n    \"areas\": [\"ObjectId\"]\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new island",
+                    "sampleId": "post-island-sample",
+                    "sample": "{\n    \"name\": \"Fantasy Island\",\n    \"location\": \"Pacific Ocean\",\n    \"description\": \"A beautiful tropical island\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all islands",
+                    "sampleId": "get-islands-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f4848f1b2c001c8e4fcb\",\n        \"name\": \"Fantasy Island\",\n        \"location\": \"Pacific Ocean\",\n        \"description\": \"A beautiful tropical island\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get an island by ID",
+                    "sampleId": "get-island-sample",
+                    "sample": "{\n    \"_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"name\": \"Fantasy Island\",\n    \"location\": \"Pacific Ocean\",\n    \"description\": \"A beautiful tropical island\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update an island by ID",
+                    "sampleId": "put-island-sample",
+                    "sample": "{\n    \"name\": \"Updated Island\",\n    \"location\": \"Atlantic Ocean\",\n    \"description\": \"A newly updated beautiful island\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete an island by ID",
+                    "sampleId": "delete-island-sample",
+                    "sample": "{\n    \"message\": \"Island deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/areas",
+            "description": "The /areas endpoint allows for managing area data, including creating, retrieving, updating, and deleting areas.",
+            "schema": "{\n    \"island_id\": \"ObjectId\",\n    \"name\": \"String\",\n    \"type\": \"String\",\n    \"income_level\": \"String\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new area",
+                    "sampleId": "post-area-sample",
+                    "sample": "{\n    \"island_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"name\": \"Residential Area\",\n    \"type\": \"residential\",\n    \"income_level\": \"high\",\n    \"description\": \"A high-income residential area\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all areas",
+                    "sampleId": "get-areas-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n        \"island_id\": \"60d5f4848f1b2c001c8e4fcb\",\n        \"name\": \"Residential Area\",\n        \"type\": \"residential\",\n        \"income_level\": \"high\",\n        \"description\": \"A high-income residential area\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get an area by ID",
+                    "sampleId": "get-area-sample",
+                    "sample": "{\n    \"_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n    \"island_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"name\": \"Residential Area\",\n    \"type\": \"residential\",\n    \"income_level\": \"high\",\n    \"description\": \"A high-income residential area\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update an area by ID",
+                    "sampleId": "put-area-sample",
+                    "sample": "{\n    \"name\": \"Updated Residential Area\",\n    \"type\": \"residential\",\n    \"income_level\": \"medium\",\n    \"description\": \"A medium-income residential area\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete an area by ID",
+                    "sampleId": "delete-area-sample",
+                    "sample": "{\n    \"message\": \"Area deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/islandpropertylots",
+            "description": "The /islandpropertylots endpoint allows for managing island property lot data, including creating, retrieving, updating, and deleting island property lots.",
+            "schema": "{\n    \"island_id\": \"ObjectId\",\n    \"type\": \"String\",\n    \"coordinates\": \"String\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new island property lot",
+                    "sampleId": "post-islandpropertylot-sample",
+                    "sample": "{\n    \"island_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"type\": \"vacant\",\n    \"coordinates\": \"123.456, -123.456\",\n    \"description\": \"A vacant lot on the island\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all island property lots",
+                    "sampleId": "get-islandpropertylots-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n        \"island_id\": \"60d5f4848f1b2c001c8e4fcb\",\n        \"type\": \"vacant\",\n        \"coordinates\": \"123.456, -123.456\",\n        \"description\": \"A vacant lot on the island\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get an island property lot by ID",
+                    "sampleId": "get-islandpropertylot-sample",
+                    "sample": "{\n    \"_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n    \"island_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"type\": \"vacant\",\n    \"coordinates\": \"123.456, -123.456\",\n    \"description\": \"A vacant lot on the island\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update an island property lot by ID",
+                    "sampleId": "put-islandpropertylot-sample",
+                    "sample": "{\n    \"type\": \"commercial\",\n    \"coordinates\": \"456.789, -456.789\",\n    \"description\": \"A commercial lot on the island\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete an island property lot by ID",
+                    "sampleId": "delete-islandpropertylot-sample",
+                    "sample": "{\n    \"message\": \"Island property lot deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/buildings",
+            "description": "The /buildings endpoint allows for managing building data, including creating, retrieving, updating, and deleting buildings.",
+            "schema": "{\n    \"lot_id\": \"ObjectId\",\n    \"name\": \"String\",\n    \"type\": \"String\",\n    \"address\": \"String\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new building",
+                    "sampleId": "post-building-sample",
+                    "sample": "{\n    \"lot_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"name\": \"Main Office\",\n    \"type\": \"commercial\",\n    \"address\": \"123 Main St\",\n    \"description\": \"Main office building\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all buildings",
+                    "sampleId": "get-buildings-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n        \"lot_id\": \"60d5f4848f1b2c001c8e4fcb\",\n        \"name\": \"Main Office\",\n        \"type\": \"commercial\",\n        \"address\": \"123 Main St\",\n        \"description\": \"Main office building\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a building by ID",
+                    "sampleId": "get-building-sample",
+                    "sample": "{\n    \"_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n    \"lot_id\": \"60d5f4848f1b2c001c8e4fcb\",\n    \"name\": \"Main Office\",\n    \"type\": \"commercial\",\n    \"address\": \"123 Main St\",\n    \"description\": \"Main office building\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a building by ID",
+                    "sampleId": "put-building-sample",
+                    "sample": "{\n    \"name\": \"Updated Office\",\n    \"type\": \"commercial\",\n    \"address\": \"456 Updated St\",\n    \"description\": \"Updated office building\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a building by ID",
+                    "sampleId": "delete-building-sample",
+                    "sample": "{\n    \"message\": \"Building deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/organizations",
+            "description": "The /organizations endpoint allows for managing organization data, including creating, retrieving, updating, and deleting organizations.",
+            "schema": "{\n    \"name\": \"String\",\n    \"type\": \"String\",\n    \"address\": \"String\",\n    \"description\": \"String\",\n    \"building_id\": \"ObjectId\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new organization",
+                    "sampleId": "post-organization-sample",
+                    "sample": "{\n    \"name\": \"Tech Corp\",\n    \"type\": \"business\",\n    \"address\": \"123 Tech St\",\n    \"description\": \"A leading technology company\",\n    \"building_id\": \"60d5f7e68f1b2c001c8e4fcc\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all organizations",
+                    "sampleId": "get-organizations-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f7e68f1b2c001c8e4fdd\",\n        \"name\": \"Tech Corp\",\n        \"type\": \"business\",\n        \"address\": \"123 Tech St\",\n        \"description\": \"A leading technology company\",\n        \"building_id\": \"60d5f7e68f1b2c001c8e4fcc\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get an organization by ID",
+                    "sampleId": "get-organization-sample",
+                    "sample": "{\n    \"_id\": \"60d5f7e68f1b2c001c8e4fdd\",\n    \"name\": \"Tech Corp\",\n    \"type\": \"business\",\n    \"address\": \"123 Tech St\",\n    \"description\": \"A leading technology company\",\n    \"building_id\": \"60d5f7e68f1b2c001c8e4fcc\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update an organization by ID",
+                    "sampleId": "put-organization-sample",
+                    "sample": "{\n    \"name\": \"Updated Tech Corp\",\n    \"type\": \"business\",\n    \"address\": \"456 New Tech St\",\n    \"description\": \"An updated description for the technology company\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete an organization by ID",
+                    "sampleId": "delete-organization-sample",
+                    "sample": "{\n    \"message\": \"Organization deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/jobpositions",
+            "description": "The /jobpositions endpoint allows for managing job position data, including creating, retrieving, updating, and deleting job positions.",
+            "schema": "{\n    \"organization_id\": \"ObjectId\",\n    \"title\": \"String\",\n    \"description\": \"String\",\n    \"requirements\": [\"String\"],\n    \"salary\": \"Number\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new job position",
+                    "sampleId": "post-jobposition-sample",
+                    "sample": "{\n    \"organization_id\": \"60d5f7e68f1b2c001c8e4fdd\",\n    \"title\": \"Software Engineer\",\n    \"description\": \"Develops and maintains software\",\n    \"requirements\": [\"BSc in Computer Science\", \"3+ years of experience\"],\n    \"salary\": 100000\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all job positions",
+                    "sampleId": "get-jobpositions-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f8e68f1b2c001c8e4fff\",\n        \"organization_id\": \"60d5f7e68f1b2c001c8e4fdd\",\n        \"title\": \"Software Engineer\",\n        \"description\": \"Develops and maintains software\",\n        \"requirements\": [\"BSc in Computer Science\", \"3+ years of experience\"],\n        \"salary\": 100000\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a job position by ID",
+                    "sampleId": "get-jobposition-sample",
+                    "sample": "{\n    \"_id\": \"60d5f8e68f1b2c001c8e4fff\",\n    \"organization_id\": \"60d5f7e68f1b2c001c8e4fdd\",\n    \"title\": \"Software Engineer\",\n    \"description\": \"Develops and maintains software\",\n    \"requirements\": [\"BSc in Computer Science\", \"3+ years of experience\"],\n    \"salary\": 100000\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a job position by ID",
+                    "sampleId": "put-jobposition-sample",
+                    "sample": "{\n    \"title\": \"Senior Software Engineer\",\n    \"description\": \"Leads the software development team\",\n    \"requirements\": [\"BSc in Computer Science\", \"5+ years of experience\"],\n    \"salary\": 120000\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a job position by ID",
+                    "sampleId": "delete-jobposition-sample",
+                    "sample": "{\n    \"message\": \"Job position deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/characters",
+            "description": "The /characters endpoint allows for managing character data, including creating, retrieving, updating, and deleting characters.",
+            "schema": "{\n    \"name\": \"String\",\n    \"age\": \"Number\",\n    \"gender\": \"String\",\n    \"sexualOrientation\": \"String\",\n    \"occupation\": \"String\",\n    \"job_id\": \"ObjectId\",\n    \"residence_id\": \"ObjectId\",\n    \"description\": \"String\",\n    \"traits\": [\"ObjectId\"],\n    \"resources_id\": \"ObjectId\",\n    \"location_id\": \"ObjectId\",\n    \"behavioral_patterns_id\": \"ObjectId\",\n    \"special_conditions_id\": \"ObjectId\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new character",
+                    "sampleId": "post-character-sample",
+                    "sample": "{\n    \"name\": \"John Doe\",\n    \"age\": 30,\n    \"gender\": \"male\",\n    \"sexualOrientation\": \"heterosexual\",\n    \"occupation\": \"Software Engineer\",\n    \"job_id\": \"60d5f8e68f1b2c001c8e4fff\",\n    \"residence_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n    \"description\": \"A skilled software engineer\",\n    \"traits\": [\"60d5f8e68f1b2c001c8e5aaa\"],\n    \"resources_id\": \"60d5f8e68f1b2c001c8e5bbb\",\n    \"location_id\": \"60d5f8e68f1b2c001c8e5ccc\",\n    \"behavioral_patterns_id\": \"60d5f8e68f1b2c001c8e5ddd\",\n    \"special_conditions_id\": \"60d5f8e68f1b2c001c8e5eee\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all characters",
+                    "sampleId": "get-characters-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"name\": \"John Doe\",\n        \"age\": 30,\n        \"gender\": \"male\",\n        \"sexualOrientation\": \"heterosexual\",\n        \"occupation\": \"Software Engineer\",\n        \"job_id\": \"60d5f8e68f1b2c001c8e4fff\",\n        \"residence_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n        \"description\": \"A skilled software engineer\",\n        \"traits\": [\"60d5f8e68f1b2c001c8e5aaa\"],\n        \"resources_id\": \"60d5f8e68f1b2c001c8e5bbb\",\n        \"location_id\": \"60d5f8e68f1b2c001c8e5ccc\",\n        \"behavioral_patterns_id\": \"60d5f8e68f1b2c001c8e5ddd\",\n        \"special_conditions_id\": \"60d5f8e68f1b2c001c8e5eee\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a character by ID",
+                    "sampleId": "get-character-sample",
+                    "sample": "{\n    \"_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"name\": \"John Doe\",\n    \"age\": 30,\n    \"gender\": \"male\",\n    \"sexualOrientation\": \"heterosexual\",\n    \"occupation\": \"Software Engineer\",\n    \"job_id\": \"60d5f8e68f1b2c001c8e4fff\",\n    \"residence_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n    \"description\": \"A skilled software engineer\",\n    \"traits\": [\"60d5f8e68f1b2c001c8e5aaa\"],\n    \"resources_id\": \"60d5f8e68f1b2c001c8e5bbb\",\n    \"location_id\": \"60d5f8e68f1b2c001c8e5ccc\",\n    \"behavioral_patterns_id\": \"60d5f8e68f1b2c001c8e5ddd\",\n    \"special_conditions_id\": \"60d5f8e68f1b2c001c8e5eee\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a character by ID",
+                    "sampleId": "put-character-sample",
+                    "sample": "{\n    \"name\": \"Jane Doe\",\n    \"age\": 28,\n    \"gender\": \"female\",\n    \"sexualOrientation\": \"heterosexual\",\n    \"occupation\": \"Data Scientist\",\n    \"job_id\": \"60d5f8e68f1b2c001c8e4fff\",\n    \"residence_id\": \"60d5f7e68f1b2c001c8e4fcc\",\n    \"description\": \"An experienced data scientist\",\n    \"traits\": [\"60d5f8e68f1b2c001c8e5aaa\"],\n    \"resources_id\": \"60d5f8e68f1b2c001c8e5bbb\",\n    \"location_id\": \"60d5f8e68f1b2c001c8e5ccc\",\n    \"behavioral_patterns_id\": \"60d5f8e68f1b2c001c8e5ddd\",\n    \"special_conditions_id\": \"60d5f8e68f1b2c001c8e5eee\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a character by ID",
+                    "sampleId": "delete-character-sample",
+                    "sample": "{\n    \"message\": \"Character deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/charactertraits",
+            "description": "The /charactertraits endpoint allows for managing character trait data, including creating, retrieving, updating, and deleting character traits.",
+            "schema": "{\n    \"character_id\": \"ObjectId\",\n    \"trait_id\": \"ObjectId\",\n    \"value\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new character trait",
+                    "sampleId": "post-charactertrait-sample",
+                    "sample": "{\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"trait_id\": \"60d5f8e68f1b2c001c8e5aaa\",\n    \"value\": \"Brave\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all character traits",
+                    "sampleId": "get-charactertraits-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fae68f1b2c001c8e7fff\",\n        \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"trait_id\": \"60d5f8e68f1b2c001c8e5aaa\",\n        \"value\": \"Brave\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a character trait by ID",
+                    "sampleId": "get-charactertrait-sample",
+                    "sample": "{\n    \"_id\": \"60d5fae68f1b2c001c8e7fff\",\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"trait_id\": \"60d5f8e68f1b2c001c8e5aaa\",\n    \"value\": \"Brave\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a character trait by ID",
+                    "sampleId": "put-charactertrait-sample",
+                    "sample": "{\n    \"value\": \"Courageous\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a character trait by ID",
+                    "sampleId": "delete-charactertrait-sample",
+                    "sample": "{\n    \"message\": \"Character trait deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/traits",
+            "description": "The /traits endpoint allows for managing trait data, including creating, retrieving, updating, and deleting traits.",
+            "schema": "{\n    \"name\": \"String\",\n    \"description\": \"String\",\n    \"category\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new trait",
+                    "sampleId": "post-trait-sample",
+                    "sample": "{\n    \"name\": \"Bravery\",\n    \"description\": \"The quality of being brave\",\n    \"category\": \"psychological\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all traits",
+                    "sampleId": "get-traits-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"name\": \"Bravery\",\n        \"description\": \"The quality of being brave\",\n        \"category\": \"psychological\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a trait by ID",
+                    "sampleId": "get-trait-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"name\": \"Bravery\",\n    \"description\": \"The quality of being brave\",\n    \"category\": \"psychological\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a trait by ID",
+                    "sampleId": "put-trait-sample",
+                    "sample": "{\n    \"description\": \"The quality of being courageous\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a trait by ID",
+                    "sampleId": "delete-trait-sample",
+                    "sample": "{\n    \"message\": \"Trait deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/resources",
+            "description": "The /resources endpoint allows for managing resource data, including creating, retrieving, updating, and deleting resources.",
+            "schema": "{\n    \"character_id\": \"ObjectId\",\n    \"name\": \"String\",\n    \"type\": \"String\",\n    \"quantity\": \"Number\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new resource",
+                    "sampleId": "post-resources-sample",
+                    "sample": "{\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"name\": \"Gold\",\n    \"type\": \"currency\",\n    \"quantity\": 1000,\n    \"description\": \"Gold coins\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all resources",
+                    "sampleId": "get-resources-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"name\": \"Gold\",\n        \"type\": \"currency\",\n        \"quantity\": 1000,\n        \"description\": \"Gold coins\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a resource by ID",
+                    "sampleId": "get-resources-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"name\": \"Gold\",\n    \"type\": \"currency\",\n    \"quantity\": 1000,\n    \"description\": \"Gold coins\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a resource by ID",
+                    "sampleId": "put-resources-sample",
+                    "sample": "{\n    \"quantity\": 2000\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a resource by ID",
+                    "sampleId": "delete-resources-sample",
+                    "sample": "{\n    \"message\": \"Resource deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/location",
+            "description": "The /location endpoint allows for managing location data, including creating, retrieving, updating, and deleting locations.",
+            "schema": "{\n    \"name\": \"String\",\n    \"type\": \"String\",\n    \"coordinates\": \"String\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new location",
+                    "sampleId": "post-location-sample",
+                    "sample": "{\n    \"name\": \"Central Park\",\n    \"type\": \"park\",\n    \"coordinates\": \"40.785091, -73.968285\",\n    \"description\": \"A large public park in New York City\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all locations",
+                    "sampleId": "get-location-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"name\": \"Central Park\",\n        \"type\": \"park\",\n        \"coordinates\": \"40.785091, -73.968285\",\n        \"description\": \"A large public park in New York City\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a location by ID",
+                    "sampleId": "get-location-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"name\": \"Central Park\",\n    \"type\": \"park\",\n    \"coordinates\": \"40.785091, -73.968285\",\n    \"description\": \"A large public park in New York City\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a location by ID",
+                    "sampleId": "put-location-sample",
+                    "sample": "{\n    \"description\": \"An iconic public park in NYC\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a location by ID",
+                    "sampleId": "delete-location-sample",
+                    "sample": "{\n    \"message\": \"Location deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/behavioralpatterns",
+            "description": "The /behavioralpatterns endpoint allows for managing behavioral pattern data, including creating, retrieving, updating, and deleting behavioral patterns.",
+            "schema": "{\n    \"character_id\": \"ObjectId\",\n    \"pattern\": \"String\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create new behavioral patterns",
+                    "sampleId": "post-behavioralpatterns-sample",
+                    "sample": "{\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"pattern\": \"Morning Jog\",\n    \"description\": \"Character goes for a jog every morning\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all behavioral patterns",
+                    "sampleId": "get-behavioralpatterns-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"pattern\": \"Morning Jog\",\n        \"description\": \"Character goes for a jog every morning\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get behavioral patterns by ID",
+                    "sampleId": "get-behavioralpatterns-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"pattern\": \"Morning Jog\",\n    \"description\": \"Character goes for a jog every morning\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update behavioral patterns by ID",
+                    "sampleId": "put-behavioralpatterns-sample",
+                    "sample": "{\n    \"description\": \"Character jogs in the park every morning\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete behavioral patterns by ID",
+                    "sampleId": "delete-behavioralpatterns-sample",
+                    "sample": "{\n    \"message\": \"Behavioral patterns deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/specialconditions",
+            "description": "The /specialconditions endpoint allows for managing special condition data, including creating, retrieving, updating, and deleting special conditions.",
+            "schema": "{\n    \"character_id\": \"ObjectId\",\n    \"condition\": \"String\",\n    \"description\": \"String\"\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new special condition",
+                    "sampleId": "post-specialconditions-sample",
+                    "sample": "{\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"condition\": \"Allergy\",\n    \"description\": \"Character has an allergy to pollen\"\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all special conditions",
+                    "sampleId": "get-specialconditions-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"condition\": \"Allergy\",\n        \"description\": \"Character has an allergy to pollen\"\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a special condition by ID",
+                    "sampleId": "get-specialconditions-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"condition\": \"Allergy\",\n    \"description\": \"Character has an allergy to pollen\"\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a special condition by ID",
+                    "sampleId": "put-specialconditions-sample",
+                    "sample": "{\n    \"description\": \"Character has a severe allergy to pollen\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a special condition by ID",
+                    "sampleId": "delete-specialconditions-sample",
+                    "sample": "{\n    \"message\": \"Special condition deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/relationshipevents",
+            "description": "The /relationshipevents endpoint allows for managing relationship event data, including creating, retrieving, updating, and deleting relationship events.",
+            "schema": "{\n    \"character_id\": \"ObjectId\",\n    \"event\": \"String\",\n    \"description\": \"String\",\n    \"parent_stage_id\": \"ObjectId\",\n    \"next_stage_ids\": [\"ObjectId\"]\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new relationship event",
+                    "sampleId": "post-relationshipevents-sample",
+                    "sample": "{\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"event\": \"First Date\",\n    \"description\": \"Character went on their first date\",\n    \"parent_stage_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"next_stage_ids\": [\"60d5fbe68f1b2c001c8e8fff\"]\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all relationship events",
+                    "sampleId": "get-relationshipevents-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"event\": \"First Date\",\n        \"description\": \"Character went on their first date\",\n        \"parent_stage_id\": \"60d5fbe68f1b2c001c8e8fff\",\n        \"next_stage_ids\": [\"60d5fbe68f1b2c001c8e8fff\"]\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a relationship event by ID",
+                    "sampleId": "get-relationshipevents-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"character_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"event\": \"First Date\",\n    \"description\": \"Character went on their first date\",\n    \"parent_stage_id\": \"60d5fbe68f1b2c001c8e8fff\",\n    \"next_stage_ids\": [\"60d5fbe68f1b2c001c8e8fff\"]\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a relationship event by ID",
+                    "sampleId": "put-relationshipevents-sample",
+                    "sample": "{\n    \"description\": \"Character had a wonderful first date\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a relationship event by ID",
+                    "sampleId": "delete-relationshipevents-sample",
+                    "sample": "{\n    \"message\": \"Relationship event deleted successfully\"\n}"
+                }
+            ]
+        },
+        {
+            "endpoint": "/characterrelationships",
+            "description": "The /characterrelationships endpoint allows for managing character relationship data, including creating, retrieving, updating, and deleting character relationships.",
+            "schema": "{\n    \"character_1_id\": \"ObjectId\",\n    \"character_2_id\": \"ObjectId\",\n    \"type\": \"String\",\n    \"status\": \"String\",\n    \"relationship_historical_event\": [\"ObjectId\"]\n}",
+            "methods": [
+                {
+                    "method": "POST",
+                    "description": "Create a new character relationship",
+                    "sampleId": "post-characterrelationships-sample",
+                    "sample": "{\n    \"character_1_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"character_2_id\": \"60d5f9e68f1b2c001c8e6ggg\",\n    \"type\": \"romantic\",\n    \"status\": \"dating\",\n    \"relationship_historical_event\": [\"60d5fbe68f1b2c001c8e8fff\"]\n}"
+                },
+                {
+                    "method": "GET",
+                    "description": "Get all character relationships",
+                    "sampleId": "get-characterrelationships-sample",
+                    "sample": "[\n    {\n        \"_id\": \"60d5fbe68f1b2c001c8e8hhh\",\n        \"character_1_id\": \"60d5f9e68f1b2c001c8e6fff\",\n        \"character_2_id\": \"60d5f9e68f1b2c001c8e6ggg\",\n        \"type\": \"romantic\",\n        \"status\": \"dating\",\n        \"relationship_historical_event\": [\"60d5fbe68f1b2c001c8e8fff\"]\n    }\n]"
+                },
+                {
+                    "method": "GET /:id",
+                    "description": "Get a character relationship by ID",
+                    "sampleId": "get-characterrelationship-sample",
+                    "sample": "{\n    \"_id\": \"60d5fbe68f1b2c001c8e8hhh\",\n    \"character_1_id\": \"60d5f9e68f1b2c001c8e6fff\",\n    \"character_2_id\": \"60d5f9e68f1b2c001c8e6ggg\",\n    \"type\": \"romantic\",\n    \"status\": \"dating\",\n    \"relationship_historical_event\": [\"60d5fbe68f1b2c001c8e8fff\"]\n}"
+                },
+                {
+                    "method": "PUT /:id",
+                    "description": "Update a character relationship by ID",
+                    "sampleId": "put-characterrelationship-sample",
+                    "sample": "{\n    \"status\": \"engaged\"\n}"
+                },
+                {
+                    "method": "DELETE /:id",
+                    "description": "Delete a character relationship by ID",
+                    "sampleId": "delete-characterrelationship-sample",
+                    "sample": "{\n    \"message\": \"Character relationship deleted successfully\"\n}"
+                }
+            ]
+        }
+    ]
+}
