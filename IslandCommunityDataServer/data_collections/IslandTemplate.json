@@ -1,4 +1,5 @@
-{"Buildings": {"civic":{
+{
+   "Buildings": {"civic":{
     "required": ["Town Hall", "Library", "Post Office", "Fire Department", "Police Department", "Park", "School", "Lighthouse", "Medical Clinic"],
     "optional": ["Church", "Community Center", "Outdoor Concert Venue", "Skate Park"]
  },"private":{

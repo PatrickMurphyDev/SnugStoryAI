@@ -2,6 +2,7 @@
     "locations": [
       {
         "_id": 0,
+        "isRequired": "true",
         "locationType": "civic",
         "locationTitle": "Island Town Hall",
         "locationResidenceDetails": {
@@ -37,6 +38,7 @@
       },
       {
         "_id": 1,
+        "isRequired": "true",
         "locationType": "commercial",
         "locationTitle": "Island General Store",
         "locationResidenceDetails": {
@@ -72,6 +74,7 @@
       },
       {
         "_id": 2,
+        "isRequired": "true",
         "locationType": "civic",
         "locationTitle": "Island Post Office",
         "locationResidenceDetails": {
@@ -97,6 +100,7 @@
       },
       {
         "_id": 3,
+        "isRequired": "true",
         "locationType": "civic",
         "locationTitle": "Island Schoolhouse",
         "locationResidenceDetails": {
@@ -132,6 +136,7 @@
       },
       {
         "_id": 4,
+        "isRequired": "true",
         "locationType": "civic",
         "locationTitle": "Island Clinic",
         "locationResidenceDetails": {
@@ -167,6 +172,7 @@
       },
       {
         "_id": 5,
+        "isRequired": "true",
         "locationType": "civic",
         "locationTitle": "Island Library",
         "locationResidenceDetails": {
@@ -192,6 +198,7 @@
       },
       {
         "_id": 6,
+        "isRequired": "true",
         "locationType": "civic",
         "locationTitle": "Island Fire Station",
         "locationResidenceDetails": {
@@ -217,6 +224,7 @@
       },
       {
         "_id": 7,
+        "isRequired": "true",
         "locationType": "commercial",
         "locationTitle": "Island Harbor",
         "locationResidenceDetails": {
@@ -247,6 +255,7 @@
       },
       {
         "_id": 8,
+        "isRequired": "true",
         "locationType": "commercial",
         "locationTitle": "Island Café",
         "locationResidenceDetails": {
@@ -282,6 +291,7 @@
       },
       {
         "_id": 9,
+        "isRequired": "true",
         "locationType": "commercial_residential",
         "locationTitle": "Island Inn",
         "locationResidenceDetails": {
@@ -648,7 +658,7 @@
               "position": "Marina Manager",
               "payRange": {"low": 45000, "high": 75000},
               "education_level_required": "High School Diploma"
-            },
+            }
           ],
           "servicesOffered": ["Navigational Aid", "Moorage"],
           "productsOffered": ["Boats"],

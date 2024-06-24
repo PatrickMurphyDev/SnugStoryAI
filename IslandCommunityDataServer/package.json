@@ -10,7 +10,9 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mongoose": "^5.13.2"
+    "mongoose": "^5.13.22",
+    "ollama": "^0.5.2",
+    "ollama-node": "^0.1.28"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

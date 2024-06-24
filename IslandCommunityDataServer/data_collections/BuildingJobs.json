@@ -1,0 +1,490 @@
+[
+    {
+        "buildingKey": "Town Hall",
+        "jobPositionDesciptions": [
+            {
+                "position": "Mayor",
+                "payRange": {
+                    "low": 50000,
+                    "high": 70000
+                },
+                "education_level_required": "Bachelor's Degree"
+            },
+            {
+                "position": "Council Member",
+                "payRange": {
+                    "low": 20000,
+                    "high": 30000
+                },
+                "education_level_required": "Bachelor's Degree"
+            },
+            {
+                "position": "Administrative Staff",
+                "payRange": {
+                    "low": 30000,
+                    "high": 40000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "General Store",
+        "jobPositionDesciptions": [
+            {
+                "position": "Storekeeper",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Cashier",
+                "payRange": {
+                    "low": 20000,
+                    "high": 25000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Stock Clerk",
+                "payRange": {
+                    "low": 20000,
+                    "high": 25000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Post Office",
+        "jobPositionDesciptions": [
+            {
+                "position": "Postal Worker",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "School",
+        "jobPositionDesciptions": [
+            {
+                "position": "Teacher",
+                "payRange": {
+                    "low": 40000,
+                    "high": 60000
+                },
+                "education_level_required": "Bachelor's Degree"
+            },
+            {
+                "position": "Principal",
+                "payRange": {
+                    "low": 60000,
+                    "high": 80000
+                },
+                "education_level_required": "Master's Degree"
+            },
+            {
+                "position": "Janitor",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Medical Clinic",
+        "jobPositionDesciptions": [
+            {
+                "position": "Doctor",
+                "payRange": {
+                    "low": 80000,
+                    "high": 150000
+                },
+                "education_level_required": "Medical Degree"
+            },
+            {
+                "position": "Nurse",
+                "payRange": {
+                    "low": 50000,
+                    "high": 70000
+                },
+                "education_level_required": "Nursing Degree"
+            },
+            {
+                "position": "Receptionist",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Library",
+        "jobPositionDesciptions": [
+            {
+                "position": "Librarian",
+                "payRange": {
+                    "low": 35000,
+                    "high": 50000
+                },
+                "education_level_required": "Bachelor's Degree"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Fire Department",
+        "jobPositionDesciptions": [
+            {
+                "position": "Firefighter",
+                "payRange": {
+                    "low": 40000,
+                    "high": 60000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Harbor",
+        "jobPositionDesciptions": [
+            {
+                "position": "Harbor Master",
+                "payRange": {
+                    "low": 40000,
+                    "high": 60000
+                },
+                "education_level_required": "Bachelor's Degree"
+            },
+            {
+                "position": "Dock Worker",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Resturant",
+        "jobPositionDesciptions": [
+            {
+                "position": "Café Owner",
+                "payRange": {
+                    "low": 30000,
+                    "high": 50000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Chef",
+                "payRange": {
+                    "low": 35000,
+                    "high": 50000
+                },
+                "education_level_required": "Culinary Degree"
+            },
+            {
+                "position": "Waitstaff",
+                "payRange": {
+                    "low": 20000,
+                    "high": 25000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Hotel",
+        "jobPositionDesciptions": [
+            {
+                "position": "Innkeeper",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Housekeeping",
+                "payRange": {
+                    "low": 20000,
+                    "high": 30000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Event Coordinator",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "Bachelor's Degree"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Storekeeper",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Artist/Artisan",
+                "payRange": {
+                    "low": 30000,
+                    "high": 50000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Church",
+        "jobPositionDesciptions": [
+            {
+                "position": "Clergy",
+                "payRange": {
+                    "low": 25000,
+                    "high": 45000
+                },
+                "education_level_required": "Bachelor's Degree"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Park",
+        "jobPositionDesciptions": []
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Farmer/Gardener",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Mechanic/Handyman",
+                "payRange": {
+                    "low": 30000,
+                    "high": 50000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Baker",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Bar",
+        "jobPositionDesciptions": [
+            {
+                "position": "Bartender",
+                "payRange": {
+                    "low": 25000,
+                    "high": 35000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Innkeeper",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Gym",
+        "jobPositionDesciptions": [
+            {
+                "position": "Fitness Instructor",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "Certification"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Barista",
+                "payRange": {
+                    "low": 20000,
+                    "high": 30000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Store Manager",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Sales Associate",
+                "payRange": {
+                    "low": 20000,
+                    "high": 30000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Lighthouse",
+        "jobPositionDesciptions": [
+            {
+                "position": "Lighthouse Keeper",
+                "payRange": {
+                    "low": 25000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Marina Manager",
+                "payRange": {
+                    "low": 45000,
+                    "high": 75000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Fishing Tackle Store",
+        "jobPositionDesciptions": [
+            {
+                "position": "Store Manager",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Sales Associate",
+                "payRange": {
+                    "low": 20000,
+                    "high": 30000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Lawyer",
+                "payRange": {
+                    "low": 60000,
+                    "high": 125000
+                },
+                "education_level_required": "Juris Doctor (JD)"
+            },
+            {
+                "position": "Paralegal",
+                "payRange": {
+                    "low": 35000,
+                    "high": 50000
+                },
+                "education_level_required": "Associate's Degree"
+            }
+        ]
+    },
+    {
+        "jobPositionDesciptions": [
+            {
+                "position": "Store Manager",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Sales Associate",
+                "payRange": {
+                    "low": 20000,
+                    "high": 30000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    },
+    {
+        "buildingKey": "Police Department",
+        "jobPositionDesciptions": [
+            {
+                "position": "Police Officer",
+                "payRange": {
+                    "low": 40000,
+                    "high": 60000
+                },
+                "education_level_required": "High School Diploma"
+            },
+            {
+                "position": "Jail Guard",
+                "payRange": {
+                    "low": 30000,
+                    "high": 45000
+                },
+                "education_level_required": "High School Diploma"
+            }
+        ]
+    }
+]
