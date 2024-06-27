@@ -290,7 +290,7 @@ const BehavioralPatternsSchema = new Schema({
   dailySchedule: [{ type: String, required: true }],
   taskPriorities: [{ type: String, required: true }],
 });
-v 
+
 const BehavioralPatterns = model(
   "BehavioralPatterns",
   BehavioralPatternsSchema
