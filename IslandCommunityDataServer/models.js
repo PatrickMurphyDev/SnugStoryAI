@@ -60,6 +60,7 @@ const IslandPropertyLot = model("IslandPropertyLot", IslandPropertyLotSchema);
 
 // Building Schema
 const BuildingSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   lot_id: {
     type: Schema.Types.ObjectId,
     ref: "IslandPropertyLot",
@@ -78,6 +79,7 @@ const Building = model("Building", BuildingSchema);
 
 // Organization Schema
 const OrganizationSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   name: { type: String, required: true },
   type: {
     type: String,
@@ -100,6 +102,7 @@ const Organization = model("Organization", OrganizationSchema);
 
 // Job Position Schema
 const JobPositionSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   organization_id: {
     type: Schema.Types.ObjectId,
     ref: "Organization",
@@ -116,14 +119,25 @@ const JobPosition = model("JobPosition", JobPositionSchema);
 
 // Character Schema
 const CharacterSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   is_npc: { type: Boolean, default: true },
-  name: { type: String, required: true },
+  is_active: { type: Boolean, default: true },
+  name: {first:{ type: String, required: true },last:{ type: String, required: true }},
   age: { type: Number, required: true },
   biologicalGender: {
     type: String,
     enum: ["male", "female"],
     default: "female",
   },
+});
+
+const Character = model("Character", CharacterSchema);
+
+
+// Character Schema
+const CharacterDetailsSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
+  character_id: {type: Schema.Types.ObjectId, ref:"Character", required: true},
   presentingGender: {
     type: String,
     enum: ["male", "female", "non-binary"],
@@ -163,10 +177,11 @@ const CharacterSchema = new Schema({
   },
 });
 
-const Character = model("Character", CharacterSchema);
+const CharacterDetails = model("CharacterDetails", CharacterDetailsSchema);
 
 // Character Trait Schema
 const CharacterTraitSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   character_id: {
     type: Schema.Types.ObjectId,
     ref: "Character",
@@ -180,6 +195,7 @@ const CharacterTrait = model("CharacterTrait", CharacterTraitSchema);
 
 // Trait Schema
 const TraitSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   category: {
@@ -193,6 +209,7 @@ const Trait = model("Trait", TraitSchema);
 
 // Resources Schema
 const ResourcesSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   character_id: {
     type: Schema.Types.ObjectId,
     ref: "Character",
@@ -207,6 +224,7 @@ const Resources = model("Resources", ResourcesSchema);
 
 // Location Schema
 const LocationSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   character_id: {
     type: Schema.Types.ObjectId,
     ref: "Character",
@@ -233,6 +251,7 @@ const Location = model("Location", LocationSchema);
 
 // Conditions Schema
 const ConditionSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   name: { type: String, required: true },
   description: { type: String, required: false },
   type: [
@@ -244,6 +263,7 @@ const Condition = model("Condition", ConditionSchema);
 
 // Special Conditions Schema
 const SpecialConditionsSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   character_id: {
     type: Schema.Types.ObjectId,
     ref: "Character",
@@ -261,6 +281,7 @@ const SpecialConditions = model("SpecialConditions", SpecialConditionsSchema);
 
 // Behavioral Patterns Schema
 const BehavioralPatternsSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   character_id: {
     type: Schema.Types.ObjectId,
     ref: "Character",
@@ -269,7 +290,7 @@ const BehavioralPatternsSchema = new Schema({
   dailySchedule: [{ type: String, required: true }],
   taskPriorities: [{ type: String, required: true }],
 });
-
+v 
 const BehavioralPatterns = model(
   "BehavioralPatterns",
   BehavioralPatternsSchema
@@ -277,6 +298,7 @@ const BehavioralPatterns = model(
 
 // Relationship Event Schema
 const RelationshipEventSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   name: { type: String, required: true },
   description: { type: String, required: false },
   parent_stage_id: {
@@ -291,6 +313,7 @@ const RelationshipEvent = model("RelationshipEvent", RelationshipEventSchema);
 
 // Character Relationship Schema
 const CharacterRelationshipSchema = new Schema({
+  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
   character_1_id: {
     type: Schema.Types.ObjectId,
     ref: "Character",
@@ -301,8 +324,9 @@ const CharacterRelationshipSchema = new Schema({
     ref: "Character",
     required: true,
   },
-  relationship_type: { type: String, enum: ["Platonic", "Romantic Spark"] },
-  description: { type: String, required: true },
+  relationship_type: { type: String, enum: ["Family", "Any", "Platonic", "Romantic", "Career", "Acquaintance"], default: "Any" },
+  relationship_sub_type: { type: String, default: ''},
+  description: { type: String, required: true }, 
   relationship_historical_events: [
     { type: Schema.Types.ObjectId, ref: "RelationshipEvent" },
   ],
@@ -321,6 +345,7 @@ module.exports = {
   Organization,
   JobPosition,
   Character,
+  CharacterDetails,
   CharacterTrait,
   Trait,
   Resources,

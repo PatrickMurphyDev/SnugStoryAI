@@ -77,6 +77,11 @@ const {
   getCharacterRelationshipById,
   updateCharacterRelationship,
   deleteCharacterRelationship,
+  getCharacterDetails,
+  getCharacterDetailsById,
+  updateCharacterDetails,
+  deleteCharacterDetails,
+  createCharacterDetails
 } = require('./crud');
 
 const app = express();
@@ -143,6 +148,13 @@ app.get('/characters', getCharacters);
 app.get('/characters/:id', getCharacterById);
 app.put('/characters/:id', updateCharacter);
 app.delete('/characters/:id', deleteCharacter);
+
+// REST API endpoints for CharacterDetails
+app.post('/characterdetails', createCharacterDetails);
+app.get('/characterdetails', getCharacterDetails);
+app.get('/characterdetails/:id', getCharacterDetailsById);
+app.put('/characterdetails/:id', updateCharacterDetails);
+app.delete('/characterdetails/:id', deleteCharacterDetails);
 
 // REST API endpoints for CharacterTrait
 app.post('/charactertraits', createCharacterTrait);

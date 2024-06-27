@@ -6,6 +6,7 @@ const {
     Organization,
     JobPosition,
     Character,
+    CharacterDetails,
     CharacterTrait,
     Trait,
     Resources,
@@ -115,6 +116,12 @@ const {
     getCharacterById: getDocumentById(Character),
     updateCharacter: updateDocument(Character),
     deleteCharacter: deleteDocument(Character),
+    
+    createCharacterDetails: createDocument(Character),
+    getCharacterDetails: getDocuments(Character),
+    getCharacterDetailsById: getDocumentById(Character),
+    updateCharacterDetails: updateDocument(Character),
+    deleteCharacterDetails: deleteDocument(Character),
   
     createCharacterTrait: createDocument(CharacterTrait),
     getCharacterTraits: getDocuments(CharacterTrait),
