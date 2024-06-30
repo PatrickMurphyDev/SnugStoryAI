@@ -1,4 +1,3 @@
-//import
 const {
   Island,
   Area,
@@ -7,236 +6,208 @@ const {
   Organization,
   JobPosition,
   Character,
-  //CharacterTrait,
-  //Trait,
-} = require("./models");
+} = require("./Model/models");
 const mongoose = require("mongoose");
 const { default: ollama } = require("ollama");
 const buildingDataConfig = require("./data_collections/IslandTemplate.json");
 const buildingJobsDataConfig = require("./data_collections/BuildingJobs.json");
+const characterGenStepsEnum = {
+  characterBasicDetails: "characterBasicDetails",
+  characterRelationshipsSummary: "characterRelationshipsSummary",
+  characterRelationship: "characterRelationship",
+  characterTraitsSummary: "characterTraitsSummary",
+  characterTrait: "characteTrait",
+};
+const NonProfitBuildingsList = {};
 
-const db = mongoose.connect(`mongodb://127.0.0.1:27017/island_project`);
-// const ollama = new Ollama.Ollama();
-// ollama.setModel("llama3");
+mongoose.connect(`mongodb://127.0.0.1:27017/island_project`);
 
-const LLMPrompt = async function (messages, formatJSON, modelSetting) {
+const LLMPrompt = async (messages, formatJSON, modelSetting = "llama3") => {
+  formatJSON = formatJSON === false ? false : true;
   let msgs = [];
-  msgs = [{ role: "user", content: messages }];
-
-  let sendProps = { model: modelSetting || "llama3", messages: msgs };
-  if(formatJSON){
-    sendProps['format'] = 'json';
+  if (Array.isArray(messages)) {
+    // todo make sure array items contains expected schema { role: String, content: String}
+    msgs = messages;
+  } else {
+    // if messages is String then, add only user message to empty array.
+    msgs.push({ role: "user", content: messages });
   }
-  //console.log(sendProps);
+  const sendProps = { model: modelSetting, messages: msgs };
+  if (formatJSON) sendProps["format"] = "json";
   return ollama.chat(sendProps);
 };
 
-// setup
-// create new island, save id
-const main = async function () {
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
+const createNewIsland = async () => {
   const queryDescIsland =
-    "in 100 words describe a fictional island in the pacific northwest of of the coast of washington state with a poplulation of 100 people.";
-  const islandDescRespAI = await LLMPrompt(queryDescIsland);
-  //console.log(islandDescRespAI);
-
+    "in 100 words describe a fictional island in the pacific northwest off the coast of Washington state with a population of 100 people.";
+  const islandDescRespAI = await LLMPrompt(queryDescIsland, false);
+  const name_temp = `NewIsland_${new Date()
+    .toLocaleString("fr-CA")
+    .replace(/[,| ]/g, "")}`;
   const newIsland = {
     _id: new mongoose.Types.ObjectId(),
-    name:
-      "NewIsland_" + new Date().toLocaleString("fr-CA").replace(/[,| ]/g, ""),
-    location: "Puget Sound, Wa, USA",
+    name: name_temp,
+    location: "50 Miles off the Coast of Washington State, USA",
     description: islandDescRespAI.message.content,
   };
 
-  console.log("New Island:");
-  console.log(newIsland);
-  const islandObject = await Island.create(newIsland);
-  console.log(islandObject);
-  
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("-----------------");
-  console.log("New Area:");
+  return Island.create(newIsland);
+};
+
+const createNewArea = async (islandId) => {
   const newArea = {
     _id: new mongoose.Types.ObjectId(),
-    island_id: newIsland._id,
+    island_id: islandId,
     type: "General",
     name: "general area",
     income_level: "$$",
     description: "General Area Whole Island",
   };
-  console.log(newArea);
-  const newGeneralArea = await Area.create(newArea);
 
-  const CivicRequiredBuildingCount =
-    buildingDataConfig.Buildings.civic.required.length;
-  const RequiredBuildingList =
-    buildingDataConfig.Buildings.civic.required.concat(
-      buildingDataConfig.Buildings.private.required
-    );
-  const IslandPropertyLotCount = RequiredBuildingList.length;
-  // add required lots and buildings
-  //Choose Buildings
-  for (let i = 0; i < IslandPropertyLotCount; i++) {
-    // gen lot
-    const newLotIsCivic =
-      i + 1 < CivicRequiredBuildingCount ? "Civic" : "Private";
-    const newLotBuildingName = RequiredBuildingList[i];
-
-    const newLotObject = await IslandPropertyLot.create({
-      island_id: newIsland._id,
-      type: newLotIsCivic,
-      coordinates: "0,0",
-      description: "new lot: " + newLotBuildingName,
-    });
-
-    // Place Required Buildings
-    /* Place Buildings with Set Lot Locations
-    Randomly place remaining required buildings in random but suitable lot locations
-Place Optional Buildings randomly in remaining commercial lots.  */
-    // while not visualized lot id doesn't matter so just create building, TODO: when visualize generate all lots, then choose buildings seperate steps
-    const tempBuildingDesc = "describe this building"; // get from building config file?
-    const tempBuildingLocation = "Location Address"; // to do move to lot file exclusively
-    // choose building
-    const newBuilding = {
-      _id: new mongoose.Types.ObjectId(),
-      lot_id: newLotObject._id,
-      type: newLotBuildingName,
-      name: newLotBuildingName,
-      address: tempBuildingLocation,
-      description: tempBuildingDesc,
-    };
-    const newBuildingObject = await Building.create(newBuilding);
-    // create organization if not already exist
-    const newOrganizationObject = await Organization.create({
-      building_id: newBuilding._id,
-      name: "Generate a name for a " + newLotBuildingName + " business",
-      type: !newBuildingObject.newLotIsCivic
-        ? "Private"
-        : NonProfitBuildingsList.hasOwnProperty(newLotBuildingName)
-        ? "NonProfit"
-        : "Civic",
-      description:
-        "Generate a 150 word description of a " +
-        newLotBuildingName +
-        " business",
-      address: "remove me, lot only",
-    });
-    // create job positions list
-    var buildingJobObj;
-    for (var n = 0; n < buildingJobsDataConfig.length; n++) {
-      if (
-        buildingJobsDataConfig[n].buildingKey === newBuildingObject.buildingKey
-      ) {
-        buildingJobObj = buildingJobsDataConfig[n];
-        break;
-      }
-    }
-    for (var m = 0; m < buildingJobObj.jobPositionDesciptions.length; m++) {
-      const newJobPosition = JobPosition.create({
-        organization_id: newOrganizationObject._id,
-        building_id: newBuilding._id,
-        title: buildingJobObj.jobPositionDesciptions[m].position,
-        description: "",
-        requirements: [],
-        salary: buildingJobObj.jobPositionDesciptions[m].payRange.low,
-      });
-      if (buildingJobObj.buildingKey === newBuilding.name) {
-        buildingJobObj = buildingJobsDataConfig[n];
-        break;
-      }
-    }
-  }
-
-  for await (const doc of JobPosition.find()) {
-    const character_gen_queries = [
-      "Generate a human with a random age between 18-65, they have worked as a " +
-        doc.name +
-        " for a random number of years with a maximum of their age minus 16. Describe their physical traits, mental health traits, and social traits. Where were they born, how long ago did they move to the island if not born here.",
-    ];
-    const format_resp_prompt =
-      " format your response as a json object with the schema: ";
-    const schema_prompt = `{
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  age: { type: Number, required: true },
-  biologicalGender: {
-    type: String,
-    enum: ["male", "female"],
-    default: "female",
-  },
-  presentingGender: {
-    type: String,
-    enum: ["male", "female", "non-binary"],
-    default: "female",
-  },
-  sexualOrientation: {
-    type: String,
-    enum: ["heterosexual", "homosexual", "bisexual", "asexual", "other"],
-    default: "herosexual",
-  },
-  description: { type: String, required: false },
-  occupation: {type: String, required: false},
-  familyMembers: [{role: {type: String, enum: ['Mom','Dad','Step-Mom','Step-Dad','Grandpa','Grandma','Cousin','Aunt','Uncle']}, name:{type: String}, age:{type: Number}}],
-  romanticRelationship: {status:{type: String, enum: ['Single', 'Married', 'In A Relationship', 'Friends With Benefits']}, partner: {name: {type: String}, age: {type: Number}}},
-  goals: [
-    {
-      goalType: {
-        type: String,
-        enum: ["Story", "Scene", "Secondary", "Other"],
-        default: "Story",
-      },
-      goalName: { type: String, required: true },
-      goalDescription: { type: String, required: true },
-    },
-  ],
-  lifeEvents:{
-  toddler:[],
-  childhood:[],
-  preteen:[],
-  teen:[],
-  early20s:[]}
-}`;
-    const character = await LLMPrompt(
-      character_gen_queries[0] + format_resp_prompt + schema_prompt, true
-    );
-    console.log(character);
-  }
-
-  
+  return Area.create(newArea);
 };
-main()
-  .then(() => {
-    console.log("done");
-  })
-  .catch((e) => {
-    console.error(e); // "oh, no!"
+
+const createNewLotAndBuilding = async (islandId, buildingName, isCivic) => {
+  const newLot = await IslandPropertyLot.create({
+    island_id: islandId,
+    type: isCivic ? "Civic" : "Private",
+    coordinates: "0,0",
+    description: `new lot: ${buildingName}`,
   });
-/* /
-    
-  // for each job position unique
-  // create character basic details
-  // add some traits
 
-Generate List of Character Basic Details
-    Generate Name , Gender, Age, number of years on the island for each person on the island
-        Start with one person each for required job positions
-        Move to non required job positions, generate more until 90% of total job positions are filled
-    Create Existing Relationships 
-        Randomly select 20 percent males and 20% females of the 18-65 aged population, mark these characters as married.
-        Loop through selected married people to choose match, prioritize age similarity, same Industry 
-    Follow the same process but for people Dating  but not married, but use only 10% of each gender.
-    Add same sex couples
-    Remaining people single, divorced or widowed, probability determined by age
-    Add 1-3 children for ⅓ of married couples 
-    Add 4-7 retirees aged 66-100, choose 4 of Them to be married in two different couples. One of the couples has children on the island. Choose 1-3 characters that are 18-35 years younger than the average age of the retired couple. Update the selected adults with appropriate maiden or last name
+  const newBuilding = await Building.create({
+    _id: new mongoose.Types.ObjectId(),
+    island_id: islandId,
+    lot_id: newLot._id,
+    type: buildingName,
+    name: buildingName,
+    address: "Location Address",
+    description: "describe this building",
+  });
 
-*/
+  const newOrganization = await Organization.create({
+    island_id: islandId,
+    building_id: newBuilding._id,
+    name: `Generate a name for a ${buildingName} business`,
+    type: isCivic
+      ? NonProfitBuildingsList[buildingName]
+        ? "NonProfit"
+        : "Civic"
+      : "Private",
+    description: `Generate a 150 word description of a ${buildingName} business`,
+    address: "remove me, lot only",
+  });
+
+  return { newLot, newBuilding, newOrganization };
+};
+
+const createJobPositions = async (
+  islandId,
+  organizationId,
+  buildingId,
+  buildingKey
+) => {
+  const buildingJobObj = buildingJobsDataConfig.find(
+    (job) => job.buildingKey === buildingKey
+  );
+
+  if (!buildingJobObj) return;
+
+  for (const jobDescription of buildingJobObj.jobPositionDesciptions) {
+    await JobPosition.create({
+      island_id: islandId,
+      organization_id: organizationId,
+      building_id: buildingId,
+      title: jobDescription.position,
+      description: "",
+      requirements: [],
+      salary: jobDescription.payRange.low,
+    });
+  }
+};
+
+const generateCharacter = async (step, optionsObject) => {
+  const jobDetailsToString = `${optionsObject.jobTitle} working for ${optionsObject.jobOrganizationName} a ${optionsObject.jobOrganizationType} business, earning ${optionsObject.jobSalary} dollars USD a year.`;
+  const birthdatePrompt = "give them a random birthdate they could have been born assuming the current_date in the story is equal to today's reallife date unless I have previously specified otherwise";
+  const queryPartsByStep = {
+    characterBasicDetails: {
+      questionPrompt: `Generate a fictional human character with a random age between 18-65, ${birthdatePrompt}, choose their birthplace with a 45% chance they were born on the island, choose their gender, name(first, middle (optional), last), they are currently employeed as a ${jobDetailsToString}`,
+      outputSchema: `{
+      name:{first: String, middle: String, last: String},
+      birth: {
+        place: {type: String, valueFormat: "City, (if born in USA, AU or CAN include State and then a ',' comma) Country " },
+        date: { year: {type: Number}, month: {type: Number}, day: {type: Number}}},
+      biologicalGender: { type: String, enum: ["male", "female"], default: "female" },
+      age: Number,
+      description: String}`,
+    },
+  };
+  const formatRespPrompt =
+    " format your response as a json object with the schema: ";
+  /*const schemaPrompt = `{
+      familyMembers: [{ role: { type: String, enum: ['Mom','Dad','Step-Mom','Step-Dad','Grandpa','Grandma','Cousin','Aunt','Uncle'] }, name: { type: String }, age: { type: Number } }],
+      romanticRelationship: { status: { type: String, enum: ['Single', 'Married', 'In A Relationship', 'Friends With Benefits'] }, partner: { name: { type: String }, age: { type: Number } } },
+    }`;*/
+
+  return LLMPrompt(
+    queryPartsByStep[step].questionPrompt +
+      formatRespPrompt +
+      queryPartsByStep[step].outputSchema,
+    true
+  );
+};
+
+const main = async () => {
+  try {
+    const newIsland = await createNewIsland();
+    console.log("New Island:", newIsland);
+
+    const newArea = await createNewArea(newIsland._id);
+    console.log("New Area:", newArea);
+
+    const CivicRequiredBuildingCount =
+      buildingDataConfig.Buildings.civic.required.length;
+    const RequiredBuildingList = [
+      ...buildingDataConfig.Buildings.civic.required,
+      ...buildingDataConfig.Buildings.private.required,
+    ];
+    const IslandPropertyLotCount = RequiredBuildingList.length;
+
+    for (let i = 0; i < IslandPropertyLotCount; i++) {
+      const isCivic = i < CivicRequiredBuildingCount;
+      const buildingName = RequiredBuildingList[i];
+      const { newBuilding, newOrganization } = await createNewLotAndBuilding(
+        newIsland._id,
+        buildingName,
+        isCivic
+      );
+      await createJobPositions(
+        newIsland._id,
+        newOrganization._id,
+        newBuilding._id,
+        newBuilding.name
+      );
+    }
+
+    for await (let job of JobPosition.find()) {
+      job = job.populate();
+      console.log(job);
+      const character = await generateCharacter(
+        characterGenStepsEnum.characterBasicDetails,
+        { 
+          jobTitle: job.title,
+          jobSalary: job.salary,
+          jobOrganizationName: '',
+          jobOrganizationType: ''
+        }
+      );
+      console.log(character);
+    }
+  } catch (e) {
+    console.error("Error:", e);
+  } finally {
+    mongoose.disconnect();
+  }
+};
+
+main();

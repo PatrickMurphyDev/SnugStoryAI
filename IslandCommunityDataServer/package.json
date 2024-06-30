@@ -12,7 +12,10 @@
     "express": "^4.17.1",
     "mongoose": "^5.13.22",
     "ollama": "^0.5.2",
-    "ollama-node": "^0.1.28"
+    "ollama-node": "^0.1.28",
+    "p5-react": "^1.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

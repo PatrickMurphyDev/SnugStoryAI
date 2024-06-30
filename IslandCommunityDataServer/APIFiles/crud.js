@@ -15,7 +15,7 @@ const {
     SpecialConditions,
     RelationshipEvent,
     CharacterRelationship,
-  } = require('./models');
+  } = require('../Model/models');
   
   // Generic CRUD operation functions
   const createDocument = (Model) => async (req, res) => {

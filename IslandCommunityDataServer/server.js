@@ -82,18 +82,23 @@ const {
   updateCharacterDetails,
   deleteCharacterDetails,
   createCharacterDetails
-} = require('./crud');
+} = require('./APIFiles/crud');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static('public'))
 
 const port = process.env.PORT || 3020;
 
 // MongoDB connection 
-mongoose.connect('mongodb://127.0.0.1:27017/island_project');
+mongoose.connect('mongodb://127.0.0.1:27017/island_project'); // todo: param
 
 app.get(['/', '/index.html'], (req, res)=>{
   res.sendFile('index.html', { root : __dirname});
+});
+
+app.get(['/home', '/homepage'], (req, res)=>{
+  res.sendFile('Homepage.html', { root : __dirname});
 });
 
 app.get('/docs/:endpoint.html', (req, res)=>{

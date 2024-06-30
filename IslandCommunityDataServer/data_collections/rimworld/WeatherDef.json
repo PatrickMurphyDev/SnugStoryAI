@@ -1,0 +1,277 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome8",
+    "definitions": {
+        "Welcome8": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Defs": {
+                    "$ref": "#/definitions/Defs"
+                }
+            },
+            "required": [
+                "Defs"
+            ],
+            "title": "Welcome8"
+        },
+        "Defs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "WeatherDef": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/WeatherDef"
+                    }
+                }
+            },
+            "required": [
+                "WeatherDef"
+            ],
+            "title": "Defs"
+        },
+        "WeatherDef": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "defName": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "repeatable": {
+                    "type": "string",
+                    "format": "boolean"
+                },
+                "favorability": {
+                    "type": "string"
+                },
+                "perceivePriority": {
+                    "type": "string",
+                    "format": "integer"
+                },
+                "ambientSounds": {
+                    "$ref": "#/definitions/AmbientSounds"
+                },
+                "skyColorsDay": {
+                    "$ref": "#/definitions/SkyColors"
+                },
+                "skyColorsDusk": {
+                    "$ref": "#/definitions/SkyColors"
+                },
+                "skyColorsNightEdge": {
+                    "$ref": "#/definitions/SkyColors"
+                },
+                "skyColorsNightMid": {
+                    "$ref": "#/definitions/SkyColors"
+                },
+                "isBad": {
+                    "type": "string",
+                    "format": "boolean"
+                },
+                "windSpeedFactor": {
+                    "type": "string"
+                },
+                "accuracyMultiplier": {
+                    "type": "string"
+                },
+                "overlayClasses": {
+                    "$ref": "#/definitions/AmbientSounds"
+                },
+                "commonalityRainfallFactor": {
+                    "$ref": "#/definitions/CommonalityRainfallFactor"
+                },
+                "temperatureRange": {
+                    "type": "string"
+                },
+                "weatherThought": {
+                    "type": "string"
+                },
+                "rainRate": {
+                    "type": "string",
+                    "format": "integer"
+                },
+                "moveSpeedMultiplier": {
+                    "type": "string"
+                },
+                "windSpeedOffset": {
+                    "type": "string"
+                },
+                "durationRange": {
+                    "type": "string"
+                },
+                "eventMakers": {
+                    "$ref": "#/definitions/EventMakers"
+                },
+                "snowRate": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ambientSounds",
+                "defName",
+                "description",
+                "favorability",
+                "label",
+                "perceivePriority",
+                "skyColorsDay",
+                "skyColorsDusk",
+                "skyColorsNightEdge",
+                "skyColorsNightMid"
+            ],
+            "title": "WeatherDef"
+        },
+        "AmbientSounds": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "li": {
+                    "$ref": "#/definitions/LiUnion"
+                }
+            },
+            "required": [
+                "li"
+            ],
+            "title": "AmbientSounds"
+        },
+        "CommonalityRainfallFactor": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "points": {
+                    "$ref": "#/definitions/Points"
+                }
+            },
+            "required": [
+                "points"
+            ],
+            "title": "CommonalityRainfallFactor"
+        },
+        "Points": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "li": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "li"
+            ],
+            "title": "Points"
+        },
+        "EventMakers": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "li": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LiElement"
+                    }
+                }
+            },
+            "required": [
+                "li"
+            ],
+            "title": "EventMakers"
+        },
+        "LiElement": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "averageInterval": {
+                    "type": "string",
+                    "format": "integer"
+                },
+                "eventClass": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "averageInterval",
+                "eventClass"
+            ],
+            "title": "LiElement"
+        },
+        "SkyColors": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "sky": {
+                    "$ref": "#/definitions/Sky"
+                },
+                "shadow": {
+                    "$ref": "#/definitions/Shadow"
+                },
+                "overlay": {
+                    "$ref": "#/definitions/Overlay"
+                },
+                "saturation": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "overlay",
+                "saturation",
+                "shadow",
+                "sky"
+            ],
+            "title": "SkyColors"
+        },
+        "LiUnion": {
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "type": "string"
+                }
+            ],
+            "title": "LiUnion"
+        },
+        "Overlay": {
+            "type": "string",
+            "enum": [
+                "(1,1,1)",
+                "(0.7,0.7,0.7)",
+                "(0.8,0.8,0.8)",
+                "(0.6,0.6,0.6)",
+                "(0.5,0.5,0.5)"
+            ],
+            "title": "Overlay"
+        },
+        "Shadow": {
+            "type": "string",
+            "enum": [
+                "(0.718,0.745,0.757)",
+                "(0.92,0.92,0.92)",
+                "(0.955,0.886,0.914)",
+                "(0.85, 0.85, 0.85)"
+            ],
+            "title": "Shadow"
+        },
+        "Sky": {
+            "type": "string",
+            "enum": [
+                "(1,1,1)",
+                "(0.8,0.8,0.8)",
+                "(0.858,0.650,0.423)",
+                "(0.482,0.603,0.682)",
+                "(0.35,0.40,0.45)"
+            ],
+            "title": "Sky"
+        }
+    }
+}
