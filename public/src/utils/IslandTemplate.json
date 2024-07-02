@@ -1,33 +1,34 @@
-{
+export default data = {
   "Buildings": {
     "civic": {
-      "required": [
+      "placed":[
         "Town Hall",
-        "Library",
-        "Post Office",
         "Fire Department",
         "Police Department",
+        "Lighthouse"],
+      "required": [
+        "Library",
+        "Post Office",
         "Park",
         "School",
-        "Lighthouse",
         "Medical Clinic"
       ],
       "optional": [
         "Church",
-        "Community Center",
         "Outdoor Concert Venue",
         "Skate Park"
       ]
     },
     "private": {
-      "required": [
+      "placed":[
         "General Store",
+        "Harbor"],
+      "required": [
         "Fishing Tackle Store",
         "Hotel",
         "Resturant",
         "Bar",
-        "Gym",
-        "Harbor"
+        "Gym"
       ],
       "optional": [
         "Clothing Store",
