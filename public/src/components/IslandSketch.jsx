@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Sketch from "react-p5";
 import SimulationTime from "../utils/SimulationTime";
 import { lotPos, resLotPos } from "../utils/MapPositions";
-import Controls from "../utils/MapControls";
 import Human from "../utils/pObjects/Human";
 
 const simTime = new SimulationTime();
@@ -14,11 +13,6 @@ export default function IslandSketch() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   let bg;
 
-  const controls = {
-    view: { x: 0, y: 0, zoom: 1 },
-    viewPos: { prevX: null, prevY: null, isDragging: false },
-    pLib: {},
-  };
 
   useEffect(() => {
     simTime.onTimeUpdate((data) => {
@@ -42,7 +36,6 @@ export default function IslandSketch() {
   }, []);
 
   const setup = (p5, canvasParentRef) => {
-    controls.pLib = p5;
     bg = p5.loadImage("images/IslandBackgroundNew.png");
     p5.createCanvas(800, 600).parent(canvasParentRef);
 
@@ -115,9 +108,6 @@ export default function IslandSketch() {
       <Sketch
         setup={setup}
         draw={draw}
-        mousePressed={(e) => Controls.move(controls).mousePressed(e)}
-        mouseDragged={(e) => Controls.move(controls).mouseDragged(e)}
-        mouseReleased={(e) => Controls.move(controls).mouseReleased(e)}
       />
       <div>
         <input
