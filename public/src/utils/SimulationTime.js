@@ -42,7 +42,7 @@ class SimulationTime extends EventEmitter {
       this.currentTimeOfDay %= 1440;
       this.currentDayOfWeek = this.currentDayOfWeek % 7 + 1;
       this.dayOfMonth++;
-        
+
       // Simplified month end handling
       const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
       if (this.dayOfMonth > daysInMonth[this.month - 1]) {
@@ -86,6 +86,63 @@ class SimulationTime extends EventEmitter {
   onTimeUpdate(listener) {
     this.on('timeUpdate', listener);
   }
+
+  clearTimeUpdate(callback){
+    this.removeListener('timeUpdate', callback);
+  }
+
+  clearAllListeners(){
+    this.clearAllListeners();
+  }
+
+  dispose(){
+    this.pause();
+    this.clearAllListeners();
+  }
 }
 
 export default SimulationTime;
+
+
+/*
+
+import React, { useState, useEffect } from 'react';
+import Sketch from 'react-p5';
+
+const Simulation = () => {
+    const [villagers, setVillagers] = useState([new Human('Alice', 18, 'female'), new Human('Bob', 20, 'male')]);
+    const [frame, setFrame] = useState(0);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setFrame(prevFrame => prevFrame + 1);
+      }, 1000 / 60); // 60 FPS
+      return () => clearInterval(interval);
+    }, []);
+  
+    useEffect(() => {
+      setVillagers(prevVillagers => {
+        return prevVillagers.map(villager => {
+          villager.update(frame);
+          return villager;
+        });
+      });
+    }, [frame]);
+  
+    const setup = (p5, canvasParentRef) => {
+      p5.createCanvas(800, 600).parent(canvasParentRef);
+    };
+  
+    const draw = (p5) => {
+      p5.background(200);
+      p5.fill(0);
+  
+      villagers.forEach((villager, index) => {
+        p5.text(`${villager.name}, Age: ${villager.age}`, 10, 20 * (index + 1));
+      });
+    };
+  
+    return <Sketch setup={setup} draw={draw} />;
+  };
+  
+  export default Simulation;*/
