@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import IslandSketch from "../components/IslandSketch";
+import IslandSketch from "../components/IslandSketch/IslandSketch";
 export default function Map() {
   return (
     <>

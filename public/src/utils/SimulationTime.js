@@ -3,26 +3,89 @@ import EventEmitter from 'events';
 class SimulationTime extends EventEmitter {
   constructor() {
     super();
-    this.isPaused = false;
-    this.rateOfTime = 1; // 1x, 2x, 3x
-    this.currentTimeOfDay = 0; // in minutes (0-1440)
-    this.currentDayOfWeek = 1; // 1: Sunday, 2: Monday, ..., 7: Saturday
-    this.dayOfMonth = 1;
-    this.month = 1; // 1: January, ..., 12: December
-    this.year = 2023;
+    this._isPaused = false;
+    this._rateOfTime = 1; // 1x, 2x, 3x
+    this._currentTimeOfDay = 0; // in minutes (0-1440)
+    this._currentDayOfWeek = 1; // 1: Sunday, 2: Monday, ..., 7: Saturday
+    this._dayOfMonth = 4;
+    this._month = 7; // 1: January, ..., 12: December
+    this._year = 2024;
+  }
+
+  // Getter and setter for isPaused
+  get isPaused() {
+    return this._isPaused;
+  }
+
+  set isPaused(value) {
+    this._isPaused = value;
+  }
+
+  // Getter and setter for rateOfTime
+  get rateOfTime() {
+    return this._rateOfTime;
+  }
+
+  set rateOfTime(value) {
+    this._rateOfTime = value;
+  }
+
+  // Getter and setter for currentTimeOfDay
+  get currentTimeOfDay() {
+    return this._currentTimeOfDay;
+  }
+
+  set currentTimeOfDay(value) {
+    this._currentTimeOfDay = value;
+  }
+
+  // Getter and setter for currentDayOfWeek
+  get currentDayOfWeek() {
+    return this._currentDayOfWeek;
+  }
+
+  set currentDayOfWeek(value) {
+    this._currentDayOfWeek = value;
+  }
+
+  // Getter and setter for dayOfMonth
+  get dayOfMonth() {
+    return this._dayOfMonth;
+  }
+
+  set dayOfMonth(value) {
+    this._dayOfMonth = value;
+  }
+
+  // Getter and setter for month
+  get month() {
+    return this._month;
+  }
+
+  set month(value) {
+    this._month = value;
+  }
+
+  // Getter and setter for year
+  get year() {
+    return this._year;
+  }
+
+  set year(value) {
+    this._year = value;
   }
 
   // Function to get the time in HH:MM 24-hour format
   getTime() {
-    const hours = Math.floor(this.currentTimeOfDay / 60);
-    const minutes = this.currentTimeOfDay % 60;
+    const hours = Math.floor(this._currentTimeOfDay / 60);
+    const minutes = this._currentTimeOfDay % 60;
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
   }
 
   // Function to get the time in HH:MM AM/PM 12-hour format
   getTime12Hr() {
-    let hours = Math.floor(this.currentTimeOfDay / 60);
-    const minutes = this.currentTimeOfDay % 60;
+    let hours = Math.floor(this._currentTimeOfDay / 60);
+    const minutes = this._currentTimeOfDay % 60;
     const period = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12 || 12; // Convert 0 hour to 12 for 12-hour format
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${period}`;
@@ -30,27 +93,27 @@ class SimulationTime extends EventEmitter {
 
   // Function to get the date in DD/MM/YYYY format
   getDate() {
-    return `${String(this.dayOfMonth).padStart(2, '0')}/${String(this.month).padStart(2, '0')}/${this.year}`;
+    return `${String(this._dayOfMonth).padStart(2, '0')}/${String(this._month).padStart(2, '0')}/${this._year}`;
   }
 
   // Function to update the time
   updateTime() {
-    if (this.isPaused) return;
+    if (this._isPaused) return;
 
-    this.currentTimeOfDay += this.rateOfTime;
-    if (this.currentTimeOfDay >= 1440) {
-      this.currentTimeOfDay %= 1440;
-      this.currentDayOfWeek = this.currentDayOfWeek % 7 + 1;
-      this.dayOfMonth++;
+    this._currentTimeOfDay += this._rateOfTime;
+    if (this._currentTimeOfDay >= 1440) {
+      this._currentTimeOfDay %= 1440;
+      this._currentDayOfWeek = this._currentDayOfWeek % 7 + 1;
+      this._dayOfMonth++;
 
       // Simplified month end handling
       const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      if (this.dayOfMonth > daysInMonth[this.month - 1]) {
-        this.dayOfMonth = 1;
-        this.month++;
-        if (this.month > 12) {
-          this.month = 1;
-          this.year++;
+      if (this._dayOfMonth > daysInMonth[this._month - 1]) {
+        this._dayOfMonth = 1;
+        this._month++;
+        if (this._month > 12) {
+          this._month = 1;
+          this._year++;
         }
       }
     }
@@ -59,27 +122,28 @@ class SimulationTime extends EventEmitter {
     this.emit('timeUpdate', {
       time24: this.getTime(),
       time12: this.getTime12Hr(),
+      currentTimeOfDay: this._currentTimeOfDay,
       date: this.getDate(),
-      isPaused: this.isPaused,
-      rateOfTime: this.rateOfTime
+      isPaused: this._isPaused,
+      rateOfTime: this._rateOfTime
     });
   }
 
   // Function to start the simulation time
   start() {
-    this.isPaused = false;
+    this._isPaused = false;
     this.intervalId = setInterval(() => this.updateTime(), 1000); // Update every second
   }
 
   // Function to pause the simulation time
   pause() {
-    this.isPaused = true;
+    this._isPaused = true;
     clearInterval(this.intervalId);
   }
 
   // Function to set the rate of time
   setRateOfTime(rate) {
-    this.rateOfTime = rate;
+    this._rateOfTime = rate;
   }
 
   // Function to subscribe to time updates
@@ -87,62 +151,21 @@ class SimulationTime extends EventEmitter {
     this.on('timeUpdate', listener);
   }
 
-  clearTimeUpdate(callback){
+  // Function to clear a specific time update listener
+  clearTimeUpdate(callback) {
     this.removeListener('timeUpdate', callback);
   }
 
-  clearAllListeners(){
-    this.clearAllListeners();
+  // Function to clear all listeners
+  clearAllListeners() {
+    this.removeAllListeners();
   }
 
-  dispose(){
+  // Function to dispose the simulation time instance
+  dispose() {
     this.pause();
     this.clearAllListeners();
   }
 }
 
 export default SimulationTime;
-
-
-/*
-
-import React, { useState, useEffect } from 'react';
-import Sketch from 'react-p5';
-
-const Simulation = () => {
-    const [villagers, setVillagers] = useState([new Human('Alice', 18, 'female'), new Human('Bob', 20, 'male')]);
-    const [frame, setFrame] = useState(0);
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setFrame(prevFrame => prevFrame + 1);
-      }, 1000 / 60); // 60 FPS
-      return () => clearInterval(interval);
-    }, []);
-  
-    useEffect(() => {
-      setVillagers(prevVillagers => {
-        return prevVillagers.map(villager => {
-          villager.update(frame);
-          return villager;
-        });
-      });
-    }, [frame]);
-  
-    const setup = (p5, canvasParentRef) => {
-      p5.createCanvas(800, 600).parent(canvasParentRef);
-    };
-  
-    const draw = (p5) => {
-      p5.background(200);
-      p5.fill(0);
-  
-      villagers.forEach((villager, index) => {
-        p5.text(`${villager.name}, Age: ${villager.age}`, 10, 20 * (index + 1));
-      });
-    };
-  
-    return <Sketch setup={setup} draw={draw} />;
-  };
-  
-  export default Simulation;*/
