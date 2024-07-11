@@ -27,6 +27,11 @@ class SimulationTime extends EventEmitter {
   }
 
   set rateOfTime(value) {
+    if(value <= 0){
+      this.pause();
+    }else if(this._isPaused){
+      this.start();
+    }
     this._rateOfTime = value;
   }
 

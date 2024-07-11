@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Sketch from "react-p5";
 import SimulationTime from "../../utils/SimulationTime";
-import { lotPos, resLotPos } from "../../utils/MapPositions";
 import CharacterEntity from './Entities/CharacterEntity';
+import { lotPos, resLotPos } from "../../utils/MapPositions";
+import SimulationTimeControls from '../SimulationTimeControls';
 
 const simTime = new SimulationTime();
 
 export default function IslandSketch() {
-  const [villagers, setVillagers] = useState([new CharacterEntity('Alice', 18, 'female'), new CharacterEntity('Bob', 20, 'male')]);
+  const [villagers, setVillagers] = useState([]);
   const [minute, setMinute] = useState(0);
   const [scal, setScal] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -23,16 +24,6 @@ export default function IslandSketch() {
     });
     simTime.start();
     
-    // Change rate of time after 10 seconds
-    // setTimeout(() => {
-    //   simTime.setRateOfTime(2); // 2x speed
-    // }, 10000);
-
-    // Pause after 20 seconds
-    // setTimeout(() => {
-    //   simTime.pause();
-    // }, 20000);
-
     return () => simTime.dispose();
   }, []);
 
@@ -42,13 +33,17 @@ export default function IslandSketch() {
     pos.characters.forEach((char, index) => {
       p5.fill("red");
       p5.ellipse(pos.x / 2 + (index + 1) * 9, pos.y / 2 + 4, 7, 7);
+      if (p5.dist(pos.x / 2 + (index + 1) * 9, pos.y / 2 + 4, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 10.0) {
+        p5.text(char, pos.x / 2 + (index + 1) * 9, pos.y / 2 + 4);
+      }
+      setVillagers(Array.from(villagers).push(new CharacterEntity(char, 18, 'female')));//, new CharacterEntity('Bob', 20, 'male')
     });
   };
 
-  const drawLots = (p5, positions, transparency, isLot, offset) => {
+  const drawLots = (p5, positions, transparency, isNonResidential, offset) => {
     positions.forEach((pos, index) => {
       let ps = p5.createVector(pos.x / 2, pos.y / 2);
-      let fillColor = isLot ? "#000000" : "#00aa00";
+      let fillColor = isNonResidential ? "#000000" : "#00aa00";
       if (pos.characters) {
         drawCharHere(p5, pos);
         p5.fill(fillColor + transparency);
@@ -63,10 +58,10 @@ export default function IslandSketch() {
       if (p5.dist(ps.x, ps.y, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
         p5.fill(`${fillColor}ff`);
         p5.stroke("#ffffffaa");
-        const label = pos.name || `${isLot ? "Lot" : "Res"} ${index + 1}`;
+        const label = pos.name || `${isNonResidential ? "Lot" : "Res"} ${index + 1}`;
         p5.text(label, ps.x, ps.y);
       }
-      p5.fill(isLot ? `#000000${transparency}` : `#00aa00${transparency}`);
+      p5.fill(isNonResidential ? `#000000${transparency}` : `#00aa00${transparency}`);
       p5.stroke(`#ffffff${transparency}`);
     });
   };
@@ -88,7 +83,7 @@ export default function IslandSketch() {
   };
 
   const draw = (p5) => {
-    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
+//    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
 
     const transparency = "60";
     p5.translate(offset.x, offset.y);
@@ -107,21 +102,11 @@ export default function IslandSketch() {
 
   return (
     <>
+      <SimulationTimeControls simTime={simTime} />
       <Sketch
         setup={setup}
         draw={draw}
       />
-      <div>
-        <span>Status: {simTime.isPaused ? "Paused" : "Running"} Speed: {simTime.rateOfTime} </span>
-        <input
-          type="range"
-          min="1"
-          max="1440"
-          readOnly
-          value={minute}
-        />
-        <span>TimeInt: {simTime.currentTimeOfDay} Time: {simTime.getTime12Hr()}</span>
-      </div>
     </>
   );
 }

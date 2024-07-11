@@ -16,11 +16,21 @@
 import { resLotPos } from "../../../utils/MapPositions";
 import Task from "./Task";
 class CharacterEntity {
-    constructor(name, age, gender) {
+    constructor(name, age, gender, skills, bio, attributes) {
       this.name = name;
       this.age = age;
       this.birthdate = {year:1994,month:10, day:14};
       this.gender = gender;
+      this.skills = skills; // Array of skill objects
+      this.bio = bio;
+      this.attributes = attributes; // Object with attribute keys and values
+      this.relationships = {
+        friends: [],
+        disliked: [],
+        romantic: [],
+        romanticHistory: [],
+      };
+      
       this.state = 'idle';
       this.location = {lot:-1, coords: {x:0,y:0}};
 
@@ -84,6 +94,11 @@ class CharacterEntity {
       // Update Basic needs
       this.setHunger(this.getHunger() + this.stats.hungerRate); // Hunger increases over time
       this.setEnergy(this.getEnergy() - this.stats.energyRate); // Energy decreases over time
+    }
+
+    draw(){
+      //p5.fill("red");
+      //p5.ellipse(pos.x / 2 + (index + 1) * 9, pos.y / 2 + 4, 7, 7);
     }
 
     getEnergy(){

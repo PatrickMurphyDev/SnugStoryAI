@@ -19,6 +19,14 @@ const hexChars = [
   "e",
   "f",
 ];
+
+const randColorHex = function(){
+  let r = hexChars[Math.floor(Math.random() * 16)];
+  let g = hexChars[Math.floor(Math.random() * 16)];
+  let b = hexChars[Math.floor(Math.random() * 16)];
+  let randColorHex = "#" + r + r + g + g + b + b;
+  return randColorHex;
+}
 // Extract and shuffle required and optional building names
 const civicLotNamesReq = ArrayShuffle([...IslandTemplate.Buildings.civic.required]);
 const civicLotNamesOpt = ArrayShuffle([...IslandTemplate.Buildings.civic.optional]);
@@ -33,15 +41,13 @@ const lotNames = [
   ...publicLotNamesOpt,
 ];
 
+// Generate a lot with random name and color
 let LotChoiceIndex = 0;
 const genLot = function () {
-  let r = hexChars[Math.floor(Math.random() * 16)];
-  let g = hexChars[Math.floor(Math.random() * 16)];
-  let b = hexChars[Math.floor(Math.random() * 16)];
   //[Math.floor(Math.random()*lotNames.length)]
   return {
     name: lotNames[LotChoiceIndex++],
-    fillColor: "#" + r + r + g + g + b + b,
+    fillColor: randColorHex(),
   };
 };
 
@@ -91,7 +97,7 @@ let lotPos = [
 // place each char on a random lot
 
 IslandTemplate.Residents.forEach((v, i) => {
-  let randLot = lotPos[Math.floor(Math.random() * lotPos.length)];
+  let randLot = resLotPos[Math.floor(Math.random() * resLotPos.length)];
   if (randLot.characters) {
     randLot.characters.push(v);
   } else {
