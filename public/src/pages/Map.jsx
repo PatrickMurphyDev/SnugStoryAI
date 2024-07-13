@@ -2,10 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import IslandSketch from "../components/IslandSketch/IslandSketch";
 import CharacterComponent from "../components/CharacterComponent";
+import LocationComponent from "../components/LocationComponent";
 export default function Map() {
   return (
     <>
     <div style={{display:'flex', flexDirection:'row'}}>
+      <div style={{display:'flex', flexDirection:'column'}}>
+          <LocationComponent  />
+      </div>
       <Container>
         <div className="canvasScreen">
           <IslandSketch />

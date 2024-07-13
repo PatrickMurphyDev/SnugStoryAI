@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Sketch from 'react-p5';
-import SimulationTime from '../utils/SimulationTime';
-import { lotPos, resLotPos } from '../utils/MapPositions';
-import Controls from '../utils/MapControls';
-import Human from '../utils/pObjects/Human';
-import LocationComponent from './LocationComponent';
-import LotEntity from './LotEntity'; // Import LotEntity
+import SimulationTime from '../../utils/SimulationTime';
+import SimulationTimeControls from '../SimulationTimeControls';
+import { lotPos, resLotPos } from '../../utils/MapPositions';
+import LotEntity from './Entities/LotEntity'; // Import LotEntity
 
 const simTime = new SimulationTime();
 
@@ -19,11 +17,6 @@ export default function IslandSketch() {
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [lots, setLots] = useState([]); // State for lots
 
-  const controls = {
-    view: { x: 0, y: 0, zoom: 1 },
-    viewPos: { prevX: null, prevY: null, isDragging: false },
-    pLib: {},
-  };
 
   useEffect(() => {
     simTime.onTimeUpdate((data) => {
@@ -48,8 +41,7 @@ export default function IslandSketch() {
   }, []);
 
   const setup = (p5, canvasParentRef) => {
-    controls.pLib = p5;
-    bg = p5.loadImage('images/IslandBackgroundNew.png');
+    setBgImage(p5.loadImage("images/islandBackgroundNew.png"));
     p5.createCanvas(800, 600).parent(canvasParentRef);
 
     // set init offset
