@@ -83,6 +83,33 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 
 ## Project Structure
 
+SnugStoryAI/
+├── Documentation/
+│ ├── DesignDocument/
+│ └── GPT/
+│ └── GPTLogs/
+├── IslandCommunityDataServer/
+│ ├── APIFiles/
+│ ├── Model/
+│ ├── ModelDefinitions/
+│ ├── build_scripts/
+│ ├── data_collections/
+│ ├── docs/
+│ └── public/
+├── public/
+│ ├── src/
+│ ├── public/
+│ ├── Dockerfile
+│ └── README.md
+├── server/
+│ ├── controllers/
+│ ├── models/
+│ ├── routes/
+│ ├── sockets/
+│ ├── Dockerfile
+│ └── index.js
+└── README.md
+
 ### Key Directories and Files
 
 - `Documentation`: Contains logs and documentation related to the GPT integration.
