@@ -28,6 +28,32 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 - [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/)
 - (Optional) [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
+### About Design Concepts
+
+### Character Development
+- **Initial Desire**: What does your character want before the story begins? How does the inciting incident change their desires?
+- **Motivation**: What drives your character to pursue their goal despite hardships? 
+- **Goal Significance**: What will achieving this goal mean to your character? How will it affect their life?
+- **Obstacles**: What stands in your character's way externally and internally?
+- **Internal Conflict**: How does the character’s backstory influence their internal conflicts?
+- **Consequences**: What does your character have to lose or gain? What’s at stake in achieving their goal?
+
+### World Details
+- **Island Layout**: Detailed description of the island's geography and notable features.
+- **Buildings**: List of key buildings, their industry categories, job positions, and services offered.
+- **Wildlife**: Description of marine animals, birds, terrestrial animals, and invertebrates found around the island.
+- **Geological and Coastal Processes**: Factors influencing the shape and formation of the island.
+
+### Relationship Stages
+- **Initial Meeting**: Two individuals meet for the first time.
+- **Casual Dating**: Informal relationship exploring interest and compatibility.
+- **Exclusive Dating**: Relationship becomes exclusive.
+- **Official Relationship**: Formal acknowledgment of the relationship.
+- **Deepening Connection**: Partners develop a deeper bond.
+- **Engagement and Marriage**: Long-term commitment planning and formalization.
+
+
+
 ### Installation
 
 #### First Method: Manual Setup
