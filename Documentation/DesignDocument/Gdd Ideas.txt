@@ -1,0 +1,239 @@
+﻿Back to main document 
+Ideas: Businesses
+* Eye Lash Filler, Lift, Brow Lumination, Microblade
+* Plastic Surgery
+* Pet store 
+* Gym 
+* Local bar
+* Book store or library 
+* Ozempic Natural Path / Esthetician
+* bikini barista 
+* Food Stand:
+   * Shaved Ice Stand
+   * Hot Dog Stand
+* Glassblowing Hotshop
+* Barber or hair dresser 
+* Nail tech 
+* Post office 
+* Therapist 
+* Chiropractor
+* Scuba shop / tours
+* Surf rentals / store
+* Lawn care
+* Cleaning
+* Furniture
+* Carpet
+* Construction
+* insurance
+* Airport / Heliport
+   * Tours and or supply run / transportation
+Jobs
+* writer
+
+
+Ideas: Character Goals
+**Ideas for Game Project Characters:**
+- **Personal Goals:**
+  - Trying to win back an ex-spouse.
+  - Owning a business or buying the one they currently work at.
+  - Getting rich.
+  - Becoming a social butterfly with many friends.
+  - Producing art.
+  
+- **Career Goals:**
+  - Achieving a certain level in their career or becoming a renowned expert.
+  - Saving a farm or property from foreclosure.
+  - Finding a sunken shipwreck or treasure.
+  - A criminal aiming to rise to the top.
+  - A civic employee, like a mayor or police officer, aiming to improve the community.
+        - Parks and Rec 
+  - Becoming a mayor or council member to better run the town.
+  - Seeking revenge due to past romantic issues or business dealings.
+
+
+- **Family and Legacy:**
+  - Wanting children to leave a legacy.
+  - Repairing relationships with their kids.
+  - Buying back family property now used as a vacation rental.
+
+
+- **Religious Motivation:**
+  - Converting others to their religion.
+  - Marrying and having children as a religious duty.
+
+
+- **Social Status:**
+  - Appearing to have a higher status through clothing, vehicles, and housing.
+
+
+- **Academic Goals:**
+  - Becoming well-read or finishing a high-level degree.
+  - Using knowledge to better the world through scientific or medical research.
+
+
+- **Life Situations:**
+  - A retiree happy with their life.
+  - A widow feeling life is no longer worth living without their significant other.
+
+
+- **Athletic Focus:**
+  - Being the strongest or best player of a sport.
+  - Making it to the big leagues.
+
+
+- **Financial Goals:**
+  - Working to send money back to their family living elsewhere, possibly to support a sick child or other needs.
+
+
+Ideas: Backstory / Main Conflict / Inciting Actions 
+Reason player came to island:
+* Main Character came to the island to meet long time online pen pal / partner / catfish?
+*  Worried about fertility want to have kids
+* Eccentric relative’s will says first descendent to find true love gets inheritance 
+* Shipwreck 
+* Wake up from coma 
+* Recruited to a sports team near by 
+* Crab fisherman- captain of the vessel 
+* Escape City Life 
+* Witness relocation 
+* Someone coming to the one college on campus 
+* Following a partner 
+* New job (Nurse, doctor etc)
+* Running from someone 
+   * Law, ex partner, drug dealer etc
+* Moving back to island after many years
+   * Most people moved due to economy in past, or natural disaster etc
+Motivations for wanting to find love:
+Hopeless romantic 
+Parents 
+Plot Ideas
+Cult 
+Murder
+
+
+Character flaws
+Alcoholic 
+Drug addiction
+
+
+Arrogance: Overestimating one's abilities or worth.Stubbornness: Unwilling to change opinions or behavior.Impulsiveness: Acting without thinking or consideration of consequences.Selfishness: Prioritizing one's own needs and desires above others.Jealousy: Feeling envious of others' success or happiness.Dishonesty: Lying or withholding the truth.Insecurity: Lacking self-confidence and constantly doubting oneself.Greed: Intense and selfish desire for wealth or power.Procrastination: Delaying or avoiding tasks and responsibilities.Impatience: Struggling to wait for or tolerate delays.Overly critical: Being excessively judgmental and harsh.Vengefulness: Seeking revenge or harboring resentment.Laziness: Avoiding effort or work.Pride: Having an inflated sense of one's own importance.Cowardice: Lacking bravery and easily succumbing to fear.
+Sure, here are some positive character traits, which are often seen as the opposite of flaws:
+Character strengths ⁶
+1. **Humility**: Having a modest view of one's importance.
+2. **Flexibility**: Willingness to change or compromise.
+3. **Thoughtfulness**: Considering others and the consequences before acting.
+4. **Generosity**: Willingness to give and share unselfishly.
+5. **Contentment**: Being satisfied with what one has.
+6. **Honesty**: Being truthful and transparent.
+7. **Confidence**: Belief in oneself and one's abilities.
+8. **Moderation**: Balanced and restrained in desires and actions.
+9. **Diligence**: Hardworking and persistent effort.
+10. **Patience**: Ability to wait or endure without frustration.
+11. **Encouraging**: Offering support and positive reinforcement.
+12. **Forgiveness**: Letting go of grudges and resentments.
+13. **Energetic**: Showing enthusiasm and a willingness to work.
+14. **Humbleness**: Recognizing and accepting one's limitations.
+15. **Courage**: Facing fears and taking risks despite potential danger.
+
+
+Todo
+Things I need to do in order to start generating the world for my Game. 
+Test run world generation script. See How far it gets 
+Add additional logic for items like character. Done
+Add pool of potential characters from previous characters family tree options
+Add 
+
+
+Simplified Island:
+Add 5 lots
+* Town Hall
+   * Mayor: Maureen acts like Lesley Knope 28
+      * Wake up 7:00
+      * Read news 7:10
+      * Gets ready being professional and confident for the day 7:45
+      * Makes a delicious breakfast of oatmeal and fruit 8:00
+      * Heads to work at the Town Hall
+      * Goes to the grand opening of a park 
+      * Goes out to lunch with love interest 
+      * Goes home to cook dinner for her and her cat. Salmon and corn and grains. 
+      * Watches guilty pleasure of love island USA 
+      * Goes to bed with her cat Toby and 10 Squishmallows wishing she had a man to protect her 
+* General store
+   * Owner/cashier: Rob Rausch 27
+      * Wakes up and kisses his snakes good morning 
+      * Takes a crappy photo of the sunrise 
+      * Goes to work to bother his new employee to see how he’s doing 
+      * Goes to lunch with buddy to plan next prank and viral video 
+      * BBQs some ribs for dinner 
+      * Heads to bed, starts watching love island after taking a hot bubble bath. 
+* Marina docks/Lighthouse 
+   * Manager: Leah taylor 26
+      * Wake Up
+      * Gets ready for the day looking super cute and curls her hair. 
+      * Heads to work at marina and when she’s there she finds 3 unclaimed crab traps
+      *  Texts little sisters to tell them she will have a crab feast for dinner 
+      * Goes to lunch with ex boyfriend rob and remembers why they broke up. 
+      * Goes home to eat a crab feast with her little sisters. 
+      * Goes to bed watching love island 
+* Restaurant 
+   * Chef: Cordell Beckham 28
+      * Wake Up
+      * Research Recipe Ideas
+      * Go to Work, bring any supplies
+      * Work for 8 Hours
+         * Prep Food
+         * Inventory Pantry
+         * Cook meals for restaurant customers
+      * Leave work to walk at the marina
+      * Visit the general store
+         * Buy food supplies
+      * Go home, store supplies, watch food TV
+      * Day dreams about work crush Serena 
+      * Go to bed lonely 
+   * Server: Justine Nibia 26
+      * Wake Up
+      * Does an intense interval workout 
+      * Gets sexy and confident for the day 
+      * Slays at being a server 
+      * Picks up a hot guy named Jack 
+      * Has him sleep over and he cooks her dinner 
+* Medical clinic
+   * Doctor: Deb Chubb 27
+      * Wake Up
+      * Burns her breakfast and gets ready for the day 
+      * Deb is feeling heartbroken over her failed trip to Australia 
+      * Deb treats 10 different kids for ear infections to a uti. 
+      * Goes to lunch with ex boyfriend 
+      * Heads to gym after work 
+      * Goes to Leah’s house for a crab feast 
+      * Goes to bed with a tinder match she had come over watching love island. 
+   * Nurse: Callum Hole
+      * Wake Up
+      * Look in the mirror while working out
+      * Go to work
+      * Work for 8 hours
+         * Tend to patients while Doctor is busy
+      * Go to the hotel bar to meet women
+         * Bring a girl home he use to date Deb the town doctor 
+         * Go to bed alone
+
+
+* Serve homepage for p5 vis
+* Serve public folder
+   * Move images/
+   * Move /js/
+   * Move homepage.html
+   * Change images ref p5
+   * Test Serve React component 
+* Draw bg image
+* Sim timeline
+* Draw lot position vertex
+   * V1: Create list of lot center position vectors
+      * 700,650 - town hall
+      * 615,845 - marina
+   * V2: lot boundaries 
+   * V3: path cost graph
+* Draw each Character positions
+   * V1: circle with initials
+   * V2: portrait and name(on hover)
+   * V3: health etc hover/click display

@@ -1,0 +1,150 @@
+﻿(01) Initial Meeting:
+ - Description: Two individuals meet for the first time, experiencing either a spark of interest or a casual, friendly chat.
+ - Paths: 
+   1. [Event] Spark of Interest -> (02) Casual Dating
+   2. [Event] Friendly Chat -> (03) Platonic Friendship
+
+
+(02) Casual Dating:
+ - Description: The relationship is informal with no commitments; both individuals are exploring their interest and compatibility.
+ - Paths: 
+   1. [Event] Frequent Dates -> (04) Exclusive Dating
+   2. [Event] Exploring Interests -> (05) Friends with Benefits
+
+
+(03) Platonic Friendship:
+ - Description: A non-romantic relationship where both individuals enjoy a mutual friendship without romantic feelings.
+ - Paths: 
+   1. [Event] Developing Feelings -> (02) Casual Dating
+   2. [Event] Maintaining Friendship -> (23) Long-term Friendship
+
+
+(04) Exclusive Dating:
+ - Description: The relationship has become exclusive, both mutually agree to see each other and only each other.
+ - Paths: 
+   1. [Event] Declaration of Love -> (06) Official Relationship
+   2. [Event] Intense Connection -> (07) Fast-Track Relationship
+   3. [Event] Conflicts Arise -> (08) Rough Patch
+
+
+(05) Friends with Benefits:
+ - Description: A relationship based on physical intimacy without the commitments typically associated with a romantic relationship.
+ - Paths: 
+   1. [Event] Emotional Connection -> (09) Casual to Serious
+   2. [Event] Lack of Commitment -> (10) Dissolution of Benefits
+
+
+(06) Official Relationship:
+ - Description: Both partners have formally acknowledged their relationship and commitment to each other.
+ - Paths: 
+   1. [Event] Support During Challenges -> (11) Deepening Connection
+   2. [Event] Memorable Trips -> (12) Shared Adventures
+   3. [Event] Misunderstandings -> (08) Rough Patch
+
+
+(07) Fast-Track Relationship:
+ - Description: The relationship rapidly progresses, often moving towards cohabitation or engagement in a short period.
+ - Paths: 
+   1. [Event] Moving in Together -> (13) Cohabitation
+   2. [Event] Engagement -> (14) Engaged
+   3. [Event] Realization of Incompatibility -> (10) Dissolution of Benefits
+
+
+(08) Rough Patch:
+ - Description: The relationship experiences significant challenges and conflicts, testing the strength and commitment of both partners.
+ - Paths: 
+   1. [Event] Communication Efforts -> (06) Official Relationship
+   2. [Event] Seek Counseling -> (15) Couples Counseling
+   3. [Event] Breakup -> (16) Breakup
+
+
+(09) Casual to Serious:
+ - Description: What started as a casual relationship develops deeper emotional ties, prompting a reassessment towards a more serious commitment.
+ - Paths: 
+   1. [Event] Mutual Agreement -> (06) Official Relationship
+   2. [Event] Conflicting Expectations -> (08) Rough Patch
+
+
+(10) Dissolution of Benefits:
+ - Description: The friends-with-benefits arrangement ends, either returning to a platonic friendship or parting ways entirely.
+ - Paths: 
+   1. [Event] Revert to Friendship -> (03) Platonic Friendship
+   2. [Event] Part Ways -> (16) Breakup
+
+
+(11) Deepening Connection:
+ - Description: The relationship matures, with both individuals developing a deeper understanding and stronger bond through shared experiences and support.
+ - Paths: 
+   1. [Event] Joint Life Goals -> (17) Marriage
+   2. [Event] Long-Term Commitment -> (18) Committed Partnership
+
+
+(12) Shared Adventures:
+ - Description: The relationship is enriched by shared experiences and adventures, bringing excitement and deeper bonding.
+ - Paths: 
+   1. [Event] Deeper Bond -> (11) Deepening Connection
+   2. [Event] Challenges -> (08) Rough Patch
+
+
+(13) Cohabitation:
+ - Description: The couple decides to live together, sharing daily responsibilities and navigating cohabitation challenges.
+ - Paths: 
+   1. [Event] Shared Responsibilities -> (11) Deepening Connection
+   2. [Event] Conflict over Living Together -> (08) Rough Patch
+
+
+(14) Engaged:
+ - Description: The couple is engaged and begins planning their wedding, although sometimes facing doubts or cold feet.
+ - Paths: 
+   1. [Event] Wedding Planning -> (17) Marriage
+   2. [Event] Cold Feet -> (08) Rough Patch
+
+
+(15) Couples Counseling:
+ - Description: The couple seeks professional help to resolve conflicts and improve their relationship, which could lead to a strengthened bond or a decision to separate.
+ - Paths: 
+   1. [Event] Improved Relationship -> (06) Official Relationship
+   2. [Event] Decide to Separate -> (16) Breakup
+
+
+(16) Breakup:
+ - Description: The relationship ends, leading to a period of personal healing and potentially new beginnings.
+ - Paths: 
+   1. [Event] Healing Process -> (19) Healing and Growth
+   2. [Event] New Beginnings -> (01) Initial Meeting
+
+
+(17) Marriage:
+ - Description: The couple gets married, committing to a lifelong partnership and possibly starting a family.
+ - Paths: 
+   1. [Event] Starting a Family -> (20) Family Life
+   2. [Event] Building a Home -> (20) Family Life
+   3. [Event] Decide Against Kids -> (18) Committed Partnership
+
+
+(18) Committed Partnership:
+ - Description: A long-term, committed relationship without marriage, focusing on mutual growth and shared life goals.
+ - Paths: 
+   1. [Event] Continued Growth -> (18) Committed Partnership
+   2. [Event] Marriage Consideration -> (17) Marriage
+
+
+(19) Healing and Growth:
+ - Description: Post-breakup, individuals focus on self-improvement and emotional healing, preparing for future relationships or personal fulfillment.
+ - Paths: 
+   1. [Event] Focus on Self -> (19) Healing and Growth
+   2. [Event] New Relationship -> (01) Initial Meeting
+
+
+(20) Family Life:
+ - Description: The couple navigates life as a family, raising children, and building a home together, deepening their bond through shared responsibilities.
+ - Paths: 
+   1. [Event] Raising Children -> (20) Family Life
+   2. [Event] Shared Experiences -> (18) Committed Partnership
+
+
+(21) Long-term Friendship:
+ - Description: A deeply rooted friendship that stands the test of time, potentially opening the door to romance.
+ - Paths: 
+   1. [Event] Supportive Bond -> (21) Long-term Friendship
+   2. [Event] Potential Romance -> (02) Casual Dating

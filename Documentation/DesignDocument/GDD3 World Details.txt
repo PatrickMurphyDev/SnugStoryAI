@@ -1,0 +1,333 @@
+﻿GDD3 World Details:
+  
+
+Description
+Imagine a detailed map of an island, located near the mouth of Puget Sound, WA, USA, spans approximately 50 square miles.
+General Overview:
+* Shape and Size: The island is irregularly shaped with an area of 50 square miles.
+* Topography: The terrain includes a mix of forested areas, open meadows, and rocky shorelines.
+* Inhabitants: The island is sparsely populated, with 50-75 adult inhabitants, most of whom reside in small clusters of houses spread throughout the island.
+Notable Features:
+1. Southern Point Bay:
+   * Man-Made Bay: A bay with an opening at the southern tip, created by human intervention.
+   * Peninsula: A long, narrow peninsula extending into the bay, constructed from large stacked rocks.
+   * Marina and Docks: Docks and a small marina located within the bay, providing docking spaces for boats.
+2. Main Settlement:
+   * Village: A central village near the middle of the island with essential facilities like a general store, a small school, and a community center.
+   * Residences: Houses are scattered around the village, with some isolated homes near the coastline.
+3. Natural Features:
+   * Forests: Dense forests covering parts of the island, particularly in the northern and eastern regions.
+   * Meadows and Fields: Open meadows and fields suitable for small-scale agriculture and livestock.
+4. Roads and Paths:
+   * Main Road: A primary road circles the island, connecting all major points of interest.
+   * Secondary Paths: Smaller paths and trails branch off from the main road, leading to homes, the coast, and natural areas.
+5. Coastline:
+   * Beaches: Several small beaches with sandy and rocky sections.
+   * Cliffs: Steep cliffs on the western side, providing stunning views of Puget Sound.
+6. Recreational Areas:
+   * Parks: A few designated park areas with picnic spots, hiking trails, and scenic viewpoints.
+   * Lighthouse: An old lighthouse on the northern tip of the island, a historical landmark and popular tourist attraction.
+Additional Details:
+* Elevation: The island has a varied elevation, with some hilly regions but no significant mountains.
+* Vegetation: The island boasts a variety of vegetation, including pine trees, ferns, and wildflowers.
+* Wildlife: Common sightings of deer, birds, and marine life around the coastal areas.
+Overall, the island is a serene and picturesque location with a close-knit community, natural beauty, and a mix of human-made and natural features.
+Buildings
+1. Island Town Hall
+   * Industry Category: Government
+   * Business Type: Civic Building
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Mayor, Council Member, Administrative Staff
+   * Services Offered: Community Meetings, Administrative Functions
+2. Island General Store
+   * Industry Category: Retail
+   * Business Type: Retail Store
+   * Is Civic Entity: No
+   * Job Position Descriptions: Storekeeper, Cashier, Stock Clerk
+   * Services Offered: Retail Sales
+   * Products Offered: Groceries, Household Items
+   * Products Purchasing: Supplies, Goods for Resale
+3. Island Post Office
+   * Industry Category: Postal Services
+   * Business Type: Postal Services
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Postal Worker
+   * Services Offered: Mail Delivery, Package Delivery
+4. Island Schoolhouse
+   * Industry Category: Education
+   * Business Type: Educational Institution
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Teacher, Principal, Janitor
+   * Services Offered: Education
+5. Island Clinic
+   * Industry Category: Healthcare
+   * Business Type: Healthcare Facility
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Doctor, Nurse, Receptionist
+   * Services Offered: Healthcare
+6. Island Library
+   * Industry Category: Education
+   * Business Type: Library
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Librarian
+   * Services Offered: Book Lending, Public Computers
+7. Island Fire Station
+   * Industry Category: Emergency Services
+   * Business Type: Emergency Services
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Firefighter
+   * Services Offered: Firefighting, Emergency Response
+8. Island Harbor
+   * Industry Category: Maritime
+   * Business Type: Maritime Services
+   * Is Civic Entity: No
+   * Job Position Descriptions: Harbor Master, Dock Worker
+   * Services Offered: Boat Docking, Fishing Activities
+9. Island Café
+   * Industry Category: Food Service
+   * Business Type: Café
+   * Is Civic Entity: No
+   * Job Position Descriptions: Café Owner, Chef, Waitstaff
+   * Services Offered: Dining
+   * Products Offered: Food, Beverages
+   * Products Purchasing: Ingredients, Beverages
+10. Island Inn
+   * Industry Category: Hospitality
+   * Business Type: Lodging
+   * Is Civic Entity: No
+   * Job Position Descriptions: Innkeeper, Housekeeping
+   * Services Offered: Lodging
+   * Products Purchasing: Supplies for Guests
+11. Island Community Center
+   * Industry Category: Recreation
+   * Business Type: Recreational Facility
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Event Coordinator
+   * Services Offered: Events, Recreational Activities
+12. Island Fishing Supply Store
+   * Industry Category: Retail
+   * Business Type: Retail Store
+   * Is Civic Entity: No
+   * Job Position Descriptions: Storekeeper
+   * Services Offered: Retail Sales
+   * Products Offered: Fishing Gear
+   * Products Purchasing: Fishing Equipment
+13. Island Artisan Shops
+   * Industry Category: Retail
+   * Business Type: Retail Store
+   * Is Civic Entity: No
+   * Job Position Descriptions: Artist/Artisan
+   * Services Offered: Retail Sales
+   * Products Offered: Crafts, Artwork
+   * Products Purchasing: Art Supplies
+14. Island Church
+   * Industry Category: Religion
+   * Business Type: Place of Worship
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Clergy
+   * Services Offered: Worship Services
+15. Island Park/Playground
+   * Industry Category: Recreation
+   * Business Type: Recreational Area
+   * Is Civic Entity: Yes
+   * Job Position Descriptions:
+   * Services Offered: Recreational Area
+16. Island Farm/Garden
+   * Industry Category: Agriculture
+   * Business Type: Agriculture
+   * Is Civic Entity: No
+   * Job Position Descriptions: Farmer/Gardener
+   * Services Offered: Agricultural Activities
+   * Products Offered: Produce
+   * Products Purchasing: Seeds, Farming Equipment
+17. Island Workshop/Garage
+   * Industry Category: Maintenance
+   * Business Type: Maintenance
+   * Is Civic Entity: No
+   * Job Position Descriptions: Mechanic/Handyman
+   * Services Offered: Repairs, Maintenance
+   * Products Purchasing: Tools, Parts
+18. Island Bakery
+   * Industry Category: Food Service
+   * Business Type: Bakery
+   * Is Civic Entity: No
+   * Job Position Descriptions: Baker
+   * Services Offered: Baking
+   * Products Offered: Bread, Pastries
+   * Products Purchasing: Baking Ingredients
+19. Island Pub
+   * Industry Category: Food Service
+   * Business Type: Bar
+   * Is Civic Entity: No
+   * Job Position Descriptions: Bartender
+   * Services Offered: Serving Drinks
+   * Products Offered: Alcoholic Beverages
+   * Products Purchasing: Beverages
+20. Island Guest Cottages
+   * Industry Category: Hospitality
+   * Business Type: Lodging
+   * Is Civic Entity: No
+   * Job Position Descriptions: Innkeeper
+   * Services Offered: Lodging
+   * Products Purchasing: Supplies for Guests
+21. Island Fitness Center
+   * Industry Category: Fitness
+   * Business Type: Fitness Center
+   * Is Civic Entity: No
+   * Job Position Descriptions: Fitness Instructor
+   * Services Offered: Fitness Classes, Personal Training
+   * Products Offered: Fitness Equipment
+   * Products Purchasing: Fitness Supplies
+22. Island Coffee House
+   * Industry Category: Food Service
+   * Business Type: Coffee Shop
+   * Is Civic Entity: No
+   * Job Position Descriptions: Barista
+   * Services Offered: Coffee, Pastries
+   * Products Offered: Coffee, Snacks
+   * Products Purchasing: Coffee Beans, Pastries
+23. Island Boutique
+   * Industry Category: Retail
+   * Business Type: Clothing Store
+   * Is Civic Entity: No
+   * Job Position Descriptions: Store Manager, Sales Associate
+   * Services Offered: Retail Sales
+   * Products Offered: Clothing, Accessories
+   * Products Purchasing: Clothing Inventory
+24. Island Lighthouse
+   * Industry Category: Maritime
+   * Business Type: Lighthouse
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Lighthouse Keeper
+   * Services Offered: Navigational Aid
+25. Island Fishing Outfitters
+   * Industry Category: Retail
+   * Business Type: Fishing Gear Store
+   * Is Civic Entity: No
+   * Job Position Descriptions: Store Manager, Sales Associate
+   * Services Offered: Retail Sales
+   * Products Offered: Fishing Gear, Outdoor Equipment
+   * Products Purchasing: Fishing Supplies
+26. Island Legal Services
+   * Industry Category: Legal Services
+   * Business Type: Law Office
+   * Is Civic Entity: No
+   * Job Position Descriptions: Lawyer, Paralegal
+   * Services Offered: Legal Advice, Representation
+27. Island Hardware
+   * Industry Category: Retail
+   * Business Type: Hardware Store
+   * Is Civic Entity: No
+   * Job Position Descriptions: Store Manager, Sales Associate
+   * Services Offered: Retail Sales
+   * Products Offered: Tools, Building Materials
+   * Products Purchasing: Hardware Supplies
+28. Island Police Station
+   * Industry Category: Law Enforcement
+   * Business Type: Police Station
+   * Is Civic Entity: Yes
+   * Job Position Descriptions: Police Officer, Jail Guard
+   * Services Offered: Law Enforcement, Detention
+New building ideas -> (job ideas):
+* Apartment -> (Apartment Manager, influencer, podcaster, remote tech worker)
+* Smoothie shop
+* Boat rentals 
+* deep sea fishing
+Job Titles:
+36 unique jobs and 20 additional jobs
+1. Mayor
+2. Council Member
+3. Administrative Staff
+4. Storekeeper (3)
+5. Cashier (4)
+6. Stock Clerk
+7. Postal Worker
+8. Teacher
+9. Principal
+10. Janitor (3)
+11. Doctor
+12. Nurse
+13. Receptionist (2)
+14. Librarian
+15. Firefighter
+16. Harbor Master
+17. Dock Worker
+18. Café Owner
+19. Chef (3)
+20. Waitstaff(4)
+21. Innkeeper (2)
+22. Housekeeping
+23. Event Coordinator
+24. Farmer/Gardener
+25. Mechanic/Handyman
+26. Baker
+27. Bartender (2)
+28. Fitness Instructor
+29. Barista
+30. Store Manager (3)
+31. Sales Associate (3)
+32. Lighthouse Keeper
+33. Lawyer
+34. Paralegal
+35. Police Officer (2)
+36. Jail Guard
+
+
+Wildlife
+The Puget Sound, located in Washington State, is home to a rich variety of wildlife, both on land and in the surrounding waters. Here are some animals you might find on or near an island in the Puget Sound:
+Marine Animals:
+1. Orcas (Killer Whales): The Southern Resident killer whales are a well-known population in the Puget Sound.
+2. Harbor Seals: Commonly seen lounging on rocks or swimming in the waters.
+3. Sea Otters: Known for their playful behavior and use of tools to open shellfish.
+4. Gray Whales: These large whales migrate through the area and can sometimes be spotted.
+5. Pacific Salmon: Several species of salmon, including Chinook, Coho, and Sockeye, migrate through the Puget Sound.
+6. Dungeness Crabs: A popular species for crabbing, found in the waters of Puget Sound.
+7. Sea Stars: Various species, including the colorful ochre sea star, are common in tidal areas.
+Birds:
+1. Bald Eagles: Often seen soaring above the water or perched in tall trees.
+2. Great Blue Herons: Frequently found hunting along the shorelines.
+3. Cormorants: These diving birds are commonly seen on pilings and docks.
+4. Puffins: Though more common in other areas, tufted puffins can sometimes be spotted.
+5. Ospreys: Often seen fishing in the waters of the Sound.
+Terrestrial Animals:
+1. Black-tailed Deer: Commonly found in forested areas on the islands.
+2. Raccoons: Known for their adaptability and presence in both urban and wild areas.
+3. River Otters: Often seen near the water's edge, playing and hunting.
+4. Red Foxes: Present in some areas, especially on larger islands.
+5. Coyotes: These adaptable predators can be found on larger islands with more extensive habitats.
+Invertebrates:
+1. Geoduck Clams: Large, burrowing clams that are a notable part of the Puget Sound ecosystem.
+2. Moon Jellyfish: Common in the waters, especially during the summer months.
+3. Barnacles: Often found encrusting rocks, pilings, and boats in the intertidal zone.
+4. Mussels and Oysters: Frequently found attached to rocks and other hard surfaces in the intertidal areas.
+
+
+Geological Island Coastal processes:
+To understand how the shape of an island is determined, particularly one placed near the mouth of Puget Sound in the open ocean, we need to consider both geographic and geologic factors.
+Geographic Factors
+1. Location and Climate:
+   * The Puget Sound area has a temperate maritime climate. This climate influences weather patterns, erosion rates, and vegetation, all of which can shape an island.
+   * Coastal processes, including wave action, tides, and currents, are significant in determining an island's shape. These forces erode shorelines, transport sediments, and can create features like beaches, cliffs, and dunes.
+2. Biological Factors:
+   * Vegetation can stabilize shorelines, reducing erosion and influencing the shape of an island. Trees, shrubs, and grasses can bind soil with their roots.
+   * Human activities, if present, can also impact the shape through construction, deforestation, or other modifications.
+Geologic Factors
+1. Tectonic Activity:
+   * The Puget Sound region is influenced by the Pacific Plate and North American Plate interactions. Earthquakes and tectonic movements can uplift landmasses, creating or altering islands.
+   * The geology of the area includes volcanic activity, which can contribute to the formation of islands through lava flows and ash deposits.
+2. Erosion and Deposition:
+   * Erosion by wind, rain, and wave action gradually wears down landmasses. The eroded materials can be deposited elsewhere, contributing to the island’s shape.
+   * Sedimentary processes, including the accumulation of sand, gravel, and other materials, also play a role. Over time, these processes can lead to the growth or reduction of an island.
+3. Rock Type:
+   * The composition of the island’s bedrock affects its resistance to erosion. Harder rocks like granite and basalt erode more slowly, while softer rocks like sandstone and shale erode more quickly.
+   * The presence of faults, folds, and other structural features in the bedrock can influence the island’s topography.
+Specific to a Fictional Island near Puget Sound
+Given its location near the mouth of Puget Sound, the fictional island’s shape would be influenced by:
+* Strong tidal currents that flow in and out of the sound, which could create features like tidal flats and estuaries.
+* Wave action from the open ocean, leading to the formation of rugged cliffs on the windward side and potentially more sheltered, sandy beaches on the leeward side.
+* Glacial history, as the Puget Sound area was shaped by glacial activity during the last Ice Age, which could leave behind glacial till and erratics influencing the island’s shape.
+Conclusion
+The shape of an island near the mouth of Puget Sound would be a result of complex interactions between tectonic forces, erosion, deposition, and biological factors. These influences would combine to create a dynamic and evolving landform.
+
+
+Maps

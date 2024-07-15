@@ -1,0 +1,230 @@
+﻿Game Design Document
+________________
+1. Game Overview
+Title:
+Island Life
+Genre:
+Life Simulation / Dating Simulation
+Platform:
+Web or Mobile
+Game Description:
+Island Life is a life-simulation game where players move to a picturesque island and immerse themselves in the local community. Players can build relationships with complex npc characters, work / start businesses, explore the island, and shape their own story through various life events, dialogue and interactions.
+World Generation Process:
+1. Choose Buildings
+   1. Place Required Buildings
+      1. Place Buildings with Set Lot Locations
+      2. Randomly place remaining required buildings in random but suitable lot locations
+   2. Place Optional Buildings randomly in remaining commercial lots. 
+2. Generate List of Character Basic Details
+   1. Generate Name, Gender, Age, number of years on the island for each person on the island
+      1. Start with one person each for required job positions
+      2. Move to non required job positions, generate more until 90% of total job positions are filled
+3. Create Existing Relationships 
+   1. Randomly select 20 percent males and 20% females of the 18-65 aged population, mark these characters as married.
+   2. Loop through selected married people to choose match, prioritize age similarity, same Industry 
+   3. Follow the same process but for people Dating  but not married, but use only 10% of each gender.
+   4. Add same sex couples
+   5. Remaining people single, divorced or widowed, probability determined by age
+   6. Add 1-3 children for ⅓ of married couples 
+   7. Add 4-7 retirees aged 66-100, choose 4 of Them to be married in two different couples. One of the couples has children on the island. Choose 1-3 characters that are 18-35 years younger than the average age of the retired couple. Update the selected adults with appropriate maiden or last name
+
+
+
+
+
+
+________________
+
+
+2. Game Mechanics
+Core Gameplay:
+* Players control a character who has just moved to the island.
+* Daily activities include working, socializing, dating, and exploring the island.
+* Players can interact with NPCs, build relationships, and pursue romantic interests.
+   * The chat/characters and relationships will be complex and dynamic using LLM dialog and a complex character data model.
+* Business opportunities allow players to start and manage their own ventures.
+   * Crab Mon
+* Day-night cycle impacts available activities and NPC schedules.
+Player Objectives:
+* Integrate into the island community by building relationships with residents.
+* Achieve personal milestones such as starting a business, finding love, and exploring the island.
+* Balance various aspects of life to achieve the highest quality of life.
+Mechanics Details Document
+Game Architecture Sim TODO
+
+
+
+
+________________
+
+
+3. Game World
+
+
+  
+
+Island Layout:
+* West Shore: High-income housing and vacation rentals.
+* Northern Shore: Industrial buildings and low-income housing.
+* Center of Island: Medium-income housing and businesses.
+* Southern Marina: Tourist marina with civic buildings nearby.
+* Harbor Docks: Northern for industrial use, Southern for tourism.
+Idea: Choose Economy Base: Fishing, Tourism, Farm, University, etc
+World Details Doc
+Ideas Document: Businesses
+* Eye Lash Filler, Lift, Brow Lumination, Microblade
+* Plastic Surgery
+* Ozempic Natural Path / Esthetician
+* Food Stand:
+   * Shaved Ice Stand
+   * Hot Dog Stand
+* Glassblowing Hotshop
+* Chiropractor
+* Airport / Heliport
+   * Tours and or supply run / transportation
+
+
+Ideas: Character Goals
+Ideas: Backstory / Main Conflict / Inciting Actions / 
+* Main Character came to the island to meet long time online pen pal / partner / catfish?
+*  Worried about fertility want to have kids
+* Eccentric relative’s will says first descendent to find true love gets inheritance 
+
+
+
+
+________________
+
+
+4. Data Model
+1. Data Model Basics
+   1. /islands: Manage island data
+   2. /areas: Manage island areas/zone/neighborhood data
+   3. /islandpropertylots: Manage island property lot data
+   4. /buildings: Manage building data
+   5. /organizations: Manage organization data (Private, Civic, NonProfit)
+   6. /jobpositions: Manage job position data
+   7. /characters: Manage character data
+   8. /charactertraits: Manage character trait data
+   9. /traits: Manage trait data
+   10. /resources: Manage resource data
+   11. /location: Manage location data
+   12. /behavioralpatterns: Manage behavioral pattern data [npc schedules]
+   13. /specialconditions: Manage special condition data [illnesses, injuries, allergies, disabilities] have effects
+   14. /relationshipevents: Manage relationship event data
+   15. /characterrelationships: Manage character relationship data
+2. Details Document
+3. Human Character Model
+* Customizable character with various appearance options.
+* New to island or simulate relationships
+
+
+
+
+________________
+
+
+5. Progression System
+Leveling Up:
+* Gain experience points (XP) through daily activities and achievements.
+* Levels unlock new interactions, business opportunities, and personal milestones.
+* Basic needs
+   * Hunger, thirst, bladder, hygiene
+   * Social interaction
+   * Contribute to community
+   * Happiness
+* Relationship stages and goals
+Currency:
+* Money: Earned through selling items found in the world, jobs and/or businesses.
+* Legacy Points: Gained through successful completion of social goals like have 5 close friends and romantic/family relationship stages, and career stage achievements.
+
+
+
+
+
+
+________________
+
+
+6. Art and Sound
+Art Style:
+* Bright, colorful, and cartoonish to reflect the light-hearted nature of the game.
+* Detailed island map with distinct areas representing different socioeconomic zones.
+Sound Design:
+* Relaxing island-themed background music.
+* Sound effects for actions such as social interactions, business transactions, and exploration.
+
+
+
+
+
+
+________________
+
+
+7. Technical Specifications
+Engine:
+* Unity
+Platform Requirements:
+* iOS 11.0 or later
+* Android 6.0 or later
+
+
+
+
+
+
+________________
+8. User Interface
+Main Menu:
+* Start Game
+* Continue Game
+* Settings
+* Help
+In-Game HUD:
+* Player status (money, happiness points, relationships, current job, etc.)
+* Action buttons for interacting with NPCs and the environment
+* Day-night cycle indicator
+
+
+
+
+
+
+________________
+9. Marketing and Monetization
+Monetization Strategy:
+* In-app purchases for cosmetic items and game boosts.
+* Ads that can be watched for in-game rewards.
+Marketing Plan:
+* Social media campaigns featuring game trailers and sneak peeks.
+* Collaborations with influencers in the gaming community.
+
+
+
+
+
+
+________________
+10. Development Timeline
+Milestones:
+* Pre-production: 2 months
+* Prototype: 3 months
+* Alpha: 3 months
+* Beta: 2 months
+* Launch: 1 month
+
+
+
+
+
+
+________________
+11. Team
+Roles:
+* Game Designer
+* Programmer
+* Artist
+* Sound Designer
+* Marketing Specialist
+* QA Tester

@@ -1,0 +1,69 @@
+﻿Todo:
+* Low priority fix documentation out of date schema. (Ref models.js directly)
+* In generation step ask details about player first 
+* Character generation
+   * First create basic traits, other details effect them. Percent chance parent worked same Job is retired or manager. Flag some organizations as family business increases chance. 
+* V3 areas move income to attributes pattern
+Endpoints: 
+
+
+/islands: [create, read, update, delete]
+* The /islands endpoint allows for managing island data, including creating, retrieving, updating, and deleting islands.
+* ( {"name": "String", "location": "String", "description": "String"} )
+* [areas]
+/areas: [create, read, update, delete]
+* The /areas endpoint allows for managing area data, including creating, retrieving, updating, and deleting areas.
+* ( {"island_id": "ObjectId", "name": "String", "type": "String", "income_level": {type: "String"}, "description": "String"} )
+* [islands]
+/islandpropertylots: [create, read, update, delete]
+* The /islandpropertylots endpoint allows for managing island property lot data, including creating, retrieving, updating, and deleting island property lots.
+* ( {"island_id": "ObjectId", "type": "String", "coordinates": "String", "description": "String"} )
+* [islands]
+/buildings: [create, read, update, delete]
+* The /buildings endpoint allows for managing building data, including creating, retrieving, updating, and deleting buildings.
+* ( {"lot_id": "ObjectId", "name": "String", "type": "String", "address": "String", "description": "String"} )
+* [islandpropertylots]
+/organizations: [create, read, update, delete]
+* The /organizations endpoint allows for managing organization data, including creating, retrieving, updating, and deleting organizations.
+* ( {"name": "String", "type": "String", "address": "String", "description": "String", "building_id": "ObjectId"} )
+* [buildings]
+/jobpositions: [create, read, update, delete]
+* The /jobpositions endpoint allows for managing job position data, including creating, retrieving, updating, and deleting job positions.
+* ( {"organization_id": "ObjectId", "title": "String", "description": "String", "requirements": ["String"], "salary": "Number"} )
+* [organizations]
+/characters: [create, read, update, delete]
+* The /characters endpoint allows for managing character data, including creating, retrieving, updating, and deleting characters.
+* ( {"name": "String", "age": "Number", "gender": "String", "sexualOrientation": "String", "occupation": "String", "job_id": "ObjectId", "residence_id": "ObjectId", "description": "String", "traits": ["ObjectId"], "resources_id": "ObjectId", "location_id": "ObjectId", "behavioral_patterns_id": "ObjectId", "special_conditions_id": "ObjectId"} )
+* [jobpositions, islandpropertylots, traits, resources, location, behavioralpatterns, specialconditions]
+/charactertraits: [create, read, update, delete]
+* The /charactertraits endpoint allows for managing character trait data, including creating, retrieving, updating, and deleting character traits.
+* ( {"character_id": "ObjectId", "trait_id": "ObjectId", "value": "String"} )
+* [characters, traits]
+/traits: [create, read, update, delete]
+* The /traits endpoint allows for managing trait data, including creating, retrieving, updating, and deleting traits.
+* ( {"name": "String", "description": "String", "category": "String"} )
+* []
+/resources: [create, read, update, delete]
+* The /resources endpoint allows for managing resource data, including creating, retrieving, updating, and deleting resources.
+* ( {"character_id": "ObjectId", "name": "String", "type": "String", "quantity": "Number", "description": "String"} )
+* [characters]
+/location: [create, read, update, delete]
+* The /location endpoint allows for managing location data, including creating, retrieving, updating, and deleting locations.
+* ( {"name": "String", "type": "String", "coordinates": "String", "description": "String"} )
+* []
+/behavioralpatterns: [create, read, update, delete]
+* The /behavioralpatterns endpoint allows for managing behavioral pattern data, including creating, retrieving, updating, and deleting behavioral patterns.
+* ( {"character_id": "ObjectId", "pattern": "String", "description": "String"} )
+* [characters]
+/specialconditions: [create, read, update, delete]
+* The /specialconditions endpoint allows for managing special condition data, including creating, retrieving, updating, and deleting special conditions.Allergies for example
+* ( {"character_id": "ObjectId", "condition": "String", "description": "String"} )
+* [characters]
+/relationshipevents: [create, read, update, delete]
+* The /relationshipevents endpoint allows for managing relationship event data, including creating, retrieving, updating, and deleting relationship events.
+* ( {"character_id": "ObjectId", "event_type": "String", "description": "String", "date": "Date"} )
+* [characters]
+/characterrelationships: [create, read, update, delete]
+* The /characterrelationships endpoint allows for managing character relationship data, including creating, retrieving, updating, and deleting character relationships.
+* ( {"character1_id": "ObjectId", "character2_id": "ObjectId", "relationship_type": "String", "relationship_historical_events": ["ObjectId"]} )
+* [characters, relationshipevents]
