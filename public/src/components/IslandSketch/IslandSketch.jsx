@@ -52,7 +52,7 @@ export default function IslandSketch() {
       const s = 1 - e.deltaY / 1000;
       setScal(prevScal => prevScal * s);
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-      setOffset(prevOffset => prevOffset.sub(mouse).mult(s).add(mouse));
+      setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
     });
   };
 
