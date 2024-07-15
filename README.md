@@ -81,3 +81,33 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 3. Open `localhost:3000` in your browser.
 
 ## Project Structure
+
+### Key Directories and Files
+
+- `Documentation`: Contains logs and documentation related to the GPT integration.
+- `IslandCommunityDataServer`: Backend server for the island simulation, including API files, models, and data collections.
+- `public`: Frontend React application.
+- `server`: Express server setup with controllers, models, and routes for handling backend operations.
+
+## API Documentation
+
+API documentation for various endpoints can be found in the `IslandCommunityDataServer/docs` directory. For example, the `/areas` endpoint documentation is available in `areas.html`.
+
+## Usage
+
+1. **Chat Application**: Access via the main page at `localhost:3000`. Users can register, login, and start chatting.
+2. **Island Simulation**: Navigate to the map view (`/map`) to interact with the island simulation. You can view and manage various entities like buildings and characters.
+
+## Contributing
+
+We welcome contributions! Please fork the repository and submit pull requests for any enhancements or bug fixes.
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m 'Add your feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License
