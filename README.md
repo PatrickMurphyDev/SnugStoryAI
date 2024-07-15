@@ -1,68 +1,83 @@
-# Snappy - Chat Application 
-Snappy is chat application build with the power of MERN Stack. You can find the tutorial [here](https://www.youtube.com/watch?v=otaQKODEUFs)
+# SnugStoryAI
 
+SnugStoryAI is a comprehensive project that combines a chat application and an island simulation server built with the MERN stack (MongoDB, Express, React, Node.js). This project showcases the integration of various technologies and AI-generated content to create an interactive and dynamic application.
 
-![login page](./images/snappy_login.png)
+## Table of Contents
 
-![home page](./images/snappy.png)
+- [Features](#features)
+- [Installation Guide](#installation-guide)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **Chat Application**: Real-time chat functionality with user authentication and avatar settings.
+- **Island Simulation**: Create and manage a fictional island with various entities like buildings, characters, and organizations.
+- **AI Integration**: Utilize AI to generate descriptive content and automate character creation.
+- **Interactive Map**: Visual representation of the island with interactive elements.
 
 ## Installation Guide
 
 ### Requirements
-- [Nodejs](https://nodejs.org/en/download)
-- [Mongodb](https://www.mongodb.com/docs/manual/administration/install-community/)
 
-Both should be installed and make sure mongodb is running.
+- [Node.js](https://nodejs.org/en/download)
+- [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/)
+- (Optional) [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+
 ### Installation
 
-#### First Method
-```shell
-git clone https://github.com/koolkishan/chat-app-react-nodejs
-cd chat-app-react-nodejs
-```
-Now rename env files from .env.example to .env
-```shell
-cd public
-mv .env.example .env
-cd ..
-cd server
-mv .env.example .env
-cd ..
-```
+#### First Method: Manual Setup
 
-Now install the dependencies
-```shell
-cd server
-yarn
-cd ..
-cd public
-yarn
-```
-We are almost done, Now just start the development server.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/PatrickMurphyDev/SnugStoryAI.git
+    cd SnugStoryAI
+    ```
 
-For Frontend.
-```shell
-cd public
-yarn start
-```
-For Backend.
+2. Rename the environment files:
+    ```sh
+    cd public
+    mv .env.example .env
+    cd ../server
+    mv .env.example .env
+    cd ..
+    ```
 
-Open another terminal in folder, Also make sure mongodb is running in background.
-```shell
-cd server
-yarn start
-```
-Done! Now open localhost:3000 in your browser.
+3. Install dependencies:
+    ```sh
+    cd server
+    yarn
+    cd ../public
+    yarn
+    ```
 
-#### Second Method
-- This method requires docker and docker-compose to be installed in your system.
-- Make sure you are in the root of your project and run the following command.
+4. Start the development servers:
 
-```shell
-docker compose build --no-cache
-```
-after the build is complete run the containers using the following command
-```shell
-docker compose up
-```
-now open localhost:3000 in your browser.
+    - Frontend:
+        ```sh
+        cd public
+        yarn start
+        ```
+
+    - Backend (in a separate terminal):
+        ```sh
+        cd server
+        yarn start
+        ```
+
+    Open `localhost:3000` in your browser.
+
+#### Second Method: Docker Setup
+
+1. Ensure Docker and Docker Compose are installed.
+2. Build and start the containers:
+    ```sh
+    docker compose build --no-cache
+    docker compose up
+    ```
+3. Open `localhost:3000` in your browser.
+
+## Project Structure
