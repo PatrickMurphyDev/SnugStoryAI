@@ -8,37 +8,20 @@ class Entity {
       this.isClicked = false;
       this.timeHasUpdated = false;
     }
-  
-    // Event handlers
-    handleHover(hoverState) {
-      this.isHovered = hoverState;
-    }
-  
-    handleClick(clickState) {
-      this.isClicked = clickState;
+
+    setHover(h){
+        this.isHovered = h;
     }
 
-    // Check 
-    checkHover(p5, offset, scal, dist){
-        return (p5.dist(this.location.x / 2, this.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= (dist || 15.0));    
+    setClick(c){
+        this.isClicked = c;
     }
 
-    checkClick(p5, offset, scal, dist){
-        dist = dist || 15.0;
-        return p5.mouseIsPressed && this.checkHover(p5, offset,scal,dist);    
-    }
-  
     // Base update method, can be overridden by subclasses
     update() {
       // Handle hover and click states
-      if (this.checkHover()) {
-        this.isHovered = true;
-        this.handleHover();
-      }
-      if (this.checkClick()) {
-        this.isClicked = true;
-        this.handleClick();
-      }
+        this.isHovered = false;
+        this.isClicked = false;
     }
   
     // Base draw method, can be overridden by subclasses
