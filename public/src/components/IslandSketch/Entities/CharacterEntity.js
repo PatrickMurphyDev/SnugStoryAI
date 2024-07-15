@@ -1,5 +1,6 @@
 import Entity from './Entity';
 import CharacterInfo from './CharacterInfo';
+import Task from './Task';
 import CharacterAttributes from './CharacterAttributes';
 import CharacterNeeds from './CharacterNeeds';
 import CharacterTasks from './CharacterTasks';

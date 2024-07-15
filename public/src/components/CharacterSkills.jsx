@@ -8,7 +8,7 @@ const CharacterSkills = ({ character }) => {
   };
 
   const renderCategories = () => {
-    const categories = [...new Set(character.skills.map(skill => skill.mainCategory))];
+    const categories = [...new Set(character.attributes.skills.map(skill => skill.mainCategory))];
     return categories.map(category => (
       <li key={category} onClick={() => handleCategoryClick(category)}>
         {category}
@@ -21,7 +21,7 @@ const CharacterSkills = ({ character }) => {
       return <p>Select a category to view details</p>;
     }
 
-    const skills = character.skills.filter(skill => skill.mainCategory === selectedCategory);
+    const skills = character.attributes.skills.filter(skill => skill.mainCategory === selectedCategory);
     return skills.map(skill => (
       <div key={`${skill.mainCategory}-${skill.subCategory}`}>
         <h3>{skill.subCategory}</h3>
