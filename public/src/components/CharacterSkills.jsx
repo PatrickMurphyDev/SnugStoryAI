@@ -38,7 +38,7 @@ const CharacterSkills = ({ character }) => {
           {renderCategories()}
         </ul>
       </div>
-      <div className="skill-details">
+      <div className="skill-details" style={{"display":"none"}}>
         <h2>Skill Details</h2>
         {renderSkillDetails()}
       </div>
