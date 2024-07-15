@@ -30,18 +30,24 @@ const CharacterComponent = () => {
     romanticHistory: ["Frank"],
   };
 
+  /*{typeof character.attributes[attr] === 'object'
+                ? JSON.stringify(character.attributes[attr])
+                : character.attributes[attr]}*/
+
   const CharacterAttributesDisplay = ()=>{
-    return <div className="attributes">
+    return (
+      <div className="attributes">
         <h2>Attributes</h2>
         <ul>
           {Object.keys(character.attributes).map((attr) => (
             <li key={attr}>
               <strong>{attr.charAt(0).toUpperCase() + attr.slice(1)}:</strong>{" "}
-              {character.attributes[attr]}
+                {JSON.stringify(character.attributes[attr])}
             </li>
           ))}
         </ul>
-      </div>;
+      </div>
+    );
   }
 
   return (
