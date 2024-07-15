@@ -1,3 +1,4 @@
+![Not Game Graphics concept art](./images/inspo/readme.jpg)
 # SnugStoryAI
 
 SnugStoryAI is a comprehensive project that combines a chat application and an island simulation server built with the MERN stack (MongoDB, Express, React, Node.js). This project showcases the integration of various technologies and AI-generated content to create an interactive and dynamic application.
