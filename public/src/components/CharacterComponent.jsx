@@ -39,10 +39,10 @@ const CharacterComponent = () => {
       <div className="attributes">
         <h2>Attributes</h2>
         <ul>
-          {Object.keys(character.attributes).map((attr) => (
+          {Object.keys(character.attributes.attributes).map((attr) => (
             <li key={attr}>
               <strong>{attr.charAt(0).toUpperCase() + attr.slice(1)}:</strong>{" "}
-                {JSON.stringify(character.attributes[attr])}
+                {JSON.stringify(character.attributes.attributes[attr])}
             </li>
           ))}
         </ul>
