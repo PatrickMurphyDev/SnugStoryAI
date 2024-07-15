@@ -54,6 +54,10 @@ export default function IslandSketch() {
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
       setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
     });
+
+    window.addEventListener('mousedown', (e) => {
+      console.log(e);
+    });
   };
 
   const draw = (p5) => {
