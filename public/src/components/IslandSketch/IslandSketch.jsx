@@ -13,9 +13,8 @@ export default function IslandSketch() {
   const [scal, setScal] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();  
-  const [selectedLot, setSelectedLot] = useState(null);
-  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [lots, setLots] = useState([]); // State for lots
+  const [selectedLot, setSelectedLot] = useState(null);
 
 
   useEffect(() => {
@@ -76,12 +75,12 @@ export default function IslandSketch() {
           
           console.log("lot selected", lot);
           setSelectedLot(lot);
-          setSelectedBuilding(null); // Assuming a lot click deselects building
         }
       }
       lot.draw(p5, transparency, offset, scal);
     });
 
+    // set offset vector if mouse dragged
     if (p5.mouseIsPressed) {
       let tmpOffset = { x: offset.x + 0, y: offset.y + 0 };
       tmpOffset.x -= p5.pmouseX - p5.mouseX;

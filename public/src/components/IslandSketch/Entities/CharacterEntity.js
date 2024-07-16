@@ -5,6 +5,7 @@ import CharacterAttributes from './CharacterAttributes';
 import CharacterNeeds from './CharacterNeeds';
 import CharacterTasks from './CharacterTasks';
 import CharacterState from './CharacterState';
+import { FiniteStateMachine, states, stateDurations } from '../FiniteStateMachine';
 
 class CharacterEntity extends Entity {
   constructor(name, age, gender, skills, bio, attributes) {
@@ -14,6 +15,7 @@ class CharacterEntity extends Entity {
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.state = new CharacterState();
+    this.dailyRoutine = new FiniteStateMachine(states.WAKING);
   }
 
   update() {
