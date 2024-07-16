@@ -55,7 +55,7 @@ export default function IslandSketch() {
       setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
     });
 
-    window.addEventListener('mousedown', (e) => {
+    window.addEventListener('mouseup', (e) => {
       console.log(e);
     });
   };
@@ -74,6 +74,7 @@ export default function IslandSketch() {
         if(p5.mouseIsPressed){
           lot.setClick(true);
           
+          console.log("lot selected", lot);
           setSelectedLot(lot);
           setSelectedBuilding(null); // Assuming a lot click deselects building
         }

@@ -8,7 +8,7 @@ export default function Map() {
     <>
     <div style={{display:'flex', flexDirection:'row'}}>
       <div style={{display:'flex', flexDirection:'column'}}>
-          <LocationComponent  />
+          <LocationComponent lot={IslandSketch.selectedLot}  />
       </div>
       <Container>
         <div className="canvasScreen">
