@@ -1,61 +1,41 @@
 class Task {
-    constructor(name, execute, taskType = "personal") {
+    constructor(name, execute, mins = 60, taskType = "personal") {
       this.name = name;
       this.execute = execute;
       this.isComplete = false;
       this.isStarted = false;
       this.isPaused = false;
-      this.workMinutesRemaining = 0;
-      this.workHistory = [];
+      this.workMinutesRemaining = mins;
       this.taskType = taskType; // "personal" or "public"
     }
   
     start(character) {
-      if (!this.isStarted) {
-        this.isStarted = true;
-        this.workHistory.push({
-          character_id: character.name,
-          startWorkDateTime: new Date(),
-          stopWorkDateTime: null,
-          workMinutes: 0,
-          isTaskCompleted: false,
-          pauseReason: null,
-        });
-      }
+      this.isStarted = true;
     }
   
-    pause(pauseReason) {
+    pause() {
       if (this.isStarted && !this.isPaused) {
         this.isPaused = true;
-        const currentWork = this.workHistory[this.workHistory.length - 1];
-        currentWork.stopWorkDateTime = new Date();
-        currentWork.workMinutes = Math.ceil((currentWork.stopWorkDateTime - currentWork.startWorkDateTime) / 60000);
-        currentWork.isTaskCompleted = this.isComplete;
-        currentWork.pauseReason = pauseReason;
       }
     }
   
     resume(character) {
       if (this.isStarted && this.isPaused) {
         this.isPaused = false;
-        this.workHistory.push({
-          character_id: character.name,
-          startWorkDateTime: new Date(),
-          stopWorkDateTime: null,
-          workMinutes: 0,
-          isTaskCompleted: false,
-          pauseReason: null,
-        });
       }
     }
-  
+
+    completePart(minsElapsed){
+      this.workMinutesRemaining -= minsElapsed;
+      if(this.workMinutesRemaining <= 0){
+        this.workMinutesRemaining = 0;
+        this.complete();
+      }
+    }
+
     complete() {
-      this.isComplete = true;
-      if (this.isStarted && !this.isPaused) {
-        const currentWork = this.workHistory[this.workHistory.length - 1];
-        currentWork.stopWorkDateTime = new Date();
-        currentWork.workMinutes = Math.ceil((currentWork.stopWorkDateTime - currentWork.startWorkDateTime) / 60000);
-        currentWork.isTaskCompleted = true;
+      if (this.isStarted && !this.isPaused && this.workMinutesRemaining === 0) {
+        this.isComplete = true;
       }
     }
   }
