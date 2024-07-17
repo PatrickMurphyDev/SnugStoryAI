@@ -106,6 +106,8 @@ class SimulationTime extends EventEmitter {
     if (this._isPaused) return;
 
     this._currentTimeOfDay += this._rateOfTime;
+
+    // logic for moving to next day, after midnight
     if (this._currentTimeOfDay >= 1440) {
       this._currentTimeOfDay %= 1440;
       this._currentDayOfWeek = this._currentDayOfWeek % 7 + 1;
