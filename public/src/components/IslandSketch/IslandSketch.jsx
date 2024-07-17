@@ -68,6 +68,7 @@ export default function IslandSketch() {
     p5.fill(`#000000${transparency}`);
 
     lots.forEach(lot => {
+      lot.update();
       if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
         lot.setHover(true);
         if(p5.mouseIsPressed){
