@@ -15,7 +15,7 @@ class CharacterEntity extends Entity {
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.state = new CharacterState();
-    this.dailyRoutine = new FiniteStateMachine(states.WAKING);
+    this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
   }
 
   update() {
