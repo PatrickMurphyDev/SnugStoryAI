@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sketch from 'react-p5';
 import SimulationTime from '../../utils/SimulationTime';
 import SimulationTimeControls from '../SimulationTimeControls';
-import { lotPos, resLotPos } from '../../utils/MapPositions';
+import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
 import LotEntity from './Entities/LotEntity'; // Import LotEntity
 
 const simTime = new SimulationTime();
@@ -29,8 +29,8 @@ export default function IslandSketch() {
 
     // Initialize lots
     const initializeLots = () => {
-      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, pos.zone, pos.price, pos.fillColor, pos.characters));
-      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, pos.zone, pos.price, pos.fillColor, pos.characters));
+      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, pos.zone, pos.price, pos.fillColor, []));
+      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, pos.zone, pos.price, pos.fillColor, []));
       setLots([...lotEntities, ...resLotEntities]);
     };
 

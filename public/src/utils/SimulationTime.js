@@ -136,9 +136,10 @@ class SimulationTime extends EventEmitter {
       time12: this.getTime12Hr(),
       currentTimeOfDay: this._currentTimeOfDay,  
       date: this.getDate(),
-      dateParts: this.getDateParts,
+      dateParts: this.getDateParts(),
       isPaused: this.isPaused,
-      rateOfTime: this._rateOfTime
+      rateOfTime: this._rateOfTime,
+      minElapsed: minElapsed
     }, this._currentTimeOfDay, minElapsed, prevDateTime);
   }
 

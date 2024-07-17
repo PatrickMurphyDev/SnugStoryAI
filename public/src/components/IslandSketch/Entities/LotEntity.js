@@ -1,4 +1,5 @@
 import Entity from './Entity';
+import { useEffect } from 'react';
 
 class LotEntity extends Entity {
   constructor(id, name, x, y, size, zone, price, fillColor = '#000000', characters = []) {
@@ -10,24 +11,27 @@ class LotEntity extends Entity {
     this.characters = characters;
   }
 
+  isMouseOver(p5,offset,scal){
+    const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
+    return (p5.dist(ps.x, ps.y, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0);
+  }
+
   update() {
     // Implement any update logic specific to LotEntity
+    
   }
 
   draw(p5, transparency, offset, scal) {
     const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
     let fillColor = '#000000';
-    if (this.characters.length) {
-      p5.fill(`${fillColor}${transparency}`);
-    }
-    if (this.fillColor) {
+    if (this.fillColor || this.characters.length) {
       fillColor = this.fillColor;
       p5.fill(`${fillColor}${transparency}`);
     }
 
     p5.ellipse(ps.x, ps.y, 10, 10);
 
-    if (p5.dist(ps.x, ps.y, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
+    if (this.isMouseOver(p5,offset,scal)) {
       p5.fill(`${fillColor}ff`);
       p5.stroke('#ffffffaa');
       const label = this.name || `Lot ${this.id}`;

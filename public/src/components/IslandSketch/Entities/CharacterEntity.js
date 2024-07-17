@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import Entity from './Entity';
 import CharacterInfo from './CharacterInfo';
 import Task from './Task';
@@ -16,7 +17,16 @@ class CharacterEntity extends Entity {
     this.tasks = new CharacterTasks();
     this.state = new CharacterState();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
+    
+  
+    simTime.onTimeUpdate((data) => {
+      this.dailyRoutine.onTimeUpdate(data.minElapsed);
+      console.log(
+        `char Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
+      );
+    });
   }
+
 
   update() {
     super.update();

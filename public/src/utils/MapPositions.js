@@ -95,7 +95,7 @@ let lotPos = [
 ];
 
 // place each char on a random lot
-
+if(false){ // disabled add in sketch
 IslandTemplate.Residents.forEach((v, i) => {
   let randLot = resLotPos[Math.floor(Math.random() * resLotPos.length)];
   if (randLot.characters) {
@@ -104,5 +104,8 @@ IslandTemplate.Residents.forEach((v, i) => {
     randLot.characters = [v];
   }
 });
+}
 
-export { resLotPos, lotPos };
+let Residents = IslandTemplate.Residents;
+
+export { resLotPos, lotPos, Residents };

@@ -42,7 +42,7 @@ class FiniteStateMachine {
         this.elapsedTime = 0; // Track the elapsed time in the current state
     }
 
-    onTimeUpdate(newDatetime, minElapsed, prevDateTime) {
+    onTimeUpdate(minElapsed,newDatetime, prevDateTime) {
         this.elapsedTime += minElapsed;
         const duration = stateDurations[this.state];
 
