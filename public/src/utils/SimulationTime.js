@@ -101,10 +101,15 @@ class SimulationTime extends EventEmitter {
     return `${String(this._dayOfMonth).padStart(2, '0')}/${String(this._month).padStart(2, '0')}/${this._year}`;
   }
 
-  // Function to update the time
-  updateTime() {
-    if (this._isPaused) return;
+  getDateParts() {
+    return {month: this.month(), day: this.dayOfMonth(), year: this.year};
+  }
 
+  // Function to update the time
+  updateTime(minElapsed) {
+    if (this._isPaused) return;
+    minElapsed = minElapsed || this._rateOfTime;
+    let prevDateTime = this._currentTimeOfDay;
     this._currentTimeOfDay += this._rateOfTime;
 
     // logic for moving to next day, after midnight
@@ -129,11 +134,12 @@ class SimulationTime extends EventEmitter {
     this.emit('timeUpdate', {
       time24: this.getTime(),
       time12: this.getTime12Hr(),
-      currentTimeOfDay: this._currentTimeOfDay,
+      currentTimeOfDay: this._currentTimeOfDay,  
       date: this.getDate(),
-      isPaused: this._isPaused,
+      dateParts: this.getDateParts,
+      isPaused: this.isPaused,
       rateOfTime: this._rateOfTime
-    });
+    }, this._currentTimeOfDay, minElapsed, prevDateTime);
   }
 
   // Function to start the simulation time
