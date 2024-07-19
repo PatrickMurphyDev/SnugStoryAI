@@ -3,6 +3,9 @@ import EventEmitter from 'events';
 class SimulationTime extends EventEmitter {
   constructor() {
     super();
+    if (SimulationTime.instance) {
+        return SimulationTime.instance;
+    }
     this._isPaused = false;
     this._rateOfTime = 1; // 1x, 2x, 3x
     this._currentTimeOfDay = 0; // in minutes (0-1440)
@@ -10,7 +13,10 @@ class SimulationTime extends EventEmitter {
     this._dayOfMonth = 4;
     this._month = 7; // 1: January, ..., 12: December
     this._year = 2024;
+
+    SimulationTime.instance = this;
   }
+  
 
   // Getter and setter for isPaused
   get isPaused() {
@@ -102,7 +108,7 @@ class SimulationTime extends EventEmitter {
   }
 
   getDateParts() {
-    return {month: this.month(), day: this.dayOfMonth(), year: this.year};
+    return {month: this.month, day: this.dayOfMonth, year: this.year};
   }
 
   // Function to update the time
@@ -180,6 +186,12 @@ class SimulationTime extends EventEmitter {
     this.pause();
     this.clearAllListeners();
   }
-}
 
+  static getInstance() {
+      if (!SimulationTime.instance) {
+          SimulationTime.instance = new SimulationTime();
+      }
+      return SimulationTime.instance;
+  }
+}
 export default SimulationTime;
