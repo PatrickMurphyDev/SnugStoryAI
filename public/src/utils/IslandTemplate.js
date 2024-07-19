@@ -1,5 +1,6 @@
 export const IslandTemplate = {
-    "Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
+    //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
+    "Residents":[{name:"Leah", age: 26, gender: 'Female', skills: [],bio:"bio", attributes:[]}],
   "Buildings": {
     "civic": {
       "placed":[

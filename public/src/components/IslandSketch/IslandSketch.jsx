@@ -4,8 +4,9 @@ import SimulationTime from '../../utils/SimulationTime';
 import SimulationTimeControls from '../SimulationTimeControls';
 import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
 import LotEntity from './Entities/LotEntity'; // Import LotEntity
+import CharacterEntity from './Entities/CharacterEntity';
 
-const simTime = new SimulationTime();
+const simTime = SimulationTime.getInstance();
 
 export default function IslandSketch() {
   const [villagers, setVillagers] = useState([]);
@@ -19,13 +20,10 @@ export default function IslandSketch() {
 
   useEffect(() => {
     simTime.onTimeUpdate((data) => {
-      console.log(
-        `Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
-      );
+      //console.log(`Main Sketch | Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`);
       setMinute(data.currentTimeOfDay);
-      //console.log(minute, data.currentTimeOfDay);
     });
-    simTime.start();
+    
 
     // Initialize lots
     const initializeLots = () => {
@@ -34,8 +32,14 @@ export default function IslandSketch() {
       setLots([...lotEntities, ...resLotEntities]);
     };
 
-    initializeLots();
+    const initalizeCharacters = () => {
+      const characterTempList = Residents.map((v,i,a)=>{return new CharacterEntity(v.name,v.age,v.gender,v.skills,v.bio,v.attributes)});
+      setVillagers(characterTempList);
+    } 
 
+    initializeLots();
+    initalizeCharacters();
+    simTime.start();
     return () => simTime.dispose();
   }, []);
 
@@ -67,6 +71,10 @@ export default function IslandSketch() {
     p5.stroke(`#ffffff${transparency}`);
     p5.fill(`#000000${transparency}`);
 
+    villagers.forEach(villager => {
+      villager.update();
+      villager.draw(p5, transparency, offset, scal);
+    })
     lots.forEach(lot => {
       lot.update();
       if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {

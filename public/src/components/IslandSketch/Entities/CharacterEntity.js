@@ -7,7 +7,8 @@ import CharacterNeeds from './CharacterNeeds';
 import CharacterTasks from './CharacterTasks';
 import CharacterState from './CharacterState';
 import { FiniteStateMachine, states, stateDurations } from '../FiniteStateMachine';
-
+import SimulationTime from '../../../utils/SimulationTime';
+const simTime = SimulationTime.getInstance();
 class CharacterEntity extends Entity {
   constructor(name, age, gender, skills, bio, attributes) {
     super('character', Math.floor(Math.random() * 1000), { x: 0, y: 0 }, { width: 10, height: 10 });
@@ -18,13 +19,13 @@ class CharacterEntity extends Entity {
     this.state = new CharacterState();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
     
-  
-    simTime.onTimeUpdate((data) => {
-      this.dailyRoutine.onTimeUpdate(data.minElapsed);
-      console.log(
-        `char Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
-      );
-    });
+    if(simTime)
+      simTime.onTimeUpdate((data) => {
+        this.dailyRoutine.onTimeUpdate(data.minElapsed,data.date);
+        //console.log(
+        //  `${this.info.name} Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}, minElapsed: ${data.minElapsed}`
+        //);
+      });
   }
 
 

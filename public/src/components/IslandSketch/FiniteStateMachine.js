@@ -47,7 +47,6 @@ class FiniteStateMachine {
         const duration = stateDurations[this.state];
 
         if (this.elapsedTime >= duration) {
-            this.elapsedTime -= duration; // Reset elapsed time for the next state
             this.autoTransition();
         }
     }
