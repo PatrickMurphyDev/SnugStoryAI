@@ -18,14 +18,12 @@ class CharacterEntity extends Entity {
     this.tasks = new CharacterTasks();
     this.state = new CharacterState();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
-    
-    if(simTime)
-      simTime.onTimeUpdate((data) => {
-        this.dailyRoutine.onTimeUpdate(data.minElapsed,data.date);
-        //console.log(
-        //  `${this.info.name} Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}, minElapsed: ${data.minElapsed}`
-        //);
-      });
+    simTime.onTimeUpdate((data) => {
+      this.dailyRoutine.onTimeUpdate(data.minElapsed,data.date);
+      //console.log(
+      //  `${this.info.name} Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}, minElapsed: ${data.minElapsed}`
+      //);
+    });
   }
 
 
