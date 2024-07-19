@@ -19,7 +19,7 @@ export default function Map() {
         </div>
       </Container>
       <div style={{display:'flex', flexDirection:'column'}}>
-          <CharacterComponent  />
+          <CharacterComponent character={IslandSketch.villigers} />
       </div>
       </div>
     </>
