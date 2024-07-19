@@ -3,33 +3,39 @@ import CharacterSkills from "./CharacterSkills";
 import CharacterRelationships from "./CharacterRelationships";
 import CharacterEntity from "./IslandSketch/Entities/CharacterEntity";
 
-const CharacterComponent = () => {
-  const character = new CharacterEntity(
-    "Justine",
-    28,
-    "female",
-    [
-      { mainCategory: "Combat", subCategory: "Swordsmanship", value: 75 },
-      { mainCategory: "Combat", subCategory: "Archery", value: 60 },
-      { mainCategory: "Crafting", subCategory: "Blacksmithing", value: 50 },
-      { mainCategory: "Crafting", subCategory: "Alchemy", value: 40 },
-    ],
-    "Justine is a brave warrior with a  knack for both combat and crafting.",
-    {
-      strength: 80,
-      agility: 70,
-      intelligence: 60,
-      charisma: 50,
-    }
-  );
-
+const CharacterComponent = (props) => {
+  let character;
+  if(props.character){
+    character = new CharacterEntity(
+      "Justine",
+      28,
+      "female",
+      [
+        { mainCategory: "Combat", subCategory: "Swordsmanship", value: 75 },
+        { mainCategory: "Combat", subCategory: "Archery", value: 60 },
+        { mainCategory: "Crafting", subCategory: "Blacksmithing", value: 50 },
+        { mainCategory: "Crafting", subCategory: "Alchemy", value: 40 },
+      ],
+      "Justine is a brave warrior with a  knack for both combat and crafting.",
+      {
+        strength: 80,
+        agility: 70,
+        intelligence: 60,
+        charisma: 50,
+      }
+    );
+  }else{
+    return (<h2>No Character Selected</h2>)
+  }
+  
+/*
   character.relationships = {
     friends: ["Bob", "Charlie"],
     disliked: ["Eve"],
     romantic: ["Dave"],
     romanticHistory: ["Frank"],
   };
-
+*/
   /*{typeof character.attributes[attr] === 'object'
                 ? JSON.stringify(character.attributes[attr])
                 : character.attributes[attr]}*/
