@@ -27,7 +27,7 @@ const stateDurations = {
     LEAVING_FOR_WORK: 5,
     WALKING_TO_WORK: 15,
     ARRIVING_AT_WORK: 5,
-    WORKING: 240,
+    WORKING: 120,
     TAKING_BREAK: 15,
     LUNCH: 30,
     GOING_HOME: 15,
@@ -38,27 +38,33 @@ const stateDurations = {
 
 class FiniteStateMachine {
     constructor(initialState) {
-        this.state = initialState;
+        this.currState = initialState;
+        this.work_breaks = 0;
+        this.work_lunch = 0;
         this.elapsedTime = 0; // Track the elapsed time in the current state
     }
 
     onTimeUpdate(minElapsed,newDatetime, prevDateTime) {
         this.elapsedTime += minElapsed;
-        const duration = stateDurations[this.state];
+        const durrKey = this.currState.toString().toUpperCase();
+        
+        const duration = stateDurations[durrKey];
 
+        console.log(minElapsed, this.elapsedTime, duration);
         if (this.elapsedTime >= duration) {
+            console.log("switch");
             this.autoTransition();
         }
     }
 
     transitionToNextState(nextState) {
-        console.log(`Transitioning from ${this.state} to ${nextState}`);
-        this.state = nextState;
+        console.log(`Transitioning from ${this.currState} to ${nextState}`);
+        this.currState = nextState;
         this.elapsedTime = 0; // Reset elapsed time
     }
 
     autoTransition() {
-        switch (this.state) {
+        switch (this.currState) {
             case states.SLEEPING:
                 this.transitionToNextState(states.WAKING);
                 break;
@@ -84,15 +90,26 @@ class FiniteStateMachine {
                 this.transitionToNextState(states.ARRIVING_AT_WORK);
                 break;
             case states.ARRIVING_AT_WORK:
+                this.work_breaks = 0;
                 this.transitionToNextState(states.WORKING);
                 break;
             case states.WORKING:
-                this.transitionToNextState(states.TAKING_BREAK); // Or lunch, based on a condition
+                if(this.work_breaks===0 || (this.work_lunch > 0 && this.work_breaks === 1)){
+                    // if havent taken any breaks, or alraeady taken lunch but not a second break: Take Break
+                    this.work_breaks++;
+                    this.transitionToNextState(states.TAKING_BREAK); // Or lunch, based on a condition
+                }else if(this.work_lunch === 0 && this.work_breaks === 1){
+                    this.work_lunch++;
+                    this.transitionToNextState(states.LUNCH);   
+                }else if(this.work_breaks >= 2){
+                    this.transitionToNextState(states.GOING_HOME);
+                }
                 break;
             case states.TAKING_BREAK:
                 this.transitionToNextState(states.WORKING);
                 break;
             case states.LUNCH:
+                this.work_lunch++;
                 this.transitionToNextState(states.WORKING);
                 break;
             case states.GOING_HOME:
@@ -108,13 +125,13 @@ class FiniteStateMachine {
                 this.transitionToNextState(states.SLEEPING);
                 break;
             default:
-                console.error(`Invalid state: ${this.state}`);
+                console.error(`Invalid state: ${this.currState}`);
                 break;
         }
     }
 
     getState() {
-        return this.state;
+        return this.currState;
     }
 }
 
