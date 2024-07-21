@@ -1,45 +1,77 @@
 export const IslandTemplate = {
-    //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
-    "Residents":[{name:"Leah", age: 26, gender: 'Female', skills: [],bio:"bio", attributes:[]}],
-  "Buildings": {
-    "civic": {
-      "placed":[
+  //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
+  Residents: [
+    {
+      name: "Leah",
+      age: 26,
+      gender: "Female",
+      skills: [],
+      bio: "bio",
+      attributes: [],
+    },
+    {
+      name: "Maureen",
+      age: 30,
+      gender: "Female",
+      skills: [],
+      bio: "bio",
+      attributes: [],
+    },
+    {
+      name: "Rob",
+      age: 24,
+      gender: "Male",
+      skills: [],
+      bio: "bio",
+      attributes: [],
+    },
+    {
+      name: "Justine",
+      age: 27,
+      gender: "Female",
+      skills: [],
+      bio: "bio",
+      attributes: [],
+    },
+    {
+      name: "Deb",
+      age: 26,
+      gender: "Female",
+      skills: [],
+      bio: "bio",
+      attributes: [],
+    },
+    {
+      name: "Callum",
+      age: 26,
+      gender: "Female",
+      skills: [],
+      bio: "bio",
+      attributes: [],
+    },
+  ],
+  Buildings: {
+    civic: {
+      placed: [
         "Town Hall",
         "Fire Department",
         "Police Department",
-        "Lighthouse"],
-      "required": [
-        "Library",
-        "Post Office",
-        "Park",
-        "School",
-        "Medical Clinic"
+        "Lighthouse",
       ],
-      "optional": [
-        "Church",
-        "Outdoor Concert Venue",
-        "Skate Park"
-      ]
+      required: ["Library", "Post Office", "Park", "School", "Medical Clinic"],
+      optional: ["Church", "Outdoor Concert Venue", "Skate Park"],
     },
-    "private": {
-      "placed":[
-        "General Store",
-        "Harbor"],
-      "required": [
-        "Fishing Tackle Store",
-        "Hotel",
-        "Resturant",
-        "Bar",
-        "Gym"
-      ],
-      "optional": [
+    private: {
+      placed: ["General Store", "Harbor"],
+      required: ["Fishing Tackle Store", "Hotel", "Resturant", "Bar", "Gym"],
+      optional: [
         "Clothing Store",
         "Hardware Store",
         "Mechanic",
         "Art Gallery",
         "Law Office",
-        "Apartment Building"
-      ]
-    }
-  }
-}
+        "Apartment Building",
+      ],
+    },
+  },
+};

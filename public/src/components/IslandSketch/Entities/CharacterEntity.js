@@ -5,9 +5,9 @@ import Task from './Task';
 import CharacterAttributes from './CharacterAttributes';
 import CharacterNeeds from './CharacterNeeds';
 import CharacterTasks from './CharacterTasks';
-import CharacterState from './CharacterState';
-import { FiniteStateMachine, states, stateDurations } from '../FiniteStateMachine';
+import { FiniteStateMachine, states } from '../FiniteStateMachine';
 import SimulationTime from '../../../utils/SimulationTime';
+
 const simTime = SimulationTime.getInstance();
 class CharacterEntity extends Entity {
   constructor(name, age, gender, skills, bio, attributes) {
