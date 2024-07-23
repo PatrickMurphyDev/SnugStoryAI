@@ -1,5 +1,7 @@
-![Not Game Graphics concept art](./images/inspo/readme.jpg)
 # SnugStoryAI
+
+*Concept Art*
+![Not Game Graphics concept art](./images/inspo/readme.jpg)
 
 SnugStoryAI is a comprehensive project that combines a chat application and an island simulation server built with the MERN stack (MongoDB, Express, React, Node.js). This project showcases the integration of various technologies and AI-generated content to create an interactive and dynamic application.
 
@@ -13,20 +15,17 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 - [Contributing](#contributing)
 - [License](#license)
 
+## Screenshots
+![Map](./images/MapScreenshot.png)
+
+![Map zoom](./images/MapScreenshotZoom.png)
+
 ## Features
 
 - **Chat Application**: Real-time chat functionality with user authentication and avatar settings.
 - **Island Simulation**: Create and manage a fictional island with various entities like buildings, characters, and organizations.
 - **AI Integration**: Utilize AI to generate descriptive content and automate character creation.
 - **Interactive Map**: Visual representation of the island with interactive elements.
-
-## Installation Guide
-
-### Requirements
-
-- [Node.js](https://nodejs.org/en/download)
-- [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/)
-- (Optional) [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### About Design Concepts
 
@@ -42,7 +41,6 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 - **Island Layout**: Detailed description of the island's geography and notable features.
 - **Buildings**: List of key buildings, their industry categories, job positions, and services offered.
 - **Wildlife**: Description of marine animals, birds, terrestrial animals, and invertebrates found around the island.
-- **Geological and Coastal Processes**: Factors influencing the shape and formation of the island.
 
 ### Relationship Stages
 - **Initial Meeting**: Two individuals meet for the first time.
@@ -53,8 +51,13 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 - **Engagement and Marriage**: Long-term commitment planning and formalization.
 
 
+## Installation Guide
 
-### Installation
+### Requirements
+
+- [Node.js](https://nodejs.org/en/download)
+- [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/)
+- (Optional) [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 #### First Method: Manual Setup
 
@@ -109,32 +112,32 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 
 ## Project Structure
 
-SnugStoryAI/
-├── Documentation/
-│ ├── DesignDocument/
-│ └── GPT/
-│ └── GPTLogs/
-├── IslandCommunityDataServer/
-│ ├── APIFiles/
-│ ├── Model/
-│ ├── ModelDefinitions/
-│ ├── build_scripts/
-│ ├── data_collections/
-│ ├── docs/
-│ └── public/
-├── public/
-│ ├── src/
-│ ├── public/
-│ ├── Dockerfile
-│ └── README.md
-├── server/
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ ├── sockets/
-│ ├── Dockerfile
-│ └── index.js
-└── README.md
+    SnugStoryAI/
+    ├── Documentation/
+    │ ├── DesignDocument/
+    │ └── GPT/
+    │ └── GPTLogs/
+    ├── IslandCommunityDataServer/
+    │ ├── APIFiles/
+    │ ├── Model/
+    │ ├── ModelDefinitions/
+    │ ├── build_scripts/
+    │ ├── data_collections/
+    │ ├── docs/
+    │ └── public/
+    ├── public/
+    │ ├── src/
+    │ ├── public/
+    │ ├── Dockerfile
+    │ └── README.md
+    ├── server/
+    │ ├── controllers/
+    │ ├── models/
+    │ ├── routes/
+    │ ├── sockets/
+    │ ├── Dockerfile
+    │ └── index.js
+    └── README.md
 
 ### Key Directories and Files
 
@@ -149,8 +152,10 @@ API documentation for various endpoints can be found in the `IslandCommunityData
 
 ## Usage
 
-1. **Chat Application**: Access via the main page at `localhost:3000`. Users can register, login, and start chatting.
-2. **Island Simulation**: Navigate to the map view (`/map`) to interact with the island simulation. You can view and manage various entities like buildings and characters.
+1. **Start Application**: Access via the main page at `localhost:3000`. Users can register, login, and start chatting.
+2. **Chat Application**: Access via the main page at `localhost:3000`. Users can register, login, and start chatting.
+3. **Island Simulation**: Navigate to the map view (`/map`) to interact with the island simulation. You can view and manage various entities like buildings and characters.
+
 
 ## Contributing
 
