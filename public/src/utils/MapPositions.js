@@ -51,7 +51,8 @@ const genLot = function () {
   };
 };
 
-// set coords of each residential lot
+// set coords of each residential lot 
+// COUNT=====16
 const resLotPos = [
   { x: 210, y: 736 },
   { x: 267, y: 686 },
@@ -72,6 +73,7 @@ const resLotPos = [
 ];
 
 // set each non residential lot
+// COUNT = 19
 let lotPos = [
   { id: 0, x: 700, y: 650, name: "Town Hall", fillColor: "#aabbff" },
   { id: 1, x: 680, y: 765, name: "Fire Dept.", fillColor: "#aa0000" },
