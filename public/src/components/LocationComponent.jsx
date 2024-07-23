@@ -1,16 +1,16 @@
 import React from 'react';
 
-const LocationComponent = ({ lot, building }) => {
+const LocationComponent = ({ lot }) => {
   return (
     <div className="location-component">
-      <h1>{building ? building.name : 'No Building Selected'}</h1>
-      {building && (
+      <h1>{lot && lot.building ? lot.building.name : 'No lot.building Selected'}</h1>
+      {lot && lot.building && (
         <>
-          <p>{building.description}</p>
+          <p>{lot.building.description}</p>
           <ul>
-            <li>Type: {building.type}</li>
-            <li>Owner: {building.owner}</li>
-            <li>Value: ${building.value}</li>
+            <li>Type: {lot.building.type}</li>
+            <li>Owner: {lot.building.owner}</li>
+            <li>Value: ${lot.building.value}</li>
           </ul>
         </>
       )}
@@ -18,9 +18,9 @@ const LocationComponent = ({ lot, building }) => {
       {lot && (
         <>
           <ul>
-            <li>Size: {lot.size} sq. ft.</li>
-            <li>Zone: {lot.zone}</li>
-            <li>Price: ${lot.price}</li>
+            <li>Size: {lot.size.x && lot.size.y ? lot.size.x * lot.size.y : "0"} sq. ft.</li>
+            <li>Zone: {lot.zone ? lot.zone : "Default"}</li>
+            <li>Price: ${lot.price ? lot.price : 0}</li>
           </ul>
         </>
       )}

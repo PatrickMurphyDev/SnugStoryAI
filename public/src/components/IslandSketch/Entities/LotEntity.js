@@ -9,11 +9,16 @@ class LotEntity extends Entity {
     this.price = price;
     this.fillColor = fillColor;
     this.characters = characters;
+    this.building = {name:"Mo's Candy",description:"Candy Store for the People!",type:"Store",owner:"Maureen",value:"$100k"};
   }
 
-  isMouseOver(p5,offset,scal){
-    const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
-    return (p5.dist(ps.x, ps.y, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0);
+  isSelected(){
+    
+  }
+
+  isMouseOver(p5, offset, scal){
+    const loc2 = {x:this.location.x/2, y:this.location.y/2};
+    return super.isMouseOver(p5, offset, scal, loc2);
   }
 
   update() {
@@ -31,7 +36,7 @@ class LotEntity extends Entity {
 
     p5.ellipse(ps.x, ps.y, 10, 10);
 
-    if (this.isMouseOver(p5,offset,scal)) {
+    if (this.isMouseOver(p5,offset,scal) || this.isSelected()) {
       p5.fill(`${fillColor}ff`);
       p5.stroke('#ffffffaa');
       const label = this.name || `Lot ${this.id}`;

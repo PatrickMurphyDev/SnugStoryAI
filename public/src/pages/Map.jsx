@@ -1,26 +1,40 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import IslandSketch from "../components/IslandSketch/IslandSketch";
 import CharacterComponent from "../components/CharacterComponent";
 import LocationComponent from "../components/LocationComponent";
 export default function Map() {
+  const [propertySelected, setPropertySelected] = useState(null);
+  const [characterSelected, setCharacterSelected] = useState(null);
+
+  const handleCharacterSelect = (character) => {
+    setCharacterSelected(character);
+  };
+
+  const handlePropertySelect = (property) => {
+    setPropertySelected(property);
+  };
+
   return (
     <>
-    <div style={{display:'flex', flexDirection:'row'}}>
-      <div style={{display:'flex', flexDirection:'column'}}>
-          <LocationComponent lot={IslandSketch.selectedLot}  />
-      </div>
-      <Container>
-        <div className="canvasScreen">
-          <IslandSketch />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <LocationComponent lot={propertySelected} />
         </div>
-        <div>
-          <h1>Chat</h1>
+        <Container>
+          <div className="canvasScreen">
+          <IslandSketch
+              onCharacterSelect={handleCharacterSelect}
+              onPropertySelect={handlePropertySelect}
+            />
+          </div>
+          <div>
+            <h1>Chat</h1>
+          </div>
+        </Container>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <CharacterComponent character={characterSelected} />
         </div>
-      </Container>
-      <div style={{display:'flex', flexDirection:'column'}}>
-          <CharacterComponent character={IslandSketch.villigers} />
-      </div>
       </div>
     </>
   );

@@ -8,20 +8,19 @@ import CharacterEntity from './Entities/CharacterEntity';
 
 const simTime = SimulationTime.getInstance();
 
-export default function IslandSketch() {
-  const [villagers, setVillagers] = useState([]);
-  const [minute, setMinute] = useState(0);
+const IslandSketch = ({ onCharacterSelect, onPropertySelect }) => {  
+  // UI Display Variables
   const [scal, setScal] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();  
-  const [lots, setLots] = useState([]); // State for lots
-  const [selectedLot, setSelectedLot] = useState(null);
 
+  const [villagers, setVillagers] = useState([]);
+  const [lots, setLots] = useState([]); // State for lots, should lift state
 
   useEffect(() => {
     simTime.onTimeUpdate((data) => {
       //console.log(`Main Sketch | Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`);
-      setMinute(data.currentTimeOfDay);
+      //setMinute(data.currentTimeOfDay);
     });
     
 
@@ -77,13 +76,14 @@ export default function IslandSketch() {
     })
     lots.forEach(lot => {
       lot.update();
-      if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
+      if(lot.isMouseOver(p5,offset.copy(),scal)){
+      //if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
         lot.setHover(true);
         if(p5.mouseIsPressed){
           lot.setClick(true);
           
           console.log("lot selected", lot);
-          setSelectedLot(lot);
+          onPropertySelect(lot);
         }
       }
       lot.draw(p5, transparency, offset, scal);
@@ -109,3 +109,5 @@ export default function IslandSketch() {
     </>
   );
 }
+
+export default IslandSketch
