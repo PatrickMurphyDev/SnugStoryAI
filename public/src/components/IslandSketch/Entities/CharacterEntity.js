@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 import Entity from './Entity';
-import CharacterInfo from './CharacterInfo';
+import CharacterInfo from '../CharacterFeatures/CharacterInfo';
 import Task from './Task';
-import CharacterAttributes from './CharacterAttributes';
-import CharacterNeeds from './CharacterNeeds';
-import CharacterTasks from './CharacterTasks';
+import CharacterAttributes from '../CharacterFeatures/CharacterAttributes';
+import CharacterNeeds from '../CharacterFeatures/CharacterNeeds';
+import CharacterTasks from '../CharacterFeatures/CharacterTasks';
 import { FiniteStateMachine, states } from '../FiniteStateMachine';
 import SimulationTime from '../../../utils/SimulationTime';
 
@@ -42,7 +42,7 @@ class CharacterEntity extends Entity {
     //super.draw(p5, transparency, offset, scale);
     const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
     p5.fill('#ff0000');
-    p5.ellipse(ps.x,ps.y,15,15);
+    p5.ellipse(ps.x+12,ps.y+5,15,15);
   }
 
   rest() {
