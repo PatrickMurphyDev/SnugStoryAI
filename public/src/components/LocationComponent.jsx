@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LocationComponent = ({ lot }) => {
+const LocationComponent = ({ lot, setPropertySelected }) => {
   return (
     <div className="location-component">
       <h1>{lot && lot.building ? lot.building.name : 'No lot.building Selected'}</h1>
@@ -17,13 +17,20 @@ const LocationComponent = ({ lot }) => {
       <h2>{lot ? `Lot: ${lot.name}` : 'No Lot Selected'}</h2>
       {lot && (
         <>
-          <ul>
-            <li>Size: {lot.size.x && lot.size.y ? lot.size.x * lot.size.y : "0"} sq. ft.</li>
-            <li>Zone: {lot.zone ? lot.zone : "Default"}</li>
-            <li>Price: ${lot.price ? lot.price : 0}</li>
-          </ul>
-        </>
+          <>
+            <ul>
+              <li>Size: {lot.size.x && lot.size.y ? lot.size.x * lot.size.y : "0"} sq. ft.</li>
+              <li>Zone: {lot.zone ? lot.zone : "Default"}</li>
+              <li>Price: ${lot.price ? lot.price : 0}</li>
+            </ul>
+          </>
+          <input type='button' value={"close"} onClick={()=>{
+            lot.deselect();
+            setPropertySelected(null);
+          }} />
+          </>
       )}
+      
     </div>
   );
 };
