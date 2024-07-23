@@ -76,16 +76,18 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect }) => {
     })
     lots.forEach(lot => {
       lot.update();
-      if(lot.isMouseOver(p5,offset.copy(),scal)){
-      //if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
+
+      if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
         lot.setHover(true);
         if(p5.mouseIsPressed){
           lot.setClick(true);
           
           console.log("lot selected", lot);
+          
           onPropertySelect(lot);
         }
       }
+
       lot.draw(p5, transparency, offset, scal);
     });
 

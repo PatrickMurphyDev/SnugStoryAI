@@ -12,6 +12,9 @@ export default function Map() {
   };
 
   const handlePropertySelect = (property) => {
+    if(propertySelected)
+      propertySelected.deselect();
+    property.select();
     setPropertySelected(property);
   };
 
@@ -19,7 +22,7 @@ export default function Map() {
     <>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <LocationComponent lot={propertySelected} />
+          <LocationComponent lot={propertySelected} setPropertySelected={setPropertySelected} />
         </div>
         <Container>
           <div className="canvasScreen">
