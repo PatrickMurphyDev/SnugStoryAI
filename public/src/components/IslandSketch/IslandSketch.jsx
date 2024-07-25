@@ -14,15 +14,15 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();  
 
+  // World Entities
   const [villagers, setVillagers] = useState([]);
-  const [lots, setLots] = useState([]); // State for lots, should lift state
+  const [lots, setLots] = useState([]);
 
   useEffect(() => {
-    simTime.onTimeUpdate((data) => {
+    /*simTime.onTimeUpdate((data) => {
       //console.log(`Main Sketch | Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`);
-      //setMinute(data.currentTimeOfDay);
-    });
-    
+      /8/setMinute(data.currentTimeOfDay);
+    });*/
 
     // Initialize lots
     const initializeLots = () => {
