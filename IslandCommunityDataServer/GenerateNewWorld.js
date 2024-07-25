@@ -7,6 +7,9 @@ const {
   JobPosition,
   Character,
 } = require("./Model/models");
+
+const LLMModelsNames = {'default':0,'llama':0,'phi':1,'uncensored':2};
+const LLMModels = ['llama3','phi3:mini','llama2-uncensored'];
 const mongoose = require("mongoose");
 const { default: ollama } = require("ollama");
 const buildingDataConfig = require("./data_collections/IslandTemplate.json");
@@ -20,10 +23,12 @@ const characterGenStepsEnum = {
 };
 const NonProfitBuildingsList = {};
 
+const conversationHistoryList = {};
+
 mongoose.connect(`mongodb://127.0.0.1:27017/island_project`);
 
 const LLMPrompt = async (messages, formatJSON, modelSetting = "llama3") => {
-  formatJSON = formatJSON === false ? false : true;
+  formatJSON = formatJSON === false ? false : true; 
   let msgs = [];
   if (Array.isArray(messages)) {
     // todo make sure array items contains expected schema { role: String, content: String}
@@ -36,6 +41,34 @@ const LLMPrompt = async (messages, formatJSON, modelSetting = "llama3") => {
   if (formatJSON) sendProps["format"] = "json";
   return ollama.chat(sendProps);
 };
+
+// TODO use this to manage history of convo etc 
+// Make the world gen have list of convos
+class LLMConversation {
+  constructor(msgs, sysPrompt = "", modelSetting = "llama3", formatJSON = false){
+    this.SystemPrompt = sysPrompt;
+    this.OutputFormat = formatJSON;
+    this.LLMModel = modelSetting;
+
+    if(isArray(msgs)){
+      this.ConversationHistory = msgs;
+    }else{
+      this.ConversationHistory = [];
+    }
+  }
+
+  getConversationHistory(){
+    return this.ConversationHistory;
+  }
+
+  async prompt(msg, modelSetting = "llama3"){
+    formatJSON = formatJSON === false ? false : true; 
+    this.ConversationHistory.push({ role: "user", content: msg });
+    const sendProps = { model: modelSetting, messages: this.ConversationHistory };
+    if (formatJSON) sendProps["format"] = "json";
+    return ollama.chat(sendProps);
+  }
+}
 
 const createNewIsland = async () => {
   const queryDescIsland =
