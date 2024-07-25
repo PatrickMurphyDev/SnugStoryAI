@@ -6,18 +6,22 @@ const messageRoutes = require("./routes/messages");
 const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
-
 const Ollama = require("ollama-node");
-
 
 app.use(cors());
 app.use(express.json());
 
-//const ai = new Ollama();
 
+// SERVER STATE - Displayed on /ping
+let isDBConnected = false;
+let isAIConnected = false;
+let isAIProcessing = false;
+
+// SETUP AI Instances
 const ollama = new Ollama.Ollama();
+ollama.setModel("phi3:mini");//llama3");
 
-ollama.setModel("llama3");
+// SETUP DB Instances
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -25,13 +29,16 @@ mongoose
   })
   .then(() => {
     console.log("DB Connetion Successfull");
+    isDBConnected = true;
   })
   .catch((err) => {
     console.log(err.message);
   });
 
+// Ping Page Route
+// == Display Server State
 app.get("/ping", (_req, res) => {
-  return res.json({ msg: "Ping Successful" });
+  return res.json({ msg: "Ping Successful ||  DB Connected: "+isDBConnected + " ||  AI Connected: " + isAIConnected + " ||  AI Status: " + (isAIProcessing ? "Processing..." : "Ready.")});
 });
 
 app.use("/api/auth", authRoutes);
@@ -54,7 +61,7 @@ const promptAI = async (data, sockets) => {
   const newMsg = await Messages.create({
     message: { text: response.output },
     users: [data.from, data.to],
-    sender: mongoose.Types.ObjectId("666ae36b12096f7d9718397c"),
+    sender: mongoose.Types.ObjectId(process.env.AIUUID),
   });
 }
 
@@ -84,6 +91,7 @@ io.on("connection", async (socket) => {
       console.log("Send AI");
       socket.to(sendUserSocket).emit("msg-start-ai", data.msg);
       io.to(fromUserSocket).emit("msg-start-ai", data.msg);
+      isAIProcessing = true;
       const response = await ollama.generate(data.msg);
       socket.to(sendUserSocket).emit("msg-recieve-ai", response.output);
       io.to(fromUserSocket).emit("msg-recieve-ai", response.output);
@@ -94,8 +102,10 @@ io.on("connection", async (socket) => {
       const newMsg = await Messages.create({
         message: { text: response.output },
         users: [data.from, data.to],
-        sender: mongoose.Types.ObjectId("666ae36b12096f7d9718397c"),
+        sender: mongoose.Types.ObjectId(process.env.AIUUID),
       });
+      isAIProcessing = false;
+      console.log('AI Response');
     }
   });
 
