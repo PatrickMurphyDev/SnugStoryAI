@@ -164,7 +164,7 @@ const generateCharacter = async (step, optionsObject) => {
   const birthdatePrompt = "give them a random birthdate they could have been born assuming the current_date in the story is equal to today's reallife date unless I have previously specified otherwise";
   const queryPartsByStep = {
     characterBasicDetails: {
-      questionPrompt: `Generate a fictional human character with a random age between 18-65, ${birthdatePrompt}, choose their birthplace with a 45% chance they were born on the island, choose their gender, name(first, middle (optional), last), they are currently employeed as a ${jobDetailsToString}`,
+      questionPrompt: `Generate a fictional human character with a random age between 18-65, ${birthdatePrompt}, choose their birthplace with a 45% chance they were born on the island, choose their gender, name(first, middle (optional), last), they are currently employed as a ${jobDetailsToString}`,
       outputSchema: `{
       name:{first: String, middle: String, last: String},
       birth: {
@@ -174,6 +174,10 @@ const generateCharacter = async (step, optionsObject) => {
       age: Number,
       description: String}`,
     },
+    characterRelationshipsSummary: {questionPrompt: ``, outputSchema: ``},
+    characterRelationship: {questionPrompt: ``, outputSchema: ``},
+    characterTraitsSummary: {questionPrompt: ``, outputSchema: ``},
+    characterTrait: {questionPrompt: ``, outputSchema: ``},
   };
   const formatRespPrompt =
     " format your response as a json object with the schema: ";
@@ -189,6 +193,8 @@ const generateCharacter = async (step, optionsObject) => {
     true
   );
 };
+
+let characterList = [];
 
 const main = async () => {
   try {
@@ -234,7 +240,21 @@ const main = async () => {
           jobOrganizationType: ''
         }
       );
+      characterList.push(character);
       console.log(character);
+    }
+
+    for (let k = 0; k < characterList.length; k++) {
+      const ch = characterList[k];
+      const ch2 = await generateCharacter(
+        characterGenStepsEnum.characterRelationshipsSummary,
+        { 
+          romantic: {connected:3, distant:2},
+          social: {connected:3, distant:2},
+          family: {connected:3, distant:2},
+          career: {connected:3, distant:2}
+        }
+      );
     }
   } catch (e) {
     console.error("Error:", e);
