@@ -1,5 +1,4 @@
 import Entity from './Entity';
-import { useEffect } from 'react';
 
 class LotEntity extends Entity {
   constructor(id, name, x, y, size, zone, price, fillColor = '#000000', characters = []) {
