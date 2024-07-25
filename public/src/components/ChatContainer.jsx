@@ -18,7 +18,7 @@ export default function ChatContainer({ currentChat, socket }) {
   const [isProcessingResponse, setIsProcessingResponse] = useState(false);
 
   // Fetch previous messages when currentChat changes
-  useEffect(async () => {
+  useEffect(() => {(async () => {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
@@ -27,7 +27,7 @@ export default function ChatContainer({ currentChat, socket }) {
       to: currentChat._id,
     });
     setMessages(response.data);
-  }, [currentChat]);
+  })();}, [currentChat]);
 
   // Ensure the current chat is set when currentChat changes
   useEffect(() => {
