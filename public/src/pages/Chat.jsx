@@ -7,6 +7,7 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import IslandSketch from "../components/IslandSketch/IslandSketch";
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -14,6 +15,24 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [propertySelected, setPropertySelected] = useState(null);
+  const [characterSelected, setCharacterSelected] = useState(null);
+
+  const handleCharacterSelect = (character) => {
+    setCharacterSelected(character);
+    if(characterSelected)
+      characterSelected.deselect();
+    character.select();
+    setCharacterSelected(character);
+  };
+
+  const handlePropertySelect = (property) => {
+    if(propertySelected)
+      propertySelected.deselect();
+    property.select();
+    setPropertySelected(property);
+  };
+
   useEffect(()=> {(async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navigate("/login");

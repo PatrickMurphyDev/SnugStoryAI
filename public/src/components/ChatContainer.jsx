@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
+import IslandSketch from "./IslandSketch/IslandSketch";
 
 // ChatContainer component for managing chat interactions
 export default function ChatContainer({ currentChat, socket }) {
@@ -16,6 +17,25 @@ export default function ChatContainer({ currentChat, socket }) {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   // State for chat submit status
   const [isProcessingResponse, setIsProcessingResponse] = useState(false);
+  
+  const [propertySelected, setPropertySelected] = useState(null);
+  const [characterSelected, setCharacterSelected] = useState(null);
+
+  const handleCharacterSelect = (character) => {
+    setCharacterSelected(character);
+    if(characterSelected)
+      characterSelected.deselect();
+    character.select();
+    setCharacterSelected(character);
+  };
+
+  const handlePropertySelect = (property) => {
+    if(propertySelected)
+      propertySelected.deselect();
+    property.select();
+    setPropertySelected(property);
+  };
+
 
   // Fetch previous messages when currentChat changes
   useEffect(() => {(async () => {
@@ -99,6 +119,13 @@ export default function ChatContainer({ currentChat, socket }) {
   // Render chat container
   return (
     <Container>
+      <div style={{height: "250px", width:"500px", display: "none"}}>
+        <IslandSketch
+          onCharacterSelect={handleCharacterSelect}
+          onPropertySelect={handlePropertySelect}
+          sizeVector={{x:500,y:250}}
+        />
+      </div>
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
