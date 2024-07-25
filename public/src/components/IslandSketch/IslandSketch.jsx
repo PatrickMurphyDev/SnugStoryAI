@@ -8,7 +8,7 @@ import CharacterEntity from './Entities/CharacterEntity';
 
 const simTime = SimulationTime.getInstance();
 
-const IslandSketch = ({ onCharacterSelect, onPropertySelect }) => {  
+const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800, y:600} }) => {  
   // UI Display Variables
   const [scal, setScal] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -44,7 +44,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect }) => {
 
   const setup = (p5, canvasParentRef) => {
     setBgImage(p5.loadImage("images/islandBackgroundNew.png"));
-    p5.createCanvas(800, 600).parent(canvasParentRef);
+    p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
 
     // set init offset
     setOffset(p5.createVector(0, 0));
