@@ -44,7 +44,7 @@ export default function ChatInput({ handleSendMsg, socket, isProcessingResponse 
     }
   };
 
-  const buttonChat = (<button type="submit">
+  const ButtonChat = (<button type="submit">
     <IoMdSend />
   </button>);
 
@@ -73,7 +73,7 @@ export default function ChatInput({ handleSendMsg, socket, isProcessingResponse 
         AI
       </label>
         </div>
-        {processing ? "" : <buttonChat></buttonChat>}
+        {processing ? "" : <ButtonChat />}
       </form>
     </Container>
   );

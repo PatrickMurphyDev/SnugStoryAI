@@ -97,10 +97,6 @@ export default function ChatContainer({ currentChat, socket }) {
         setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
         //setIsProcessingResponse(false);
       });
-      socket.current.on("msg-start-ai", (msg) => {
-        console.log('msg-start-ai: ', msg);
-        setIsProcessingResponse(true);
-      });
     }
   }, []);
 
