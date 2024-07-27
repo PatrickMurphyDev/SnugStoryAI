@@ -168,9 +168,15 @@ const getBirthdatePrompt = () =>
 const getJobDetailsString = (optionsObject) =>
   `${optionsObject.jobTitle} working for ${optionsObject.jobOrganizationName} a ${optionsObject.jobOrganizationType} business, earning ${optionsObject.jobSalary} dollars USD a year.`;
 
+
+
+// ================================================================================================= //
+// ================================================================================================= //
+// ================================================================================================= //
+// ================================================================================================= //
 const main = async () => {
   const llmConversations = {general:new LLMConversation([], "", "llama3", true)};
-  
+
   try {
     const newIsland = await createNewIsland(llmConversations.general);
     console.log("New Island:", newIsland);
