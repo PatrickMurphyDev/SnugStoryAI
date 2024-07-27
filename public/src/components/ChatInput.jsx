@@ -4,10 +4,23 @@ import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
-export default function ChatInput({ handleSendMsg, isProcessingResponse }) {
+export default function ChatInput({ handleSendMsg, socket, isProcessingResponse }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [AIChecked, setAIChecked] = useState(false);
+  const [processing, setProcessing] = useState(isProcessingResponse);
+
+  socket.current.on("msg-recieve-ai", (msg) => {
+    console.log('msg-recieve-ai: ', msg);
+    //setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
+    //setIsProcessingResponse(false);
+    setProcessing(false);
+  });
+  socket.current.on("msg-start-ai", (msg) => {
+    console.log('msg-start-ai: ', msg);
+    setProcessing(true);
+  });
+
   const handleAICheckedChange = () => {
     setAIChecked(!AIChecked);
   };
@@ -23,11 +36,17 @@ export default function ChatInput({ handleSendMsg, isProcessingResponse }) {
 
   const sendChat = (event) => {
     event.preventDefault();
-    if (msg.length > 0) {
+    if(processing){
+      console.log('block processing');
+    }else if (msg.length > 0) {
       handleSendMsg(msg,AIChecked);
       setMsg("");
     }
   };
+
+  const buttonChat = (<button type="submit">
+    <IoMdSend />
+  </button>);
 
   return (
     <Container>
@@ -54,9 +73,7 @@ export default function ChatInput({ handleSendMsg, isProcessingResponse }) {
         AI
       </label>
         </div>
-        <button type="submit" className={isProcessingResponse ? "disabled" : ""}>
-          <IoMdSend />
-        </button>
+        {processing ? "" : <buttonChat></buttonChat>}
       </form>
     </Container>
   );
@@ -149,8 +166,8 @@ const Container = styled.div`
           font-size: 1rem;
         }
       }
-      button.disabled {
-        background-color: grey;
+      .disabled {
+        background-color: grey !important;
       }
       svg {
         font-size: 2rem;

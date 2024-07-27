@@ -15,8 +15,6 @@ export default function ChatContainer({ currentChat, socket }) {
   const scrollRef = useRef();
   // State for storing incoming messages
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  // State for chat submit status
-  const [isProcessingResponse, setIsProcessingResponse] = useState(false);
   
   const [propertySelected, setPropertySelected] = useState(null);
   const [characterSelected, setCharacterSelected] = useState(null);
@@ -74,13 +72,13 @@ export default function ChatContainer({ currentChat, socket }) {
       senderIsAI: 0,
       msg,
     });
-    await axios.post(sendMessageRoute, {
+    /*await axios.post(sendMessageRoute, {
       from: data._id,
       to: currentChat._id,
       llmodel: AIChecked,
       senderIsAI: 0,
       message: msg,
-    });
+    });*/
 
     const msgs = [...messages];
     msgs.push({ fromSelf: true, senderIsAI: 0, message: msg });
@@ -97,7 +95,7 @@ export default function ChatContainer({ currentChat, socket }) {
       socket.current.on("msg-recieve-ai", (msg) => {
         console.log('msg-recieve-ai: ', msg);
         setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
-        setIsProcessingResponse(false);
+        //setIsProcessingResponse(false);
       });
       socket.current.on("msg-start-ai", (msg) => {
         console.log('msg-start-ai: ', msg);
@@ -119,13 +117,13 @@ export default function ChatContainer({ currentChat, socket }) {
   // Render chat container
   return (
     <Container>
-      <div style={{height: "250px", width:"500px", display: "none"}}>
+      {/*<div style={{height: "250px", width:"500px", display: "none"}}>
         <IslandSketch
           onCharacterSelect={handleCharacterSelect}
           onPropertySelect={handlePropertySelect}
           sizeVector={{x:500,y:250}}
         />
-      </div>
+      </div>*/}
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
@@ -159,7 +157,7 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
-      <ChatInput handleSendMsg={handleSendMsg} isProcessingResponse={isProcessingResponse} />
+      <ChatInput handleSendMsg={handleSendMsg} socket={socket} />
     </Container>
   );
 }
