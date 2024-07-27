@@ -11,13 +11,32 @@ class LLMConversation {
       this.LLMModel = modelSetting;
       this.ConversationHistory = Array.isArray(msgs) ? msgs : [];
 
+      this.addSystemPrompt(this.SystemPrompt);
+    }
+
+    addSystemPrompt(sysPrompt){
+      if(sysPrompt){
+        this.SystemPrompt = sysPrompt;
+      }
       if(this.SystemPrompt !== ""){
-        this.ConversationHistory.unshift({ role: "system", content: this.SystemPrompt});
+        if(this.ConversationHistory.length > 0){
+          if(this.ConversationHistory[0].role === 'System'){
+            console.log("Warning: AddSystemPrompt = System Prompt Already Set");
+            // remove if present
+            this.ConversationHistory.shift();
+          }
+        }
+        this.ConversationHistory.unshift({ role: "System", content: this.SystemPrompt });
       }
     }
   
     getConversationHistory() {
       return this.ConversationHistory;
+    }
+    
+    resetConversationHistory(){
+      this.ConversationHistory = [];
+      this.addSystemPrompt();
     }
   
     async prompt(msg, modelSetting = this.LLMModel) {
@@ -36,6 +55,7 @@ class LLMConversation {
         this.ConversationHistory.push({role: "assistant", content: resp.message.content})
         return resp;
     }
+
 }
 
 module.exports = LLMConversation;
