@@ -1,7 +1,11 @@
 const firstNames = ["John", "Jane", "Alex", "Emily", "Michael", "Sarah"];
+
 const lastNames = ["Smith", "Johnson", "Williams", "Jones", "Brown", "Davis"];
+
 const genders = ["Male", "Female"];
+
 const ages = Array.from({ length: 40 }, (_, i) => i + 21); // Ages 21 to 60
+
 const appearances = {
     height: ["short", "average", "tall"],
     bodyType: ["slim", "average", "heavy"],
@@ -14,7 +18,9 @@ const appearances = {
         "beachwear", "festival", "loungewear", "workwear"
     ]
 };
+
 const personalityTraits = ["friendly", "shy", "outgoing", "aggressive", "quiet", "talkative"];
+
 const backstories = [
     "a regular who knows everyone",
     "a traveler passing through town",
