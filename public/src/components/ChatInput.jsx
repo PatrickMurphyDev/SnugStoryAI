@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
@@ -14,20 +14,30 @@ export default function ChatInput({
   const [AIChecked, setAIChecked] = useState(false);
   const [processing, setProcessing] = useState(isProcessingResponse);
 
-  socket.current.on("msg-recieve-ai", (msg) => {
-    console.log("msg-recieve-ai: ", msg);
-    //setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
-    //setIsProcessingResponse(false);
-    setProcessing(false);
-  });
-  socket.current.on("msg-start-ai", (msg) => {
-    console.log("msg-start-ai: ", msg);
-    setProcessing(true);
-  });
+  useEffect(() => {
+    const handleMsgReceiveAI = (msg) => {
+      console.log("msg-recieve-ai: ", msg);
+      setProcessing(false);
+    };
+
+    const handleMsgStartAI = (msg) => {
+      console.log("msg-start-ai: ", msg);
+      setProcessing(true);
+    };
+
+    socket.current.on("msg-recieve-ai", handleMsgReceiveAI);
+    socket.current.on("msg-start-ai", handleMsgStartAI);
+
+    return () => {
+      socket.current.off("msg-recieve-ai", handleMsgReceiveAI);
+      socket.current.off("msg-start-ai", handleMsgStartAI);
+    };
+  }, [socket]);
 
   const handleAICheckedChange = () => {
     setAIChecked(!AIChecked);
   };
+
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
