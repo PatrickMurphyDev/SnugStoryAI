@@ -4,20 +4,24 @@ import { IoMdSend } from "react-icons/io";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
-export default function ChatInput({ handleSendMsg, socket, isProcessingResponse }) {
+export default function ChatInput({
+  handleSendMsg,
+  socket,
+  isProcessingResponse,
+}) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [AIChecked, setAIChecked] = useState(false);
   const [processing, setProcessing] = useState(isProcessingResponse);
 
   socket.current.on("msg-recieve-ai", (msg) => {
-    console.log('msg-recieve-ai: ', msg);
+    console.log("msg-recieve-ai: ", msg);
     //setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
     //setIsProcessingResponse(false);
     setProcessing(false);
   });
   socket.current.on("msg-start-ai", (msg) => {
-    console.log('msg-start-ai: ', msg);
+    console.log("msg-start-ai: ", msg);
     setProcessing(true);
   });
 
@@ -36,17 +40,19 @@ export default function ChatInput({ handleSendMsg, socket, isProcessingResponse 
 
   const sendChat = (event) => {
     event.preventDefault();
-    if(processing){
-      console.log('block processing');
-    }else if (msg.length > 0) {
-      handleSendMsg(msg,AIChecked);
+    if (processing) {
+      console.log("block processing");
+    } else if (msg.length > 0) {
+      handleSendMsg(msg, AIChecked);
       setMsg("");
     }
   };
 
-  const ButtonChat = (<button type="submit">
-    <IoMdSend />
-  </button>);
+  const ButtonChat = () => (
+    <button type="submit">
+      <IoMdSend />
+    </button>
+  );
 
   return (
     <Container>
@@ -64,16 +70,16 @@ export default function ChatInput({ handleSendMsg, socket, isProcessingResponse 
           value={msg}
         />
         <div className="input-ai-flag">
-        <label>
-        <input
-          type="checkbox"
-          checked={AIChecked}
-          onChange={handleAICheckedChange}
-        />
-        AI
-      </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={AIChecked}
+              onChange={handleAICheckedChange}
+            />
+            AI
+          </label>
         </div>
-        {processing ? "" : <ButtonChat />}
+        {processing ? <p>Proc</p> : <ButtonChat />}
       </form>
     </Container>
   );
