@@ -5,6 +5,7 @@ const {
   createIsland,
   getIslands,
   getIslandById,
+  getIslandsByUserId,
   updateIsland,
   deleteIsland,
   createArea,
@@ -108,6 +109,7 @@ app.get('/docs/:endpoint.html', (req, res)=>{
 // REST API endpoints for Island
 app.post('/islands', createIsland);
 app.get('/islands', getIslands);
+app.get('/islands/user/:id', getIslandsByUserId);
 app.get('/islands/:id', getIslandById);
 app.put('/islands/:id', updateIsland);
 app.delete('/islands/:id', deleteIsland);

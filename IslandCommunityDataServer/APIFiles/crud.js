@@ -28,9 +28,14 @@ const {
     }
   };
   
-  const getDocuments = (Model) => async (req, res) => {
+  const getDocuments = (Model, filter) => async (req, res) => {
     try {
-      const documents = await Model.find();
+      const documents = false;
+      if(filter){
+        documents = await Model.find(filter);
+      } else { 
+        documents = await Model.find();
+      }
       res.send(documents);
     } catch (error) {
       res.status(500).send(error);
@@ -78,6 +83,7 @@ const {
     createIsland: createDocument(Island),
     getIslands: getDocuments(Island),
     getIslandById: getDocumentById(Island),
+    getIslandsByUserId: getDocumentById(Island, ),
     updateIsland: updateDocument(Island),
     deleteIsland: deleteDocument(Island),
   
