@@ -14,38 +14,38 @@ export default function ChatContainer({ currentChat, socket }) {
   // Ref for scrolling to the latest message
   const scrollRef = useRef();
   // State for storing incoming messages
-  const [arrivalMessage, setArrivalMessage] = useState(null);
-  
+  const [incomingMessage, setIncomingMessage] = useState(null);
+
+/* ===== This code currently hidden until Sketch Map added
   const [propertySelected, setPropertySelected] = useState(null);
   const [characterSelected, setCharacterSelected] = useState(null);
 
   const handleCharacterSelect = (character) => {
     setCharacterSelected(character);
-    if(characterSelected)
-      characterSelected.deselect();
+    if (characterSelected) characterSelected.deselect();
     character.select();
     setCharacterSelected(character);
   };
 
   const handlePropertySelect = (property) => {
-    if(propertySelected)
-      propertySelected.deselect();
+    if (propertySelected) propertySelected.deselect();
     property.select();
     setPropertySelected(property);
-  };
-
+  };*/
 
   // Fetch previous messages when currentChat changes
-  useEffect(() => {(async () => {
-    const data = await JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-    );
-    const response = await axios.post(recieveMessageRoute, {
-      from: data._id,
-      to: currentChat._id,
-    });
-    setMessages(response.data);
-  })();}, [currentChat]);
+  useEffect(() => {
+    (async () => {
+      const data = await JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+      );
+      const response = await axios.post(recieveMessageRoute, {
+        from: data._id,
+        to: currentChat._id,
+      });
+      setMessages(response.data);
+    })();
+  }, [currentChat]);
 
   // Ensure the current chat is set when currentChat changes
   useEffect(() => {
@@ -89,12 +89,12 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
-        console.log('msg-recieve: ', msg);
-        setArrivalMessage({ fromSelf: false, senderIsAI: 0, message: msg });
+        console.log("msg-recieve: ", msg);
+        setIncomingMessage({ fromSelf: false, senderIsAI: 0, message: msg });
       });
       socket.current.on("msg-recieve-ai", (msg) => {
-        console.log('msg-recieve-ai: ', msg);
-        setArrivalMessage({ fromSelf: false, senderIsAI: 1, message: msg });
+        console.log("msg-recieve-ai: ", msg);
+        setIncomingMessage({ fromSelf: false, senderIsAI: 1, message: msg });
         //setIsProcessingResponse(false);
       });
     }
@@ -102,8 +102,8 @@ export default function ChatContainer({ currentChat, socket }) {
 
   // Update messages state when a new message arrives
   useEffect(() => {
-    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage]);
+    incomingMessage && setMessages((prev) => [...prev, incomingMessage]);
+  }, [incomingMessage]);
 
   // Scroll to the latest message when messages change
   useEffect(() => {
@@ -140,12 +140,11 @@ export default function ChatContainer({ currentChat, socket }) {
             <div ref={scrollRef} key={uuidv4()}>
               <div
                 className={`message ${
-                  message.fromSelf ? "sended" : "recieved"
-                } ${
-                  message.senderIsAI ? "AIResponse" : "NonAIResponse"
-                }`}
+                  message.fromSelf ? "sentMsg" : "recievedMsg"
+                } ${message.senderIsAI ? "AIResponse" : "NonAIResponse"}`}
               >
                 <div className="content ">
+                  <sub>username</sub>
                   <p>{message.message}</p>
                 </div>
               </div>
@@ -217,13 +216,13 @@ const Container = styled.div`
         }
       }
     }
-    .sended {
+    .sentMsg {
       justify-content: flex-end;
       .content {
         background-color: #4f04ff21;
       }
     }
-    .recieved {
+    .recievedMsg {
       justify-content: flex-start;
       .content {
         background-color: #9900ff20;
@@ -232,7 +231,7 @@ const Container = styled.div`
     .AIResponse {
       margin-left: 5em;
       .content {
-        background-color: #4F735621;
+        background-color: #4f735621;
       }
     }
   }
