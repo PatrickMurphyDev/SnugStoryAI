@@ -17,42 +17,45 @@ export default function Contacts({ contacts, changeChat }) {
     setCurrentSelected(index);
     changeChat(contact);
   };
+
+  let generateContact  = (contact, index) => (
+    <div
+      key={contact._id}
+      className={`contact ${
+        index === currentSelected ? "selected" : ""
+      }`}
+      onClick={() => changeCurrentChat(index, contact)}
+    >
+      <div className="avatar">
+        <img
+          src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+          alt=""
+        />
+      </div>
+      <div className="username">
+        <h3>{contact.username}</h3>
+      </div>
+    </div>
+  );
+
   return (
     <>
       {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>snappy</h3>
+            <h3>Walks Into A Bar...</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
-              return (
-                <div
-                  key={contact._id}
-                  className={`contact ${
-                    index === currentSelected ? "selected" : ""
-                  }`}
-                  onClick={() => changeCurrentChat(index, contact)}
-                >
-                  <div className="avatar">
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt=""
-                    />
-                  </div>
-                  <div className="username">
-                    <h3>{contact.username}</h3>
-                  </div>
-                </div>
-              );
+              return generateContact(contact, index);
             })}
           </div>
           <div className="current-user">
             <div className="avatar">
-              <img
+              <img 
                 src={`data:image/svg+xml;base64,${currentUserImage}`}
-                alt="avatar"
+                alt="current user avatar"
               />
             </div>
             <div className="username">
