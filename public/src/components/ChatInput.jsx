@@ -7,7 +7,7 @@ import Picker from "emoji-picker-react";
 export default function ChatInput({
   handleSendMsg,
   socket,
-  isProcessingResponse,
+  isProcessingResponse = false
 }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -58,9 +58,9 @@ export default function ChatInput({
     }
   };
 
-  const ButtonChat = () => (
-    <button type="submit">
-      <IoMdSend />
+  const ButtonChat = (processing) => (
+    <button type="submit" className={(processing ? "disabled" : "")}>
+      {processing ? "..." : <IoMdSend />}
     </button>
   );
 
@@ -89,7 +89,7 @@ export default function ChatInput({
             AI
           </label>
         </div>
-        {processing ? <p>Proc</p> : <ButtonChat />}
+        <ButtonChat processing={processing} />
       </form>
     </Container>
   );

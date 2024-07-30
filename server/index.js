@@ -56,12 +56,12 @@ const server = app.listen(process.env.PORT, () =>
   console.log(`Server started on ${process.env.PORT}`)
 );
 
-const storeMessage = async (msg, to, from) => {
+const storeMessage = async (msg, to, from, selfSent) => {
   const Messages = require("./models/messageModel");
   return await Messages.create({
     message: { text: msg },
     users: [from, to],
-    sender: mongoose.Types.ObjectId(process.env.AIUUID),
+    sender: selfSent ? from : mongoose.Types.ObjectId(process.env.AIUUID),
   });
 };
 
@@ -82,7 +82,8 @@ const promptAI = async (data, sockets) => {
   );
 
   //persist
-  const newMsg = await storeMessage(response.output, data.to, data.from);
+  const newMsg = await storeMessage(response.output, data.to, data.from, true);
+  return newMsg;
 };
 
 const io = socket(server, {
@@ -117,15 +118,20 @@ io.on("connection", async (socket) => {
         "msg-start-ai",
         data.msg
       );
+
       console.log("Send AI");
       isAIProcessing = true;
+
       const response = await ollama.generate(data.msg);
+
       broadcastMsg(
         socketList,
         "msg-recieve-ai",
         response.output
       );
-      const newMsg = await storeMessage(response.output, data.to, data.from);
+      console.log('Store Data');
+      const newMsg = await storeMessage(response.output, data.to, data.from, false);
+      return newMsg;
     }
   });
 });
