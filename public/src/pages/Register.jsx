@@ -90,7 +90,8 @@ export default function Register() {
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h1>snappy</h1>
+            <h1>Walks Into A Bar</h1>
+            <h4>Large Language Model Story Generator</h4>
           </div>
           <input
             type="text"
