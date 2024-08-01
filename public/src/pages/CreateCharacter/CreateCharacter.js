@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import BasicDetailsStep from './subpages/BasicDetailsStep.js';
-import OccupationEducationStep from './subpages/OccupationEducationStep.js';
-import PhysicalStyleStep from './subpages/PhysicalStyleStep.js';
-import RelationshipsStep from './subpages/RelationshipsStep.js';
+import OccupationEducationStep from './subpages/MentalDetailsStep.js';
+import PhysicalStyleStep from './subpages/PhysicalAppearanceStep.js';
+import RelationshipsStep from './subpages/RelationshipsBackstoryStep.js';
 import HealthDetailsStep from './subpages/HealthDetailsStep.js';
-import MentalHealthStep from './subpages/MentalHealthStep.js';
-import FavoritesStep from './subpages/FavoritesStep.js';
+import MentalHealthStep from './subpages/MentalHealthDetailsStep.js';
+import FavoritesStep from './subpages/GoalsFavoritesStep.js';
 import '../../index.css';
 import './styles.css';
 
