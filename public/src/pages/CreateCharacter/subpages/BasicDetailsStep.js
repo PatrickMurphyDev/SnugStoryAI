@@ -39,9 +39,27 @@ const BasicDetailsStep = ({ character, handleChange, nextStep }) => {
           Brief Physical Summary:
           <textarea name="physicalSummary" value={character.physicalSummary} onChange={handleChange} />
         </label>
-        <div className='buttonRow'>
-          <button type="button" onClick={nextStep}>Next</button>
-        </div>
+        <label>
+          Hometown:
+          <input type="text" name="hometown" value={character.hometown} onChange={handleChange} />
+        </label>
+        <label>
+          Current Residence:
+          <input type="text" name="currentResidence" value={character.currentResidence} onChange={handleChange} />
+        </label>
+        <label>
+          Language(s) Spoken:
+          <input type="text" name="languagesSpoken" value={character.languagesSpoken} onChange={handleChange} />
+        </label>
+        <label>
+          Introvert or Extrovert:
+          <select name="introvertExtrovert" value={character.introvertExtrovert} onChange={handleChange}>
+            <option value="">Select</option>
+            <option value="Introvert">Introvert</option>
+            <option value="Extrovert">Extrovert</option>
+          </select>
+        </label>
+        <button type="button" onClick={nextStep}>Next</button>
       </form>
     </div>
   );

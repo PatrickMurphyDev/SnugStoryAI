@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import BasicDetailsStep from './subpages/BasicDetailsStep.js';
-import OccupationEducationStep from './subpages/MentalDetailsStep.js';
-import PhysicalStyleStep from './subpages/PhysicalAppearanceStep.js';
-import RelationshipsStep from './subpages/RelationshipsBackstoryStep.js';
-import HealthDetailsStep from './subpages/HealthDetailsStep.js';
-import MentalHealthStep from './subpages/MentalHealthDetailsStep.js';
-import FavoritesStep from './subpages/GoalsFavoritesStep.js';
-import '../../index.css';
+import BasicDetailsStep from './subpages/BasicDetailsStep';
+import MentalDetailsStep from './subpages/MentalDetailsStep';
+import PhysicalAppearanceStep from './subpages/PhysicalAppearanceStep';
+import RelationshipsBackstoryStep from './subpages/RelationshipsBackstoryStep';
+import PersonalityDetailsStep from './subpages/PersonalityDetailsStep';
+import RoutineDetailsStep from './subpages/RoutineDetailsStep';
+import MentalHealthDetailsStep from './subpages/MentalHealthDetailsStep';
+import GoalsFavoritesStep from './subpages/GoalsFavoritesStep';
 import './styles.css';
 
 const CreateCharacter = () => {
@@ -19,16 +19,57 @@ const CreateCharacter = () => {
     culture: '',
     raceEthnicity: '',
     physicalSummary: '',
-    occupation: '',
+    hometown: '',
+    currentResidence: '',
+    languagesSpoken: '',
+    introvertExtrovert: '',
     education: '',
+    hobbies: '',
+    socialMediaPresence: '',
+    occupation: '',
     politicalViews: '',
     religiousViews: '',
+    decisionMakingStyle: '',
     physicalDescription: '',
     styleDetails: '',
-    relationships: '',
-    healthDetails: '',
-    mentalHealthDetails: '',
-    favorites: '',
+    travelExperiences: '',
+    familyBackground: '',
+    relationshipStatus: '',
+    childhoodMemories: '',
+    closestFriend: '',
+    roleModels: '',
+    pastRelationships: '',
+    secretTalents: '',
+    volunteerWork: '',
+    proudestAchievement: '',
+    personalFlaws: '',
+    biggestRegret: '',
+    biggestFear: '',
+    greatestAmbition: '',
+    personalMotto: '',
+    petPeeves: '',
+    strengths: '',
+    weaknesses: '',
+    preferredCommunicationStyle: '',
+    senseOfHumor: '',
+    conflictResolutionStyle: '',
+    superstitions: '',
+    typicalDailyRoutine: '',
+    fitnessRoutine: '',
+    allergies: '',
+    mentalHealth: '',
+    emotionalTriggers: '',
+    dreamHome: '',
+    mostPrizedPossession: '',
+    favoriteSeason: '',
+    favoriteChildhoodToy: '',
+    collectingHabits: '',
+    idealVacation: '',
+    favoriteSports: '',
+    favoriteBooks: '',
+    favoriteMovies: '',
+    favoriteMusicGenre: '',
+    favoriteFoods: '',
   });
 
   const handleChange = (e) => {
@@ -46,14 +87,15 @@ const CreateCharacter = () => {
     <div className="create-character">
       <h1>Create a Character</h1>
       {step === 1 && <BasicDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} />}
-      {step === 2 && <OccupationEducationStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
-      {step === 3 && <PhysicalStyleStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
-      {step === 4 && <RelationshipsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
-      {step === 5 && <HealthDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
-      {step === 6 && <MentalHealthStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
-      {step === 7 && <FavoritesStep character={character} handleChange={handleChange} prevStep={prevStep} />}
-    </div>
-  );
+      {step === 2 && <MentalDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
+      {step === 3 && <PhysicalAppearanceStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
+      {step === 4 && <RelationshipsBackstoryStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
+      {step === 5 && <PersonalityDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
+      {step === 6 && <RoutineDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
+      {step === 7 && <MentalHealthDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
+      {step === 8 && <GoalsFavoritesStep character={character} handleChange={handleChange} prevStep={prevStep} />}
+</div>
+);
 };
 
 export default CreateCharacter;

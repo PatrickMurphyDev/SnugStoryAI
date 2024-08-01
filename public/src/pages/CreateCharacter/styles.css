@@ -6,6 +6,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
+    overflow: scroll;
+    max-height: 90vh;
   }
   
   .create-character h1, .create-character h2 {
