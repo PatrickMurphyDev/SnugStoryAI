@@ -111,9 +111,16 @@ io.on("connection", async (socket) => {
       console.log("sendUseSocket msg-recieve conditional?");
       socket.to(sendUserSocket).emit("msg-recieve", data.msg);
     }
+    
+    const newMsg = await storeMessage(
+      data.msg,
+      data.to,
+      data.from,
+      true
+    );
 
     // if AI requested
-    if (data.modelOption !== 0) {
+    if (data.llmodel !== 0) {
       let dataPrefix = [];
       if (promptCount <= 0) {
         // initial setting
