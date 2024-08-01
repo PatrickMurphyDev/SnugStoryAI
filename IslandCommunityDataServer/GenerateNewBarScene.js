@@ -68,6 +68,6 @@ function generatePeople(num) {
 const people = generatePeople(15);
 
 // Display the details of each person
-people.forEach((person, index) => {
-    console.log(`Person ${index + 1}:`, person);
-});
+//people.forEach((person, index) => {
+//    console.log(`Person ${index + 1}:`, person);
+//});
