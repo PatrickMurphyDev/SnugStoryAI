@@ -16,10 +16,11 @@ app.use(express.static("public"));
 let isDBConnected = false;
 let isAIConnected = false;
 let isAIProcessing = false;
+let promptCount = 0;
 
 // SETUP AI Instances
 const ollama = new Ollama.Ollama();
-ollama.setModel("llama3");//"phi3:mini");
+ollama.setModel("rp"); //"phi3:mini");
 
 // SETUP DB Instances
 mongoose
@@ -73,7 +74,7 @@ const broadcastMsg = (sockets, msg, params) => {
 const promptAI = async (data, sockets) => {
   var { sendUserSocket, fromUserSocket } = sockets;
   console.log("Send AI");
-  ``;
+
   const response = await ollama.generate(data.msg);
   broadcastMsg(
     [socket, io, sendUserSocket, fromUserSocket],
@@ -113,24 +114,63 @@ io.on("connection", async (socket) => {
 
     // if AI requested
     if (data.modelOption !== 0) {
-      broadcastMsg(
-        socketList,
-        "msg-start-ai",
-        data.msg
-      );
+      let dataPrefix = [];
+      if (promptCount <= 0) {
+        // initial setting
+        dataPrefix = [
+          {
+            name: "Jane Davis",
+            gender: "Female",
+            age: 59,
+            appearance: {
+              height: "tall",
+              bodyType: "heavy",
+              hairColor: "red",
+              eyeColor: "hazel",
+              clothingStyle: "goth",
+            },
+            personalityTraits: ["friendly", "shy"],
+            backstory: "a traveler passing through town",
+          },
+          {
+            name: "Michael Smith",
+            gender: "Male",
+            age: 38,
+            appearance: {
+              height: "tall",
+              bodyType: "slim",
+              hairColor: "red",
+              eyeColor: "blue",
+              clothingStyle: "athleisure",
+            },
+            personalityTraits: ["friendly", "shy"],
+            backstory: "a regular who knows everyone",
+          }
+        ];
+      }
+
+      promptCount++;
+      broadcastMsg(socketList, "msg-start-ai", data.msg);
 
       console.log("Send AI");
       isAIProcessing = true;
 
-      const response = await ollama.generate(data.msg);
+      let sendMsg = data.msg;
+      if (dataPrefix.length > 0) {
+        sendMsg = JSON.stringify(dataPrefix) + "   User Prompt: " + data.msg;
+      }
 
-      broadcastMsg(
-        socketList,
-        "msg-recieve-ai",
-        response.output
+      const response = await ollama.generate(sendMsg);
+
+      broadcastMsg(socketList, "msg-recieve-ai", response.output);
+
+      console.log("Store Data");
+      const newMsg = await storeMessage(
+        response.output,
+        data.to,
+        data.from,
+        false
       );
-      console.log('Store Data');
-      const newMsg = await storeMessage(response.output, data.to, data.from, false);
       return newMsg;
     }
   });
