@@ -53,6 +53,8 @@ const savedGames = [{name:"save 1"},{name:"save 2"}];
           >
             ⚙️
           </div>
+          <a href="/createCharacter" title="Create Character / Story" style={{width:"80%",
+              textDecoration: "none",color:'#fff'}}>
           <div
             style={{
               display: "block-inline",
@@ -61,11 +63,11 @@ const savedGames = [{name:"save 1"},{name:"save 2"}];
               paddingVertical: "20px",
               textAlign: "center",
               borderRadius: "5px",
-              width:"80%"
+              width:"100%"
             }}
           >
             New Story
-          </div>
+          </div></a>
         </div>
       </div>
     </Container>

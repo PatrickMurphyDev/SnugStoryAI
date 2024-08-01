@@ -1,0 +1,56 @@
+.create-character {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .create-character h1, .create-character h2 {
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 10px;
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .buttonRow {
+    display:flex;
+    flex-direction: row;
+  }
+  
+  button {
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    max-width: 40%;
+    float: right;
+  }
+  
+  button[type="button"]:not(:last-child) {
+    margin-right: 10px;
+    float: none;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
