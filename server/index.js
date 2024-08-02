@@ -7,10 +7,14 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 const Ollama = require("ollama-node");
+const {getCharacterAttributeField} = require("./controllers/crud");
+
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+app.get("/api/characterattributefield/:id", getCharacterAttributeField);
 
 // SERVER STATE - Displayed on /ping
 let isDBConnected = false;
@@ -71,6 +75,7 @@ const broadcastMsg = (sockets, msg, params) => {
   sockets[1].to(sockets[3]).emit(msg, params);
 };
 
+// TODO: Implement the PromptAI function
 const promptAI = async (data, sockets) => {
   var { sendUserSocket, fromUserSocket } = sockets;
   console.log("Send AI");
