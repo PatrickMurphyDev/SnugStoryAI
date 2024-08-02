@@ -1,4 +1,7 @@
 import React from 'react';
+import CreateSelect from "../../../components/CreateSelect";
+
+         // {<textarea name="familyBackground" value={character.familyBackground} onChange={handleChange} />}
 
 const RelationshipsBackstoryStep = ({ character, handleChange, nextStep, prevStep }) => {
   return (
@@ -11,7 +14,7 @@ const RelationshipsBackstoryStep = ({ character, handleChange, nextStep, prevSte
         </label>
         <label>
           Family Background:
-          <textarea name="familyBackground" value={character.familyBackground} onChange={handleChange} />
+          <CreateSelect value={character.familyBackground} field_id={7} onChange={handleChange} />
         </label>
         <label>
           Relationship Status:
