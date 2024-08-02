@@ -4,7 +4,7 @@ import CreateCharacterFields from '../models/CharacterAttributes';
 import axios from 'axios';
 
 const getOptions = (field_id = 7) => {
-    //axios.get("/getCharacterAtttributeValues/"+field_id, );       
+    //axios.get("/getFieldValues/"+field_id, );       
     const familyBackgroundField = {
         aid: 9,
         an: "family background",

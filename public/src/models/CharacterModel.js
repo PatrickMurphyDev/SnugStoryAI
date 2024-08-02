@@ -20,14 +20,10 @@ const CharacterSchema = new Schema({
 
 const Character = model("Character", CharacterSchema);
 
-// Character Schema
+// Character Details Schema
 const CharacterDetailsSchema = new Schema({
   island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
-  character_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Character",
-    required: true,
-  },
+  character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
   presentingGender: {
     type: String,
     enum: ["male", "female", "non-binary"],
@@ -36,12 +32,21 @@ const CharacterDetailsSchema = new Schema({
   sexualOrientation: {
     type: String,
     enum: ["heterosexual", "homosexual", "bisexual", "asexual", "other"],
-    default: "herosexual",
+    default: "heterosexual",
   },
-  occupation: { type: String, required: false },
+  occupation: { type: String },
   job_id: { type: Schema.Types.ObjectId, ref: "JobPosition" },
   residence_id: { type: Schema.Types.ObjectId, ref: "Building" },
-  description: { type: String, required: false },
+  appearance: {
+    height: { type: String },
+    bodyType: { type: String },
+    hairColor: { type: String },
+    hairStyle: { type: String },
+    eyeDescriptor: { type: String },
+    eyeColor: { type: String },
+    clothingStyle: { type: String },
+  },
+  description: { type: String },
   goals: [
     {
       goalType: {
@@ -51,20 +56,12 @@ const CharacterDetailsSchema = new Schema({
       },
       goalName: { type: String, required: true },
       goalDescription: { type: String, required: true },
-      //goalStakes: [],
-      //goalSolutions: [],
     },
-  ], // story goals and scene goals for the character
+  ],
   traits: [{ type: Schema.Types.ObjectId, ref: "CharacterTrait" }],
   resources_id: { type: Schema.Types.ObjectId, ref: "Resources" },
-  behavioral_patterns_id: {
-    type: Schema.Types.ObjectId,
-    ref: "BehavioralPatterns",
-  },
-  special_conditions_id: {
-    type: Schema.Types.ObjectId,
-    ref: "SpecialConditions",
-  },
+  behavioral_patterns_id: { type: Schema.Types.ObjectId, ref: "BehavioralPatterns" },
+  special_conditions_id: { type: Schema.Types.ObjectId, ref: "SpecialConditions" },
 });
 
 const CharacterDetails = model("CharacterDetails", CharacterDetailsSchema);
@@ -72,11 +69,7 @@ const CharacterDetails = model("CharacterDetails", CharacterDetailsSchema);
 // Character Trait Schema
 const CharacterTraitSchema = new Schema({
   island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
-  character_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Character",
-    required: true,
-  },
+  character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
   trait_id: { type: Schema.Types.ObjectId, ref: "Trait", required: true },
   value: { type: Number, min: 0, max: 100, required: true },
 });
@@ -97,74 +90,71 @@ const TraitSchema = new Schema({
 
 const Trait = model("Trait", TraitSchema);
 
-// Island Schema
+// Character Personality Schema
 const CharacterPersonalitySchema = new Schema({
   age: { type: String, required: true }, // in other models
   gender: { type: String, required: true }, // in other models
   firstName: { type: String, required: true }, // in other models
-  firstNameSuffix: { type: String, required: false }, // in other models
-  middleName: { type: String, required: false }, // in other models
-  lastName: { type: String, required: false }, // in other models
-  birthplace: { type: String, required: false },
-  culture: { type: String, required: false },
-  raceEthnicity: { type: String, required: false }, // TODO should be in other models
-  physicalSummary: { type: String, required: false },
-  hometown: { type: String, required: false },
-  currentResidence: { type: String, required: false },
-  languagesSpoken: { type: String, required: false },
-  introvertExtrovert: { type: String, required: false },
-  education: { type: String, required: false },
-  hobbies: { type: String, required: false },
-  socialMediaPresence: { type: String, required: false },
-  occupation: { type: String, required: false },
-  politicalViews: { type: String, required: false },
-  religiousViews: { type: String, required: false },
-  decisionMakingStyle: { type: String, required: false },
-  physicalDescription: { type: String, required: false },
-  styleDetails: { type: String, required: false },
-  travelExperiences: { type: String, required: false },
-  familyBackground: { type: String, required: false },
-  relationshipStatus: { type: String, required: false },
-  childhoodMemories: { type: String, required: false },
-  closestFriend: { type: String, required: false },
-  roleModels: { type: String, required: false },
-  pastRelationships: { type: String, required: false },
-  secretTalents: { type: String, required: false },
-  volunteerWork: { type: String, required: false },
-  proudestAchievement: { type: String, required: false },
-  personalFlaws: { type: String, required: false },
-  biggestRegret: { type: String, required: false },
-  biggestFear: { type: String, required: false },
-  greatestAmbition: { type: String, required: false },
-  personalMotto: { type: String, required: false },
-  petPeeves: { type: String, required: false },
-  strengths: { type: String, required: false },
-  weaknesses: { type: String, required: false },
-  preferredCommunicationStyle: { type: String, required: false },
-  senseOfHumor: { type: String, required: false },
-  conflictResolutionStyle: { type: String, required: false },
-  superstitions: { type: String, required: false },
-  typicalDailyRoutine: { type: String, required: false },
-  fitnessRoutine: { type: String, required: false },
-  allergies: { type: String, required: false },
-  mentalHealth: { type: String, required: false },
-  emotionalTriggers: { type: String, required: false },
-  dreamHome: { type: String, required: false },
-  mostPrizedPossession: { type: String, required: false },
-  favoriteSeason: { type: String, required: false },
-  favoriteChildhoodToy: { type: String, required: false },
-  collectingHabits: { type: String, required: false },
-  idealVacation: { type: String, required: false },
-  favoriteSports: { type: String, required: false },
-  favoriteBooks: { type: String, required: false },
-  favoriteMovies: { type: String, required: false },
-  favoriteMusicGenre: { type: String, required: false },
-  favoriteFoods: { type: String, required: false },
+  firstNameSuffix: { type: String },
+  middleName: { type: String },
+  lastName: { type: String },
+  birthplace: { type: String },
+  culture: { type: String },
+  raceEthnicity: { type: String }, // TODO should be in other models
+  physicalSummary: { type: String },
+  hometown: { type: String },
+  currentResidence: { type: String },
+  languagesSpoken: { type: String },
+  introvertExtrovert: { type: String },
+  education: { type: String },
+  hobbies: { type: String },
+  socialMediaPresence: { type: String },
+  occupation: { type: String },
+  politicalViews: { type: String },
+  religiousViews: { type: String },
+  decisionMakingStyle: { type: String },
+  physicalDescription: { type: String },
+  styleDetails: { type: String },
+  travelExperiences: { type: String },
+  familyBackground: { type: String },
+  relationshipStatus: { type: String },
+  childhoodMemories: { type: String },
+  closestFriend: { type: String },
+  roleModels: { type: String },
+  pastRelationships: { type: String },
+  secretTalents: { type: String },
+  volunteerWork: { type: String },
+  proudestAchievement: { type: String },
+  personalFlaws: { type: String },
+  biggestRegret: { type: String },
+  biggestFear: { type: String },
+  greatestAmbition: { type: String },
+  personalMotto: { type: String },
+  petPeeves: { type: String },
+  strengths: { type: String },
+  weaknesses: { type: String },
+  preferredCommunicationStyle: { type: String },
+  senseOfHumor: { type: String },
+  conflictResolutionStyle: { type: String },
+  superstitions: { type: String },
+  typicalDailyRoutine: { type: String },
+  fitnessRoutine: { type: String },
+  allergies: { type: String },
+  mentalHealth: { type: String },
+  emotionalTriggers: { type: String },
+  dreamHome: { type: String },
+  mostPrizedPossession: { type: String },
+  favoriteSeason: { type: String },
+  favoriteChildhoodToy: { type: String },
+  collectingHabits: { type: String },
+  idealVacation: { type: String },
+  favoriteSports: { type: String },
+  favoriteBooks: { type: String },
+  favoriteMovies: { type: String },
+  favoriteMusicGenre: { type: String },
+  favoriteFoods: { type: String },
 });
 
-const CharacterPersonality = model(
-  "CharacterPersonality",
-  CharacterPersonalitySchema
-);
+const CharacterPersonality = model("CharacterPersonality", CharacterPersonalitySchema);
 
-module.exports = {Character, CharacterDetails, CharacterTrait, Trait, CharacterPersonality};
+module.exports = { Character, CharacterDetails, CharacterTrait, Trait, CharacterPersonality };
