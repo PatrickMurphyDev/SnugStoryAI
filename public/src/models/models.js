@@ -254,6 +254,25 @@ const CharacterRelationship = model(
   CharacterRelationshipSchema
 );
 
+// Sub-schema for values in the 'av' array
+const AttributeFieldValueSchema = new Schema({
+  vn: { type: String, required: true }, // Value name
+  vp: { type: Number, required: true }, // Value probability
+  ve: { type: Number, required: true }  // Value effect
+}); 
+
+// Schema for the field
+const CharacterAttributeFieldSchema = new Schema({
+  aid: { type: Number, required: true },  // Attribute ID
+  an: { type: String, required: true },   // Attribute name
+  ad: { type: String, required: true },   // Attribute description
+  ac: { type: String, required: true },   // Attribute category
+  ae: { type: String, required: true },   // Attribute effects
+  av: { type: [AttributeFieldValueSchema], required: true } // Array of values
+});
+
+const CharacterAttributeField = model("CharacterAttributeField",CharacterAttributeFieldSchema);
+
 module.exports = {
   Island,
   Area,
@@ -267,4 +286,5 @@ module.exports = {
   SpecialConditions,
   RelationshipEvent,
   CharacterRelationship,
+  CharacterAttributeField
 };
