@@ -13,8 +13,6 @@ const MentalHealthDetailsStep = ({ character, handleChange, nextStep, prevStep }
           Emotional Triggers:
           <textarea name="emotionalTriggers" value={character.emotionalTriggers} onChange={handleChange} />
         </label>
-        <button type="button" onClick={prevStep}>Previous</button>
-        <button type="button" onClick={nextStep}>Next</button>
       </form>
     </div>
   );

@@ -10,15 +10,15 @@ const RelationshipsBackstoryStep = ({ character, handleChange, nextStep, prevSte
       <form>
         <label>
           Travel Experiences:
-          <textarea name="travelExperiences" value={character.travelExperiences} onChange={handleChange} />
+          <CreateSelect name="travelExperiences" value={character.travelExperiences} field_id={29} onChange={handleChange} />
         </label>
         <label>
           Family Background:
-          <CreateSelect value={character.familyBackground} field_id={7} onChange={handleChange} />
+          <CreateSelect name="familyBackground" value={character.familyBackground} field_id={9} onChange={handleChange} />
         </label>
         <label>
           Relationship Status:
-          <input type="text" name="relationshipStatus" value={character.relationshipStatus} onChange={handleChange} />
+          <CreateSelect name="relationshipStatus" value={character.relationshipStatus} field_id={10} onChange={handleChange} />
         </label>
         <label>
           Childhood Memories:
@@ -40,8 +40,6 @@ const RelationshipsBackstoryStep = ({ character, handleChange, nextStep, prevSte
           Secret Talents:
           <textarea name="secretTalents" value={character.secretTalents} onChange={handleChange} />
         </label>
-        <button type="button" onClick={prevStep}>Previous</button>
-        <button type="button" onClick={nextStep}>Next</button>
       </form>
     </div>
   );

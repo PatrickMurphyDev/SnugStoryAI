@@ -84,7 +84,8 @@ const CreateCharacter = () => {
   const prevStep = () => setStep((prevStep) => prevStep - 1);
 
   return (
-    <div className="create-character">
+    <>
+    <div className="create-character create-character-card">
       <h1>Create a Character</h1>
       {step === 1 && <BasicDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} />}
       {step === 2 && <MentalDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
@@ -95,6 +96,14 @@ const CreateCharacter = () => {
       {step === 7 && <MentalHealthDetailsStep character={character} handleChange={handleChange} nextStep={nextStep} prevStep={prevStep} />}
       {step === 8 && <GoalsFavoritesStep character={character} handleChange={handleChange} prevStep={prevStep} />}
 </div>
+<div className="create-character-card" style={{flexDirection:'column', display:'flex'}}>
+  <div style={{flexDirection:'row', display:'flex', flex:'grow', width:'100%', position:'relative'}} >
+    {step > 1 && <button type="button" style={{float:'left'}} onClick={prevStep}>Previous</button>}
+    {step < 8 &&<button type="button" style={{float:'right'}} onClick={nextStep}>Next</button>}
+  </div>
+  <button type="submit">Save</button>
+</div>
+</>
 );
 };
 

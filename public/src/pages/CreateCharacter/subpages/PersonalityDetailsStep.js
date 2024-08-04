@@ -61,8 +61,6 @@ Conflict Resolution Style:
 Superstitions:
 <textarea name="superstitions" value={character.superstitions} onChange={handleChange} />
 </label>
-<button type="button" onClick={prevStep}>Previous</button>
-<button type="button" onClick={nextStep}>Next</button>
 </form>
 </div>
 );

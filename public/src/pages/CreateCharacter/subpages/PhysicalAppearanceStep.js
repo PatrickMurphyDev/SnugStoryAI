@@ -13,8 +13,6 @@ const PhysicalAppearanceStep = ({ character, handleChange, nextStep, prevStep })
           Style of Dress:
           <textarea name="styleDetails" value={character.styleDetails} onChange={handleChange} />
         </label>
-        <button type="button" onClick={prevStep}>Previous</button>
-        <button type="button" onClick={nextStep}>Next</button>
       </form>
     </div>
   );

@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-app.get("/api/characterattributefield/:id", getCharacterAttributeField);
+app.get("/api/characterattributefield/:aid", getCharacterAttributeField);
 
 // SERVER STATE - Displayed on /ping
 let isDBConnected = false;

@@ -59,8 +59,12 @@ const {
 
   const getDocumentWhere = (Model, where = {}) => async (req, res) => {
     try {
-      let m = await Model.findOne(where);
-      res.send(m);
+      let m = await Model.findOne(req.params);
+      if(m){
+        res.send(m);
+      }else{
+        res.send({'error':"no-data"});
+      }
     } catch (error) {
       res.status(500).send(error);
     }
@@ -189,6 +193,6 @@ const {
     updateCharacterRelationship: updateDocument(CharacterRelationship),
     deleteCharacterRelationship: deleteDocument(CharacterRelationship),
 
-    getCharacterAttributeField: getDocumentWhere(CharacterAttributeField),
+    getCharacterAttributeField: getDocumentWhere(CharacterAttributeField), // default uses req.params
   };
   

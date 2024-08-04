@@ -17,8 +17,6 @@ const RoutineDetailsStep = ({ character, handleChange, nextStep, prevStep }) => 
           Allergies:
           <textarea name="allergies" value={character.allergies} onChange={handleChange} />
         </label>
-        <button type="button" onClick={prevStep}>Previous</button>
-        <button type="button" onClick={nextStep}>Next</button>
       </form>
     </div>
   );
