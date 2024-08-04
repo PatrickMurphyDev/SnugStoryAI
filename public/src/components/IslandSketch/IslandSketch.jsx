@@ -64,6 +64,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
 
   const draw = (p5) => {
     const transparency = '60';
+    p5.background('#000'); 
     p5.translate(offset.x, offset.y);
     p5.scale(scal);
     p5.image(bgImage, 0, 0, 800, 600);
