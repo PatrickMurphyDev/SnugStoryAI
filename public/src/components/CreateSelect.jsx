@@ -18,6 +18,7 @@ const CreatableSelectComponent = (props) => {
   const [fieldData, setFieldData] = useState({ an: "loading...", ad: "" });
   const [options, setOptions] = useState(defaultOptions);
   const [value, setValue] = useState(null);
+  const [focus, setFocus] = useState(false);
 
   const updateFieldData = (fd) => {
     setFieldData(fd);
@@ -50,19 +51,19 @@ const CreatableSelectComponent = (props) => {
 
   return (
     <>
+      {focus && <p><sub>{fieldData.ad}</sub></p>}
       <CreatableSelect
         isClearable
         isMulti
         isDisabled={isLoading}
         isLoading={isLoading}
         onChange={(newValue) => setValue(newValue)}
+        onFocus={()=>setFocus(true)}
+        onBlur={()=>setFocus(false)}
         onCreateOption={handleCreate}
         options={options}
         value={value}
       />
-      <p>
-        <sub>{fieldData.ad}</sub>
-      </p>
     </>
   );
 };
