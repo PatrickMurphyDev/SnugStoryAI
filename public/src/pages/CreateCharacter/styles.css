@@ -9,7 +9,7 @@
 }
 .create-character {
     overflow-y: scroll;
-    max-height: 90vh;
+    max-height: 80vh;
   }
   
   .create-character h1, .create-character h2 {

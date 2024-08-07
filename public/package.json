@@ -11,6 +11,7 @@
     "emoji-picker-react": "^3.5.1",
     "llmclient": "^8.1.21",
     "react": "^17.0.2",
+    "react-accessible-accordion": "4.0.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-p5": "^1.4.1",
