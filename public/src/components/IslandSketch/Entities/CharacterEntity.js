@@ -9,28 +9,33 @@ import { FiniteStateMachine, states } from '../FiniteStateMachine';
 import SimulationTime from '../../../utils/SimulationTime';
 
 const simTime = SimulationTime.getInstance();
+
 class CharacterEntity extends Entity {
-  constructor(name, age, gender, skills, bio, attributes) {
+  constructor(name, age, gender, skills, bio, attributes, residenceLot, employmentLot) {
     super('character', Math.floor(Math.random() * 1000), { x: 0, y: 0 }, { width: 15, height: 15 });
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
-    this.location = {x: this.info.lotResidence.x, y: this.info.lotResidence.y};
+    this.location = { x: residenceLot.coordinates.x, y: residenceLot.coordinates.y }; // Start at residence
+
+    this.residenceLot = residenceLot;
+    this.employmentLot = employmentLot;
 
     simTime.onTimeUpdate((data) => {
       this.dailyRoutine.handleTimeUpdate(data.minElapsed, data.date);
-      //console.log(
-      //  `${this.info.name} Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}, minElapsed: ${data.minElapsed}`
-      //);
+
+      if (this.needsToMove()) {
+        const lot = this.determineNewLot();
+        this.updateLocation(lot);
+      }
     });
 
     this.dailyRoutine.onStateUpdate((data) => {
       console.log('char state update', data);
     });
   }
-
 
   update() {
     super.update();
@@ -44,7 +49,32 @@ class CharacterEntity extends Entity {
     p5.fill('#ff0000');
     p5.ellipse(ps.x+12,ps.y+5,15,15);
   }
+  
+  // Method to update location
+  updateLocation(lot) {
+    this.location.x = lot.coordinates.x;
+    this.location.y = lot.coordinates.y;
+  }
 
+  // Determine if the character needs to move based on the current state
+  needsToMove() {
+    const currentState = this.dailyRoutine.currentState;
+    return states[currentState].requiresMove;
+  }
+
+  // Determine the new lot based on the character's state
+  determineNewLot() {
+    const currentState = this.dailyRoutine.currentState;
+    if (currentState === states.WORKING.name) {
+      return this.employmentLot;
+    } else if (currentState === states.SLEEPING.name) {
+      return this.residenceLot;
+    }
+    // Add more conditions as needed
+    return this.residenceLot; // Default to residence
+  }
+
+  // Example methods for rest, eat, and drink
   rest() {
     this.tasks.addTask(new Task('rest', (character) => {
       console.log(`${character.info.name} is resting`);

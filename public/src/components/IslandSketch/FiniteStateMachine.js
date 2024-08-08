@@ -1,6 +1,7 @@
+// FiniteStateMachine.js
 import EventEmitter from "events";
 
-const states = {
+export const states = {
   SLEEPING: "sleeping",
   WAKING: "waking",
   SHOWERING: "showering",
@@ -16,60 +17,125 @@ const states = {
   GOING_HOME: "going_home",
   EATING_DINNER: "eating_dinner",
   WATCHING_TV: "watching_tv",
-  GOING_TO_BED: "going_to_bed",
+  GOING_TO_BED: "going_to_bed"
 };
 
-const stateDurations = {
-  SLEEPING: 480,
-  WAKING: 5,
-  SHOWERING: 10,
-  CHANGING_CLOTHES: 5,
-  DRINKING_COFFEE: 10,
-  EATING_BREAKFAST: 20,
-  LEAVING_FOR_WORK: 5,
-  WALKING_TO_WORK: 15,
-  ARRIVING_AT_WORK: 5,
-  WORKING: 120,
-  TAKING_BREAK: 15,
-  LUNCH: 30,
-  GOING_HOME: 15,
-  EATING_DINNER: 30,
-  WATCHING_TV: 120,
-  GOING_TO_BED: 10,
+export const stateDetails = {
+  SLEEPING: {
+    name: states.SLEEPING,
+    duration: { default: 480, min: 120, max: 600 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  WAKING: {
+    name: states.WAKING,
+    duration: { default: 5, min: 1, max: 10 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  SHOWERING: {
+    name: states.SHOWERING,
+    duration: { default: 10, min: 5, max: 15 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  CHANGING_CLOTHES: {
+    name: states.CHANGING_CLOTHES,
+    duration: { default: 5, min: 2, max: 10 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  DRINKING_COFFEE: {
+    name: states.DRINKING_COFFEE,
+    duration: { default: 10, min: 5, max: 15 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  EATING_BREAKFAST: {
+    name: states.EATING_BREAKFAST,
+    duration: { default: 20, min: 10, max: 30 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  LEAVING_FOR_WORK: {
+    name: states.LEAVING_FOR_WORK,
+    duration: { default: 5, min: 2, max: 10 },
+    moveDetails: { requiresMove: true, isTraveling: true }
+  },
+  WALKING_TO_WORK: {
+    name: states.WALKING_TO_WORK,
+    duration: { default: 15, min: 10, max: 20 },
+    moveDetails: { requiresMove: true, isTraveling: true }
+  },
+  ARRIVING_AT_WORK: {
+    name: states.ARRIVING_AT_WORK,
+    duration: { default: 5, min: 2, max: 10 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  WORKING: {
+    name: states.WORKING,
+    duration: { default: 120, min: 60, max: 240 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  TAKING_BREAK: {
+    name: states.TAKING_BREAK,
+    duration: { default: 15, min: 5, max: 30 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  LUNCH: {
+    name: states.LUNCH,
+    duration: { default: 30, min: 15, max: 60 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  GOING_HOME: {
+    name: states.GOING_HOME,
+    duration: { default: 15, min: 10, max: 20 },
+    moveDetails: { requiresMove: true, isTraveling: true }
+  },
+  EATING_DINNER: {
+    name: states.EATING_DINNER,
+    duration: { default: 30, min: 20, max: 60 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  WATCHING_TV: {
+    name: states.WATCHING_TV,
+    duration: { default: 120, min: 60, max: 180 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  },
+  GOING_TO_BED: {
+    name: states.GOING_TO_BED,
+    duration: { default: 10, min: 5, max: 20 },
+    moveDetails: { requiresMove: false, isTraveling: false }
+  }
 };
 
-class FiniteStateMachine extends EventEmitter {
+export class FiniteStateMachine extends EventEmitter {
   constructor(initialState) {
-    super();
-    this.currState = initialState;
+    super()
+    this.currentState = initialState;
+    this.timeElapsed = 0;
     this.work_breaks = 0;
     this.work_lunch = 0;
-    this.elapsedTime = 0; // Track the elapsed time in the current state
   }
 
-  handleTimeUpdate(minElapsed, newDatetime, prevDateTime) {
-    this.elapsedTime += minElapsed;
-    const durrKey = this.currState.toString().toUpperCase();
+  handleTimeUpdate(minElapsed, date) {
+    const currentStateDetails = stateDetails[this.currentState];
+    this.timeElapsed += minElapsed;
 
-    const duration = stateDurations[durrKey];
-
-    console.log(minElapsed, this.elapsedTime, duration);
-    if (this.elapsedTime >= duration) {
+    if (this.timeElapsed >= currentStateDetails.duration.default) {
       console.log("switch");
       this.autoTransition();
+      //this.transitionToNextState();
     }
   }
 
-  // Function to subscribe to state updates
-  onStateUpdate(listener) {
-    this.on("stateUpdate", listener);
+  transitionToNextState(nextState) {
+    // Logic for transitioning to the next state
+    console.log(`Transitioning from ${this.currentState} to the next state`);
+    this.emit('stateUpdate', {"prevState":this.currState, "newState": nextState});
+    this.currentState = nextState;
+    this.timeElapsed = 0;
   }
 
-  transitionToNextState(nextState) {
-    console.log(`Transitioning from ${this.currState} to ${nextState}`);
-    this.emit('stateUpdate', {"prevState":this.currState, "newState": nextState});
-    this.currState = nextState;
-    this.elapsedTime = 0; // Reset elapsed time
+  onStateUpdate(listener) {
+    // Logic to handle state updates
+    // This is a placeholder and should be implemented according to your requirements
+    this.on("stateUpdate", listener);
+    //callback(this.currentState);
   }
 
   autoTransition() {
@@ -146,5 +212,3 @@ class FiniteStateMachine extends EventEmitter {
     return this.currState;
   }
 }
-
-export { FiniteStateMachine, states, stateDurations };
