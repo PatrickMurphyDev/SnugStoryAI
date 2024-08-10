@@ -144,11 +144,11 @@ export default function ChatContainer({ currentChat, socket }) {
                 } ${message.senderIsAI ? "AIResponse" : "NonAIResponse"}`}
               >
                 <div className="content ">
-                  <sub>username</sub>
+                  <sub>{message.fromSelf ? "Username" : "Username"}</sub>
                   <p>{message.message}</p>
                 </div>
               </div>
-            </div>
+            </div> 
           );
         })}
       </div>
