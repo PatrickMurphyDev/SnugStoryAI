@@ -32,7 +32,26 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
     };
 
     const initalizeCharacters = () => {
-      const characterTempList = Residents.map((v,i,a)=>{return new CharacterEntity(v.name,v.age,v.gender,v.skills,v.bio,v.attributes)});
+      const characterTempList = Residents.map((v,i,a)=>{
+        const residenceLot = lots.find(lot => lot.zone === 'residential' && !lot.occupied); // Find an unoccupied residential lot
+        const employmentLot = lots.find(lot => lot.zone === 'commercial' && !lot.occupied); // Find an unoccupied commercial lot
+    
+        // Mark the lots as occupied
+        if (residenceLot) residenceLot.occupied = true;
+        if (employmentLot) employmentLot.occupied = true;
+    
+        // Create the character with assigned lots
+        return new CharacterEntity(
+          v.name,
+          v.age,
+          v.gender,
+          v.skills,
+          v.bio,
+          v.attributes,
+          residenceLot,  // Pass residence lot
+          employmentLot  // Pass employment lot
+        );
+      });
       setVillagers(characterTempList);
     } 
 

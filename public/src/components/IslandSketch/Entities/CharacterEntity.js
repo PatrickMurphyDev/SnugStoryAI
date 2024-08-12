@@ -5,7 +5,7 @@ import Task from './Task';
 import CharacterAttributes from '../CharacterFeatures/CharacterAttributes';
 import CharacterNeeds from '../CharacterFeatures/CharacterNeeds';
 import CharacterTasks from '../CharacterFeatures/CharacterTasks';
-import { FiniteStateMachine, states } from '../FiniteStateMachine';
+import { FiniteStateMachine, states, stateDetails } from '../FiniteStateMachine';
 import SimulationTime from '../../../utils/SimulationTime';
 
 const simTime = SimulationTime.getInstance();
@@ -59,15 +59,15 @@ class CharacterEntity extends Entity {
   // Determine if the character needs to move based on the current state
   needsToMove() {
     const currentState = this.dailyRoutine.currentState;
-    return states[currentState].requiresMove;
+    return stateDetails[currentState.toUpperCase()].moveDetails.requiresMove;
   }
 
   // Determine the new lot based on the character's state
   determineNewLot() {
     const currentState = this.dailyRoutine.currentState;
-    if (currentState === states.WORKING.name) {
+    if (currentState === states.WORKING) {
       return this.employmentLot;
-    } else if (currentState === states.SLEEPING.name) {
+    } else if (currentState === states.SLEEPING) {
       return this.residenceLot;
     }
     // Add more conditions as needed
