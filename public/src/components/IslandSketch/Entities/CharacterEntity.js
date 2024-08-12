@@ -5,7 +5,9 @@ import Task from './Task';
 import CharacterAttributes from '../CharacterFeatures/CharacterAttributes';
 import CharacterNeeds from '../CharacterFeatures/CharacterNeeds';
 import CharacterTasks from '../CharacterFeatures/CharacterTasks';
-import { FiniteStateMachine, states, stateDetails } from '../FiniteStateMachine';
+import { FiniteStateMachine } from '../FiniteStateMachine';
+import { stateDetails } from "../states";
+import { states } from "../states";
 import SimulationTime from '../../../utils/SimulationTime';
 
 const simTime = SimulationTime.getInstance();
