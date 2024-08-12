@@ -7,6 +7,17 @@ class SimulationTime extends EventEmitter {
         return SimulationTime.instance;
     }
 
+    if(!params){
+      params = {};
+      params['isPaused'] = false;
+      params['rateOfTime'] = 1;
+      params['currentTimeOfDay'] = 0;
+      params['currentDayOfWeek'] = 1;
+      params['dayOfMonth'] = 4;
+      params['month'] = 7;
+      params['year'] = 2024;
+    }
+
     this._isPaused = params.isPaused ? params.isPaused : false;
     this._rateOfTime = params.rateOfTime || 1; // 1x, 2x, 3x
     this._currentTimeOfDay = params.currentTimeOfDay || 0; // in minutes (0-1440)

@@ -11,7 +11,7 @@ import SimulationTime from '../../../utils/SimulationTime';
 const simTime = SimulationTime.getInstance();
 
 class CharacterEntity extends Entity {
-  constructor(name, age, gender, skills, bio, attributes, residenceLot, employmentLot) {
+  constructor(name, age, gender, skills, bio, attributes, residenceLot = {coordinates:{x:0,y:0}}, employmentLot) {
     super('character', Math.floor(Math.random() * 1000), { x: 0, y: 0 }, { width: 15, height: 15 });
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);

@@ -116,7 +116,7 @@ export class FiniteStateMachine extends EventEmitter {
     const currentStateDetails = stateDetails[this.currentState];
     this.timeElapsed += minElapsed;
 
-    if (this.timeElapsed >= currentStateDetails.duration.default) {
+    if (this.timeElapsed >= (currentStateDetails.duration.default || 120 )){
       console.log("switch");
       this.autoTransition();
       //this.transitionToNextState();
