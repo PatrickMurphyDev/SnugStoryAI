@@ -1,21 +1,21 @@
 export const states = {
-  SLEEPING: "sleeping",
-  WAKING: "waking",
-  SHOWERING: "showering",
-  CHANGING_CLOTHES: "changing_clothes",
-  DRINKING_COFFEE: "drinking_coffee",
-  EATING_BREAKFAST: "eating_breakfast",
-  LEAVING_FOR_WORK: "leaving_for_work",
-  WALKING_TO_WORK: "walking_to_work",
-  ARRIVING_AT_WORK: "arriving_at_work",
-  WORKING: "working",
-  TAKING_BREAK: "taking_break",
-  LUNCH: "lunch",
-  GOING_HOME: "going_home",
-  EATING_DINNER: "eating_dinner",
-  WATCHING_TV: "watching_tv",
-  GOING_TO_BED: "going_to_bed",
-};
+    SLEEPING: "SLEEPING",
+    WAKING: "WAKING",
+    SHOWERING: "SHOWERING",
+    CHANGING_CLOTHES: "CHANGING_CLOTHES",
+    DRINKING_COFFEE: "DRINKING_COFFEE",
+    EATING_BREAKFAST: "EATING_BREAKFAST",
+    LEAVING_FOR_WORK: "LEAVING_FOR_WORK",
+    WALKING_TO_WORK: "WALKING_TO_WORK",
+    ARRIVING_AT_WORK: "ARRIVING_AT_WORK",
+    WORKING: "WORKING",
+    TAKING_BREAK: "TAKING_BREAK",
+    LUNCH: "LUNCH",
+    GOING_HOME: "GOING_HOME",
+    EATING_DINNER: "EATING_DINNER",
+    WATCHING_TV: "WATCHING_TV",
+    GOING_TO_BED: "GOING_TO_BED",
+  };  
 
 export const stateDetails = {
   SLEEPING: {
