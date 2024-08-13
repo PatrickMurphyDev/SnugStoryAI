@@ -26,15 +26,19 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
 
     // Initialize lots
     const initializeLots = () => {
-      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, pos.zone, pos.price, pos.fillColor, []));
-      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, pos.zone, pos.price, pos.fillColor, []));
+      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, "Commercial", pos.price, pos.fillColor, []));
+      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, "Residential", pos.price, pos.fillColor, []));
       setLots([...lotEntities, ...resLotEntities]);
     };
+    initializeLots();
+  }, []);
 
+  useEffect(()=>{
     const initalizeCharacters = () => {
       const characterTempList = Residents.map((v,i,a)=>{
-        const residenceLot = lots.find(lot => lot.zone === 'residential' && !lot.occupied); // Find an unoccupied residential lot
-        const employmentLot = lots.find(lot => lot.zone === 'commercial' && !lot.occupied); // Find an unoccupied commercial lot
+        console.log("initChar: " + v.name);
+        const residenceLot = lots.find(lot => lot.zone === 'Residential' && !lot.occupied);//lots[Math.floor(Math.random()*lots.length)];
+        const employmentLot = lots.find(lot => lot.zone === 'Commercial' && !lot.occupied); // Find an unoccupied commercial lot
     
         // Mark the lots as occupied
         if (residenceLot) residenceLot.occupied = true;
@@ -54,12 +58,12 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
       });
       setVillagers(characterTempList);
     } 
-
-    initializeLots();
-    initalizeCharacters();
-    simTime.start();
+    if(lots){
+      initalizeCharacters();
+      simTime.start();
+    }
     return () => simTime.dispose();
-  }, []);
+  }, [lots]);
 
   const setup = (p5, canvasParentRef) => {
     setBgImage(p5.loadImage("images/islandBackgroundNew.png"));

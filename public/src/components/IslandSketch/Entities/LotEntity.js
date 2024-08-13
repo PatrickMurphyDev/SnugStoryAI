@@ -9,6 +9,7 @@ class LotEntity extends Entity {
     this.fillColor = fillColor;
     this.characters = characters;
     this.building = {name:"Mo's Candy",description:"Candy Store for the People!",type:"Store",owner:"Maureen",value:"100,000"};
+    this.occupied = false;
   }
 
   isMouseOver(p5, offset, scal){

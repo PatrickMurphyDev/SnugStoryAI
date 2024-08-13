@@ -13,14 +13,14 @@ import SimulationTime from '../../../utils/SimulationTime';
 const simTime = SimulationTime.getInstance();
 
 class CharacterEntity extends Entity {
-  constructor(name, age, gender, skills, bio, attributes, residenceLot = {coordinates:{x:0,y:0}}, employmentLot) {
+  constructor(name, age, gender, skills, bio, attributes, residenceLot = {location:{x:100,y:250}}, employmentLot) {
     super('character', Math.floor(Math.random() * 1000), { x: 0, y: 0 }, { width: 15, height: 15 });
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
-    this.location = { x: residenceLot.coordinates.x, y: residenceLot.coordinates.y }; // Start at residence
+    this.location = { x: residenceLot.location.x, y: residenceLot.location.y }; // Start at residence
 
     this.residenceLot = residenceLot;
     this.employmentLot = employmentLot;
@@ -49,6 +49,9 @@ class CharacterEntity extends Entity {
     //super.draw(p5, transparency, offset, scale);
     const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
     p5.fill('#ff0000');
+    if(this.dailyRoutine.currentState === states.SLEEPING){
+      p5.fill('#aa33aa')
+    }
     p5.ellipse(ps.x+12,ps.y+5,15,15);
   }
   
