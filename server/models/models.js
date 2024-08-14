@@ -52,7 +52,7 @@ const IslandPropertyLotSchema = new Schema({
     ],
     default: "No Zone",
   },
-  coordinates: { type: String, required: false },
+  location: { type: String, required: false },
   address: { type: String, required: false },
   description: { type: String, required: false },
 });

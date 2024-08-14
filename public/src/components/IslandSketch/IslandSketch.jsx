@@ -38,7 +38,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
       const characterTempList = Residents.map((v,i,a)=>{
         console.log("initChar: " + v.name);
         const residenceLot = lots.find(lot => lot.zone === 'Residential' && !lot.occupied);//lots[Math.floor(Math.random()*lots.length)];
-        const employmentLot = lots.find(lot => lot.zone === 'Commercial' && !lot.occupied); // Find an unoccupied commercial lot
+        const employmentLot = lots.find(lot2 => lot2.zone !== 'Residential' && !lot2.occupied); // Find an unoccupied commercial lot
     
         // Mark the lots as occupied
         if (residenceLot) residenceLot.occupied = true;

@@ -13,7 +13,7 @@ import SimulationTime from '../../../utils/SimulationTime';
 const simTime = SimulationTime.getInstance();
 
 class CharacterEntity extends Entity {
-  constructor(name, age, gender, skills, bio, attributes, residenceLot = {location:{x:100,y:250}}, employmentLot) {
+  constructor(name, age, gender, skills, bio, attributes, residenceLot = {location:{x:100,y:250}}, employmentLot = {location:{x:1,y:2}}) {
     super('character', Math.floor(Math.random() * 1000), { x: 0, y: 0 }, { width: 15, height: 15 });
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
@@ -57,8 +57,8 @@ class CharacterEntity extends Entity {
   
   // Method to update location
   updateLocation(lot) {
-    this.location.x = lot.coordinates.x;
-    this.location.y = lot.coordinates.y;
+    this.location.x = lot.location.x;
+    this.location.y = lot.location.y;
   }
 
   // Determine if the character needs to move based on the current state
@@ -70,9 +70,9 @@ class CharacterEntity extends Entity {
   // Determine the new lot based on the character's state
   determineNewLot() {
     const currentState = this.dailyRoutine.currentState;
-    if (currentState === states.WORKING) {
+    if (currentState === states.WORKING || currentState === states.LEAVING_FOR_WORK || currentState === states.WALKING_TO_WORK) {
       return this.employmentLot;
-    } else if (currentState === states.SLEEPING) {
+    } else if (currentState === states.SLEEPING || currentState === states.GOING_HOME) {
       return this.residenceLot;
     }
     // Add more conditions as needed
