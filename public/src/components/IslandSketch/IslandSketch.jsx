@@ -8,11 +8,13 @@ import CharacterEntity from './Entities/CharacterEntity';
 
 const simTime = SimulationTime.getInstance();
 
+
 const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800, y:600} }) => {  
   // UI Display Variables
   const [scal, setScal] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();  
+  const [leahImage, setLeahImage] = useState();
 
   // World Entities
   const [villagers, setVillagers] = useState([]);
@@ -53,7 +55,8 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
           v.bio,
           v.attributes,
           residenceLot,  // Pass residence lot
-          employmentLot  // Pass employment lot
+          employmentLot,  // Pass employment lot
+          leahImage
         );
       });
       setVillagers(characterTempList);
@@ -62,10 +65,11 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
       initalizeCharacters();
       simTime.start();
     }
-    return () => simTime.dispose();
-  }, [lots]);
+    //return (() =>{}) //simTime.dispose();
+  }, [lots, leahImage]);
 
   const setup = (p5, canvasParentRef) => {
+    setLeahImage(p5.loadImage("images/Leah.png"));
     setBgImage(p5.loadImage("images/islandBackgroundNew.png"));
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
 
@@ -101,7 +105,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
     lots.forEach(lot => {
       lot.update();
 
-      if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
+       if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
         lot.setHover(true);
         if(p5.mouseIsPressed){
           lot.setClick(true);
@@ -136,4 +140,4 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
   );
 }
 
-export default IslandSketch
+export default IslandSketch;

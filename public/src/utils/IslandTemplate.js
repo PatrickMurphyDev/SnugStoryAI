@@ -8,14 +8,16 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
+      portraitImg: "LeahPortrait64NoBG.png"
     },
     {
-      name: "Maureen",
+      name: "Kaylor",
       age: 30,
       gender: "Female",
       skills: [],
       bio: "bio",
       attributes: [],
+      img: "Haley"
     },
     {
       name: "Rob",
@@ -24,14 +26,16 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
+      img: "ProfSnail"
     },
     {
-      name: "Justine",
+      name: "Maureen",
       age: 27,
       gender: "Female",
       skills: [],
       bio: "bio",
       attributes: [],
+      img: "Emily"
     },
     {
       name: "Deb",
@@ -40,6 +44,7 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
+      img: "Abigale"
     },
     {
       name: "Callum",
@@ -48,6 +53,7 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
+      img: 'sam'
     },
   ],
   Buildings: {
