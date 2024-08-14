@@ -64,13 +64,18 @@ class CharacterEntity extends Entity {
   draw(p5, transparency, offset, scale) {
     //super.draw(p5, transparency, offset, scale);
     const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
-    p5.fill("#ff0000");
+    if (characterImages[this.info.name]) {
+      p5.image(this.profileImage, ps.x, ps.y); // Draw the character's image
+    } else {
+      // Fallback if image not found
+      p5.fill("#ff0000");
     if (this.dailyRoutine.currentState === states.SLEEPING) {
       p5.fill("#aa33aa");
     }
     p5.image(this.profileImage, ps.x + 12, ps.y + 5)
    //p5.ellipse(ps.x + 12, ps.y + 5, 15, 15);
     
+    }
   }
 
   // Method to update location

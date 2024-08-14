@@ -1,4 +1,4 @@
-export const IslandTemplate = {
+ export const IslandTemplate = {
   //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
   Residents: [
     {
@@ -8,7 +8,7 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
-      portraitImg: "LeahPortrait64NoBG.png"
+      img: "Leah64.png"
     },
     {
       name: "Kaylor",
@@ -17,7 +17,7 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Haley"
+      img: "Kaylor64.png"
     },
     {
       name: "Rob",
@@ -26,7 +26,7 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "ProfSnail"
+      img: "Rob64.png"
     },
     {
       name: "Maureen",
@@ -35,7 +35,7 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Emily"
+      img: "Maureen64.png"
     },
     {
       name: "Deb",
@@ -44,8 +44,8 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Abigale"
-    },
+      img: "Deb64.png"
+    }/*,
     {
       name: "Callum",
       age: 26,
@@ -53,8 +53,8 @@ export const IslandTemplate = {
       skills: [],
       bio: "bio",
       attributes: [],
-      img: 'sam'
-    },
+      img: 'Callum64.png'
+    },*/
   ],
   Buildings: {
     civic: {
