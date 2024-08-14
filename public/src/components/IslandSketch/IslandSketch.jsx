@@ -5,6 +5,7 @@ import SimulationTimeControls from '../SimulationTimeControls';
 import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
 import LotEntity from './Entities/LotEntity'; // Import LotEntity
 import CharacterEntity from './Entities/CharacterEntity';
+import { IslandTemplate } from '../../utils/IslandTemplate';
 
 const simTime = SimulationTime.getInstance();
 
@@ -14,7 +15,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
   const [scal, setScal] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();  
-  const [leahImage, setLeahImage] = useState();
+  const [charImages, setCharacterImages] = useState([]);
 
   // World Entities
   const [villagers, setVillagers] = useState([]);
@@ -56,7 +57,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
           v.attributes,
           residenceLot,  // Pass residence lot
           employmentLot,  // Pass employment lot
-          leahImage
+          charImages[v.name] || ""
         );
       });
       setVillagers(characterTempList);
@@ -66,13 +67,21 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
       simTime.start();
     }
     //return (() =>{}) //simTime.dispose();
-  }, [lots, leahImage]);
+  }, [lots, charImages]);
+// Dictionary to store images with character names as keys
+
+  const preload = (p5)=>{
+    let characterImages = {}; 
+    setBgImage(p5.loadImage("images/islandBackgroundNew.png"));
+
+    Residents.forEach(resident => {
+      characterImages[resident.name] = p5.loadImage(`images/${resident.img}`);
+    });
+
+    setCharacterImages(characterImages);
+  }
 
   const setup = (p5, canvasParentRef) => {
-    setLeahImage(p5.loadImage("images/Leah.png"));
-    setBgImage(p5.loadImage("images/islandBackgroundNew.png"));
-    p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
-
     // set init offset
     setOffset(p5.createVector(0, 0));
 
@@ -87,6 +96,8 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
     window.addEventListener('mouseup', (e) => {
       console.log(e);
     });
+    
+    p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
   };
 
   const draw = (p5) => {
@@ -133,6 +144,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
     <>
       <SimulationTimeControls simTime={simTime} />
       <Sketch
+        preload={preload}
         setup={setup}
         draw={draw}
       />
