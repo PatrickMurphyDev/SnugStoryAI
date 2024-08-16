@@ -40,21 +40,25 @@ class CharacterEntity extends Entity {
     this.residenceLot = residenceLot;
     this.employmentLot = employmentLot;
     this.profileImage = pImg;
-
-    simTime.onTimeUpdate((data) => {
+    this.onTimeUpdateHandlerFn = (data) => {
       this.dailyRoutine.handleTimeUpdate(data.minElapsed, data.date);
-
+      
       if (this.needsToMove()) {
         const lot = this.determineNewLot();
         this.updateLocation(lot);
       }
-    });
+    };
+
+    simTime.onTimeUpdate(this.onTimeUpdateHandlerFn);
 
 //    this.dailyRoutine.addStateUpdateListener((data) => {     
  //     console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
    // });
   }
 
+  remove(){
+    simTime.clearTimeUpdate(this.onTimeUpdateHandlerFn);
+  }
   update() {
     super.update();
     this.needs.updateNeeds();
