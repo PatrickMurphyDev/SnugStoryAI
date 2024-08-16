@@ -38,6 +38,10 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
 
   useEffect(()=>{
     const initalizeCharacters = () => {
+      for(var e in villagers){
+        villagers[e].remove();
+      }
+      setVillagers([]);
       const characterTempList = Residents.map((v,i,a)=>{
         console.log("initChar: " + v.name);
         const residenceLot = lots.find(lot => lot.zone === 'Residential' && !lot.occupied);//lots[Math.floor(Math.random()*lots.length)];

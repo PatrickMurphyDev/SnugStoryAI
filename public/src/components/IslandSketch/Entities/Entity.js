@@ -10,6 +10,10 @@ class Entity {
     this.timeHasUpdated = false;
   }
 
+  remove(){
+    // delete me
+  }
+
   select() {
     this.isSelected = true;
   }
