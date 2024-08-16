@@ -50,9 +50,9 @@ class CharacterEntity extends Entity {
       }
     });
 
-    this.dailyRoutine.onStateUpdate((data) => {
-      console.log("char state update", data);
-    });
+//    this.dailyRoutine.addStateUpdateListener((data) => {     
+ //     console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
+   // });
   }
 
   update() {
@@ -71,7 +71,7 @@ class CharacterEntity extends Entity {
       p5.fill("#aa33aa");
     }
     //p5.image(this.profileImage, ps.x + 12, ps.y + 5)
-   p5.ellipse(ps.x + 12, ps.y + 5, 15, 15);
+    p5.ellipse(ps.x + 12, ps.y + 5, 15, 15);
     if (this.profileImage) {
     p5.image(this.profileImage, ps.x, ps.y, 48,48); // Draw the character's image
     }

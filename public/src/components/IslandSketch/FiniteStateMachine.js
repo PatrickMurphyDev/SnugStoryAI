@@ -7,18 +7,16 @@ export class FiniteStateMachine extends EventEmitter {
     super();
     this.currentState = initialState;
     const currentStateDetails = stateDetails[this.currentState.toUpperCase()];
-    this.currentStateDuration = (currentStateDetails.duration.min + Math.random()*(currentStateDetails.duration.max - currentStateDetails.duration.min)) || currentStateDetails.duration.default;
+    this.currentStateDuration = (parseInt(currentStateDetails.duration.min) 
+      + Math.random() * parseInt(currentStateDetails.duration.max - currentStateDetails.duration.min)) || currentStateDetails.duration.default;
     this.timeElapsed = 0;
     this.work_breaks = 0;
     this.work_lunch = 0;
   }
 
   handleTimeUpdate(minElapsed, date) {
-   
     this.timeElapsed += minElapsed;
-
     if (this.timeElapsed >= (this.currentStateDuration)) {
-      console.log("switch");
       this.autoTransition();
       //this.transitionToNextState();
     }
@@ -26,7 +24,6 @@ export class FiniteStateMachine extends EventEmitter {
 
   transitionToNextState(nextState) {
     // Logic for transitioning to the next state
-    console.log(`Transitioning from ${this.currentState} to the next state`);
     this.emit("stateUpdate", {
       prevState: this.currentState,
       newState: nextState,
@@ -35,11 +32,10 @@ export class FiniteStateMachine extends EventEmitter {
     this.timeElapsed = 0;
   }
 
-  onStateUpdate(listener) {
+  addStateUpdateListener(listener) {
     // Logic to handle state updates
-    // This is a placeholder and should be implemented according to your requirements
+    console.log('call onStateUpdate');
     this.on("stateUpdate", listener);
-    //callback(this.currentState);
   }
 
   autoTransition() {
