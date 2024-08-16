@@ -45,7 +45,7 @@
       bio: "bio",
       attributes: [],
       img: "Deb64.png"
-    }/*,
+    },
     {
       name: "Callum",
       age: 26,
@@ -54,7 +54,7 @@
       bio: "bio",
       attributes: [],
       img: 'Callum64.png'
-    },*/
+    },
   ],
   Buildings: {
     civic: {
