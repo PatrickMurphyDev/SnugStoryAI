@@ -74,7 +74,7 @@ const SimulationTimeControls = ({ simTime }) => {
           //onChange={handleTimeChange}
         />
       </div>
-      <div className="date-time-display">
+      <div className="date-time-display" style={{color:'#fff', paddingTop:25}}>
         <p>
           Date: {currentDate} Time: {currentTime}
         </p>
