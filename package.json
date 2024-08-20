@@ -2,7 +2,8 @@
   "dependencies": {
     "handlebars": "^4.7.8",
     "nodemon": "*",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "sharp": "^0.33.5"
   },
   "scripts": {
     "start": "concurrently \"npm run --prefix ./server/ start\" \"npm run --prefix ./public start\""

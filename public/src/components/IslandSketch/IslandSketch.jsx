@@ -5,7 +5,7 @@ import SimulationTimeControls from '../SimulationTimeControls';
 import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
 import LotEntity from './Entities/LotEntity'; // Import LotEntity
 import CharacterEntity from './Entities/CharacterEntity';
-import { IslandTemplate } from '../../utils/IslandTemplate';
+import { IslandTemplate } from '../../utils/IslandTemplateTile';
 
 const simTime = SimulationTime.getInstance();
 
@@ -22,6 +22,9 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
   const villagers = charList;
   const setVillagers = (nList)=>setCharList(nList);
   const [lots, setLots] = useState([]);
+  if(IslandTemplate.Image.size){
+    sizeVector = IslandTemplate.Image.size;
+  }
 
   const setPanX = (newX) => setOffset((prevOffset)=>({'x': newX, 'y': prevOffset.y}));
   const setPanY = (newY) => setOffset((prevOffset)=>({'x': prevOffset.x, 'y':newY}));
@@ -85,7 +88,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
       setVillagers([]);
       const characterTempList = Residents.map((v,i,a)=>{
         console.log("initChar: " + v.name);
-        const residenceLot = lots.find(lot => lot.zone === 'Residential' && !lot.occupied && Math.random()>0.4);//lots[Math.floor(Math.random()*lots.length)];
+        const residenceLot = lots.find(lot => lot.zone === 'Residential' && Math.random()>(0.2+(lot.occupied ? 0.3 : 0.0)));//lots[Math.floor(Math.random()*lots.length)];
         const employmentLot = lots.find(lot2 => lot2.zone !== 'Residential' && !lot2.occupied && Math.random()>0.6); // Find an unoccupied commercial lot
     
         // Mark the lots as occupied
@@ -118,7 +121,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
 
   const preload = (p5)=>{
     let characterImages = {}; 
-    setBgImage(p5.loadImage("images/islandBackgroundNew.png"));
+    setBgImage(p5.loadImage(IslandTemplate.Image.source));
 
     Residents.forEach(resident => {
       characterImages[resident.name] = p5.loadImage(`images/${resident.img}`);
@@ -140,10 +143,10 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
     });
 
     window.addEventListener('mouseup', (e) => {
-      console.log(e);
+      console.log("{x:"+p5.mouseX+", y:"+p5.mouseY+"}");
     });
     
-    p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
+    p5.createCanvas(800, 600).parent(canvasParentRef);
   };
 
   const draw = (p5) => {
@@ -154,7 +157,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
     if(simTime.currentTimeOfDay <= 400 ){
       p5.tint(p5.lerp(100,255,simTime.currentTimeOfDay/400), 255)
     }
-    p5.image(bgImage, 0, 0, 800, 600);
+    p5.image(bgImage, 0, 0, sizeVector.x, sizeVector.y);
     p5.noTint();
     p5.stroke(`#ffffff${transparency}`);
     p5.fill(`#000000${transparency}`);
