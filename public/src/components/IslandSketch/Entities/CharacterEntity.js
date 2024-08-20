@@ -22,7 +22,8 @@ class CharacterEntity extends Entity {
     attributes,
     residenceLot = { location: { x: 100, y: 250 } },
     employmentLot = { location: { x: 1, y: 2 } },
-    pImg = undefined
+    pImg = undefined,
+    imgSrc = ""
   ) {
     super(
       "character",
@@ -40,9 +41,10 @@ class CharacterEntity extends Entity {
     this.residenceLot = residenceLot;
     this.employmentLot = employmentLot;
     this.profileImage = pImg;
+    this.img = "/images/"+imgSrc;
     this.onTimeUpdateHandlerFn = (data) => {
       this.dailyRoutine.handleTimeUpdate(data.minElapsed, data.date);
-      
+
       if (this.needsToMove()) {
         const lot = this.determineNewLot();
         this.updateLocation(lot);
@@ -54,6 +56,10 @@ class CharacterEntity extends Entity {
 //    this.dailyRoutine.addStateUpdateListener((data) => {     
  //     console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
    // });
+  }
+
+  getCurrentState(){
+    return this.dailyRoutine.currentState;
   }
 
   remove(){
@@ -77,9 +83,9 @@ class CharacterEntity extends Entity {
     //p5.image(this.profileImage, ps.x + 12, ps.y + 5)
     p5.ellipse(ps.x + 12, ps.y + 5, 15, 15);
     if (this.profileImage) {
-    p5.image(this.profileImage, ps.x, ps.y, 48,48); // Draw the character's image
+      p5.image(this.profileImage, ps.x, ps.y, 35,35); // Draw the character's image
     }
-   p5.text(this.info.name,ps.x,ps.y)
+   p5.text(this.info.name,ps.x,ps.y+60)
   }
 
   // Method to update location

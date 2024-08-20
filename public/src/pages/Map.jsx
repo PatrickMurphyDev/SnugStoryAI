@@ -6,6 +6,7 @@ import LocationComponent from "../components/LocationComponent";
 export default function Map() {
   const [propertySelected, setPropertySelected] = useState(null);
   const [characterSelected, setCharacterSelected] = useState(null);
+  const [charList, setCharList] = useState([]);
 
   const handleCharacterSelect = (character) => {
     setCharacterSelected(character);
@@ -29,6 +30,8 @@ export default function Map() {
           <IslandSketch
               onCharacterSelect={handleCharacterSelect}
               onPropertySelect={handlePropertySelect}
+              charList={charList}
+              setCharList={setCharList}
             />
           </div>
           <div>
@@ -36,7 +39,7 @@ export default function Map() {
           </div>
         </Container>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <CharacterComponent character={characterSelected} />
+          <CharacterComponent character={characterSelected} villagers={charList} />
         </div>
       </div>
     </>

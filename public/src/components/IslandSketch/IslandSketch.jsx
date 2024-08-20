@@ -10,16 +10,57 @@ import { IslandTemplate } from '../../utils/IslandTemplate';
 const simTime = SimulationTime.getInstance();
 
 
-const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800, y:600} }) => {  
+const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = {x:800, y:600} }) => {  
   // UI Display Variables
-  const [scal, setScal] = useState(1);
+  const [scal, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();  
   const [charImages, setCharacterImages] = useState([]);
 
   // World Entities
-  const [villagers, setVillagers] = useState([]);
+  //const [villagers, setVillagers] = useState([]);
+  const villagers = charList;
+  const setVillagers = (nList)=>setCharList(nList);
   const [lots, setLots] = useState([]);
+
+  const setPanX = (newX) => setOffset((prevOffset)=>({'x': newX, 'y': prevOffset.y}));
+  const setPanY = (newY) => setOffset((prevOffset)=>({'x': prevOffset.x, 'y':newY}));
+
+  const handleKeyDown = (event) => {
+    switch (event.key) {
+      case '+':
+        setZoom((prevZoom) => Math.min(prevZoom * 1.1, 5)); // Maximum zoom level
+        break;
+      case '-':
+        setZoom((prevZoom) => Math.max(prevZoom / 1.1, 0.5)); // Minimum zoom level
+        break;
+      case 'a':
+      case 'ArrowLeft':
+        setPanX((prevPanX) => prevPanX + 1); // Move view left
+        break;
+      case 'd':
+      case 'ArrowRight':
+        setPanX((prevPanX) => prevPanX - 1); // Move view right
+        break;
+      case 'w':
+      case 'ArrowUp':
+        setPanY((prevPanY) => prevPanY + 1); // Move view up
+        break;
+      case 's':
+      case 'ArrowDown':
+        setPanY((prevPanY) => prevPanY - 1); // Move view down
+        break;
+      default:
+        break;
+    }
+  };
+
+  /*useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);*/
 
   useEffect(() => {
     /*simTime.onTimeUpdate((data) => {
@@ -61,7 +102,8 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
           v.attributes,
           residenceLot,  // Pass residence lot
           employmentLot,  // Pass employment lot
-          charImages[v.name] || ""
+          charImages[v.name] || "",
+          v.img
         );
       });
       setVillagers(characterTempList);
@@ -92,7 +134,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
     // set mouse zoom
     window.addEventListener('wheel', (e) => {
       const s = 1 - e.deltaY / 1000;
-      setScal(prevScal => prevScal * s);
+      setZoom(prevScal => prevScal * s);
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
       setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
     });
@@ -155,6 +197,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
         preload={preload}
         setup={setup}
         draw={draw}
+        keyPressed={handleKeyDown}
       />
     </>
   );
