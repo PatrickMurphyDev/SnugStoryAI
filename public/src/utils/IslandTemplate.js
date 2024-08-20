@@ -1,4 +1,4 @@
- export const IslandTemplate = {
+export const IslandTemplate = {
   //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
   Residents: [
     {
@@ -8,7 +8,7 @@
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Leah64.png"
+      img: "Leah64.png",
     },
     {
       name: "Kaylor",
@@ -17,7 +17,7 @@
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Kaylor64.png"
+      img: "Kaylor64.png",
     },
     {
       name: "Rob",
@@ -26,7 +26,7 @@
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Rob64.png"
+      img: "Rob64.png",
     },
     {
       name: "Maureen",
@@ -35,25 +35,27 @@
       skills: [],
       bio: "bio",
       attributes: [],
-      img: "Maureen64.png"
+      img: "Maureen64.png",
     },
     {
       name: "Deb",
       age: 26,
       gender: "Female",
-      skills: [],
-      bio: "bio",
-      attributes: [],
-      img: "Deb64.png"
+      skills: [
+        { mainCategory: "Social", subCategory: "Social Media", value: 78 },
+      ],
+      bio: "Born on May 2, 1996, Deborah “Deb” Chubb grew up in Dallas, Texas, though currently, she resides in Redondo Beach, California, and likes to travel.",
+      attributes: [{title:"Social Style", value:"Quirky"}, {title:"Observation", value:"Easily Distracted"}, {title:"Morality", value:"Good"}],
+      img: "Deb64.png",
     },
     {
       name: "Callum",
       age: 26,
-      gender: "Female",
+      gender: "Male",
       skills: [],
       bio: "bio",
       attributes: [],
-      img: 'Callum64.png'
+      img: "Callum64.png",
     },
   ],
   Buildings: {
