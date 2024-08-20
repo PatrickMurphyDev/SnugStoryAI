@@ -109,7 +109,11 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, sizeVector = {x:800
     p5.background('#000'); 
     p5.translate(offset.x, offset.y);
     p5.scale(scal);
+    if(simTime.currentTimeOfDay <= 400 ){
+      p5.tint(p5.lerp(100,255,simTime.currentTimeOfDay/400), 255)
+    }
     p5.image(bgImage, 0, 0, 800, 600);
+    p5.noTint();
     p5.stroke(`#ffffff${transparency}`);
     p5.fill(`#000000${transparency}`);
 
