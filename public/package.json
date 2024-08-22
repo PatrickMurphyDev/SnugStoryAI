@@ -10,6 +10,7 @@
     "buffer": "^6.0.3",
     "emoji-picker-react": "^3.5.1",
     "llmclient": "^8.1.21",
+    "pathfinding": "^0.4.18",
     "react": "^17.0.2",
     "react-accessible-accordion": "4.0.0",
     "react-dom": "^17.0.2",
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }

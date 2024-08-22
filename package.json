@@ -6,9 +6,11 @@
     "sharp": "^0.33.5"
   },
   "scripts": {
-    "start": "concurrently \"npm run --prefix ./server/ start\" \"npm run --prefix ./public start\""
+    "start": "concurrently \"npm run --prefix ./server/ start\" \"npm run --prefix ./public start\"",
+	"test": "jest"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "jest": "^27.5.1"
   }
 }
