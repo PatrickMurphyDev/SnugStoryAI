@@ -30,20 +30,24 @@ const CharacterSkills = ({ character }) => {
     ));
   };
 
-  return (
-    <div className="character-skills-display">
-      <div className="categories">
-        <h2>Skill Categories</h2>
-        <ul>
-          {renderCategories()}
-        </ul>
+  if(character.attributes.skills.length >0 ){
+    return (
+      <div className="character-skills-display">
+        <div className="categories">
+          <h2>Skill Categories</h2>
+          <ul>
+            {renderCategories()}
+          </ul>
+        </div>
+        <div className="skill-details" style={{"display":"none"}}>
+          <h2>Skill Details</h2>
+          {renderSkillDetails()}
+        </div>
       </div>
-      <div className="skill-details" style={{"display":"none"}}>
-        <h2>Skill Details</h2>
-        {renderSkillDetails()}
-      </div>
-    </div>
-  );
+    );
+  }else{
+    return (<></>);
+  }
 };
 
 export default CharacterSkills;

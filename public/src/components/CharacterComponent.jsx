@@ -5,6 +5,7 @@ import CharacterEntity from "./IslandSketch/Entities/CharacterEntity";
 
 const CharacterComponent = (props) => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [selectedCharacterUpdated, setSelectedCharacterUpdated] = useState(false);
 
   // If a character is passed via props, set it as the selectedCharacter
   if (props.character && !selectedCharacter) {
@@ -115,6 +116,7 @@ const CharacterComponent = (props) => {
           <CharacterRelationships
             relationships={selectedCharacter.relationships}
           />
+          <CharacterSkills character={selectedCharacter}></CharacterSkills>
         </div>
       ) : (
         // Display list of villagers with small images when no character is selected
