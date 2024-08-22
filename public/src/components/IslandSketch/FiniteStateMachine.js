@@ -3,15 +3,25 @@ import EventEmitter from "events";
 import { stateDetails, states } from "./states";
 
 export class FiniteStateMachine extends EventEmitter {
-  constructor(initialState) {
+  constructor(initialState, name = "noname") {
     super();
     this.currentState = initialState;
-    const currentStateDetails = stateDetails[this.currentState.toUpperCase()];
-    this.currentStateDuration = (parseInt(currentStateDetails.duration.min) 
-      + Math.random() * parseInt(currentStateDetails.duration.max - currentStateDetails.duration.min)) || currentStateDetails.duration.default;
+    this.currentStateDetails = stateDetails[this.currentState.toUpperCase()];
+    this.nextState = this.currentStateDetails.nextState;
+    this.currentStateDuration = 100;
+    this.nameChar = name;
+    this.updateStateDetails();
     this.timeElapsed = 0;
     this.work_breaks = 0;
     this.work_lunch = 0;
+  }
+
+  updateStateDetails(){
+    this.currentStateDetails = stateDetails[this.currentState.toUpperCase()];
+    this.currentStateDuration = (parseInt(this.currentStateDetails.duration.min) 
+    + Math.random() * parseInt(this.currentStateDetails.duration.max - this.currentStateDetails.duration.min)) || this.currentStateDetails.duration.default;
+
+    console.log(this.nameChar + " " + this.currentStateDuration);
   }
 
   handleTimeUpdate(minElapsed, date) {
@@ -30,6 +40,7 @@ export class FiniteStateMachine extends EventEmitter {
     });
     this.currentState = nextState;
     this.timeElapsed = 0;
+    this.updateStateDetails();
   }
 
   addStateUpdateListener(listener) {
@@ -39,10 +50,10 @@ export class FiniteStateMachine extends EventEmitter {
   }
 
   autoTransition() {
-    const currentStateDetails = stateDetails[this.currentState.toUpperCase()];
-    const nextState = currentStateDetails.nextState;
+    this.currentStateDetails = stateDetails[this.currentState.toUpperCase()];
+    this.nextState = this.currentStateDetails.nextState;
 
-    if (nextState) {
+    if (this.nextState) {
       if (this.currentState === states.WORKING) {
         if (
           this.work_breaks === 0 ||
@@ -65,7 +76,7 @@ export class FiniteStateMachine extends EventEmitter {
         this.work_lunch++;
         this.transitionToNextState(states.WORKING);
       } else {
-        this.transitionToNextState(nextState);
+        this.transitionToNextState(this.nextState);
       }
     } else {
       console.error(`No next state defined for ${this.currentState}`);
