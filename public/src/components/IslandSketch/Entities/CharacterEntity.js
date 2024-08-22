@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import Entity from "./Entity";
+import PathingEntity from './PathingEntity';
 import CharacterInfo from "../CharacterFeatures/CharacterInfo";
 import Task from "./Task";
 import CharacterAttributes from "../CharacterFeatures/CharacterAttributes";
@@ -10,9 +10,10 @@ import { stateDetails } from "../states";
 import { states } from "../states";
 import SimulationTime from "../../../utils/SimulationTime";
 
+
 const simTime = SimulationTime.getInstance();
 
-class CharacterEntity extends Entity {
+class CharacterEntity extends PathingEntity {
   constructor(
     name,
     age,
@@ -35,7 +36,7 @@ class CharacterEntity extends Entity {
     this.attributes = new CharacterAttributes(skills, attributes);
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
-    this.dailyRoutine = new FiniteStateMachine(states.SLEEPING);
+    this.dailyRoutine = new FiniteStateMachine(states.SLEEPING, name);
     this.location = { x: residenceLot.location.x, y: residenceLot.location.y }; // Start at residence
 
     this.residenceLot = residenceLot;
@@ -57,6 +58,12 @@ class CharacterEntity extends Entity {
  //     console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
    // });
   }
+  hasReachedDestination() {
+    return this.currentTargetIndex >= this.path.length && !this.currentTarget;
+  }
+  moveTo(goal) {
+    this.setPath(goal);
+  }
 
   getCurrentState(){
     return this.dailyRoutine.currentState;
@@ -65,8 +72,10 @@ class CharacterEntity extends Entity {
   remove(){
     simTime.clearTimeUpdate(this.onTimeUpdateHandlerFn);
   }
-  update() {
-    super.update();
+  update(fsmState) {
+    if (fsmState && fsmState.moveDetails.requiresMove && fsmState.moveDetails.isTraveling) {
+      this.update();
+    }
     this.needs.updateNeeds();
     this.tasks.updateTasks(this);
   }

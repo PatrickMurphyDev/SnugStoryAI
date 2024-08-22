@@ -15,6 +15,7 @@ export const states = {
     EATING_DINNER: "EATING_DINNER",
     WATCHING_TV: "WATCHING_TV",
     GOING_TO_BED: "GOING_TO_BED",
+    TRAVELING: "TRAVELING",  // New consolidated state
   };  
 
 export const stateDetails = {
@@ -23,6 +24,12 @@ export const stateDetails = {
     duration: { default: 480, min: 120, max: 600 },
     moveDetails: { requiresMove: false, isTraveling: false },
     nextState: states.WAKING,
+  },
+  TRAVELING: {
+    name: states.TRAVELING,
+    duration: { default: 15, min: 10, max: 20 },
+    moveDetails: { requiresMove: true, isTraveling: true, speedModifier: 1.0 },
+    nextState: states.WORKING, // Example of a next state
   },
   WAKING: {
     name: states.WAKING,
