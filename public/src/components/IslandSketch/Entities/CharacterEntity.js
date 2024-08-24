@@ -21,16 +21,16 @@ class CharacterEntity extends PathingEntity {
     skills,
     bio,
     attributes,
-    residenceLot = { location: { x: 100, y: 250 } },
-    employmentLot = { location: { x: 1, y: 2 } },
+    residenceLot = { location: { x: 0, y: 0 } },
+    employmentLot = { location: { x: 0, y: 0 } },
     pImg = undefined,
     imgSrc = ""
   ) {
     super(
-      "character",
-      Math.floor(Math.random() * 1000),
+      "character", // entity
+      Math.floor(Math.random() * 1000), // ID
       { x: 0, y: 0 },
-      { width: 15, height: 15 }
+      { width: 32, height: 32 }
     );
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
@@ -43,6 +43,8 @@ class CharacterEntity extends PathingEntity {
     this.employmentLot = employmentLot;
     this.profileImage = pImg;
     this.img = "/images/"+imgSrc;
+
+    
     this.onTimeUpdateHandlerFn = (data) => {
       this.dailyRoutine.handleTimeUpdate(data.minElapsed, data.date);
 
@@ -99,6 +101,7 @@ class CharacterEntity extends PathingEntity {
 
   // Method to update location
   updateLocation(lot) {
+    this.setPath({x:Math.floor(lot.location.x/32), y:Math.floor(lot.location.y/32)});
     this.location.x = lot.location.x;
     this.location.y = lot.location.y;
   }

@@ -1,10 +1,18 @@
 // PathingEntity.js
-import Entity from './Entity';
-import PF from 'pathfinding';
+import Entity from "./Entity";
+import PF from "pathfinding";
 
 export default class PathingEntity extends Entity {
-  constructor(x, y, map, speed = 1, movementGrid) {
-    super(x, y);
+  constructor(
+    entityType,
+    id = Math.floor(Math.random() * 1000),
+    location = { x: 0, y: 0 },
+    size = { width: 32, height: 32 },
+    map,
+    speed = 1,
+    movementGrid,
+  ) {
+    super(entityType, id, location, size); //entityType, id, location, size
     this.map = map;
     this.speed = speed; // Base speed for the entity
     this.movementGrid = movementGrid; // Reference to the movement speed grid
@@ -16,15 +24,19 @@ export default class PathingEntity extends Entity {
 
   // Set the path using A* algorithm
   setPath(goal) {
-    const grid = new PF.Grid(this.map.mapWidth, this.map.mapHeight, this.map.tiles);
+    const grid = new PF.Grid(
+      this.map.mapWidth,
+      this.map.mapHeight,
+      this.map.tiles
+    );
     const finder = new PF.AStarFinder({
       allowDiagonal: false,
       dontCrossCorners: true,
     });
 
     this.path = finder.findPath(
-      Math.floor(this.x / 32),
-      Math.floor(this.y / 32),
+      Math.floor(this.location.x / this.size.width),
+      Math.floor(this.location.y / this.size.height),
       goal.x,
       goal.y,
       grid
@@ -45,15 +57,13 @@ export default class PathingEntity extends Entity {
   }
 
   // Update the entity's position with dynamic speed adjustment
-  update() {
+  update(minElapsed) {
     if (!this.currentTarget) return;
 
-    const now = Date.now();
-    const deltaTime = (now - this.lastUpdateTime) / 1000;
-    this.lastUpdateTime = now;
+    const deltaTime = minElapsed;
 
-    const tileX = Math.floor(this.x / 32);
-    const tileY = Math.floor(this.y / 32);
+    const tileX = Math.floor(this.x / this.size.width);
+    const tileY = Math.floor(this.y / this.size.height);
     const tileSpeedModifier = this.movementGrid[tileY][tileX] || 1.0;
     const effectiveSpeed = this.speed * tileSpeedModifier;
 
