@@ -78,7 +78,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
       setLots([...lotEntities, ...resLotEntities]);
     };
     initializeLots();
-  }, []);
+  }, [charImages]);
 
   useEffect(()=>{
     const initalizeCharacters = () => {
@@ -116,7 +116,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
       simTime.start();
     }
     //return (() =>{}) //simTime.dispose();
-  }, [lots, charImages]);
+  }, [lots]);
 // Dictionary to store images with character names as keys
 
   const preload = (p5)=>{
@@ -154,8 +154,13 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
     p5.background('#000'); 
     p5.translate(offset.x, offset.y);
     p5.scale(scal);
-    if(simTime.currentTimeOfDay <= 400 ){
-      p5.tint(p5.lerp(100,255,simTime.currentTimeOfDay/400), 255)
+    if(simTime.currentTimeOfDay <= 400 || simTime.currentTimeOfDay >=1040 ){
+      let lerpTimeOffset = simTime.currentTimeOfDay < 500 ? 0 : 1040;
+      let lerpVal = (simTime.currentTimeOfDay-lerpTimeOffset)/400;
+      if(simTime.currentTimeOfDay >= 1040){
+        lerpVal = 1-lerpVal;
+      }
+      p5.tint(p5.lerp(100,255,lerpVal), 255)
     }
     p5.image(bgImage, 0, 0, sizeVector.x, sizeVector.y);
     p5.noTint();

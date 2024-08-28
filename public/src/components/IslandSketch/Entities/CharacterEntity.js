@@ -101,7 +101,7 @@ class CharacterEntity extends PathingEntity {
 
   // Method to update location
   updateLocation(lot) {
-    this.setPath({x:Math.floor(lot.location.x/32), y:Math.floor(lot.location.y/32)});
+    //this.setPath({x:Math.floor(lot.location.x/32), y:Math.floor(lot.location.y/32)});
     this.location.x = lot.location.x;
     this.location.y = lot.location.y;
   }
