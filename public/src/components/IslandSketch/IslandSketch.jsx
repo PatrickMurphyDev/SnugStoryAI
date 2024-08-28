@@ -151,17 +151,19 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
 
   const draw = (p5) => {
     const transparency = '60';
-    p5.background('#000'); 
-    p5.translate(offset.x, offset.y);
-    p5.scale(scal);
     if(simTime.currentTimeOfDay <= 400 || simTime.currentTimeOfDay >=1040 ){
       let lerpTimeOffset = simTime.currentTimeOfDay < 500 ? 0 : 1040;
       let lerpVal = (simTime.currentTimeOfDay-lerpTimeOffset)/400;
       if(simTime.currentTimeOfDay >= 1040){
         lerpVal = 1-lerpVal;
       }
-      p5.tint(p5.lerp(100,255,lerpVal), 255)
+      //p5.background(p5.lerpColor('#60 d6c7', '#20d6c7',lerpVal));
+      p5.tint(p5.lerp(100,255,lerpVal), 255);
     }
+    
+    p5.background('#20D6C7'); 
+    p5.translate(offset.x, offset.y);
+    p5.scale(scal);
     p5.image(bgImage, 0, 0, sizeVector.x, sizeVector.y);
     p5.noTint();
     p5.stroke(`#ffffff${transparency}`);
