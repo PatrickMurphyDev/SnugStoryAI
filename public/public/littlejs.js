@@ -196,10 +196,17 @@ function debugUpdate()
     {
         if (keyWasPressed('Digit0'))
             showWatermark = !showWatermark;
-        if (keyWasPressed('Digit1'))
-            debugPhysics = !debugPhysics, debugParticles = false;
-        if (keyWasPressed('Digit2'))
-            debugParticles = !debugParticles, debugPhysics = false;
+        if (keyWasPressed('Digit1')){
+            //TODO FIX: 
+            debugPhysics = !debugPhysics; 
+            debugParticles = false;
+        }
+
+        if (keyWasPressed('Digit2')){
+            //TODO FIX: 
+            debugParticles = !debugParticles; 
+            debugPhysics = false;
+        }
         if (keyWasPressed('Digit3'))
             debugGamepads = !debugGamepads;
         if (keyWasPressed('Digit4'))
@@ -1149,7 +1156,7 @@ class Color
     {
         const fromHex = (c)=> clamp(parseInt(hex.slice(c,c+2),16)/255);
         this.r = fromHex(1);
-        this.g = fromHex(3),
+        this.g = fromHex(3);
         this.b = fromHex(5);
         this.a = hex.length > 7 ? fromHex(7) : 1;
         return this;

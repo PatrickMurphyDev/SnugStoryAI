@@ -38,8 +38,7 @@ function gameInit()
     buildLevel();
 
     // init game
-    score = deaths = 0;
-    gravity = -.01;
+    gravity = 0;
     objectDefaultDamping = .99;
     objectDefaultAngleDamping = .99;
     cameraScale = 4*16;
