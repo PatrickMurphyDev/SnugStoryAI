@@ -9,7 +9,9 @@
     - Has a weapon which can be fired
 */
 
-'use strict';
+// import module
+import * as LittleJS from "./littlejs.esm.js";
+const { tile, vec2, hsl, ASSERT, tileCollisionSize, TileMaps, randColor, engineObjectsUpdate, setTileCollisionData, getTileCollisionData, layer, TileLayer, PI, randInt, initTileCollision, TileLayer, engineObjectsDestroy} = LittleJS;
 
 class Character extends GameObject 
 {
@@ -49,48 +51,6 @@ class Character extends GameObject
         else if (!this.wasHoldingJump || this.climbingWall)
             this.pressedJumpTimer.set(.3);
         this.wasHoldingJump = this.holdingJump;
-
-        // wall climb
-        this.climbingWall = 0;
-        if (moveInput.x && !this.velocity.x && this.velocity.y < 0)
-        {
-            this.velocity.y *=.8;
-            this.climbingWall = 1;
-        }
-
-        if (this.dodgeTimer.active())
-        {
-            // update roll
-            this.angle = this.getMirrorSign()*2*PI*this.dodgeTimer.getPercent();
-            if (this.groundObject)
-                this.velocity.x += this.getMirrorSign()*.1;
-        }
-        else
-        {
-            // not rolling
-            this.angle = 0;
-            if (this.pressedDodge && !this.dodgeRechargeTimer.active())
-            {
-                // start dodge
-                this.dodgeTimer.set(.4);
-                this.dodgeRechargeTimer.set(2);
-                this.jumpTimer.unset();
-                sound_dodge.play(this.pos);
-
-                if (!this.groundObject && this.getAliveTime() > .2)
-                    this.velocity.y += .2;
-            }
-            if (this.pressingThrow && !this.wasPressingThrow && !this.grendeThrowTimer.active())
-            {
-                // throw greande
-                const grenade = new Grenade(this.pos);
-                grenade.velocity = this.velocity.add(vec2(this.getMirrorSign(),rand(.8,.7)).normalize(.2+rand(.02)));
-                grenade.angleVelocity = this.getMirrorSign() * rand(.8,.5);
-                sound_jump.play(this.pos);
-                this.grendeThrowTimer.set(1);
-            }
-            this.wasPressingThrow = this.pressingThrow;
-        }
 
         // allow grabbing ladder at head or feet
         let touchingLadder = 0;

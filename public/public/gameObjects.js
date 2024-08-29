@@ -6,7 +6,9 @@
     - Bullet is the projectile launched by a weapon
 */
 
+// import module
 import * as LittleJS from "./littlejs.esm.js";
+const { tile, vec2, hsl, Timer,percent, warmup, max, ASSERT } = LittleJS;
 
 class GameObject extends LittleJS.EngineObject 
 {
@@ -15,7 +17,7 @@ class GameObject extends LittleJS.EngineObject
         super(pos, size, tileInfo, angle);
         this.health = 0;
         this.isGameObject = 1;
-        this.damageTimer = new LittleJS.Timer;
+        this.damageTimer = new Timer;
     }
 
     update()

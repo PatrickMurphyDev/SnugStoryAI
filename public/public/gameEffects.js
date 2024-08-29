@@ -8,7 +8,9 @@
     - Tracks zzfx sound effects
 */
 
-'use strict';
+// import module
+import * as LittleJS from "./littlejs.esm.js";
+const { tile, vec2, hsl, ASSERT, tileCollisionSize, TileMaps, randColor, engineObjectsUpdate, setTileCollisionData, getTileCollisionData, layer, TileLayer, PI, randInt, initTileCollision, TileLayer, engineObjectsDestroy} = LittleJS;
 
 ///////////////////////////////////////////////////////////////////////////////
 // sound effects
