@@ -8,7 +8,8 @@
 
 // import module
 import * as LittleJS from "./littlejs.esm.js";
-const { tile, vec2, hsl, Timer,percent, warmup, max, ASSERT } = LittleJS;
+import { GLOBALDATETIME, spriteAtlas } from "./game.js";
+const { hsl, Timer, percent, warmup, max, ASSERT, EngineObject, vec2, PI  } = LittleJS;
 
 class GameObject extends LittleJS.EngineObject 
 {
@@ -61,10 +62,10 @@ class GameObject extends LittleJS.EngineObject
     isDead()                { return !this.health; }
     kill(damagingObject)    { this.destroy(); }
 }
-/*
+
 ///////////////////////////////////////////////////////////////////////////////
 
-class Coin extends EngineObject 
+class GatherableItem extends EngineObject 
 {
     constructor(pos) 
     { 
@@ -75,7 +76,7 @@ class Coin extends EngineObject
     render()
     {
         // make it appear to spin
-        const t = time+this.pos.x/4+this.pos.y/4;
+        const t = GLOBALDATETIME.timeValue.secondsValue+this.pos.x/4+this.pos.y/4;
         drawTile(this.pos, vec2(.1, .6), 0, this.color); // edge of coin
         drawTile(this.pos, vec2(.5+.5*Math.sin(t*2*PI), 1), this.tileInfo, this.color);
     }
@@ -96,7 +97,7 @@ class Coin extends EngineObject
         this.destroy();
     }
 }
-
+/*
 ///////////////////////////////////////////////////////////////////////////////
 
 class Enemy extends GameObject 
@@ -154,3 +155,5 @@ class Enemy extends GameObject
         drawTile(bodyPos, this.drawSize, this.tileInfo, this.color, this.angle, this.mirror, this.additiveColor);
     }
 }*/
+
+export {GameObject, GatherableItem};

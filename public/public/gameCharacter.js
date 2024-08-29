@@ -11,15 +11,16 @@
 
 // import module
 import * as LittleJS from "./littlejs.esm.js";
-const { tile, vec2, hsl, ASSERT, tileCollisionSize, TileMaps, randColor, engineObjectsUpdate, setTileCollisionData, getTileCollisionData, layer, TileLayer, PI, randInt, initTileCollision, TileLayer, engineObjectsDestroy} = LittleJS;
+import { GameObject } from "./gameObjects.js";
 
+const { tile, vec2, hsl, getTileCollisionData, PI, Timer, mod, rand, abs, sign, clamp} = LittleJS;
 class Character extends GameObject 
 {
     constructor(pos)
     { 
         super(pos, vec2(.6,.95), tile());
 
-        this.weapon = new Weapon(pos, this);
+       // this.weapon = new Weapon(pos, this);
         this.lastPos = pos;
         this.groundTimer        = new Timer;
         this.jumpTimer          = new Timer;
@@ -252,3 +253,5 @@ class Character extends GameObject
         return 1;
     }
 }
+
+export default Character;

@@ -10,7 +10,7 @@
 
 // import module
 import * as LittleJS from "./littlejs.esm.js";
-const { tile, vec2, hsl, ASSERT, tileCollisionSize, TileMaps, randColor, engineObjectsUpdate, setTileCollisionData, getTileCollisionData, layer, TileLayer, PI, randInt, initTileCollision, TileLayer, engineObjectsDestroy} = LittleJS;
+const {vec2, hsl, ASSERT, Sound, ParticleEmitter,percent, rand, randSign, randColor, EngineObject, setTileCollisionData, getTileCollisionData, PI, randInt} = LittleJS;
 
 ///////////////////////////////////////////////////////////////////////////////
 // sound effects

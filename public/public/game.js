@@ -5,11 +5,14 @@
 */
 // import module
 import * as LittleJS from "./littlejs.esm.js";
+import { buildLevel } from "./gameLevel.js";
+
 const { tile, vec2, hsl } = LittleJS;
 
+let spriteAtlas, score, deaths;
 let GLOBALDATETIME = {
   dateValue: { yearValue: 2004, monthValue: 3, dayValue: 21 },
-  timeValue: { hourValue: 12, minuteValue: 18, dayPartValue: "PM" },
+  timeValue: { secondValue: 43218, hourValue: 12, minuteValue: 18, dayPartValue: "PM" },
 };
 
 // show the LittleJS splash screen
@@ -22,20 +25,10 @@ const sound_click = new LittleJS.Sound([1, 0.5]);
 const medal_example = new LittleJS.Medal(
   0,
   "Example Medal",
-  "Welcome to LittleJS!"
+  "Welcome to Asbury's Reef!"
 );
 
 LittleJS.medalsInit("Hello World");
-
-let spriteAtlas;
-
-///////////////////////////////////////////////////////////////////////////////
-function getCameraTarget()
-{
-    // camera is above player
-    const offset = 30;
-    return new LittleJS.Vector2(0,0).add(new LittleJS.Vector2(0, offset));
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 function gameInit() {
@@ -47,17 +40,13 @@ function gameInit() {
     player: tile(3),
     enemy: tile(5),
     coin: tile(6),
-
-    // small tiles
-    gun: tile(2, 8),
-    grenade: tile(3, 8),
   };
 
   // enable touch gamepad on touch devices
   LittleJS.setTouchGamepadEnable(true);
 
   // setup level
-  //buildLevel();
+  buildLevel();
 
   // init game
   LittleJS.setGravity(0);
@@ -113,24 +102,50 @@ function gameInit() {
   // enable gravity
   LittleJS.setGravity(0); //-.01);
 }
+function gameUpdate()
+{
+    // respawn player
+    if (player.deadTimer > 1)
+    {
+        player = new Player(playerStartPos);
+        player.velocity = vec2(0,.1);
+        sound_jump.play();
+    }
+    
+    // mouse wheel = zoom
+    cameraScale = clamp(cameraScale*(1-mouseWheel/10), 1, 1e3);
+    
+    // T = drop test crate
+    if (keyWasPressed('KeyT'))
+        new Crate(mousePos);
+    
+    // E = drop enemy
+    if (keyWasPressed('KeyE'))
+        new Enemy(mousePos);
 
-///////////////////////////////////////////////////////////////////////////////
-function gameUpdate() {
-  if (LittleJS.mouseWasPressed(0)) {
-    // play sound when mouse is pressed
-    sound_click.play(LittleJS.mousePos);
+    // X = make explosion
+    if (keyWasPressed('KeyX'))
+        explosion(mousePos);
 
-    // unlock medals
-    medal_example.unlock();
-  }
-
-  // move particles to mouse location if on screen
-  //if (LittleJS.mousePosScreen.x)
-  //particleEmitter.pos = LittleJS.mousePos;
+    // M = move player to mouse
+    if (keyWasPressed('KeyM'))
+        player.pos = mousePos;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-function gameUpdatePost() {}
+function getCameraTarget()
+{
+    // camera is above player
+    const offset = 3*percent(mainCanvasSize.y, 300, 600);
+    return player.pos.add(vec2(0, offset));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function gameUpdatePost()
+{
+    // update camera
+    cameraPos = cameraPos.lerp(getCameraTarget(), clamp(player.getAliveTime()/2));
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 function gameRender() {
@@ -142,13 +157,13 @@ function gameRender() {
 }
 
 function timeFormat(timeIn) {
-    return "10:38 PM"
-    //return timeIn.hourValue + ":"+ timeIn.minuteValue + " " + timeIn.dayPartValue;
+  return "10:38 PM";
+  //return timeIn.hourValue + ":"+ timeIn.minuteValue + " " + timeIn.dayPartValue;
 }
 
 function dateFormat(dateIn) {
-    return "09/15/2024"
-    //return timeIn.hourValue + ":"+ timeIn.minuteValue + " " + timeIn.dayPartValue;
+  return "09/15/2024";
+  //return timeIn.hourValue + ":"+ timeIn.minuteValue + " " + timeIn.dayPartValue;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -173,8 +188,16 @@ function gameRenderPost() {
     LittleJS.overlayContext.strokeText(text, x, y);
     LittleJS.overlayContext.fillText(text, x, y);
   };
-  drawText("Date: " + dateFormat(GLOBALDATETIME.date), (LittleJS.overlayCanvas.width * 1) / 4, 20);
-  drawText("Time: " + timeFormat(GLOBALDATETIME.time), (LittleJS.overlayCanvas.width * 3) / 4, 20);
+  drawText(
+    "Date: " + dateFormat(GLOBALDATETIME.date),
+    (LittleJS.overlayCanvas.width * 1) / 4,
+    20
+  );
+  drawText(
+    "Time: " + timeFormat(GLOBALDATETIME.time),
+    (LittleJS.overlayCanvas.width * 3) / 4,
+    20
+  );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -184,5 +207,7 @@ LittleJS.engineInit(
   gameUpdate,
   gameUpdatePost,
   gameRender,
-  gameRenderPost
+  gameRenderPost, ['terrain_tiles_v2.png', 'water_and_island_tiles_v2.png', 'dirtpath_tiles.png']
 );
+
+export { spriteAtlas, GLOBALDATETIME, getCameraTarget, dateFormat, timeFormat, score, deaths };

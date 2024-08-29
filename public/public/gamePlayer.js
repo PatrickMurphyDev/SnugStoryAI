@@ -8,7 +8,8 @@
 */
 // import module
 import * as LittleJS from "./littlejs.esm.js";
-const { tile, vec2, hsl, ASSERT, tileCollisionSize, TileMaps, randColor, engineObjectsUpdate, setTileCollisionData, getTileCollisionData, layer, TileLayer, PI, randInt, initTileCollision, TileLayer, engineObjectsDestroy} = LittleJS;
+import Character from "./gameCharacter.js";
+const { vec2, keyIsDown, gamepadIsDown, mouseIsDown, isUsingGamepad, gamepadStick } = LittleJS;
 
 class Player extends Character
 {
@@ -28,9 +29,11 @@ class Player extends Character
         super.update();
     }
 
-    kill()
+  /*  kill()
     {
         ++deaths;
         super.kill();
-    }
+    }*/
 }
+
+export default Player;

@@ -6,13 +6,37 @@
 */
 // import module
 import * as LittleJS from "./littlejs.esm.js";
-const { tile, vec2, hsl, ASSERT, tileCollisionSize, TileMaps, randColor, engineObjectsUpdate, setTileCollisionData, getTileCollisionData, layer, TileLayer, PI, randInt, initTileCollision, TileLayer, engineObjectsDestroy} = LittleJS;
+import Player from "./gamePlayer.js";
+import { GatherableItem } from "./gameObjects.js";
+const {
+  tile,
+  vec2,
+  hsl,
+  ASSERT,
+  tileCollisionSize,
+  TileMaps,
+  TileLayerData,
+  randColor,
+  engineObjectsUpdate,
+  setTileCollisionData,
+  getTileCollisionData,
+  layer,
+  PI,
+  randInt,
+  initTileCollision,
+  TileLayer,
+  engineObjectsDestroy,
+} = LittleJS;
 
 // Tile types
 const tileType_empty = 0;
-const tileType_solid = 1;
+const tileType_solid = 1111;
 const tileType_breakable = 2;
-const tileType_door = 3; // New tile type for doors
+const tileType_door = 3;
+const tileType_SolidTop = 1;
+const tileType_SolidRight = 10;
+const tileType_SolidBottom = 100;
+const tileType_SolidLeft = 1000;
 
 let player, playerStartPos, tileData, tileLayers, foregroundLayerIndex;
 let levelSize, levelColor, levelBackgroundColor, levelOutlineColor, warmup;
@@ -145,7 +169,7 @@ function processTile(layer, tileLookup, layerData, x, y, tileLayer) {
 function createObjectForTile(tile, tileLookup, pos) {
   const objectPos = pos.add(vec2(0.5));
   if (tile == tileLookup.player) playerStartPos = objectPos;
-  else if (tile == tileLookup.crate) new Crate(objectPos);
+  //else if (tile == tileLookup.crate) new Crate(objectPos);
   else if (tile == tileLookup.gatherableItem)
     new GatherableItem(objectPos); // Formerly Coin, now GatherableItem
   else if (tile == tileLookup.door) new Door(objectPos); // New door object
@@ -257,3 +281,21 @@ function clearTileCorner(drawPos, tileLayer) {
     s
   );
 }
+export {
+  buildLevel,
+  initializeLevelColors,
+  warmupLevel,
+  processLayerTiles,
+  loadLevel,
+  createTileLookup,
+  createTileLayer,
+  processTile,
+  createObjectForTile,
+  determineTileType,
+  setTileLayerData,
+  decorateTile,
+  decorateForegroundTile,
+  decorateBackgroundTile,
+  drawTileOutline,
+  clearTileCorner,
+};
