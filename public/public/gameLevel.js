@@ -7,14 +7,14 @@
 // import module
 import * as LittleJS from "./littlejs.esm.js";
 import Player from "./gamePlayer.js";
-import { GatherableItem } from "./gameObjects.js";
+//import DoorTile from "./tiles/DoorTile";
+import { GatherableItem, DoorTile } from "./gameObjects.js";
 const {
   tile,
   vec2,
   hsl,
   ASSERT,
   tileCollisionSize,
-  TileMaps,
   TileLayerData,
   randColor,
   engineObjectsUpdate,
@@ -172,13 +172,12 @@ function createObjectForTile(tile, tileLookup, pos) {
   //else if (tile == tileLookup.crate) new Crate(objectPos);
   else if (tile == tileLookup.gatherableItem)
     new GatherableItem(objectPos); // Formerly Coin, now GatherableItem
-  else if (tile == tileLookup.door) new Door(objectPos); // New door object
+  else if (tile == tileLookup.door) new DoorTile(objectPos); // New door object
 }
 
 // Function to determine the tile type based on the tile value
 function determineTileType(tile, tileLookup) {
-  let tileType = tileType_empty;
-  if (tile > 0) tileType = tileType_breakable;
+  let tileType = tileType_solid; //tileType_empty;
   if (tile == tileLookup.metal) tileType = tileType_solid;
   if (tile == tileLookup.door) tileType = tileType_door; // Handle door tile type
   return tileType;
@@ -190,8 +189,8 @@ function setTileLayerData(tileType, layer, tileLayer, pos, tile) {
   if (tileType == tileType_breakable || tileType == tileType_door) {
     direction = randInt(4);
     mirror = randInt(2);
-    color = layer ? levelColor : levelBackgroundColor;
-    color = color.mutate(0.03);
+    //color = layer ? levelColor : levelBackgroundColor;
+    //color = color.mutate(0.03);
   }
 
   const data = new TileLayerData(tile - 1, direction, mirror, color);
@@ -298,4 +297,6 @@ export {
   decorateBackgroundTile,
   drawTileOutline,
   clearTileCorner,
+  player,
+  playerStartPos
 };
