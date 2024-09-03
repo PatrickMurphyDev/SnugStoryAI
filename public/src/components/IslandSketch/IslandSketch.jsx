@@ -15,6 +15,8 @@ const DefaultLotProperties = {
   fillColor: "#000000",
 };
 
+let charactersInitialized = false;
+
 /**
  * getLayerIndexByName
  * Returns the index of a layer in the IslandTemplateJSON by its name.
@@ -102,6 +104,7 @@ const IslandSketch = ({
    * @returns {void}
    */
   const initializeCharacters = () => {
+    if(charactersInitialized) return;
     for (var e in villagers) {
       villagers[e].remove();
     }
@@ -109,6 +112,7 @@ const IslandSketch = ({
     const characterTempList = IslandTemplateJSON.layers[residentsLayerIndex].objects.map((v) => createCharacterEntity(v));
     setVillagers(characterTempList);
     simTime.start();
+    charactersInitialized = true;
   };
 
   /**
