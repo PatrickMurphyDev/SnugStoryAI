@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Sketch from "react-p5";
 import SimulationTime from "../../utils/SimulationTime";
 import SimulationTimeControls from "../SimulationTimeControls";
-import { lotPos, resLotPos, Residents } from "../../utils/MapPositions";
 import LotEntity from "./Entities/LotEntity";
 import CharacterEntity from "./Entities/CharacterEntity";
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
@@ -181,8 +180,8 @@ const IslandSketch = ({
   const preload = (p5) => {
     let characterImages = {};
     setBgImage(p5.loadImage(IslandTemplate.Image.source));
-    Residents.forEach((resident) => {
-      characterImages[resident.name] = p5.loadImage(`images/${resident.img}`);
+    IslandTemplateJSON.layers[residentsLayerIndex].objects.forEach((resident) => {
+      characterImages[resident.name] = p5.loadImage(`images/${convertPropertiesToLotDetails(resident.properties).img}`);
     });
     setCharacterImages(characterImages);
   };
@@ -225,9 +224,9 @@ const IslandSketch = ({
    */
   const initializeEventListeners = (p5) => {
     window.addEventListener("wheel", (e) => handleZoom(e, p5));
-    window.addEventListener("mouseup", (e) =>
-      console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`)
-    );
+    //window.addEventListener("mouseup", (e) =>
+    //  console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`)
+    //);
   };
 
   /**
