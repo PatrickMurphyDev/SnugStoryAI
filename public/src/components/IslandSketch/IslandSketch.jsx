@@ -3,228 +3,282 @@ import Sketch from 'react-p5';
 import SimulationTime from '../../utils/SimulationTime';
 import SimulationTimeControls from '../SimulationTimeControls';
 import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
-import LotEntity from './Entities/LotEntity'; // Import LotEntity
+import LotEntity from './Entities/LotEntity';
 import CharacterEntity from './Entities/CharacterEntity';
 import { IslandTemplate } from '../../utils/IslandTemplateTile';
-import IslandTemplateJSON  from '../../utils/IslandTemplateTiled.json';
+import IslandTemplateJSON from '../../utils/IslandTemplateTiled.json';
+
+const DefaultLotProperties = {size:{width: 32, height: 32}, zoneType: "Commercial", price: 100000, fillColor: "#000000"};
+
+  /**
+   * getLayerIndexByName
+   * Returns the index of a layer in the IslandTemplateJSON by its name.
+   * @param {string} name - The name of the layer to search for.
+   * @returns {number} - The index of the layer if found, otherwise undefined.
+   */
+  const getLayerIndexByName = (name) => {
+    return IslandTemplateJSON.layers.map((v, i) => v.name === name ? i : -1).filter(i => i !== -1)[0];
+  };
+
 
 const simTime = SimulationTime.getInstance();
-const buildingsLayerIndex = IslandTemplateJSON.layers.map((v,i)=>{
-  if(v.name === "Buildings"){
-    return i;
-  }
-});
-const residentsLayerIndex = IslandTemplateJSON.layers.map((v,i)=>{
-  if(v.name === "Residents"){
-    return i;
-  }
-});
+const buildingsLayerIndex = getLayerIndexByName('Buildings');
+const residentsLayerIndex = getLayerIndexByName('Residents');
 
-
-const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = {x:800, y:600} }) => {  
-  // UI Display Variables
+const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = { x: 800, y: 600 } }) => {
   const [scal, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [bgImage, setBgImage] = useState();  
+  const [bgImage, setBgImage] = useState();
   const [charImages, setCharacterImages] = useState([]);
-
-  // World Entities
-  //const [villagers, setVillagers] = useState([]);
   const villagers = charList;
-  const setVillagers = (nList)=>setCharList(nList);
+  const setVillagers = (nList) => setCharList(nList);
   const [lots, setLots] = useState([]);
-  if(IslandTemplate.Image.size){
-    sizeVector = IslandTemplate.Image.size;
-  }
- /* let handleKeyDown;
+  
+  sizeVector = IslandTemplate.Image.size || sizeVector;
 
-  useEffect(()=>{
-    
-  const setPanX = (newX) => setOffset((prevOffset)=>({'x': prevOffset.x + newX, 'y': prevOffset.y}));
-  const setPanY = (newY) => setOffset((prevOffset)=>({'x': prevOffset.x, 'y':prevOffset.y+newY}));
+  useEffect(() => {
+    initializeLots();
+  }, [charImages]);
 
- handleKeyDown = (event) => {
-    switch (event.key) {
-      case '+':
-        setZoom((prevZoom) => Math.min(prevZoom * 1.1, 5)); // Maximum zoom level
-        break;
-      case '-':
-        setZoom((prevZoom) => Math.max(prevZoom / 1.1, 0.5)); // Minimum zoom level
-        break;
-      case 'a':
-      case 'ArrowLeft':
-        setPanX((prevPanX) => 10); // Move view left
-        break;
-      case 'd':
-      case 'ArrowRight':
-        setPanX((prevPanX) => -10); // Move view right
-        break;
-      case 'w':
-      case 'ArrowUp':
-        setPanY((prevPanY) => 10); // Move view up
-        break;
-      case 's':
-      case 'ArrowDown':
-        setPanY((prevPanY) => -10); // Move view down
-        break;
-      default:
-        break;
-    }
-  };
-*/
-  /*useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  useEffect(() => {
+    initializeCharacters();
+  }, [lots]);
 
-  },[]);*/
-
-  const convertPropertiesToLotDetails = function(properties){
+  /**
+   * convertPropertiesToLotDetails
+   * Converts an array of properties into an object of lot details.
+   * @param {Array} properties - Array of property objects.
+   * @returns {Object} - An object containing lot details mapped from properties.
+   */
+  const convertPropertiesToLotDetails = (properties) => {
     let retDetails = {};
     properties.forEach(element => {
       retDetails[element.name] = element.value;
     });
     return retDetails;
-  }
+  };
 
-  const DefaultLotProperties = {size:{width: 32, height: 32}, zoneType: "Commercial", price: 100000, fillColor: "#000000"};
+  /**
+   * initializeLots
+   * Initializes the lots array with LotEntity objects based on data from IslandTemplateJSON.
+   * No input parameters. Sets state directly.
+   * @returns {void}
+   */
+  const initializeLots = () => {
+    const lotEntities = IslandTemplateJSON.layers[buildingsLayerIndex].objects.map((pos, index) => 
+      new LotEntity(
+        index + 1,
+        pos.name || `Lot ${index + 1}`,
+        pos.x * 2,
+        pos.y * 2,
+        pos.properties ? convertPropertiesToLotDetails(pos.properties) : DefaultLotProperties,
+        []
+      )
+    );
+    setLots([...lotEntities]);
+  };
 
-  useEffect(() => {
-    /*simTime.onTimeUpdate((data) => {
-      //console.log(`Main Sketch | Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`);
-      /8/setMinute(data.currentTimeOfDay);
-    });*/
 
-    // Initialize lots
-    const initializeLots = () => {
-      //console.log(IslandTemplateJSON.layers[buildingsLayerIndex]);
-      //console.log(IslandTemplateJSON.layers[residentsLayerIndex]);
-
-      const lotEntities = IslandTemplateJSON.layers[7].objects.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x*2, pos.y*2, pos.properties ? convertPropertiesToLotDetails(pos.properties) : DefaultLotProperties, []));
-      //const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, {zoneType: "Residential"}, pos.price, pos.fillColor, []));
-      setLots([...lotEntities]); //...resLotEntities]);
-    };
-    initializeLots();
-  }, [charImages]);
-
-  useEffect(()=>{
-    const initalizeCharacters = () => {
-      for(var e in villagers){
-        villagers[e].remove();
-      }
-      setVillagers([]);
-      const characterTempList = Residents.map((v,i,a)=>{
-        console.log("initChar: " + v.name);
-        const residenceLot = lots.find(lot => lot.lotDetails.zoneType === 'Residential' && Math.random()>(0.2+(lot.occupied ? 0.3 : 0.0)));//lots[Math.floor(Math.random()*lots.length)];
-        const employmentLot = lots.find(lot2 => lot2.lotDetails.zoneType !== 'Residential' && !lot2.occupied && Math.random()>0.6); // Find an unoccupied commercial lot
-    
-        // Mark the lots as occupied
-        if (residenceLot) residenceLot.occupied = true;
-        if (employmentLot) employmentLot.occupied = true;
-    
-        // Create the character with assigned lots
-        return new CharacterEntity(
-          v.name,
-          v.age,
-          v.gender,
-          v.skills,
-          v.bio,
-          v.attributes,
-          residenceLot,  // Pass residence lot
-          employmentLot,  // Pass employment lot
-          charImages[v.name] || "",
-          v.img
-        );
-      });
-      setVillagers(characterTempList);
-    } 
-    if(lots){
-      initalizeCharacters();
-      simTime.start();
+  /**
+   * initializeCharacters
+   * Initializes the characters in the game by creating CharacterEntity instances.
+   * Sets state directly and uses global variables such as villagers and charImages.
+   * @returns {void}
+   */
+  const initializeCharacters = () => {
+    for (var e in villagers) {
+      villagers[e].remove();
     }
-    //return (() =>{}) //simTime.dispose();
-  }, [lots]);
-// Dictionary to store images with character names as keys
+    setVillagers([]);
+    const characterTempList = Residents.map((v) => createCharacterEntity(v));
+    setVillagers(characterTempList);
+    simTime.start();
+  };
 
-  const preload = (p5)=>{
-    let characterImages = {}; 
+  /**
+   * createCharacterEntity
+   * Creates a CharacterEntity object with assigned residence and employment lots.
+   * @param {Object} resident - Object containing character data (e.g., name, age, gender, etc.)
+   * @returns {CharacterEntity} - A new CharacterEntity instance.
+   */
+  const createCharacterEntity = (resident) => {
+    const residenceLot = findRandomResidentialLot();
+    const employmentLot = findRandomCommercialLot();
+
+    if (residenceLot) residenceLot.occupied = true;
+    if (employmentLot) employmentLot.occupied = true;
+
+    return new CharacterEntity(
+      resident.name,
+      resident.age,
+      resident.gender,
+      resident.skills,
+      resident.bio,
+      resident.attributes,
+      residenceLot,
+      employmentLot,
+      charImages[resident.name] || "",
+      resident.img
+    );
+  };
+
+  /**
+   * findRandomResidentialLot
+   * Finds an unoccupied residential lot randomly from the lots array.
+   * No input parameters. Uses global state 'lots'.
+   * @returns {Object} - An unoccupied residential lot or undefined.
+   */
+  const findRandomResidentialLot = () => {
+    return lots.find(lot => lot.lotDetails.zoneType === 'Residential' && Math.random() > (0.2 + (lot.occupied ? 0.3 : 0.0)));
+  };
+
+  /**
+   * findRandomCommercialLot
+   * Finds an unoccupied commercial lot randomly from the lots array.
+   * No input parameters. Uses global state 'lots'.
+   * @returns {Object} - An unoccupied commercial lot or undefined.
+   */
+  const findRandomCommercialLot = () => {
+    return lots.find(lot => lot.lotDetails.zoneType !== 'Residential' && !lot.occupied && Math.random() > 0.6);
+  };
+
+  /**
+   * preload
+   * Preloads images for the background and character sprites.
+   * @param {Object} p5 - The p5 instance used for loading images.
+   * @returns {void}
+   */
+  const preload = (p5) => {
+    let characterImages = {};
     setBgImage(p5.loadImage(IslandTemplate.Image.source));
-
     Residents.forEach(resident => {
       characterImages[resident.name] = p5.loadImage(`images/${resident.img}`);
     });
-
     setCharacterImages(characterImages);
-  }
+  };
 
+  /**
+   * setup
+   * Sets up the p5 canvas and initializes event listeners.
+   * @param {Object} p5 - The p5 instance used for creating the canvas and setting initial states.
+   * @param {Object} canvasParentRef - Reference to the parent container of the canvas.
+   * @returns {void}
+   */
   const setup = (p5, canvasParentRef) => {
-    // set init offset
     setOffset(p5.createVector(0, 0));
-
-    // set mouse zoom
-    window.addEventListener('wheel', (e) => {
-      const s = 1 - e.deltaY / 1000;
-      setZoom(prevScal => prevScal * s);
-      const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-      setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
-    });
-
-    window.addEventListener('mouseup', (e) => {
-      console.log("{x:"+p5.mouseX+", y:"+p5.mouseY+"}");
-    });
-    
+    initializeEventListeners(p5);
     p5.createCanvas(800, 600).parent(canvasParentRef);
   };
 
+  /**
+   * handleZoom
+   * Handles the zoom interaction for the p5 canvas.
+   * @param {Object} e - The event object from the wheel event.
+   * @param {Object} p5 - The p5 instance used for adjusting the zoom.
+   * @returns {void}
+   */
+  const handleZoom = (e, p5) => {
+    const s = 1 - e.deltaY / 1000;
+    setZoom(prevScal => prevScal * s);
+    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
+    setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
+  };
+
+  /**
+   * initializeEventListeners
+   * Adds event listeners for mouse interactions (zoom and mouseup events).
+   * @param {Object} p5 - The p5 instance used for event handling.
+   * @returns {void}
+   */
+  const initializeEventListeners = (p5) => {
+    window.addEventListener('wheel', (e) => handleZoom(e, p5));
+    window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
+  };
+
+  /**
+   * draw
+   * Draws the frame for the p5 sketch, including background and entities.
+   * @param {Object} p5 - The p5 instance used for drawing.
+   * @returns {void}
+   */
   const draw = (p5) => {
-    const transparency = '60';
-    if(simTime.currentTimeOfDay <= 400 || simTime.currentTimeOfDay >=1040 ){
-      let lerpTimeOffset = simTime.currentTimeOfDay < 500 ? 0 : 1040;
-      let lerpVal = (simTime.currentTimeOfDay-lerpTimeOffset)/400;
-      if(simTime.currentTimeOfDay >= 1040){
-        lerpVal = 1-lerpVal;
-      }
-      //p5.background(p5.lerpColor('#60 d6c7', '#20d6c7',lerpVal));
-      p5.tint(p5.lerp(100,255,lerpVal), 255);
-    }
-    
-    p5.background('#20D6C7'); 
+    renderBackground(p5);
+    renderEntities(p5);
+    handleMouseInteraction(p5);
+  };
+
+  /**
+   * renderBackground
+   * Renders the background of the p5 canvas.
+   * @param {Object} p5 - The p5 instance used for rendering.
+   * @returns {void}
+   */
+  const renderBackground = (p5) => {
+    p5.background('#20D6C7');
     p5.translate(offset.x, offset.y);
     p5.scale(scal);
     p5.image(bgImage, 0, 0, sizeVector.x, sizeVector.y);
     p5.noTint();
-    p5.stroke(`#ffffff${transparency}`);
-    p5.fill(`#000000${transparency}`);
+  };
 
+  /**
+   * renderEntities
+   * Draws all the game entities (villagers and lots) on the p5 canvas.
+   * @param {Object} p5 - The p5 instance used for drawing.
+   * @returns {void}
+   */
+  const renderEntities = (p5) => {
     villagers.forEach(villager => {
       villager.update();
-      villager.draw(p5, transparency, offset, scal);
-    })
+      villager.draw(p5);
+    });
     lots.forEach(lot => {
       lot.update();
-
-       if (p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0) {
-        lot.setHover(true);
-        if(p5.mouseIsPressed){
-          lot.setClick(true);
-          
-          console.log("lot selected", lot);
-          
-          onPropertySelect(lot);
-        }
+      if (isMouseOverLot(p5, lot)) {
+        handleLotInteraction(p5, lot);
       }
-
-      lot.draw(p5, transparency, offset, scal);
+      lot.draw(p5, offset);
     });
+  };
 
-    // set offset vector if mouse dragged
+  /**
+   * isMouseOverLot
+   * Checks if the mouse is currently over a lot.
+   * @param {Object} p5 - The p5 instance used for calculating distances.
+   * @param {Object} lot - The lot object to check.
+   * @returns {boolean} - True if the mouse is over the lot, otherwise false.
+   */
+  const isMouseOverLot = (p5, lot) => {
+    return p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0;
+  };
+
+  /**
+   * handleLotInteraction
+   * Handles interaction logic when the mouse is over a lot.
+   * @param {Object} p5 - The p5 instance used for event handling.
+   * @param {Object} lot - The lot object being interacted with.
+   * @returns {void}
+   */
+  const handleLotInteraction = (p5, lot) => {
+    lot.setHover(true);
+    if (p5.mouseIsPressed) {
+      lot.setClick(true);
+      onPropertySelect(lot);
+    }
+  };
+
+  /**
+   * handleMouseInteraction
+   * Adjusts the canvas offset based on mouse dragging.
+   * @param {Object} p5 - The p5 instance used for handling mouse input.
+   * @returns {void}
+   */
+  const handleMouseInteraction = (p5) => {
     if (p5.mouseIsPressed) {
       let tmpOffset = { x: offset.x + 0, y: offset.y + 0 };
       tmpOffset.x -= p5.pmouseX - p5.mouseX;
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
-
+      
       setOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
     }
   };
@@ -239,7 +293,6 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
       />
     </>
   );
-}
-// keyPressed={handleKeyDown}
+};
 
 export default IslandSketch;

@@ -24,6 +24,7 @@ class LotEntity extends Entity {
   }
 
   draw(p5, transparency, offset, scal) {
+    offset = offset || {x:0,y:0};
     const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
     let fillColor = '#000000';
     if (this.fillColor || this.characters.length) {
