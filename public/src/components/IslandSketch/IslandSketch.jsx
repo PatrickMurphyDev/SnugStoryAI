@@ -198,6 +198,7 @@ const IslandSketch = ({
     setOffset(p5.createVector(0, 0));
     initializeEventListeners(p5);
     p5.createCanvas(800, 600).parent(canvasParentRef);
+    setOffset({x:-200,y:-1500});
   };
 
   /**
