@@ -1,31 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import Sketch from 'react-p5';
-import SimulationTime from '../../utils/SimulationTime';
-import SimulationTimeControls from '../SimulationTimeControls';
-import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
-import LotEntity from './Entities/LotEntity';
-import CharacterEntity from './Entities/CharacterEntity';
-import { IslandTemplate } from '../../utils/IslandTemplateTile';
-import IslandTemplateJSON from '../../utils/IslandTemplateTiled.json';
+import React, { useState, useEffect } from "react";
+import Sketch from "react-p5";
+import SimulationTime from "../../utils/SimulationTime";
+import SimulationTimeControls from "../SimulationTimeControls";
+import { lotPos, resLotPos, Residents } from "../../utils/MapPositions";
+import LotEntity from "./Entities/LotEntity";
+import CharacterEntity from "./Entities/CharacterEntity";
+import { IslandTemplate } from "../../utils/IslandTemplateTile";
+import IslandTemplateJSON from "../../utils/IslandTemplateTiled.json";
 
-const DefaultLotProperties = {size:{width: 32, height: 32}, zoneType: "Commercial", price: 100000, fillColor: "#000000"};
+const DefaultLotProperties = {
+  size: { width: 32, height: 32 },
+  zoneType: "Commercial",
+  price: 100000,
+  fillColor: "#000000",
+};
 
-  /**
-   * getLayerIndexByName
-   * Returns the index of a layer in the IslandTemplateJSON by its name.
-   * @param {string} name - The name of the layer to search for.
-   * @returns {number} - The index of the layer if found, otherwise undefined.
-   */
-  const getLayerIndexByName = (name) => {
-    return IslandTemplateJSON.layers.map((v, i) => v.name === name ? i : -1).filter(i => i !== -1)[0];
-  };
-
+/**
+ * getLayerIndexByName
+ * Returns the index of a layer in the IslandTemplateJSON by its name.
+ * @param {string} name - The name of the layer to search for.
+ * @returns {number} - The index of the layer if found, otherwise undefined.
+ */
+const getLayerIndexByName = (name) => {
+  return IslandTemplateJSON.layers
+    .map((v, i) => (v.name === name ? i : -1))
+    .filter((i) => i !== -1)[0];
+};
 
 const simTime = SimulationTime.getInstance();
-const buildingsLayerIndex = getLayerIndexByName('Buildings');
-const residentsLayerIndex = getLayerIndexByName('Residents');
+const buildingsLayerIndex = getLayerIndexByName("Buildings");
+const residentsLayerIndex = getLayerIndexByName("Residents");
 
-const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = { x: 800, y: 600 } }) => {
+const IslandSketch = ({
+  onCharacterSelect,
+  onPropertySelect,
+  charList,
+  setCharList,
+  sizeVector = { x: 800, y: 600 },
+}) => {
   const [scal, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bgImage, setBgImage] = useState();
@@ -33,7 +45,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
   const villagers = charList;
   const setVillagers = (nList) => setCharList(nList);
   const [lots, setLots] = useState([]);
-  
+
   sizeVector = IslandTemplate.Image.size || sizeVector;
 
   useEffect(() => {
@@ -52,7 +64,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    */
   const convertPropertiesToLotDetails = (properties) => {
     let retDetails = {};
-    properties.forEach(element => {
+    properties.forEach((element) => {
       retDetails[element.name] = element.value;
     });
     return retDetails;
@@ -65,19 +77,23 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {void}
    */
   const initializeLots = () => {
-    const lotEntities = IslandTemplateJSON.layers[buildingsLayerIndex].objects.map((pos, index) => 
-      new LotEntity(
-        index + 1,
-        pos.name || `Lot ${index + 1}`,
-        pos.x * 2,
-        pos.y * 2,
-        pos.properties ? convertPropertiesToLotDetails(pos.properties) : DefaultLotProperties,
-        []
-      )
+    const lotEntities = IslandTemplateJSON.layers[
+      buildingsLayerIndex
+    ].objects.map(
+      (pos, index) =>
+        new LotEntity(
+          index + 1,
+          pos.name || `Lot ${index + 1}`,
+          pos.x * 2,
+          pos.y * 2,
+          pos.properties
+            ? convertPropertiesToLotDetails(pos.properties)
+            : DefaultLotProperties,
+          []
+        )
     );
     setLots([...lotEntities]);
   };
-
 
   /**
    * initializeCharacters
@@ -129,7 +145,11 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {Object} - An unoccupied residential lot or undefined.
    */
   const findRandomResidentialLot = () => {
-    return lots.find(lot => lot.lotDetails.zoneType === 'Residential' && Math.random() > (0.2 + (lot.occupied ? 0.3 : 0.0)));
+    return lots.find(
+      (lot) =>
+        lot.lotDetails.zoneType === "Residential" &&
+        Math.random() > 0.2 + (lot.occupied ? 0.3 : 0.0)
+    );
   };
 
   /**
@@ -139,7 +159,12 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {Object} - An unoccupied commercial lot or undefined.
    */
   const findRandomCommercialLot = () => {
-    return lots.find(lot => lot.lotDetails.zoneType !== 'Residential' && !lot.occupied && Math.random() > 0.6);
+    return lots.find(
+      (lot) =>
+        lot.lotDetails.zoneType !== "Residential" &&
+        !lot.occupied &&
+        Math.random() > 0.6
+    );
   };
 
   /**
@@ -151,7 +176,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
   const preload = (p5) => {
     let characterImages = {};
     setBgImage(p5.loadImage(IslandTemplate.Image.source));
-    Residents.forEach(resident => {
+    Residents.forEach((resident) => {
       characterImages[resident.name] = p5.loadImage(`images/${resident.img}`);
     });
     setCharacterImages(characterImages);
@@ -179,9 +204,11 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    */
   const handleZoom = (e, p5) => {
     const s = 1 - e.deltaY / 1000;
-    setZoom(prevScal => prevScal * s);
+    setZoom((prevScal) => prevScal * s);
     const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    setOffset(prevOffset => p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse));
+    setOffset((prevOffset) =>
+      p5.createVector(prevOffset.x, prevOffset.y).sub(mouse).mult(s).add(mouse)
+    );
   };
 
   /**
@@ -191,8 +218,10 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {void}
    */
   const initializeEventListeners = (p5) => {
-    window.addEventListener('wheel', (e) => handleZoom(e, p5));
-    window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
+    window.addEventListener("wheel", (e) => handleZoom(e, p5));
+    window.addEventListener("mouseup", (e) =>
+      console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`)
+    );
   };
 
   /**
@@ -214,7 +243,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {void}
    */
   const renderBackground = (p5) => {
-    p5.background('#20D6C7');
+    p5.background("#20D6C7");
     p5.translate(offset.x, offset.y);
     p5.scale(scal);
     p5.image(bgImage, 0, 0, sizeVector.x, sizeVector.y);
@@ -228,11 +257,11 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {void}
    */
   const renderEntities = (p5) => {
-    villagers.forEach(villager => {
+    villagers.forEach((villager) => {
       villager.update();
       villager.draw(p5);
     });
-    lots.forEach(lot => {
+    lots.forEach((lot) => {
       lot.update();
       if (isMouseOverLot(p5, lot)) {
         handleLotInteraction(p5, lot);
@@ -249,7 +278,14 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
    * @returns {boolean} - True if the mouse is over the lot, otherwise false.
    */
   const isMouseOverLot = (p5, lot) => {
-    return p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - offset.x) / scal, (p5.mouseY - offset.y) / scal) <= 15.0;
+    return (
+      p5.dist(
+        lot.location.x / 2,
+        lot.location.y / 2,
+        (p5.mouseX - offset.x) / scal,
+        (p5.mouseY - offset.y) / scal
+      ) <= 15.0
+    );
   };
 
   /**
@@ -278,7 +314,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
       let tmpOffset = { x: offset.x + 0, y: offset.y + 0 };
       tmpOffset.x -= p5.pmouseX - p5.mouseX;
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
-      
+
       setOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
     }
   };
@@ -286,11 +322,7 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
   return (
     <>
       <SimulationTimeControls simTime={simTime} />
-      <Sketch
-        preload={preload}
-        setup={setup}
-        draw={draw}
-      />
+      <Sketch preload={preload} setup={setup} draw={draw} />
     </>
   );
 };
