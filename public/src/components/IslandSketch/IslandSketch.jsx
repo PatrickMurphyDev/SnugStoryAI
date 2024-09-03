@@ -129,6 +129,7 @@ const IslandSketch = ({
     if (employmentLot) employmentLot.occupied = true;
 
     return new CharacterEntity(
+      {x:resident.x, y:resident.y},
       resident.name,
       resident.age,
       resident.gender,
