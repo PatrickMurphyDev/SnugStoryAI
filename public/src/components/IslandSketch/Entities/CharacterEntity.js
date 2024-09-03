@@ -15,6 +15,7 @@ const simTime = SimulationTime.getInstance();
 
 class CharacterEntity extends PathingEntity {
   constructor(
+    location,
     name,
     age,
     gender,
@@ -29,7 +30,7 @@ class CharacterEntity extends PathingEntity {
     super(
       "character", // entity
       Math.floor(Math.random() * 1000), // ID
-      { x: 0, y: 0 },
+      {x: location.x*2, y: location.y*2},
       { width: 32, height: 32 }
     );
     this.info = new CharacterInfo(name, age, gender, bio);
@@ -37,8 +38,6 @@ class CharacterEntity extends PathingEntity {
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING, name);
-    this.location = { x: residenceLot.location.x, y: residenceLot.location.y }; // Start at residence
-
     this.residenceLot = residenceLot;
     this.employmentLot = employmentLot;
     this.profileImage = pImg;
