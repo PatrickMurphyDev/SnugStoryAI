@@ -613,6 +613,12 @@
                  "id":53,
                  "name":"Fisher Price House",
                  "point":true,
+                 "properties":[
+                        {
+                         "name":"zoneType",
+                         "type":"string",
+                         "value":"Residential"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -723,7 +729,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -866,7 +872,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }],
@@ -880,7 +886,7 @@
         {
          "columns":10,
          "firstgid":1,
-         "image":"..\/Downloads\/basic_tileset_and_assets_32x32_standard_v2\/basic_tileset_and_assets_standard\/terrain_tiles_v2.png",
+         "image":"..\/..\/..\/..\/..\/Downloads\/basic_tileset_and_assets_32x32_standard_v2\/basic_tileset_and_assets_standard\/terrain_tiles_v2.png",
          "imageheight":512,
          "imagewidth":320,
          "margin":0,
@@ -893,7 +899,7 @@
         {
          "columns":15,
          "firstgid":161,
-         "image":"..\/Downloads\/basic_tileset_and_assets_32x32_standard_v2\/basic_tileset_and_assets_standard\/water_and_island_tiles_v2.png",
+         "image":"..\/..\/..\/..\/..\/Downloads\/basic_tileset_and_assets_32x32_standard_v2\/basic_tileset_and_assets_standard\/water_and_island_tiles_v2.png",
          "imageheight":256,
          "imagewidth":480,
          "margin":0,
@@ -905,36 +911,36 @@
         }, 
         {
          "firstgid":281,
-         "source":"..\/water_and_island_tiles_v2.tsx"
+         "source":"..\/..\/..\/..\/..\/water_and_island_tiles_v2.tsx"
         }, 
         {
          "firstgid":401,
-         "source":"..\/terrain_tiles_v2.tsx"
+         "source":"..\/..\/..\/..\/..\/terrain_tiles_v2.tsx"
         }, 
         {
          "firstgid":561,
-         "source":"..\/beach_tiles.tsx"
+         "source":"..\/..\/..\/..\/..\/beach_tiles.tsx"
         }, 
         {
          "firstgid":741,
-         "source":"..\/assetsbeach16real.tsx"
+         "source":"..\/..\/..\/..\/..\/assetsbeach16real.tsx"
         }, 
         {
          "firstgid":1029,
-         "source":"..\/assetsbeach.tsx"
+         "source":"..\/..\/..\/..\/..\/assetsbeach.tsx"
         }, 
         {
          "firstgid":1085,
-         "source":"..\/dockTiles.tsx"
+         "source":"..\/..\/..\/..\/..\/dockTiles.tsx"
         }, 
         {
          "firstgid":1105,
-         "source":"..\/pathTiles.tsx"
+         "source":"..\/..\/..\/..\/..\/pathTiles.tsx"
         }, 
         {
          "columns":20,
          "firstgid":1137,
-         "image":"..\/Downloads\/buildings (8).png",
+         "image":"..\/..\/..\/..\/..\/Downloads\/buildings (8).png",
          "imageheight":720,
          "imagewidth":640,
          "margin":0,
@@ -946,7 +952,7 @@
         }, 
         {
          "firstgid":1577,
-         "source":"..\/BuildingsV4.tsx"
+         "source":"..\/..\/..\/..\/..\/BuildingsV4.tsx"
         }],
  "tilewidth":32,
  "type":"map",

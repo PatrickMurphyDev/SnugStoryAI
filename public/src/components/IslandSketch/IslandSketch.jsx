@@ -9,6 +9,16 @@ import { IslandTemplate } from '../../utils/IslandTemplateTile';
 import IslandTemplateJSON  from '../../utils/IslandTemplateTiled.json';
 
 const simTime = SimulationTime.getInstance();
+const buildingsLayerIndex = IslandTemplateJSON.layers.map((v,i)=>{
+  if(v.name === "Buildings"){
+    return i;
+  }
+});
+const residentsLayerIndex = IslandTemplateJSON.layers.map((v,i)=>{
+  if(v.name === "Residents"){
+    return i;
+  }
+});
 
 
 const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = {x:800, y:600} }) => {  
@@ -26,11 +36,14 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
   if(IslandTemplate.Image.size){
     sizeVector = IslandTemplate.Image.size;
   }
+ /* let handleKeyDown;
 
-  const setPanX = (newX) => setOffset((prevOffset)=>({'x': newX, 'y': prevOffset.y}));
-  const setPanY = (newY) => setOffset((prevOffset)=>({'x': prevOffset.x, 'y':newY}));
+  useEffect(()=>{
+    
+  const setPanX = (newX) => setOffset((prevOffset)=>({'x': prevOffset.x + newX, 'y': prevOffset.y}));
+  const setPanY = (newY) => setOffset((prevOffset)=>({'x': prevOffset.x, 'y':prevOffset.y+newY}));
 
-  const handleKeyDown = (event) => {
+ handleKeyDown = (event) => {
     switch (event.key) {
       case '+':
         setZoom((prevZoom) => Math.min(prevZoom * 1.1, 5)); // Maximum zoom level
@@ -40,31 +53,43 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
         break;
       case 'a':
       case 'ArrowLeft':
-        setPanX((prevPanX) => prevPanX + 1); // Move view left
+        setPanX((prevPanX) => 10); // Move view left
         break;
       case 'd':
       case 'ArrowRight':
-        setPanX((prevPanX) => prevPanX - 1); // Move view right
+        setPanX((prevPanX) => -10); // Move view right
         break;
       case 'w':
       case 'ArrowUp':
-        setPanY((prevPanY) => prevPanY + 1); // Move view up
+        setPanY((prevPanY) => 10); // Move view up
         break;
       case 's':
       case 'ArrowDown':
-        setPanY((prevPanY) => prevPanY - 1); // Move view down
+        setPanY((prevPanY) => -10); // Move view down
         break;
       default:
         break;
     }
   };
-
+*/
   /*useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);*/
+  }, []);
+
+  },[]);*/
+
+  const convertPropertiesToLotDetails = function(properties){
+    let retDetails = {};
+    properties.forEach(element => {
+      retDetails[element.name] = element.value;
+    });
+    return retDetails;
+  }
+
+  const DefaultLotProperties = {size:{width: 32, height: 32}, zoneType: "Commercial", price: 100000, fillColor: "#000000"};
 
   useEffect(() => {
     /*simTime.onTimeUpdate((data) => {
@@ -74,10 +99,12 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
 
     // Initialize lots
     const initializeLots = () => {
-      console.log(IslandTemplateJSON.layers[7]);
-      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, pos.lotDetails || {zoneType: "Commercial"}, pos.price, pos.fillColor, []));
-      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, {zoneType: "Residential"}, pos.price, pos.fillColor, []));
-      setLots([...lotEntities, ...resLotEntities]);
+      //console.log(IslandTemplateJSON.layers[buildingsLayerIndex]);
+      //console.log(IslandTemplateJSON.layers[residentsLayerIndex]);
+
+      const lotEntities = IslandTemplateJSON.layers[7].objects.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x*2, pos.y*2, pos.properties ? convertPropertiesToLotDetails(pos.properties) : DefaultLotProperties, []));
+      //const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, {zoneType: "Residential"}, pos.price, pos.fillColor, []));
+      setLots([...lotEntities]); //...resLotEntities]);
     };
     initializeLots();
   }, [charImages]);
@@ -90,8 +117,8 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
       setVillagers([]);
       const characterTempList = Residents.map((v,i,a)=>{
         console.log("initChar: " + v.name);
-        const residenceLot = lots.find(lot => lot.zone === 'Residential' && Math.random()>(0.2+(lot.occupied ? 0.3 : 0.0)));//lots[Math.floor(Math.random()*lots.length)];
-        const employmentLot = lots.find(lot2 => lot2.zone !== 'Residential' && !lot2.occupied && Math.random()>0.6); // Find an unoccupied commercial lot
+        const residenceLot = lots.find(lot => lot.lotDetails.zoneType === 'Residential' && Math.random()>(0.2+(lot.occupied ? 0.3 : 0.0)));//lots[Math.floor(Math.random()*lots.length)];
+        const employmentLot = lots.find(lot2 => lot2.lotDetails.zoneType !== 'Residential' && !lot2.occupied && Math.random()>0.6); // Find an unoccupied commercial lot
     
         // Mark the lots as occupied
         if (residenceLot) residenceLot.occupied = true;
@@ -209,10 +236,10 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
         preload={preload}
         setup={setup}
         draw={draw}
-        keyPressed={handleKeyDown}
       />
     </>
   );
 }
+// keyPressed={handleKeyDown}
 
 export default IslandSketch;
