@@ -53,7 +53,7 @@ export const IslandTemplate = {
       ],
     },
     nonResidential:[
-        { id: 0, x: 275*2, y: 1370*2, name: "Bar", fillColor: "#aa0000" },
+        { id: 0, x: 275*2, y: 1370*2, name: "Bar", fillColor: "#aa0000", lotDetails: {zoneType: "Commercial", description: "The Bethel more than just a bar, is the meeting place of the town."}},
         { id: 2, x: 400*2, y: 1370*2, name: "General Store", fillColor: "#0000aa" },
         { id: 3, x: 525*2, y: 1370*2, name: "School", fillColor: "#008888" },
         { id: 1, x: 275*2, y: 1535*2, name: "Bar", fillColor: "#aa0000" },
@@ -69,7 +69,7 @@ export const IslandTemplate = {
       ]
   },
   Image: {
-    source: "images/SnugIsland.png",
+    source: "images/SnugIslandNew.png",
     size: {x:2048,y:2048}
   }
 };

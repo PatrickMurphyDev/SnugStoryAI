@@ -6,6 +6,7 @@ import { lotPos, resLotPos, Residents } from '../../utils/MapPositions';
 import LotEntity from './Entities/LotEntity'; // Import LotEntity
 import CharacterEntity from './Entities/CharacterEntity';
 import { IslandTemplate } from '../../utils/IslandTemplateTile';
+import IslandTemplateJSON  from '../../utils/IslandTemplateTiled.json';
 
 const simTime = SimulationTime.getInstance();
 
@@ -73,8 +74,9 @@ const IslandSketch = ({ onCharacterSelect, onPropertySelect, charList, setCharLi
 
     // Initialize lots
     const initializeLots = () => {
-      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, "Commercial", pos.price, pos.fillColor, []));
-      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, "Residential", pos.price, pos.fillColor, []));
+      console.log(IslandTemplateJSON.layers[7]);
+      const lotEntities = lotPos.map((pos, index) => new LotEntity(index + 1, pos.name || `Lot ${index + 1}`, pos.x, pos.y, pos.size, pos.lotDetails || {zoneType: "Commercial"}, pos.price, pos.fillColor, []));
+      const resLotEntities = resLotPos.map((pos, index) => new LotEntity(index + 1 + lotEntities.length, pos.name || `Res ${index + 1}`, pos.x, pos.y, pos.size, {zoneType: "Residential"}, pos.price, pos.fillColor, []));
       setLots([...lotEntities, ...resLotEntities]);
     };
     initializeLots();

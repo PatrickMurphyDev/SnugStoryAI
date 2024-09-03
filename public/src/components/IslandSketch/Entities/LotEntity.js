@@ -1,14 +1,15 @@
 import Entity from './Entity';
 
 class LotEntity extends Entity {
-  constructor(id, name, x, y, size, zone, price, fillColor = '#000000', characters = []) {
+  constructor(id, name, x, y, size, ldetails, price, fillColor = '#000000', characters = []) {
     super('lot', id, { x, y }, { width: size, height: size });
     this.name = name;
-    this.zone = zone;
+    this.lotDetails = ldetails;
     this.price = price;
+    this.zone = ldetails.zoneType || 'Residential';
     this.fillColor = fillColor;
     this.characters = characters;
-    this.building = {name:"Mo's Candy",description:"Candy Store for the People!",type:"Store",owner:"Maureen",value:"100,000"};
+    this.building = {name:this.name, description: this.lotDetails.description || "no desc", type:"Store", owner:"Maureen", value:100000};
     this.occupied = false;
   }
 
