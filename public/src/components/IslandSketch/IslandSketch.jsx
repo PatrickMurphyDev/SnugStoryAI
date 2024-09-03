@@ -106,7 +106,7 @@ const IslandSketch = ({
       villagers[e].remove();
     }
     setVillagers([]);
-    const characterTempList = Residents.map((v) => createCharacterEntity(v));
+    const characterTempList = IslandTemplateJSON.layers[residentsLayerIndex].objects.map((v) => createCharacterEntity(v));
     setVillagers(characterTempList);
     simTime.start();
   };
