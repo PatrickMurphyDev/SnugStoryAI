@@ -12,8 +12,9 @@
 // import module
 import * as LittleJS from "./littlejs.esm.js";
 import { GameObject } from "./gameObjects.js";
+import { spriteAtlas } from "./game.js";
 
-const { tile, vec2, hsl, getTileCollisionData, PI, Timer, mod, rand, abs, sign, clamp} = LittleJS;
+const { tile, vec2, hsl, getTileCollisionData, PI, Timer, mod, rand, abs, sign, clamp, drawTile, destroyTile} = LittleJS;
 class Character extends GameObject 
 {
     constructor(pos)
@@ -47,29 +48,31 @@ class Character extends GameObject
         const moveInput = this.moveInput.copy();
         
         // jump
+        /*
         if (!this.holdingJump)
             this.pressedJumpTimer.unset();
         else if (!this.wasHoldingJump || this.climbingWall)
             this.pressedJumpTimer.set(.3);
         this.wasHoldingJump = this.holdingJump;
+        */
 
         // allow grabbing ladder at head or feet
-        let touchingLadder = 0;
+        //let touchingLadder = 0;
         for (let y=2;y--;)
         {
             const testPos = this.pos.add(vec2(0, y + .1*moveInput.y - this.size.y/2));
             const collisionData = getTileCollisionData(testPos);
-            touchingLadder ||= collisionData == tileType_ladder;
+            //touchingLadder ||= collisionData == tileType_ladder;
         }
-        if (!touchingLadder)
-            this.climbingLadder = 0;
-        else if (moveInput.y)
-            this.climbingLadder = 1;
+        //if (!touchingLadder)
+       //     this.climbingLadder = 0;
+       // else if (moveInput.y)
+        //    this.climbingLadder = 1;
 
-        if (this.weapon) // update weapon trigger
-            this.weapon.triggerIsDown = this.holdingShoot && !this.dodgeTimer.active();
+        //if (this.weapon) // update weapon trigger
+        //    this.weapon.triggerIsDown = this.holdingShoot && !this.dodgeTimer.active();
 
-        if (this.climbingLadder)
+        /*if (this.climbingLadder)
         {
             // update ladder
             this.gravityScale = this.climbingWall = this.groundObject = 0;
@@ -86,7 +89,7 @@ class Character extends GameObject
             this.climbingLadder = moveInput.y >= 0 || getTileCollisionData(this.pos.subtract(vec2(0,1))) <= 0;
         }
         else
-        {
+        {*/
             // update jumping and ground check
             if (this.groundObject || this.climbingWall)
             {
@@ -130,10 +133,10 @@ class Character extends GameObject
                     moveInput.x *= .2; // moving against velocity (stopping)
                 
                 // slight extra gravity when moving down
-                if (this.velocity.y < 0)
-                    this.velocity.y += gravity*.2;
+                //if (this.velocity.y < 0)
+                   // this.velocity.y += gravity*.2;
             }
-        }
+        /*}*/
         
         // apply movement acceleration and clamp
         const maxCharacterSpeed = .2;
@@ -179,7 +182,8 @@ class Character extends GameObject
         const animationFrame = this.isDead() ? 0 :
             this.climbingLadder || this.groundTimer.active() ?
             2*this.walkCyclePercent|0 : 1;
-        this.tileInfo = spriteAtlas.player.frame(animationFrame);
+        //this.tileInfo = spriteAtlas.player;
+        //.frame(animationFrame)
 
         let bodyPos = this.pos;
         if (!this.isDead())
@@ -190,7 +194,7 @@ class Character extends GameObject
             // make bottom flush
             bodyPos = bodyPos.add(vec2(0,(this.drawSize.y-this.size.y)/2));
         }
-        drawTile(bodyPos, this.drawSize, this.tileInfo, this.color, this.angle, this.mirror);
+       //drawTile(bodyPos, this.drawSize, this.tileInfo, this.color, this.angle, this.mirror);
     }
 
     damage(damage, damagingObject)
@@ -198,57 +202,14 @@ class Character extends GameObject
         if (this.isDead() || this.getAliveTime() < 1 || this.dodgeTimer.active())
             return;
 
-        makeBlood(damagingObject ? damagingObject.pos : this.pos);
+        //makeBlood(damagingObject ? damagingObject.pos : this.pos);
         super.damage(damage, damagingObject);
-    }
-
-    kill(damagingObject)                  
-    {
-        if (this.isDead())
-            return;
-
-        makeBlood(this.pos, 100);
-        sound_die.play(this.pos);
-
-        this.health = 0;
-        if (this.weapon)
-            this.weapon.destroy();
-        this.deadTimer.set();
-        this.size = this.size.scale(.5);
-        const fallDirection = damagingObject ? sign(damagingObject.velocity.x) : randSign();
-        this.angleVelocity = fallDirection*rand(.22,.14);
-        this.angleDamping = .9;
-        this.renderOrder = -1;  // move to back layer
     }
     
     collideWithTile(data, pos)
     {
         if (!data)
             return;
-
-        if (data == tileType_ladder)
-        {
-            // handle ladder collisions
-            if (pos.y + 1 > this.lastPos.y - this.size.y/2)
-                return;
-
-            if (getTileCollisionData(pos.add(vec2(0,1)))      // above
-                && !getTileCollisionData(pos.add(vec2(1,0)))  // left
-                && !getTileCollisionData(pos.add(vec2(1,0)))) // right
-                return; // dont collide if something above it and nothing to left or right
-
-            // allow standing on top of ladders
-            return !this.climbingLadder;
-        }
-
-        const d = pos.y - this.pos.y;
-        if (!this.climbingLadder && this.velocity.y > .1 && d > 0 && d < this.size.y/2)
-        if (destroyTile(pos))
-        {
-            // break blocks above
-            this.velocity.y = 0;
-            return;
-        }
 
         return 1;
     }

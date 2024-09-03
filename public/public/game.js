@@ -5,9 +5,11 @@
 */
 // import module
 import * as LittleJS from "./littlejs.esm.js";
-import { buildLevel } from "./gameLevel.js";
+import { buildLevel, player } from "./gameLevel.js";
+import Player from './gamePlayer.js';
+import { playerStartPos } from "./gameLevel.js";
 
-const { tile, vec2, hsl } = LittleJS;
+let { tile, vec2, hsl, clamp, keyWasPressed, percent, mainCanvasSize, mousePos, cameraPos, cameraScale, mouseWheel } = LittleJS;
 
 let spriteAtlas, score, deaths;
 let GLOBALDATETIME = {
@@ -22,14 +24,14 @@ LittleJS.setShowSplashScreen(false);
 const sound_click = new LittleJS.Sound([1, 0.5]);
 
 // medals
-const medal_example = new LittleJS.Medal(
+/*const medal_example = new LittleJS.Medal(
   0,
   "Example Medal",
   "Welcome to Asbury's Reef!"
 );
 
 LittleJS.medalsInit("Hello World");
-
+*/
 ///////////////////////////////////////////////////////////////////////////////
 function gameInit() {
   // create a table of all sprites
@@ -39,7 +41,7 @@ function gameInit() {
     crate: tile(2),
     player: tile(3),
     enemy: tile(5),
-    coin: tile(6),
+    coin: tile(323),
   };
 
   // enable touch gamepad on touch devices
@@ -54,8 +56,11 @@ function gameInit() {
   LittleJS.setObjectDefaultAngleDamping(0.99);
   LittleJS.setCameraScale(4 * 16);
   LittleJS.setCameraPos(getCameraTarget());
+}//
 
-  // create tile collision and visible tile layer
+/*
+
+// create tile collision and visible tile layer
   const tileCollisionSize = vec2(32, 16);
   LittleJS.initTileCollision(tileCollisionSize);
   const pos = vec2();
@@ -101,7 +106,10 @@ function gameInit() {
 
   // enable gravity
   LittleJS.setGravity(0); //-.01);
+
 }
+//*/
+
 function gameUpdate()
 {
     // respawn player
@@ -109,23 +117,23 @@ function gameUpdate()
     {
         player = new Player(playerStartPos);
         player.velocity = vec2(0,.1);
-        sound_jump.play();
+        //sound_jump.play();
     }
     
     // mouse wheel = zoom
     cameraScale = clamp(cameraScale*(1-mouseWheel/10), 1, 1e3);
     
     // T = drop test crate
-    if (keyWasPressed('KeyT'))
-        new Crate(mousePos);
+   // if (keyWasPressed('KeyT'))
+    //    new Crate(mousePos);
     
     // E = drop enemy
-    if (keyWasPressed('KeyE'))
-        new Enemy(mousePos);
+   // if (keyWasPressed('KeyE'))
+        //new Enemy(mousePos);
 
     // X = make explosion
-    if (keyWasPressed('KeyX'))
-        explosion(mousePos);
+  //  if (keyWasPressed('KeyX'))
+    //    explosion(mousePos);
 
     // M = move player to mouse
     if (keyWasPressed('KeyM'))
@@ -207,7 +215,8 @@ LittleJS.engineInit(
   gameUpdate,
   gameUpdatePost,
   gameRender,
-  gameRenderPost, ['terrain_tiles_v2.png', 'water_and_island_tiles_v2.png', 'dirtpath_tiles.png']
+  gameRenderPost
+ , ['terrain_tiles_v2.png', 'water_and_island_tiles_v2.png', 'dirtpath_tiles.png']
 );
 
-export { spriteAtlas, GLOBALDATETIME, getCameraTarget, dateFormat, timeFormat, score, deaths };
+export { spriteAtlas, GLOBALDATETIME, getCameraTarget, dateFormat, timeFormat, score, deaths, sound_click};
