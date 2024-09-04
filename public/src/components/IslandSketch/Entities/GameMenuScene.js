@@ -15,7 +15,7 @@ export class GameMenuScene extends GameScene {
    * @param {Object} p5 - The p5 instance used for loading assets.
    */
   preload(p5) {
-    this.bgImage = p5.loadImage(this.bgImagePath); // Preload the background image
+    this.bgImage = p5.loadImage("images/mainMenu.png");//this.bgImagePath); // Preload the background image
   }
 
   /**
@@ -42,14 +42,14 @@ export class GameMenuScene extends GameScene {
     // Draw buttons
     this.buttons.forEach((button) => {
       // Draw button background
-      p5.fill(button.color || '#007BFF'); // Use button color or default to blue
+      p5.fill('#007BFF'); // Use button color or default to blue // button.color || 
       p5.rect(button.x, button.y, button.width, button.height);
 
       // Draw button text
-      p5.fill(255); // Set text color to white
-      p5.textSize(16);
-      p5.textAlign(p5.CENTER, p5.CENTER);
-      p5.text(button.text, button.x + button.width / 2, button.y + button.height / 2);
+     // p5.fill(255); // Set text color to white
+      //p5.textSize(16);
+      //p5.textAlign(p5.CENTER, p5.CENTER);
+      //p5.text(button.text, button.x + button.width / 2, button.y + button.height / 2);
 
       // Handle button click
       if (
@@ -59,6 +59,7 @@ export class GameMenuScene extends GameScene {
         p5.mouseY >= button.y &&
         p5.mouseY <= button.y + button.height
       ) {
+        console.log("clicked");
         button.onClick(); // Call the click handler for this button
       }
     });
