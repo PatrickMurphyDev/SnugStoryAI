@@ -28,9 +28,9 @@ const getLayerIndexByName = (name) => {
     .filter((i) => i !== -1)[0];
 };
 
-const simTime = SimulationTime.getInstance();
 const buildingsLayerIndex = getLayerIndexByName("Buildings");
 const residentsLayerIndex = getLayerIndexByName("Residents");
+const simTime = SimulationTime.getInstance();
 
 const IslandSketch = ({
   onCharacterSelect,
