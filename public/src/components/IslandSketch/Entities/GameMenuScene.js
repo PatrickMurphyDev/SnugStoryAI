@@ -2,19 +2,65 @@
 import { GameScene } from './GameScene';
 
 export class GameMenuScene extends GameScene {
-  constructor() {
+  constructor(bgImagePath, buttons = []) {
     super('GameMenuScene');
+    this.bgImagePath = bgImagePath; // Path to the background image
+    this.bgImage = null; // Placeholder for the preloaded background image
+    this.buttons = buttons; // Array of buttons with properties: { x, y, width, height, text, onClick, color }
   }
 
+  /**
+   * preload
+   * Preloads the background image for the menu scene.
+   * @param {Object} p5 - The p5 instance used for loading assets.
+   */
   preload(p5) {
-    // Load menu assets
+    this.bgImage = p5.loadImage(this.bgImagePath); // Preload the background image
   }
 
+  /**
+   * setup
+   * Sets up the menu scene environment.
+   * @param {Object} p5 - The p5 instance used for setting up the scene.
+   * @param {Object} canvasParentRef - The reference to the canvas parent container.
+   */
   setup(p5, canvasParentRef) {
-    // Setup menu
+    p5.createCanvas(800, 600).parent(canvasParentRef);
   }
 
+  /**
+   * draw
+   * Renders the menu scene.
+   * @param {Object} p5 - The p5 instance used for drawing.
+   */
   draw(p5) {
-    // Draw menu
+    // Draw the background image
+    if (this.bgImage) {
+      p5.image(this.bgImage, 0, 0, p5.width, p5.height);
+    }
+
+    // Draw buttons
+    this.buttons.forEach((button) => {
+      // Draw button background
+      p5.fill(button.color || '#007BFF'); // Use button color or default to blue
+      p5.rect(button.x, button.y, button.width, button.height);
+
+      // Draw button text
+      p5.fill(255); // Set text color to white
+      p5.textSize(16);
+      p5.textAlign(p5.CENTER, p5.CENTER);
+      p5.text(button.text, button.x + button.width / 2, button.y + button.height / 2);
+
+      // Handle button click
+      if (
+        p5.mouseIsPressed &&
+        p5.mouseX >= button.x &&
+        p5.mouseX <= button.x + button.width &&
+        p5.mouseY >= button.y &&
+        p5.mouseY <= button.y + button.height
+      ) {
+        button.onClick(); // Call the click handler for this button
+      }
+    });
   }
 }
