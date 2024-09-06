@@ -8,6 +8,11 @@ export class GameCutScene extends GameScene {
     this.currentSlideIndex = 0; // Index of the currently displayed slide
     this.preloadedImages = {}; // Array to hold preloaded images
     this.currentTypeTextIndex = 0;
+    this.currentSlideTextStyle = 0;
+
+    this.choicesOptions = { margin: 5 };
+
+    this.typeWriterSpeed = { base: 0.25, randomFactor: 0.5 };
   }
 
   /**
@@ -36,13 +41,19 @@ export class GameCutScene extends GameScene {
     p5.createCanvas(800, 600).parent(canvasParentRef);
   }
 
+  updateTypeWriter(maxVal){
+    const randPart = Math.random() * this.typeWriterSpeed.randomFactor;
+    const newIndex = this.typeWriterSpeed.base + randPart;
+    this.currentTypeTextIndex = Math.min(maxVal, newIndex+this.currentTypeTextIndex);
+  }
+
   /**
    * drawSlideButtons
    * Renders the current slide text for the cutscene.
    * @param {Object} p5 - The p5 instance used for drawing.
    * @param {Array} choices - Array of choice objects.
    */
-  drawSlideButtons(p5, choices) {
+  drawSlideButtons(p5, choices, slide) {
     // Draw the buttons for choices
     if (choices && choices.length > 0) {
       const buttonWidth = p5.width / choices.length; // Calculate width for each button
@@ -87,14 +98,8 @@ export class GameCutScene extends GameScene {
       p5.fill(255); // Set text color to white
       p5.textSize(20); // Set text size
       p5.textAlign(p5.LEFT, p5.TOP);
-      p5.text(
-        currentString,
-        575,
-        50,
-        p5.width - 575 - 20,
-        p5.height -100
-      ); // Draw text below the image
-      this.currentTypeTextIndex += 0.14 + Math.random()/2.75;
+        p5.text(currentString, 575, 25, p5.width - 575 - 20, p5.height - 75); // Draw text below the image
+      }
     }
   }
 
@@ -126,7 +131,9 @@ export class GameCutScene extends GameScene {
     // Draw the current slide's text
     this.drawSlideText(p5, currentSlide.text);
     // Draw the buttons for choices
-    this.drawSlideButtons(p5, currentSlide.choices);
+    this.drawSlideButtons(p5, currentSlide.choices, currentSlide);
+    
+    this.updateTypeWriter(currentSlide.text.length);
   }
 
   /**
@@ -162,5 +169,13 @@ export class GameCutScene extends GameScene {
     if (index >= 0 && index < this.slides.length) {
       this.currentSlideIndex = index;
     }
+  }
+
+  /**
+   * setSlides
+   * Sets the slide array
+   */
+  setSlides(s) {
+    this.slides = s;
   }
 }
