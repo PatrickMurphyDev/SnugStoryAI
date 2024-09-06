@@ -69,7 +69,7 @@ export class GameCutScene extends GameScene {
           p5.mouseY >= y &&
           p5.mouseY <= y + buttonHeight
         ) {
-          choice.onClick(); // Call the click handler for this button
+          this.doUIAction(p5.frameCount, choice.onClick); // Call the click handler for this button
         }
       });
     }}

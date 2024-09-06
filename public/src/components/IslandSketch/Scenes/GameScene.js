@@ -2,6 +2,16 @@
 export class GameScene {
     constructor(name) {
       this.name = name; // Scene name
+      
+      this.lastUIActionFrame = -1;
+      this.UIActionCooldownFrames = 60;
+    }
+
+    doUIAction(currFrame, action){
+      if(this.lastUIActionFrame + this.UIActionCooldownFrames <= currFrame){
+        this.lastUIActionFrame = currFrame;
+        action();
+      }
     }
   
     /**
