@@ -1,7 +1,7 @@
 import {GameMenuScene} from "./GameMenuScene.js";
 
 export class Main_GameMenuScene extends GameMenuScene {
-  constructor() {
+  constructor(nextSceneFn,currScene) {
     super("images/mainMenu.png", [
       {
         x: 123,
@@ -11,6 +11,7 @@ export class Main_GameMenuScene extends GameMenuScene {
         text: "new",
         onClick: () => {
           console.log("New Game");
+          nextSceneFn(currScene+1);
         },
       },
       {
