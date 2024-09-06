@@ -1,5 +1,5 @@
 // GameCutScene.js
-import { GameScene } from "./GameScene";
+import { GameScene } from "../Scenes/GameScene";
 
 export class GameCutScene extends GameScene {
   constructor(slides) {
@@ -106,12 +106,15 @@ export class GameCutScene extends GameScene {
 
     // Draw the current slide's image
     if (this.preloadedImages[this.currentSlideIndex]) {
+
+      // assume square src img
+      const sizeImg = Math.min(p5.width - 100, p5.height - 100);
       p5.image(
         this.preloadedImages[this.currentSlideIndex],
         50,
         0,
-        p5.width - 100,
-        p5.height - 100
+        sizeImg,
+        sizeImg
       );
     }else{
       this.preloadedImages[this.currentSlideIndex] = p5.loadImage(currentSlide['imagePath']);
