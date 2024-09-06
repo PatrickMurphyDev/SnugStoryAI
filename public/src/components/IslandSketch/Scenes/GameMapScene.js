@@ -1,7 +1,7 @@
 // GameMapScene.js
-import { GameScene } from '../Scenes/GameScene';
-import LotEntity from './LotEntity';
-import CharacterEntity from './CharacterEntity';
+import { GameScene } from './GameScene';
+import LotEntity from '../Entities/LotEntity';
+import CharacterEntity from '../Entities/CharacterEntity';
 import { IslandTemplate } from '../../../utils/IslandTemplateTile';
 import IslandTemplateJSON from '../../../utils/IslandTemplateTiled.json';
 

@@ -1,5 +1,5 @@
 // GameCutScene.js
-import { GameScene } from "../Scenes/GameScene";
+import { GameScene } from "./GameScene";
 
 export class GameCutScene extends GameScene {
   constructor(slides) {

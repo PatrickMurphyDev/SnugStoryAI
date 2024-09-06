@@ -1,11 +1,11 @@
 // IslandSketch.js
 import React, { useState } from "react";
 import Sketch from "react-p5";
-import { GameMapScene } from "./Entities/GameMapScene";
-import { Main_GameMenuScene } from "./Entities/Main_GameMenuScene";
-import { Load_GameMenuScene } from "./Entities/Load_GameMenuScene";
-import { Settings_GameMenuScene } from "./Entities/Settings_GameMenuScene";
-import { Intro_GameCutScene } from "./Entities/Intro_GameCutScene";
+import { GameMapScene } from "./Scenes/GameMapScene";
+import { Main_GameMenuScene } from "./Scenes/Main_GameMenuScene";
+import { Load_GameMenuScene } from "./Scenes/Load_GameMenuScene";
+import { Settings_GameMenuScene } from "./Scenes/Settings_GameMenuScene";
+import { Intro_GameCutScene } from "./Scenes/Intro_GameCutScene";
 
 const IslandSketch = ({
   onCharacterSelect,

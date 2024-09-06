@@ -1,5 +1,5 @@
 // GameMenuScene.js
-import { GameScene } from '../Scenes/GameScene';
+import { GameScene } from './GameScene';
 
 export class GameMenuScene extends GameScene {
   constructor(bgImagePath, buttons = []) {

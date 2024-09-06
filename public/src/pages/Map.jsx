@@ -22,7 +22,7 @@ export default function Map() {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "row", backgroundColor:"#0a0a1e", color:"#eee" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <LocationComponent
             lot={propertySelected}
