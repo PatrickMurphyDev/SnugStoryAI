@@ -48,60 +48,115 @@ export class GameCutScene extends GameScene {
   }
 
   /**
-   * drawSlideButtons
-   * Renders the current slide text for the cutscene.
-   * @param {Object} p5 - The p5 instance used for drawing.
-   * @param {Array} choices - Array of choice objects.
-   */
-  drawSlideButtons(p5, choices, slide) {
-    // Draw the buttons for choices
-    if (choices && choices.length > 0) {
-      const buttonWidth =
-        (p5.width - choices.length * (this.choicesOptions.margin * 2)) /
-        choices.length; // Calculate width for each button
-      const buttonHeight = 24; // Fixed height for buttons
+ * drawSlideButtons
+ * Renders the current slide text for the cutscene.
+ * @param {Object} p5 - The p5 instance used for drawing.
+ * @param {Array} choices - Array of choice objects.
+ * @param {Object} slide - The current slide object.
+ */
+drawSlideButtons(p5, choices, slide) {
+  if (!choices || choices.length === 0) return; // No choices to draw
 
-      choices.forEach((choice, index) => {
-        const x =
-          this.choicesOptions.margin +
-          index * (buttonWidth + this.choicesOptions.margin * 2);
-        const y = p5.height - buttonHeight; // Position at the bottom of the canvas
+  const buttonWidth = this.calculateButtonWidth(p5, choices.length);
+  const buttonHeight = 24; // Fixed height for buttons
 
-        // Draw the button background
-        const colorBtn = choice.color || "#007BFF";
-        p5.fill(colorBtn); // Use button color or default to blue
-        p5.rect(x, y, buttonWidth, buttonHeight);
-        if (choice.text === "Next") {
-          p5.noStroke();
-          p5.fill(p5.lerpColor(p5.color("#007BFF"), p5.color("#ffffff"), 0.25)); // Use button color or default to blue
-          p5.rect(
-            x,
-            y,
-            buttonWidth * ((this.currentTypeTextIndex+1) / slide.text.length),
-            buttonHeight
-          );
-          p5.fill(colorBtn); // Use button color or default to blue
-        }
+  choices.forEach((choice, index) => {
+    const { x, y } = this.calculateButtonPosition(p5, index, buttonWidth);
+    const colorBtn = choice.color || "#007BFF";
 
-        // Draw the button text
-        p5.fill(255); // Set text color to white
-        p5.textSize(18);
-        p5.textAlign(p5.CENTER, p5.CENTER);
-        p5.text(choice.text, x + buttonWidth / 2, y + buttonHeight / 2);
+    this.drawButtonBackground(p5, x, y, buttonWidth, buttonHeight, colorBtn, choice, slide);
+    this.drawButtonText(p5, x, y, buttonWidth, buttonHeight, choice.text);
+    this.handleButtonClick(p5, x, y, buttonWidth, buttonHeight, choice.onClick);
+  });
+}
 
-        // Handle button click
-        if (
-          p5.mouseIsPressed &&
-          p5.mouseX >= x &&
-          p5.mouseX <= x + buttonWidth &&
-          p5.mouseY >= y &&
-          p5.mouseY <= y + buttonHeight
-        ) {
-          this.doUIAction(p5.frameCount, choice.onClick); // Call the click handler for this button
-        }
-      });
-    }
+/**
+ * calculateButtonWidth
+ * Calculates the width for each button based on the canvas size and margin.
+ * @param {Object} p5 - The p5 instance used for drawing.
+ * @param {number} numChoices - The number of choice buttons.
+ * @returns {number} The calculated button width.
+ */
+calculateButtonWidth(p5, numChoices) {
+  return (p5.width - numChoices * (this.choicesOptions.margin * 2)) / numChoices;
+}
+
+/**
+ * calculateButtonPosition
+ * Calculates the x and y position for each button.
+ * @param {Object} p5 - The p5 instance used for drawing.
+ * @param {number} index - The index of the current button.
+ * @param {number} buttonWidth - The width of the button.
+ * @returns {Object} An object containing x and y positions.
+ */
+calculateButtonPosition(p5, index, buttonWidth) {
+  const x = this.choicesOptions.margin + index * (buttonWidth + this.choicesOptions.margin * 2);
+  const y = p5.height - 24; // Fixed height for buttons
+  return { x, y };
+}
+
+/**
+ * drawButtonBackground
+ * Draws the button background with the appropriate color and effects.
+ * @param {Object} p5 - The p5 instance used for drawing.
+ * @param {number} x - The x position of the button.
+ * @param {number} y - The y position of the button.
+ * @param {number} buttonWidth - The width of the button.
+ * @param {number} buttonHeight - The height of the button.
+ * @param {string} colorBtn - The button color.
+ * @param {Object} choice - The choice object.
+ * @param {Object} slide - The current slide object.
+ */
+drawButtonBackground(p5, x, y, buttonWidth, buttonHeight, colorBtn, choice, slide) {
+  p5.fill(colorBtn);
+  p5.rect(x, y, buttonWidth, buttonHeight);
+  
+  if (choice.text === "Next") {
+    p5.noStroke();
+    p5.fill(p5.lerpColor(p5.color("#007BFF"), p5.color("#ffffff"), 0.25));
+    p5.rect(x, y, buttonWidth * ((this.currentTypeTextIndex + 1) / slide.text.length), buttonHeight);
+    p5.fill(colorBtn);
   }
+}
+
+/**
+ * drawButtonText
+ * Draws the button text at the center of the button.
+ * @param {Object} p5 - The p5 instance used for drawing.
+ * @param {number} x - The x position of the button.
+ * @param {number} y - The y position of the button.
+ * @param {number} buttonWidth - The width of the button.
+ * @param {number} buttonHeight - The height of the button.
+ * @param {string} text - The text to display on the button.
+ */
+drawButtonText(p5, x, y, buttonWidth, buttonHeight, text) {
+  p5.fill(255);
+  p5.textSize(18);
+  p5.textAlign(p5.CENTER, p5.CENTER);
+  p5.text(text, x + buttonWidth / 2, y + buttonHeight / 2);
+}
+
+/**
+ * handleButtonClick
+ * Handles the button click event.
+ * @param {Object} p5 - The p5 instance used for drawing.
+ * @param {number} x - The x position of the button.
+ * @param {number} y - The y position of the button.
+ * @param {number} buttonWidth - The width of the button.
+ * @param {number} buttonHeight - The height of the button.
+ * @param {Function} onClick - The function to execute on button click.
+ */
+handleButtonClick(p5, x, y, buttonWidth, buttonHeight, onClick) {
+  if (
+    p5.mouseIsPressed &&
+    p5.mouseX >= x &&
+    p5.mouseX <= x + buttonWidth &&
+    p5.mouseY >= y &&
+    p5.mouseY <= y + buttonHeight
+  ) {
+    this.doUIAction(p5.frameCount, onClick);
+  }
+}
 
   /**
    * drawSlideText
@@ -134,7 +189,7 @@ export class GameCutScene extends GameScene {
     p5.background(10); // Clear the screen with a black background
     const currentSlide = this.slides[this.currentSlideIndex];
     const sizeImg = Math.min(p5.width - 100, p5.height - 100);
-    
+
     // Draw the current slide's image
     if (this.preloadedImages[this.currentSlideIndex]) {
       // assume square src img
