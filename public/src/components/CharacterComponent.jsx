@@ -78,6 +78,9 @@ const CharacterComponent = (props) => {
   };
 
 
+  
+  const displaySetting = selectedCharacter ? {} : {"display": 'none'}; 
+
   // TODO add job details, state 
   return (
     <div
@@ -120,7 +123,7 @@ const CharacterComponent = (props) => {
         </div>
       ) : (
         // Display list of villagers with small images when no character is selected
-        <div>
+        <div style={displaySetting}>
           <h2>Villagers</h2>
           <ul style={{ listStyleType: "none", padding: 0 }}>
             {villagers.map((villager, index) => (

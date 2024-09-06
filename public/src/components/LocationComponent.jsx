@@ -1,8 +1,9 @@
 import React from 'react';
 
 const LocationComponent = ({ lot, setPropertySelected }) => {
+  const displaySetting = lot && lot.building ? {} : {"display": 'none'}; 
   return (
-    <div className="location-component">
+    <div className="location-component" style={displaySetting}>
       <h1>{lot && lot.building ? lot.building.name : 'No lot.building Selected'}</h1>
       {lot && lot.building && (
         <>

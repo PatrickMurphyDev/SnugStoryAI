@@ -42,10 +42,10 @@ const IslandSketch = ({
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
   const draw = (p5) => scenes[currentSceneIndex].draw(p5);
   scenes = [
-    new Main_GameMenuScene(setCurrentSceneIndex,1,2,3),
+    new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
     new Intro_GameCutScene(4),
-    new Load_GameMenuScene(setCurrentSceneIndex,1,1,0),
-    new Settings_GameMenuScene(setCurrentSceneIndex,3,0),
+    new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
+    new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
     new GameMapScene(
       onCharacterSelect,
       onPropertySelect,
@@ -55,13 +55,7 @@ const IslandSketch = ({
     ),
   ];
 
-  return (
-    <>
-      <button onClick={prevScene}>Previous Scene</button>
-      <button onClick={nextScene}>Next Scene</button>
-      <Sketch preload={preload} setup={setup} draw={draw} />
-    </>
-  );
+  return <Sketch preload={preload} setup={setup} draw={draw} />;
 };
 
 export default IslandSketch;
