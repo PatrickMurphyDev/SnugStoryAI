@@ -21,10 +21,10 @@ export class GameCutScene extends GameScene {
    * @param {Object} p5 - The p5 instance used for loading assets.
    */
   preload(p5) {
-    this.slides.forEach((slide,index) => {
-        console.log(slide);
+    this.slides.forEach((slide, index) => {
+      console.log(slide);
       if (slide.imagePath) {
-        console.log('Load Image');
+        console.log("Load Image");
         this.preloadedImages[index] = p5.loadImage(slide.imagePath); // Preload image for each slide
       }
       return null;
@@ -100,8 +100,9 @@ export class GameCutScene extends GameScene {
           this.doUIAction(p5.frameCount, choice.onClick); // Call the click handler for this button
         }
       });
-    }}
-  
+    }
+  }
+
   /**
    * drawSlideText
    * Renders the current slide text for the cutscene.
@@ -117,8 +118,8 @@ export class GameCutScene extends GameScene {
         p5.textAlign(p5.CENTER, p5.CENTER);
         p5.text(currentString, 50, 50, p5.width - 50, p5.height - 50); // Draw text below the image
       } else {
-      p5.textSize(20); // Set text size
-      p5.textAlign(p5.LEFT, p5.TOP);
+        p5.textSize(20); // Set text size
+        p5.textAlign(p5.LEFT, p5.TOP);
         p5.text(currentString, 575, 25, p5.width - 575 - 20, p5.height - 75); // Draw text below the image
       }
     }
@@ -130,23 +131,24 @@ export class GameCutScene extends GameScene {
    * @param {Object} p5 - The p5 instance used for drawing.
    */
   draw(p5) {
-    p5.background(10); // Clear the screen with a black background    
+    p5.background(10); // Clear the screen with a black background
     const currentSlide = this.slides[this.currentSlideIndex];
-
+    const sizeImg = Math.min(p5.width - 100, p5.height - 100);
+    
     // Draw the current slide's image
     if (this.preloadedImages[this.currentSlideIndex]) {
-
       // assume square src img
-      const sizeImg = Math.min(p5.width - 100, p5.height - 100);
       p5.image(
         this.preloadedImages[this.currentSlideIndex],
         50,
-        0,
+        35,
         sizeImg,
         sizeImg
       );
-    }else{
-      this.preloadedImages[this.currentSlideIndex] = p5.loadImage(currentSlide['imagePath']);
+    } else {
+      this.preloadedImages[this.currentSlideIndex] = p5.loadImage(
+        currentSlide["imagePath"]
+      );
     }
 
     // Draw the current slide's text
@@ -162,9 +164,13 @@ export class GameCutScene extends GameScene {
    * Advances to the next slide in the cutscene.
    */
   nextSlide() {
-    if(this.currentTypeTextIndex < this.slides[this.currentSlideIndex].text.length){
-      this.currentTypeTextIndex = this.slides[this.currentSlideIndex].text.length;
-    }else if (this.currentSlideIndex < this.slides.length - 1) {
+    if (
+      this.currentTypeTextIndex <
+      this.slides[this.currentSlideIndex].text.length
+    ) {
+      this.currentTypeTextIndex =
+        this.slides[this.currentSlideIndex].text.length;
+    } else if (this.currentSlideIndex < this.slides.length - 1) {
       this.currentTypeTextIndex = 0;
       this.currentSlideIndex++;
     }
@@ -177,7 +183,8 @@ export class GameCutScene extends GameScene {
   previousSlide() {
     if (this.currentSlideIndex > 0) {
       this.currentSlideIndex--;
-      this.currentTypeTextIndex = this.slides[this.currentSlideIndex].text.length;
+      this.currentTypeTextIndex =
+        this.slides[this.currentSlideIndex].text.length;
     }
   }
 
