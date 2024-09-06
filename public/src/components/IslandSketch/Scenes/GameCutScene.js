@@ -7,6 +7,7 @@ export class GameCutScene extends GameScene {
     this.slides = slides; // Array of slides, where each slide contains data like image path, text, choices, etc.
     this.currentSlideIndex = 0; // Index of the currently displayed slide
     this.preloadedImages = {}; // Array to hold preloaded images
+    this.currentTypeTextIndex = 0;
   }
 
   /**
@@ -82,16 +83,18 @@ export class GameCutScene extends GameScene {
    */
   drawSlideText(p5, slideText = "") {
     if (slideText) {
+      let currentString = slideText.substring(0, this.currentTypeTextIndex);
       p5.fill(255); // Set text color to white
       p5.textSize(20); // Set text size
-      p5.textAlign(p5.CENTER, p5.TOP);
+      p5.textAlign(p5.LEFT, p5.TOP);
       p5.text(
-        slideText,
+        currentString,
         575,
         50,
         p5.width - 575 - 20,
         p5.height -100
       ); // Draw text below the image
+      this.currentTypeTextIndex += 0.14 + Math.random()/2.75;
     }
   }
 
@@ -131,7 +134,10 @@ export class GameCutScene extends GameScene {
    * Advances to the next slide in the cutscene.
    */
   nextSlide() {
-    if (this.currentSlideIndex < this.slides.length - 1) {
+    if(this.currentTypeTextIndex < this.slides[this.currentSlideIndex].text.length){
+      this.currentTypeTextIndex = this.slides[this.currentSlideIndex].text.length;
+    }else if (this.currentSlideIndex < this.slides.length - 1) {
+      this.currentTypeTextIndex = 0;
       this.currentSlideIndex++;
     }
   }
@@ -143,6 +149,7 @@ export class GameCutScene extends GameScene {
   previousSlide() {
     if (this.currentSlideIndex > 0) {
       this.currentSlideIndex--;
+      this.currentTypeTextIndex = this.slides[this.currentSlideIndex].text.length;
     }
   }
 
