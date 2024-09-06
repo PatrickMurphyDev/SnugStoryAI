@@ -7,6 +7,7 @@ export class GameMenuScene extends GameScene {
     this.bgImagePath = bgImagePath; // Path to the background image
     this.bgImage = null; // Placeholder for the preloaded background image
     this.buttons = buttons; // Array of buttons with properties: { x, y, width, height, text, onClick, color }
+    this.options = {drawButtonText: false, drawButtons: false}
   }
 
   /**
@@ -42,15 +43,18 @@ export class GameMenuScene extends GameScene {
     // Draw buttons
     this.buttons.forEach((button) => {
       // Draw button background
-      p5.fill('#007BFF'); // Use button color or default to blue // button.color || 
-      p5.rect(button.x, button.y, button.width, button.height);
+      if(this.options.drawButtons){
+        p5.fill('#007BFF'); // Use button color or default to blue // button.color || 
+        p5.rect(button.x, button.y, button.width, button.height);
+      }
 
-      // Draw button text
-     // p5.fill(255); // Set text color to white
-      //p5.textSize(16);
-      //p5.textAlign(p5.CENTER, p5.CENTER);
-      //p5.text(button.text, button.x + button.width / 2, button.y + button.height / 2);
-
+      // Draw button text 
+      if(this.options.drawButtonText){
+        p5.fill(255); // Set text color to white
+        p5.textSize(16);
+        p5.textAlign(p5.CENTER, p5.CENTER);
+        p5.text(button.text, button.x + button.width / 2, button.y + button.height / 2);
+      }
       // Handle button click
       if (
         p5.mouseIsPressed &&
