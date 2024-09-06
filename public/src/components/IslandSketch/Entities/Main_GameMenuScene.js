@@ -1,4 +1,4 @@
-import GameMenuScene from "./GameMenuScene.js";
+import {GameMenuScene} from "./GameMenuScene.js";
 
 export class Main_GameMenuScene extends GameMenuScene {
   constructor() {
