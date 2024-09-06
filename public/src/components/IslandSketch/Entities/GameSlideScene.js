@@ -1,5 +1,5 @@
 // GameDialogueScene.js
-import { GameScene } from './GameScene';
+import { GameScene } from '../Scenes/GameScene';
 
 export class GameSlideScene extends GameScene {
   constructor(typeName) {

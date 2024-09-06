@@ -1,5 +1,5 @@
 // GameMenuScene.js
-import { GameScene } from './GameScene';
+import { GameScene } from '../Scenes/GameScene';
 
 export class GameMenuScene extends GameScene {
   constructor(bgImagePath, buttons = []) {
@@ -38,6 +38,8 @@ export class GameMenuScene extends GameScene {
     // Draw the background image
     if (this.bgImage) {
       p5.image(this.bgImage, 0, 0, p5.width, p5.height);
+    }else{
+      this.bgImage = p5.loadImage(this.bgImagePath);
     }
 
     // Draw buttons

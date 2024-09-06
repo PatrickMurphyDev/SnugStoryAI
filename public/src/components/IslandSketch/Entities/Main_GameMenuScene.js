@@ -1,37 +1,36 @@
 import {GameMenuScene} from "./GameMenuScene.js";
 
 export class Main_GameMenuScene extends GameMenuScene {
-  constructor(nextSceneFn,currScene) {
+  constructor(parentSetSceneFN, newGameScene = 1, loadGameScene = 1, settingsScene = 1) {
     super("images/mainMenu.png", [
       {
         x: 123,
-        y: 193,
-        width: 185,
-        height: 42,
-        text: "new",
+        y: 245,
+        width: 210,
+        height: 45,
+        text: "New",
         onClick: () => {
-          console.log("New Game");
-          nextSceneFn(currScene+1);
+          parentSetSceneFN(newGameScene);
         },
       },
       {
         x: 123,
-        y: 240,
-        width: 185,
-        height: 42,
-        text: "load",
+        y: 305,
+        width: 210,
+        height: 45,
+        text: "Load",
         onClick: () => {
-          console.log("Load Game");
+          parentSetSceneFN(loadGameScene);
         },
       },
       {
-        x: 123,
-        y: 380,
-        width: 185,
-        height: 42,
-        text: "settings",
+        x: 552,
+        y: 335,
+        width: 210,
+        height: 45,
+        text: "Settings",
         onClick: () => {
-          console.log("Settings");
+          parentSetSceneFN(settingsScene);
         },
       },
     ]);

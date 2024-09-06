@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Sketch from "react-p5";
 import { GameMapScene } from "./Entities/GameMapScene";
 import { Main_GameMenuScene } from "./Entities/Main_GameMenuScene";
+import { Load_GameMenuScene } from "./Entities/Load_GameMenuScene";
+import { Settings_GameMenuScene } from "./Entities/Settings_GameMenuScene";
 import { Intro_GameCutScene } from "./Entities/Intro_GameCutScene";
 
 const IslandSketch = ({
@@ -40,8 +42,10 @@ const IslandSketch = ({
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
   const draw = (p5) => scenes[currentSceneIndex].draw(p5);
   scenes = [
-    new Main_GameMenuScene(setCurrentSceneIndex, currentSceneIndex),
-    new Intro_GameCutScene(),
+    new Main_GameMenuScene(setCurrentSceneIndex,1,2,3),
+    new Intro_GameCutScene(4),
+    new Load_GameMenuScene(setCurrentSceneIndex,1,1,0),
+    new Settings_GameMenuScene(setCurrentSceneIndex,3,0),
     new GameMapScene(
       onCharacterSelect,
       onPropertySelect,
