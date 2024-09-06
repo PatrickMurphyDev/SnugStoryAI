@@ -56,11 +56,15 @@ export class GameCutScene extends GameScene {
   drawSlideButtons(p5, choices, slide) {
     // Draw the buttons for choices
     if (choices && choices.length > 0) {
-      const buttonWidth = p5.width / choices.length; // Calculate width for each button
+      const buttonWidth =
+        (p5.width - choices.length * (this.choicesOptions.margin * 2)) /
+        choices.length; // Calculate width for each button
       const buttonHeight = 24; // Fixed height for buttons
 
       choices.forEach((choice, index) => {
-        const x = index * buttonWidth;
+        const x =
+          this.choicesOptions.margin +
+          index * (buttonWidth + this.choicesOptions.margin * 2);
         const y = p5.height - buttonHeight; // Position at the bottom of the canvas
 
         // Draw the button background
