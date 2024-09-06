@@ -91,7 +91,7 @@ calculateButtonWidth(p5, numChoices) {
  */
 calculateButtonPosition(p5, index, buttonWidth) {
   const x = this.choicesOptions.margin + index * (buttonWidth + this.choicesOptions.margin * 2);
-  const y = p5.height - 24; // Fixed height for buttons
+  const y = p5.height - 24 - this.choicesOptions.margin; // Fixed height for buttons
   return { x, y };
 }
 
