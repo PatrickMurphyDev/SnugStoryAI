@@ -87,10 +87,10 @@ export class GameCutScene extends GameScene {
       p5.textAlign(p5.CENTER, p5.TOP);
       p5.text(
         slideText,
-        p5.width / 2 - p5.textWidth(slideText)/2,
-        p5.height - 100,
-        p5.width - 40,
-        80
+        575,
+        50,
+        p5.width - 575 - 20,
+        p5.height -100
       ); // Draw text below the image
     }
   }
