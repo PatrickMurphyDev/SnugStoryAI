@@ -69,7 +69,7 @@ export const IslandTemplate = {
       ]
   },
   Image: {
-    source: "images/SnugIslandNew.png",
+    source: "images/SnugIslandNew2.png",
     size: {x:2048,y:2048}
   }
 };
