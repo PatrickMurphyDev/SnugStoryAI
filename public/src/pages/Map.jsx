@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import IslandSketch from "../components/IslandSketch/IslandSketch";
 import CharacterComponent from "../components/CharacterComponent";
@@ -9,12 +9,13 @@ export default function Map() {
   const [charList, setCharList] = useState([]);
 
   const handleCharacterSelect = (character) => {
+    if (characterSelected) characterSelected.deselect();
+    character.select();
     setCharacterSelected(character);
   };
 
   const handlePropertySelect = (property) => {
-    if(propertySelected)
-      propertySelected.deselect();
+    if (propertySelected) propertySelected.deselect();
     property.select();
     setPropertySelected(property);
   };
@@ -23,11 +24,14 @@ export default function Map() {
     <>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <LocationComponent lot={propertySelected} setPropertySelected={setPropertySelected} />
+          <LocationComponent
+            lot={propertySelected}
+            setPropertySelected={setPropertySelected}
+          />
         </div>
         <Container>
           <div className="canvasScreen">
-          <IslandSketch
+            <IslandSketch
               onCharacterSelect={handleCharacterSelect}
               onPropertySelect={handlePropertySelect}
               charList={charList}
@@ -39,7 +43,10 @@ export default function Map() {
           </div>
         </Container>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <CharacterComponent character={characterSelected} villagers={charList} />
+          <CharacterComponent
+            character={characterSelected}
+            villagers={charList}
+          />
         </div>
       </div>
     </>
