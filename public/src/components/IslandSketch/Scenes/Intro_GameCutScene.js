@@ -1,9 +1,19 @@
 // GameCutScene.js
 import { GameCutScene } from "./GameCutScene";
+const slideTypesEnum = {IMG:0,TXT:1,IMGTXT:2,SMLIMGTXT:3};
 
 export class Intro_GameCutScene extends GameCutScene {
   constructor() {
-    super([
+    super([]);
+    
+    this.setSlides([createSlideObjFn(this,slideTypesEnum.TXT,'Penn State Graduation Ceremony\n June 2024',null,[
+      {
+        text: "Next",
+        onClick: () => {
+          this.nextSlide();
+        },
+      },
+    ]),
       {
         imagePath: "images/cutscenes/intro/0.png",
         text: "*Man I wish I had family here to support me like everyone else, I thought I would at least have a group of close friends by now\n\nMaybe I should have spent less time studying and been more social.\n\nSure I am graduating almost a year early but am I the only one without an internship or plans afer graduation...*",

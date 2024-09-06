@@ -100,6 +100,11 @@ export class GameCutScene extends GameScene {
     if (slideText) {
       let currentString = slideText.substring(0, this.currentTypeTextIndex);
       p5.fill(255); // Set text color to white
+      if (this.slides[this.currentSlideIndex].slideType === 1) {
+        p5.textSize(20); // Set text size
+        p5.textAlign(p5.CENTER, p5.CENTER);
+        p5.text(currentString, 50, 50, p5.width - 50, p5.height - 50); // Draw text below the image
+      } else {
       p5.textSize(20); // Set text size
       p5.textAlign(p5.LEFT, p5.TOP);
         p5.text(currentString, 575, 25, p5.width - 575 - 20, p5.height - 75); // Draw text below the image
