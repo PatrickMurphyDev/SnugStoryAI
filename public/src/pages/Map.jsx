@@ -39,7 +39,7 @@ export default function Map() {
             />
           </div>
           <div>
-            <h1>Chat</h1>
+            <h1></h1>
           </div>
         </Container>
         <div style={{ display: "flex", flexDirection: "column" }}>
