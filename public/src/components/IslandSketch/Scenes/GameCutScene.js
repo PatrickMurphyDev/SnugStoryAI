@@ -68,8 +68,20 @@ export class GameCutScene extends GameScene {
         const y = p5.height - buttonHeight; // Position at the bottom of the canvas
 
         // Draw the button background
-        p5.fill(choice.color || "#007BFF"); // Use button color or default to blue
+        const colorBtn = choice.color || "#007BFF";
+        p5.fill(colorBtn); // Use button color or default to blue
         p5.rect(x, y, buttonWidth, buttonHeight);
+        if (choice.text === "Next") {
+          p5.noStroke();
+          p5.fill(p5.lerpColor(p5.color("#007BFF"), p5.color("#ffffff"), 0.25)); // Use button color or default to blue
+          p5.rect(
+            x,
+            y,
+            buttonWidth * ((this.currentTypeTextIndex+1) / slide.text.length),
+            buttonHeight
+          );
+          p5.fill(colorBtn); // Use button color or default to blue
+        }
 
         // Draw the button text
         p5.fill(255); // Set text color to white
