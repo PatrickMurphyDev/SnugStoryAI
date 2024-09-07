@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import BasicDetailsStep from "./subpages/BasicDetailsStep";
 import MentalDetailsStep from "./subpages/MentalDetailsStep";
 import PhysicalAppearanceStep from "./subpages/PhysicalAppearanceStep";
