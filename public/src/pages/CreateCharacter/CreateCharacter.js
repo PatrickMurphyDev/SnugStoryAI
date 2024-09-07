@@ -298,7 +298,7 @@ const CreateCharacter = () => {
           }}
         >
         </div>
-        <button type="submit">Save</button>
+        <button type="submit">Add New Character</button>
       </div>
     </>
   );
