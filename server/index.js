@@ -7,7 +7,7 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 const Ollama = require("ollama-node");
-const {getCharacterAttributeField, getCharacters} = require("./controllers/crud");
+const {getCharacterAttributeField, getCharacters, getCharacterById, updateCharacter, deleteCharacter} = require("./controllers/crud");
 
 
 app.use(cors());
@@ -16,6 +16,9 @@ app.use(express.static("public"));
 
 app.get("/api/characterattributefield/:aid", getCharacterAttributeField);
 app.get("/api/characters", getCharacters);
+app.get("/api/characters/:id", getCharacterById);
+app.put("/api/characters/:id", updateCharacter);
+app.delete("/api/characters/:id", deleteCharacter);
 
 // SERVER STATE - Displayed on /ping
 let isDBConnected = false;
