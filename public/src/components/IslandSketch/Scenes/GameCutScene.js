@@ -114,7 +114,7 @@ drawButtonBackground(p5, x, y, buttonWidth, buttonHeight, colorBtn, choice, slid
   if (choice.text === "Next") {
     p5.noStroke();
     p5.fill(p5.lerpColor(p5.color("#007BFF"), p5.color("#ffffff"), 0.25));
-    p5.rect(x, y, buttonWidth * ((this.currentTypeTextIndex + 1) / slide.text.length), buttonHeight);
+    p5.rect(x, y, buttonWidth * ((this.currentTypeTextIndex) / slide.text.length), buttonHeight);
     p5.fill(colorBtn);
   }
 }
@@ -175,7 +175,7 @@ handleButtonClick(p5, x, y, buttonWidth, buttonHeight, onClick) {
       } else {
         p5.textSize(20); // Set text size
         p5.textAlign(p5.LEFT, p5.TOP);
-        p5.text(currentString, 575, 25, p5.width - 575 - 20, p5.height - 75); // Draw text below the image
+        p5.text(currentString, 575, 35, p5.width - 575 - 20, p5.height - 85); // Draw text below the image
       }
     }
   }
@@ -211,7 +211,25 @@ handleButtonClick(p5, x, y, buttonWidth, buttonHeight, onClick) {
     // Draw the buttons for choices
     this.drawSlideButtons(p5, currentSlide.choices, currentSlide);
     
+    this.updateHeaderUI(p5);
+    
     this.updateTypeWriter(currentSlide.text.length);
+  }
+
+  updateHeaderUI(p5) {
+    p5.fill('#161660');
+    p5.rect(0, 0, p5.width, 25);
+    p5.fill("#aaa");
+    p5.text("= Menu", 35, 15);
+    p5.fill("#d4af37");
+    p5.text("Asbury's Reef", 35, 0, p5.width - 70, 28);
+    p5.fill("#aaa");
+    p5.textSize(16);
+    p5.text(this.getSceneName() + Math.floor(((this.currentSlideIndex / this.slides.length) + (1 / this.slides.length) * ((this.currentTypeTextIndex) / this.slides[this.currentSlideIndex].text.length)) * 100) + "% Complete", p5.width / 2 + 70, 0, p5.width / 2 - 35, 28);
+  }
+
+  getSceneName() {
+    return "Introduction Scene ";
   }
 
   /**
