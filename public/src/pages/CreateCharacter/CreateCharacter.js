@@ -298,7 +298,7 @@ const CreateCharacter = () => {
           }}
         >
         </div>
-        <button type="submit">Add New Character</button>
+        <button type="submit" onClick={()=>console.log('click')}>Add New Character</button>
       </div>
     </>
   );
