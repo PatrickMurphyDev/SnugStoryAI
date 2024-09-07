@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import CharacterSkills from "./CharacterSkills";
-import CharacterRelationships from "./CharacterRelationships";
-import CharacterEntity from "./IslandSketch/Entities/CharacterEntity";
 
 const CharacterDetailsDisplay = (props) => {
-  const [characterId, setCharacterId] = useState(props.characterId);
-  const [character, setCharacter] = useState(props.character);
-  const [isHidden, setIsHidden] = useState(false);
+  const characterId = props.characterId || props.character.id;
+  const character = props.character;
+  const isHidden= false;
 
  /* // If a character is passed via props, set it as the selectedCharacter
   if (props.character) {

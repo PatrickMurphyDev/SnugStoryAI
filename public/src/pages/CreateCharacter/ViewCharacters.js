@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import CharacterDetailsDisplay from "../../components/CharacterDetailsDisplay";
 
 import "./styles.css";
+
 const ViewCharacters = () => {
   const [characters, setCharacters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // TODO: preload char list from server, display a loading notice until the request has finished loading. Use npm axios to load GET /api/v1/characters. then pass result to setCharacters fn to update state
+  useEffect(() => {
+    // Fetch characters from server
+    axios
+      .get("http://localhost:5000/api/characters")
+      .then((response) => {
+        setCharacters(response.data); // Update state with character data
+        setLoading(false); // Set loading to false once data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching characters:", error);
+        setLoading(false); // Set loading to false if there's an error
+      });
+  }, []);
 
   return (
     <>
@@ -15,18 +30,24 @@ const ViewCharacters = () => {
       >
         <div
           style={{
-            flexDirection: "row",
+            flexDirection: "column",
             display: "flex",
             flex: "grow",
             width: "100%",
             position: "relative",
           }}
         >
-          <div className="create-character create-character-card">
-            <h1>Characters</h1>
-            {characters.map((item) => (
-              <CharacterDetailsDisplay character={item} />
-            ))}
+          <h1>View Characters</h1>
+          <div>
+            {loading ? (
+              <div>Loading characters...</div>
+            ) : characters.length > 0 ? (
+              characters.map((item) => (
+                <CharacterDetailsDisplay key={item.id} character={item} /> // Use a unique key for each character
+              ))
+            ) : (
+              "No Characters"
+            )}
           </div>
         </div>
       </div>
