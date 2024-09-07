@@ -157,7 +157,7 @@ export class Intro_GameCutScene extends GameCutScene {
         text: `It quickly was clear...
         
         no one would want to adopt me, 
-        my fosters reminded me often just how undesireable I am,
+        my fosters reminded me often just how undesirable I am,
 
         I counted down the days until I could make my own decisions for myself at age 18.
         
