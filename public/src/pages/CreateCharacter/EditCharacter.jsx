@@ -19,7 +19,7 @@ const EditCharacter = ({ character, Data }) => {
     if (character) {
       setCharacter(character);
     } else {
-      // Fetch character data from backend
+      //TODO: Fetch character data from backend http://localhost:5000/api/characters/:id using AXIOS
     }
   }, [character]);
 
