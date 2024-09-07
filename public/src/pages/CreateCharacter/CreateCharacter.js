@@ -17,86 +17,6 @@ import {
 
 import "./styles.css";
 
-/*{step === 1 && (
-          <BasicDetailsStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-          />
-        )}
-        {step === 2 && (
-          <MentalDetailsStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-        {step === 3 && (
-          <PhysicalAppearanceStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-        {step === 4 && (
-          <RelationshipsBackstoryStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-        {step === 5 && (
-          <PersonalityDetailsStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-        {step === 6 && (
-          <RoutineDetailsStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-        {step === 7 && (
-          <MentalHealthDetailsStep
-            character={character}
-            handleChange={handleChange}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-        {step === 8 && (
-          <GoalsFavoritesStep
-            character={character}
-            handleChange={handleChange}
-            prevStep={prevStep}
-          />
-        )}{step > 1 && (
-            <button
-              type="button"
-              style={{ width: "47%", padding: "2%" }}
-              onClick={prevStep}
-            >
-              Previous
-            </button>
-          )}
-          {step < 8 && (
-            <button
-              type="button"
-              style={{ width: "47%", padding: "2%", marginLeft: "2%" }}
-              onClick={nextStep}
-            >
-              Next
-            </button>
-          )} */
-
 const CreateCharacter = () => {
   const [step, setStep] = useState(1);
   const [character, setCharacter] = useState({
@@ -170,6 +90,28 @@ const CreateCharacter = () => {
 
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => prevStep - 1);
+
+  const handleSaveCharacter = () => {
+    const { name, age, gender } = character;
+
+    // Validate required fields
+    if (!name || !age || !gender) {
+      alert("Please fill out the required fields: Name, Age, and Gender.");
+      return;
+    }
+
+    // Send a POST request to the server to save the character
+    axios
+      .post("/api/characters", { name, age, gender })
+      .then((response) => {
+        console.log("Character saved successfully:", response.data);
+        alert("Character created successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving character:", error);
+        alert("There was an error saving the character. Please try again.");
+      });
+  };
 
   const items = [
     {
@@ -277,7 +219,9 @@ const CreateCharacter = () => {
           {items.map((item) => (
             <AccordionItem key={item.uuid}>
               <AccordionItemHeading>
-                <AccordionItemButton style={{padding:'5px'}}>{item.heading}</AccordionItemButton>
+                <AccordionItemButton style={{ padding: "5px" }}>
+                  {item.heading}
+                </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>{item.content()}</AccordionItemPanel>
             </AccordionItem>
@@ -296,9 +240,10 @@ const CreateCharacter = () => {
             width: "100%",
             position: "relative",
           }}
-        >
-        </div>
-        <button type="submit" onClick={()=>console.log('click')}>Add New Character</button>
+        ></div>
+        <button type="button" onClick={handleSaveCharacter}>
+          Add New Character
+        </button>
       </div>
     </>
   );
