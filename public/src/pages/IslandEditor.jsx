@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { allUsersRoute, host } from "../utils/APIRoutes";
+import IslandsList from "../components/IslandsList";
+import IslandDataViewer from "../components/IslandDataViewer";
 
 
 export default function IslandEditor() {
