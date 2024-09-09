@@ -27,13 +27,14 @@ const {
       await document.save();
       res.status(201).send(document);
     } catch (error) {
+      console.log(error);
       res.status(400).send(error);
     }
   };
   
   const getDocuments = (Model, filter) => async (req, res) => {
     try {
-      const documents = false;
+      let documents = false;
       if(filter){
         documents = await Model.find(filter);
       } else { 

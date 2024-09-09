@@ -19,7 +19,6 @@ import {
 import "./styles.css";
 
 const CreateCharacter = () => {
-  const [step, setStep] = useState(1);
   const [character, setCharacter] = useState({
     age: "",
     gender: "",
@@ -78,8 +77,7 @@ const CreateCharacter = () => {
     favoriteBooks: "",
     favoriteMovies: "",
     favoriteMusicGenre: "",
-    favoriteFoods: "",
-  });
+    favoriteFoods: ""});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -89,21 +87,30 @@ const CreateCharacter = () => {
     }));
   };
 
-  const nextStep = () => setStep((prevStep) => prevStep + 1);
-  const prevStep = () => setStep((prevStep) => prevStep - 1);
-
   const handleSaveCharacter = () => {
-    const { name, age, gender } = character;
+    let { name, age, gender } = character;
 
     // Validate required fields
     if (!name || !age || !gender) {
       alert("Please fill out the required fields: Name, Age, and Gender.");
       return;
     }
-
+    if(!character.island_id){
+      character.island_id = "66dc506deaae235d2dbe4a3a";
+    }
+    if(!character.name.last){
+      // no last name
+      const tmpName = character.name;
+      const firstSpaceIndex = character.name.indexOf(" ");
+      if(firstSpaceIndex > -1){
+        character.name = {};
+        character.name.first = tmpName.substring(0,firstSpaceIndex);
+        character.name.last =  tmpName.substring(firstSpaceIndex+1);
+      }
+    }
     // Send a POST request to the server to save the character
     axios
-      .post("/api/characters", { name, age, gender })
+      .post("http://localhost:5000/api/characters", character)
       .then((response) => {
         console.log("Character saved successfully:", response.data);
         alert("Character created successfully!");
@@ -122,7 +129,6 @@ const CreateCharacter = () => {
         <BasicDetailsStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
         />
       ),
     },
@@ -133,8 +139,6 @@ const CreateCharacter = () => {
         <MentalDetailsStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     },
@@ -145,8 +149,6 @@ const CreateCharacter = () => {
         <PhysicalAppearanceStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     },
@@ -157,8 +159,6 @@ const CreateCharacter = () => {
         <RelationshipsBackstoryStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     },
@@ -169,8 +169,6 @@ const CreateCharacter = () => {
         <PersonalityDetailsStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     },
@@ -181,8 +179,6 @@ const CreateCharacter = () => {
         <MentalHealthDetailsStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     },
@@ -193,8 +189,6 @@ const CreateCharacter = () => {
         <RoutineDetailsStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     },
@@ -205,8 +199,6 @@ const CreateCharacter = () => {
         <GoalsFavoritesStep
           character={character}
           handleChange={handleChange}
-          nextStep={nextStep}
-          prevStep={prevStep}
         />
       ),
     }

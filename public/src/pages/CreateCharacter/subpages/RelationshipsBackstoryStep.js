@@ -3,7 +3,7 @@ import CreateSelect from "../../../components/CreateSelect";
 
          // {<textarea name="familyBackground" value={character.familyBackground} onChange={handleChange} />}
 
-const RelationshipsBackstoryStep = ({ character, handleChange, nextStep, prevStep }) => {
+const RelationshipsBackstoryStep = ({ character, handleChange }) => {
   return (
     <div>
       <h2>Step 4: Relationships and Backstory</h2>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PersonalityDetailsStep = ({ character, handleChange, nextStep, prevStep }) => {
+const PersonalityDetailsStep = ({ character, handleChange }) => {
   return (
     <div>
       <h2>Step 5: Personality Details</h2>

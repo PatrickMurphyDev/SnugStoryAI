@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import CharacterSkills from "./CharacterSkills";
 
 const CharacterDetailsDisplay = (props) => {
-  const characterId = props.characterId || props.character.id;
   const character = props.character;
-  const isHidden= false;
+  const characterId = props.character.id || props.characterId;
+  const isHidden = false;
 
- /* // If a character is passed via props, set it as the selectedCharacter
+  /* // If a character is passed via props, set it as the selectedCharacter
   if (props.character) {
     
       "Justine",
@@ -32,10 +32,11 @@ const CharacterDetailsDisplay = (props) => {
   return (
     <div
       className="character-component"
-      id={"char-"+characterId}
+      id={"char-" + characterId}
       style={{ paddingTop: 125, overflow: "scroll" }}
     >
-      {// Display selected character info with a large image
+      {
+        // Display selected character info with a large image
         <div>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <h1 style={{ flexGrow: "2" }}>

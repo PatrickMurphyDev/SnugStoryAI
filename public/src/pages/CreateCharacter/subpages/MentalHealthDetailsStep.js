@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MentalHealthDetailsStep = ({ character, handleChange, nextStep, prevStep }) => {
+const MentalHealthDetailsStep = ({ character, handleChange}) => {
   return (
     <div>
       <h2>Step 7: Mental Health Details</h2>

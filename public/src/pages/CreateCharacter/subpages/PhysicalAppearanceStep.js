@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PhysicalAppearanceStep = ({ character, handleChange, nextStep, prevStep }) => {
+const PhysicalAppearanceStep = ({ character, handleChange }) => {
   return (
     <div>
       <h2>Step 3: Physical Appearance and Style</h2>

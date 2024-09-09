@@ -7,16 +7,19 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 const Ollama = require("ollama-node");
-const {getCharacterAttributeField, getCharacters, getCharacterById, updateCharacter, deleteCharacter} = require("./controllers/crud");
+const {getCharacterAttributeField, getCharacters, getCharacterById, updateCharacter, deleteCharacter, createCharacter} = require("./controllers/crud");
 
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+app.options('*', cors());
 
 app.get("/api/characterattributefield/:aid", getCharacterAttributeField);
+
 app.get("/api/characters", getCharacters);
 app.get("/api/characters/:id", getCharacterById);
+app.post("/api/characters", createCharacter);
 app.put("/api/characters/:id", updateCharacter);
 app.delete("/api/characters/:id", deleteCharacter);
 

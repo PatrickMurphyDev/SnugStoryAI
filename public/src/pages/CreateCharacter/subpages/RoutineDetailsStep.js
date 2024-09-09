@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RoutineDetailsStep = ({ character, handleChange, nextStep, prevStep }) => {
+const RoutineDetailsStep = ({ character, handleChange }) => {
   return (
     <div>
       <h2>Step 6: Routine Details</h2>
