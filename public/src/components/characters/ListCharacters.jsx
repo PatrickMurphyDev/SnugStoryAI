@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const ListCharacters = () => {
+const ListCharacters = (props) => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,9 +29,9 @@ const ListCharacters = () => {
       <h2>Characters List</h2>
       {characters.length > 0 ? (
         <ul>
-          {characters.map((character) => (
+          {characters.map((character, index) => (
             <li key={character._id}>
-              <Link to={`/characters/${character._id}`}>{character.name.first} {character.name.last}</Link>
+              <h3 onClick={() => props.changeItem(character,index)}>{character.name.first} {character.name.last}</h3>
             </li>
           ))}
         </ul>
