@@ -43,7 +43,7 @@ const ViewCharacters = () => {
               <div>Loading characters...</div>
             ) : characters.length > 0 ? (
               characters.map((item) => (
-                <CharacterDetailsDisplay key={item.id} character={item} /> // Use a unique key for each character
+                <CharacterDetailsDisplay key={item._id} character={item} /> // Use a unique key for each character
               ))
             ) : (
               "No Characters"

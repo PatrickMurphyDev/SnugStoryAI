@@ -1,14 +1,15 @@
 import React from "react";
 import CharacterSkills from "./CharacterSkills";
+import CharacterEntity from "./IslandSketch/Entities/CharacterEntity";
 
 const CharacterDetailsDisplay = (props) => {
-  const character = props.character;
-  const characterId = props.character.id || props.characterId;
+  const characterData = props.character;
+  const characterId = props.character._id || props.characterId;
   const isHidden = false;
+  const character = new CharacterEntity(props.character);
 
   /* // If a character is passed via props, set it as the selectedCharacter
-  if (props.character) {
-    
+    if (props.character) {
       "Justine",
       28,
       "female",
@@ -25,7 +26,7 @@ const CharacterDetailsDisplay = (props) => {
         intelligence: 60,
         charisma: 50,
       } 
-  }*/
+    }*/
 
   const displaySetting = !isHidden ? {} : { display: "none" };
 
@@ -56,8 +57,6 @@ const CharacterDetailsDisplay = (props) => {
           <p>
             <strong>Bio:</strong> {character.info.bio}
           </p>
-          <br />
-          <CharacterSkills character={character}></CharacterSkills>
         </div>
       }
     </div>
