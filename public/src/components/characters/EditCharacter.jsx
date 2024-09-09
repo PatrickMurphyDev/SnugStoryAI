@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
-const EditCharacter = () => {
-  const { id } = useParams();
+const EditCharacter = (props) => {
   const [character, setCharacter] = useState({ name: { first: '', last: '' }, age: '', biologicalGender: '' });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -11,7 +9,7 @@ const EditCharacter = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/characters/${id}`)
+      .get(`http://localhost:5000/api/characters/${props.id}`)
       .then((response) => {
         setCharacter(response.data);
         setLoading(false);
@@ -21,7 +19,7 @@ const EditCharacter = () => {
         setError('Failed to load character details.');
         setLoading(false);
       });
-  }, [id]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +31,7 @@ const EditCharacter = () => {
 
   const handleSubmit = () => {
     axios
-      .put(`/api/characters/${id}`, character)
+      .put(`http://localhost:5000/api/characters/${props.id}`, character)
       .then((response) => {
         console.log('Character updated successfully:', response.data);
         setMessage('Character updated successfully!');
