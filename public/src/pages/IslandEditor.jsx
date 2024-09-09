@@ -1,56 +1,101 @@
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { allUsersRoute, host } from "../utils/APIRoutes";
-import IslandsList from "../components/IslandsList";
-import IslandDataViewer from "../components/IslandDataViewer";
+import { useParams } from "react-router-dom"; // Assuming you're using React Router
+import ListIslands from "../components/islands/ListIslands";
+import ViewIsland from "../components/islands/ViewIsland";
+import CreateIsland from "../components/islands/CreateIsland";
+import EditIsland from "../components/islands/EditIsland";
 
+const EditorStateEnum = { VIEW: 0, CREATE: 1, EDIT: 2, DELETE: 3 };
 
 export default function IslandEditor() {
+  const { id } = useParams(); // Island ID from the URL
   const navigate = useNavigate();
   const [islands, setIslands] = useState([]);
   const [currentIsland, setCurrentIsland] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [editorState, setEditorState] = useState(undefined);
 
-  useEffect(()=> {(async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/login");
-    } else {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
+  const newIsland = () => {
+    setEditorState(EditorStateEnum.CREATE);
+  };
+
+  const RenderEditorView = () => {
+    if (editorState === undefined) {
+      return (
+        <Container2>
+          <h3>Select an Island to View, Edit or Delete. Or Create New.</h3>
+        </Container2>
       );
-    }
-  })();}, [navigate]);
-
-  useEffect(()=>{(async () => {
-    if (currentUser) {
-      if (currentUser.isAvatarImageSet) {
-        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-        setIslands(data.data);
-      } else {
-        navigate("/setAvatar");
+    } else {
+      switch (editorState) {
+        case EditorStateEnum.VIEW:
+          return <ViewIsland IslandID={currentIsland._id} editIslandFn={()=>setEditorState(EditorStateEnum.EDIT)}  deleteIslandFn={()=>setEditorState(EditorStateEnum.DELETE)} />;
+        case EditorStateEnum.CREATE:
+          return <CreateIsland />;
+        case EditorStateEnum.EDIT:
+          return <EditIsland IslandID={currentIsland._id} />;
+        case EditorStateEnum.DELETE:
+          return (
+            <div>
+              <h2 style={{color:"#fff"}}>Are you Sure you want to delete this island?</h2>
+              <div>
+              <button style={{marginRight:"20px", backgroundColor:"darkred"}}>Yes, Delete the Island forever...</button>
+              <button style={{marginRight:"20px", backgroundColor:'grey'}}>Cancel</button>
+              </div>
+            </div>
+          );
+        default:
+          return (
+            <Container2>
+              <h3>Select an Island to View, Edit or Delete. Or Create New.</h3>
+            </Container2>
+          );
       }
     }
-  })();}, [currentUser, navigate, setIslands]);
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        navigate("/login");
+      } else {
+        setCurrentUser(
+          await JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          )
+        );
+      }
+    })();
+  }, [navigate]);
 
   const handleIslandChange = (Island) => {
     setCurrentIsland(Island);
+    //set url to currentURL+"/"+currentIsland._id;
+    setEditorState(EditorStateEnum.VIEW);
   }; 
 
   return (
     <>
       <Container>
         <div className="container">
-          <IslandsList islands={islands} changeIsland={handleIslandChange} />
-          {currentIsland === undefined ? (
-            <Container>
-            <h3>Select an Island to View, Edit or Delete. Or Create New.</h3>
-            </Container>
+          <ListIslands
+            islands={islands}
+            changeIsland={handleIslandChange}
+            newIsland={newIsland}
+            setIslands={setIslands}
+          />
+          {editorState === undefined ? (
+            <Container2>
+              <h3 style={{ marginTop: "auto", color: "#fff" }}>
+                Select an Island to View, Edit or Delete. Or Create New.
+              </h3>
+            </Container2>
           ) : (
-            <IslandDataViewer currentIsland={currentIsland}  />
+            <Container2 style={{marginTop:"50px"}}>
+                <RenderEditorView />
+            </Container2>
           )}
         </div>
       </Container>
@@ -78,3 +123,13 @@ const Container = styled.div`
     }
   }
 `;
+
+const Container2 = styled.div`
+  display: grid;
+  color: "#fff";
+  grid-template-rows: 10% 80% 10%;
+  gap: 0.1rem;
+  overflow: hidden;
+  @media screen and (min-width: 720px) and (max-width: 1080px) {
+    grid-template-rows: 15% 70% 15%;
+  }`;

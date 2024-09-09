@@ -1,6 +1,4 @@
 import React from "react";
-import CharacterSkills from "./CharacterSkills";
-import CharacterEntity from "./IslandSketch/Entities/CharacterEntity";
 
 const CharacterDetailsDisplay = (props) => {
   const character = props.character;
@@ -40,7 +38,7 @@ const CharacterDetailsDisplay = (props) => {
         <div>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <h1 style={{ flexGrow: "2" }}>
-              {character.info.name.first} {character.info.name.last} - {character.info.age}
+              {character.name.first} {character.name.last} - {character.age}
             </h1>
           </div>
           <div>
@@ -51,11 +49,12 @@ const CharacterDetailsDisplay = (props) => {
             />):""}
           </div>
           <p>
-            <strong>Gender:</strong> {character.info.gender}
+            <strong>Gender:</strong> {character.gender}
           </p>
+          {character.bio ?
           <p>
-            <strong>Bio:</strong> {character.info.bio}
-          </p>
+            <strong>Bio:</strong> {character.bio}
+          </p> : <p></p>}
         </div>
       }
     </div>
