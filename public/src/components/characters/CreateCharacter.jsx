@@ -43,7 +43,7 @@ const CreateCharacter = () => {
   };
 
   return (
-    <div className="create-character">
+    <div className="create-character" style={{color:'#fff'}}>
       {" "}
       <h2>Create Character</h2>{" "}
       <input

@@ -43,7 +43,7 @@ const ListIslands = (props) => {
         {islands.length > 0 ? (
           <ul>
             {islands.map((island,index) => (
-              <li className="island" key={island._id}>
+              <li className="item" key={island._id}>
                 <h3 onClick={() => props.changeIsland(island,index)}>{island.name}</h3>
               </li>
             ))}
@@ -88,7 +88,7 @@ const Container = styled.div`
         border-radius: 1rem;
       }
     }
-    .island {
+    .island, .item {
       background-color: #ffffff34;
       min-height: 5rem;
       cursor: pointer;

@@ -43,18 +43,34 @@ export default function CharacterEditor() {
     } else {
       switch (editorState) {
         case EditorStateEnum.VIEW:
-          return <ViewItem id={currentItem._id} editItemFn={()=>setEditorState(EditorStateEnum.EDIT)}  deleteItemFn={()=>setEditorState(EditorStateEnum.DELETE)} />;
+          return (
+            <ViewItem
+              id={currentItem._id}
+              editItemFn={() => setEditorState(EditorStateEnum.EDIT)}
+              deleteItemFn={() => setEditorState(EditorStateEnum.DELETE)}
+            />
+          );
         case EditorStateEnum.CREATE:
           return <CreateItem />;
         case EditorStateEnum.EDIT:
-          return <EditItem IslandID={currentItem._id} />;
+          return <EditItem id={currentItem._id} />;
         case EditorStateEnum.DELETE:
           return (
             <div>
-              <h2 style={{color:"#fff"}}>Are you Sure you want to delete this item?</h2>
+              <h2 style={{ color: "#fff" }}>
+                Are you Sure you want to delete this item?
+              </h2>
               <div>
-              <button style={{marginRight:"20px", backgroundColor:"darkred"}}>Yes, Delete the Item forever.</button>
-              <button style={{marginRight:"20px", backgroundColor:'grey'}}>Cancel</button>
+                <button
+                  style={{ marginRight: "20px", backgroundColor: "darkred" }}
+                >
+                  Yes, Delete the Item forever.
+                </button>
+                <button
+                  style={{ marginRight: "20px", backgroundColor: "grey" }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           );
@@ -68,12 +84,11 @@ export default function CharacterEditor() {
     }
   };
 
-
   const handleItemChange = (Item) => {
     setCurrentItem(Item);
     //set url to currentURL+"/"+currentIsland._id;
     setEditorState(EditorStateEnum.VIEW);
-  }; 
+  };
 
   return (
     <>
@@ -92,8 +107,8 @@ export default function CharacterEditor() {
               </h3>
             </Container2>
           ) : (
-            <Container2 style={{marginTop:"50px"}}>
-                <RenderEditorView />
+            <Container2 style={{ marginTop: "50px" }}>
+              <RenderEditorView />
             </Container2>
           )}
         </div>
@@ -131,4 +146,5 @@ const Container2 = styled.div`
   overflow: hidden;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     grid-template-rows: 15% 70% 15%;
-  }`;
+  }
+`;

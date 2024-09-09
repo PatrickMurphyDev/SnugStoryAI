@@ -28,6 +28,7 @@ const ViewCharacter = (props) => {
       <p><strong>Age:</strong> {character.age}</p>
       <p><strong>Gender:</strong> {character.biologicalGender}</p>
       {/* Additional character details */}
+      <div><button onClick={()=>props.editItemFn()}>Edit</button> <button onClick={()=>props.deleteItemFn()}>Delete</button></div>
     </div>
   );
 };
