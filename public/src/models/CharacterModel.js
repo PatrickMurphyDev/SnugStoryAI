@@ -95,33 +95,33 @@ const CharacterPersonalitySchema = new Schema({
   age: { type: String, required: true }, // in other models
   gender: { type: String, required: true }, // in other models
   firstName: { type: String, required: true }, // in other models
-  firstNameSuffix: { type: String },
-  middleName: { type: String },
-  lastName: { type: String },
-  birthplace: { type: String },
+  firstNameSuffix: { type: String },// TODO should be in other models
+  middleName: { type: String },// TODO should be in other models
+  lastName: { type: String },// in other models
+  birthplace: { type: String },// TODO should be in other models
   culture: { type: String },
   raceEthnicity: { type: String }, // TODO should be in other models
-  physicalSummary: { type: String },
+  physicalSummary: { type: String },// TODO should be in other models
   hometown: { type: String },
-  currentResidence: { type: String },
+  currentResidence: { type: String },// TODO should be in other models
   languagesSpoken: { type: String },
   introvertExtrovert: { type: String },
   education: { type: String },
   hobbies: { type: String },
   socialMediaPresence: { type: String },
-  occupation: { type: String },
+  occupation: { type: String },// TODO should be in other models
   politicalViews: { type: String },
   religiousViews: { type: String },
   decisionMakingStyle: { type: String },
-  physicalDescription: { type: String },
-  styleDetails: { type: String },
+  physicalDescription: { type: String },// TODO should be in other models
+  styleDetails: { type: String },// TODO should be in other models
   travelExperiences: { type: String },
   familyBackground: { type: String },
-  relationshipStatus: { type: String },
+  relationshipStatus: { type: String },// TODO should be in other models
   childhoodMemories: { type: String },
   closestFriend: { type: String },
   roleModels: { type: String },
-  pastRelationships: { type: String },
+  pastRelationships: { type: String },// TODO should be in other models
   secretTalents: { type: String },
   volunteerWork: { type: String },
   proudestAchievement: { type: String },
@@ -137,8 +137,8 @@ const CharacterPersonalitySchema = new Schema({
   senseOfHumor: { type: String },
   conflictResolutionStyle: { type: String },
   superstitions: { type: String },
-  typicalDailyRoutine: { type: String },
-  fitnessRoutine: { type: String },
+  typicalDailyRoutine: { type: String },// TODO should be in other models
+  fitnessRoutine: { type: String },// TODO should be in other models
   allergies: { type: String },
   mentalHealth: { type: String },
   emotionalTriggers: { type: String },

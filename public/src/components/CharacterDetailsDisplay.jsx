@@ -3,10 +3,9 @@ import CharacterSkills from "./CharacterSkills";
 import CharacterEntity from "./IslandSketch/Entities/CharacterEntity";
 
 const CharacterDetailsDisplay = (props) => {
-  const characterData = props.character;
+  const character = props.character;
   const characterId = props.character._id || props.characterId;
   const isHidden = false;
-  const character = new CharacterEntity(props.character);
 
   /* // If a character is passed via props, set it as the selectedCharacter
     if (props.character) {
@@ -41,15 +40,15 @@ const CharacterDetailsDisplay = (props) => {
         <div>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <h1 style={{ flexGrow: "2" }}>
-              {character.info.name} - {character.info.age}
+              {character.info.name.first} {character.info.name.last} - {character.info.age}
             </h1>
           </div>
           <div>
-            <img
+            {character.img ? (<img
               src={character.img.replace(64, 256)}
               width={40}
-              alt={`${character.info.name} Character Portrait`}
-            />
+              alt={`${character.name.first} Character Portrait`}
+            />):""}
           </div>
           <p>
             <strong>Gender:</strong> {character.info.gender}
