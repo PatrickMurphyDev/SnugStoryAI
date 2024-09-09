@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useParams } from "react-router-dom"; // Assuming you're using React Router
 import ListIslands from "../components/islands/ListIslands";
 import ViewIsland from "../components/islands/ViewIsland";
 import CreateIsland from "../components/islands/CreateIsland";
@@ -10,7 +9,6 @@ import EditIsland from "../components/islands/EditIsland";
 const EditorStateEnum = { VIEW: 0, CREATE: 1, EDIT: 2, DELETE: 3 };
 
 export default function IslandEditor() {
-  const { id } = useParams(); // Island ID from the URL
   const navigate = useNavigate();
   const [islands, setIslands] = useState([]);
   const [currentIsland, setCurrentIsland] = useState(undefined);

@@ -52,7 +52,6 @@ const ListIslands = (props) => {
           <p>No islands found.</p>
         )}
       </div>
-      <div><h2></h2></div>
     </Container>
   );
 };
