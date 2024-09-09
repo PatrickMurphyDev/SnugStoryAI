@@ -46,7 +46,7 @@ const EditCharacter = (props) => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="edit-character">
+    <div className="edit-character" style={{color:"#fff"}}>
       <h2>Edit Character</h2>
       <input type="text" name="first" value={character.name.first} onChange={handleChange} placeholder="First Name" required />
       <input type="text" name="last" value={character.name.last} onChange={handleChange} placeholder="Last Name" required />

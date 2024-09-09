@@ -23,7 +23,7 @@ const ViewCharacter = (props) => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="view-character">
+    <div className="view-character" style={{color:'#fff'}}>
       <h2>{character.name.first} {character.name.last}</h2>
       <p><strong>Age:</strong> {character.age}</p>
       <p><strong>Gender:</strong> {character.biologicalGender}</p>
