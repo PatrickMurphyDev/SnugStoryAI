@@ -65,7 +65,7 @@ drawSlideButtons(p5, choices, slide) {
     const colorBtn = choice.color || "#007BFF";
 
     this.drawButtonBackground(p5, x, y, buttonWidth, buttonHeight, colorBtn, choice, slide);
-    this.drawButtonText(p5, x, y, buttonWidth, buttonHeight, choice.text);
+    this.drawButtonText(p5, x, y, buttonWidth, buttonHeight, choice.text, slide);
     this.handleButtonClick(p5, x, y, buttonWidth, buttonHeight, choice.onClick);
   });
 }
@@ -129,10 +129,12 @@ drawButtonBackground(p5, x, y, buttonWidth, buttonHeight, colorBtn, choice, slid
  * @param {number} buttonHeight - The height of the button.
  * @param {string} text - The text to display on the button.
  */
-drawButtonText(p5, x, y, buttonWidth, buttonHeight, text) {
+drawButtonText(p5, x, y, buttonWidth, buttonHeight, text, slide) {
   p5.fill(255);
   p5.textSize(18);
   p5.textAlign(p5.CENTER, p5.CENTER);
+  if(text === "Next" && ((this.currentTypeTextIndex) < slide.text.length))
+    text = "Skip";
   p5.text(text, x + buttonWidth / 2, y + buttonHeight / 2);
 }
 
