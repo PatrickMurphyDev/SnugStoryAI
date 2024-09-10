@@ -29,6 +29,7 @@ const CharacterDetailsSchema = new Schema({
     enum: ["male", "female", "non-binary"],
     default: "female",
   },
+  raceEthnicity: { type: String },
   sexualOrientation: {
     type: String,
     enum: ["heterosexual", "homosexual", "bisexual", "asexual", "other"],
@@ -93,16 +94,8 @@ const Trait = model("Trait", TraitSchema);
 // Character Personality Schema
 const CharacterPersonalitySchema = new Schema({
   character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
-  age: { type: String, required: true }, // in other models
-  gender: { type: String, required: true }, // in other models
-  firstName: { type: String, required: true }, // in other models
-  firstNameSuffix: { type: String },
-  middleName: { type: String },
-  lastName: { type: String },
   birthplace: { type: String },
   culture: { type: String },
-  raceEthnicity: { type: String }, // TODO should be in other models
-  physicalSummary: { type: String },
   hometown: { type: String },
   currentResidence: { type: String },
   languagesSpoken: { type: String },
