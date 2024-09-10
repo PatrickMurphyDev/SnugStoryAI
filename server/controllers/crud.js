@@ -18,7 +18,10 @@ const {
     Character,
     CharacterDetails,
     CharacterTrait,
-    Trait} = require('../models/CharacterModel');
+    Trait,
+    CharacterPersonality} = require('../models/CharacterModel');
+
+    const mongoose = require('mongoose');
   
   // Generic CRUD operation functions
   const createDocument = (Model) => async (req, res) => {
@@ -49,6 +52,19 @@ const {
   const getDocumentById = (Model) => async (req, res) => {
     try {
       const document = await Model.findById(req.params.id);
+      if (!document) {
+        return res.status(404).send();
+      }
+      res.send(document);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  }; 
+
+  const getDocumentByCharacterId = (Model) => async (req, res) => {
+    try {
+      console.log(req.params.id);
+      const document = await Model.findOne({"character_id": mongoose.Types.ObjectId(req.params.id)});
       if (!document) {
         return res.status(404).send();
       }
@@ -140,11 +156,17 @@ const {
     updateCharacter: updateDocument(Character),
     deleteCharacter: deleteDocument(Character),
     
-    createCharacterDetails: createDocument(Character),
-    getCharacterDetails: getDocuments(Character),
-    getCharacterDetailsById: getDocumentById(Character),
-    updateCharacterDetails: updateDocument(Character),
-    deleteCharacterDetails: deleteDocument(Character),
+    createCharacterDetails: createDocument(CharacterDetails),
+    getCharacterDetails: getDocuments(CharacterDetails),
+    getCharacterDetailsById: getDocumentByCharacterId(CharacterDetails),
+    updateCharacterDetails: updateDocument(CharacterDetails),
+    deleteCharacterDetails: deleteDocument(CharacterDetails),
+    
+    createCharacterPersonality: createDocument(CharacterPersonality),
+    getCharacterPersonality: getDocuments(CharacterPersonality),
+    getCharacterPersonalityById: getDocumentByCharacterId(CharacterPersonality),
+    updateCharacterPersonality: updateDocument(CharacterPersonality),
+    deleteCharacterPersonality: deleteDocument(CharacterPersonality),
   
     createCharacterTrait: createDocument(CharacterTrait),
     getCharacterTraits: getDocuments(CharacterTrait),
