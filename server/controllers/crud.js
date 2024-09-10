@@ -63,8 +63,9 @@ const {
 
   const getDocumentByCharacterId = (Model) => async (req, res) => {
     try {
-      console.log(req.params.id);
-      const document = await Model.findOne({"character_id": mongoose.Types.ObjectId(req.params.id)});
+      const vrID = mongoose.Types.ObjectId(req.params.id);
+      console.log(req.params.id, vrID);
+      const document = await Model.find({"character_id": {"$oid":req.params.id}});
       if (!document) {
         return res.status(404).send();
       }
@@ -158,13 +159,13 @@ const {
     
     createCharacterDetails: createDocument(CharacterDetails),
     getCharacterDetails: getDocuments(CharacterDetails),
-    getCharacterDetailsById: getDocumentByCharacterId(CharacterDetails),
+    getCharacterDetailsById: getDocumentById(CharacterDetails),
     updateCharacterDetails: updateDocument(CharacterDetails),
     deleteCharacterDetails: deleteDocument(CharacterDetails),
     
     createCharacterPersonality: createDocument(CharacterPersonality),
     getCharacterPersonality: getDocuments(CharacterPersonality),
-    getCharacterPersonalityById: getDocumentByCharacterId(CharacterPersonality),
+    getCharacterPersonalityById: getDocumentById(CharacterPersonality),
     updateCharacterPersonality: updateDocument(CharacterPersonality),
     deleteCharacterPersonality: deleteDocument(CharacterPersonality),
   
