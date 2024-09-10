@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ListItems from "../components/characters/ListCharacters";
-import ViewItem from "../components/characters/ViewCharacter";
+import ViewItem from "../components/characters/ViewCharacterComplete";
 import CreateItem from "../components/characters/CreateCharacter";
 import EditItem from "../components/characters/EditCharacter";
 
