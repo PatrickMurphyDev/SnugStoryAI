@@ -92,6 +92,7 @@ const Trait = model("Trait", TraitSchema);
 
 // Character Personality Schema
 const CharacterPersonalitySchema = new Schema({
+  character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
   age: { type: String, required: true }, // in other models
   gender: { type: String, required: true }, // in other models
   firstName: { type: String, required: true }, // in other models
