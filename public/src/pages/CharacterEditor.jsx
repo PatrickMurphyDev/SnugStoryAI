@@ -43,13 +43,11 @@ export default function CharacterEditor() {
     } else {
       switch (editorState) {
         case EditorStateEnum.VIEW:
-          return (
-            <ViewItem
+          return <ViewItem
               id={currentItem._id}
               editItemFn={() => setEditorState(EditorStateEnum.EDIT)}
               deleteItemFn={() => setEditorState(EditorStateEnum.DELETE)}
-            />
-          );
+            />;
         case EditorStateEnum.CREATE:
           return <CreateItem />;
         case EditorStateEnum.EDIT:
@@ -100,6 +98,7 @@ export default function CharacterEditor() {
             newItem={newItem}
             setItems={setItems}
           />
+          <div style={{paddingLeft: "20px", display:"grid"}}>
           {editorState === undefined ? (
             <Container2>
               <h3 style={{ marginTop: "auto", color: "#fff" }}>
@@ -111,6 +110,7 @@ export default function CharacterEditor() {
               <RenderEditorView />
             </Container2>
           )}
+          </div>
         </div>
       </Container>
     </>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CreateCharacter from '../../pages/CreateCharacter/CreateCharacter';
 
 const EditCharacter = (props) => {
   const [character, setCharacter] = useState({ name: { first: '', last: '' }, age: '', biologicalGender: '' });
@@ -55,6 +56,8 @@ const EditCharacter = (props) => {
         <option value="male">Male</option>
         <option value="female">Female</option>
       </select>
+      <h2>Edit Personality</h2>
+      <CreateCharacter />
       <button type="button" onClick={handleSubmit}>Save Changes</button>
       {message && <p>{message}</p>}
     </div>

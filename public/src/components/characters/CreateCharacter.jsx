@@ -43,47 +43,53 @@ const CreateCharacter = () => {
   };
 
   return (
-    <div className="create-character" style={{color:'#fff'}}>
-      {" "}
-      <h2>Create Character</h2>{" "}
-      <input
-        type="text"
-        name="first"
-        value={character.name.first}
-        onChange={handleChange}
-        placeholder="First Name"
-        required
-      />{" "}
-      <input
-        type="text"
-        name="last"
-        value={character.name.last}
-        onChange={handleChange}
-        placeholder="Last Name"
-        required
-      />{" "}
-      <input
-        type="number"
-        name="age"
-        value={character.age}
-        onChange={handleChange}
-        placeholder="Age"
-        required
-      />{" "}
-      <select
-        name="biologicalGender"
-        value={character.biologicalGender}
-        onChange={handleChange}
-      >
-        {" "}
-        <option value="male">Male</option>{" "}
-        <option value="female">Female</option>{" "}
-      </select>{" "}
-      <button type="button" onClick={handleSubmit}>
-        Create Character
-      </button>{" "}
-      {message && <p>{message}</p>}{" "}
-    </div>
+    <>
+      <h2 style={{ color: "#fff" }}>Create Character</h2>
+      <div className="create-character" style={{ color: "#fff" }}>
+        <input
+          type="text"
+          name="first"
+          value={character.name.first}
+          onChange={handleChange}
+          placeholder="First Name"
+          required
+        />{" "}
+        <input
+          type="text"
+          name="last"
+          value={character.name.last}
+          onChange={handleChange}
+          placeholder="Last Name"
+          required
+        />{" "}
+        <input
+          type="number"
+          name="age"
+          value={character.age}
+          onChange={handleChange}
+          placeholder="Age"
+          required
+        />{" "}
+        <select
+          name="biologicalGender"
+          value={character.biologicalGender}
+          onChange={handleChange}
+        >
+          {" "}
+          <option value="male">Male</option>{" "}
+          <option value="female">Female</option>{" "}
+        </select>{" "}
+        <button type="button" onClick={handleSubmit}>
+          Create Character
+        </button>{" "}
+        {message && <p>{message}</p>}{" "}
+        <span style={{ color: "grey", textDecoration: "italic" }}>
+          After you create Basic Character Details, then you can add physical description details, personality details and relationship
+          connections.
+        </span>
+      </div>
+      <span>Character will be saved per island.</span>
+    </>
   );
 };
 
