@@ -15,6 +15,10 @@ const IslandSketch = ({
   sizeVector = { x: 1000, y: 800 },
 }) => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
+  const setCurrentSceneIndex2 = (i)=>{
+    console.log('setCurrent');
+    return setCurrentSceneIndex;
+  };
 
   let scenes = [];
 
@@ -37,11 +41,15 @@ const IslandSketch = ({
 
   const preload = (p5) => {
     console.log('PreloadSketch');
+  };
+
+  const setup = (p5, canvasParentRef) =>{
+    p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
     scenes = [
-      new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
+      new Main_GameMenuScene(setCurrentSceneIndex2, 1, 2, 3),
       new Intro_GameCutScene(4),
-      new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
-      new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
+      new Load_GameMenuScene(setCurrentSceneIndex2, 1, 1, 0),
+      new Settings_GameMenuScene(setCurrentSceneIndex2, 3, 0),
       new GameMapScene(
         onCharacterSelect,
         onPropertySelect,
@@ -50,10 +58,6 @@ const IslandSketch = ({
         sizeVector
       ),
     ];
-  };
-  
-  const setup = (p5, canvasParentRef) =>{
-    p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
     scenes[currentSceneIndex].setup(p5, canvasParentRef);
   }
   const draw = (p5) =>
