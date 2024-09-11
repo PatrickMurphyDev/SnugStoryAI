@@ -12,6 +12,15 @@ const DefaultLotProperties = {
     fillColor: "#000000",
   };
 
+const getDefaultLotProperties = ()=>{
+  return {
+    size: { width: 32, height: 32 },
+    zoneType: "Commercial",
+    price: Math.max(15000, Math.floor(Math.random()*250000)),
+    fillColor: "#000000",
+  };
+}
+
 export class GameMapScene extends GameScene {
   constructor(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = { x: 800, y: 600 }) {
     super('GameMapScene');
@@ -24,11 +33,12 @@ export class GameMapScene extends GameScene {
     this.offset = { x: 0, y: 0 };
     this.bgImage = null;
     this.charImages = [];
-    this.villagers = charList;
+    //this.villagers = charList;
     this.lots = [];
   }
 
   preload(p5) {
+    console.log('preload map scene');
     let characterImages = {};
     this.bgImage = p5.loadImage(IslandTemplate.Image.source);
     IslandTemplateJSON.layers[this.getLayerIndexByName("Residents")].objects.forEach(resident => {
@@ -41,9 +51,8 @@ export class GameMapScene extends GameScene {
   setup(p5, canvasParentRef) {
     this.offset = p5.createVector(0, 0);
     this.initializeEventListeners(p5);
-    p5.createCanvas(800, 600).parent(canvasParentRef);
-    this.initializeLots();
-    this.initializeCharacters();
+   // this.initializeLots();
+    //this.initializeCharacters();
   }
 
   draw(p5) {
@@ -90,14 +99,13 @@ export class GameMapScene extends GameScene {
     });
     return retDetails;
   }
-
+/*  for (var e in this.getCharList()) {
+      this.getCharList()[e].remove();
+    }*/
   initializeCharacters() {
-    for (var e in this.villagers) {
-      this.villagers[e].remove();
-    }
-    this.setVillagers([]);
+    this.setCharList([]);
     const characterTempList = IslandTemplateJSON.layers[this.getLayerIndexByName("Residents")].objects.map((v) => this.createCharacterEntity(v));
-    this.setVillagers(characterTempList);
+    this.setCharList(characterTempList);
   }
 
   createCharacterEntity(resident) {
@@ -138,7 +146,7 @@ export class GameMapScene extends GameScene {
   }
 
   renderEntities(p5) {
-    this.villagers.forEach(villager => {
+    this.charList.forEach(villager => {
       villager.update();
       villager.draw(p5);
     });
@@ -150,6 +158,8 @@ export class GameMapScene extends GameScene {
       lot.draw(p5);
     });
   }
+
+  /* Mouse */
 
   isMouseOverLot(p5, lot) {
     return p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - this.offset.x) / this.scal, (p5.mouseY - this.offset.y) / this.scal) <= 15.0;
