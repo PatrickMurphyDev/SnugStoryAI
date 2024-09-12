@@ -54,12 +54,19 @@ export class Intro_GameCutScene extends GameCutScene {
         \nMaybe I should have spent less time studying and been more social.
         \nSure I am graduating almost a year early but I feel like the only one without an internship or job lined up...*`,
         choices: [
+          //FIX FOR FINAL WIP TODO: 
+          {
+            text: "Skip All",
+            onClick: () => {
+              setSceneFn(nextSceneIndex);
+            },
+          },
           {
             text: "Next",
             onClick: () => {
               this.nextSlide();
             },
-          },
+          }
         ],
       },
       {
