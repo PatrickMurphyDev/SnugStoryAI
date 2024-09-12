@@ -231,7 +231,7 @@ handleButtonClick(p5, x, y, buttonWidth, buttonHeight, onClick) {
   }
 
   getSceneName() {
-    return "Introduction Scene ";
+    return "Scene ";
   }
 
   /**
