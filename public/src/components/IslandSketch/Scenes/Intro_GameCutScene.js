@@ -36,7 +36,7 @@ const createSlideObjFn = (that, slideType, txt, img, choices)=>{
 };
 
 export class Intro_GameCutScene extends GameCutScene {
-  constructor() {
+  constructor(setSceneFn, nextSceneIndex) {
     super([]);
     
     this.setSlides([createSlideObjFn(this,slideTypesEnum.TXT,'Penn State Graduation Ceremony\n June 2024',null,[
@@ -283,9 +283,9 @@ export class Intro_GameCutScene extends GameCutScene {
             },
           },
           {
-            text: "Next",
+            text: "Begin Game",
             onClick: () => {
-              this.nextSlide();
+              setSceneFn(nextSceneIndex);
             },
           },
         ],

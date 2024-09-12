@@ -43,7 +43,7 @@ const IslandSketch = ({
   const draw = (p5) => scenes[currentSceneIndex].draw(p5);
   scenes = [
     new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
-    new Intro_GameCutScene(4),
+    new Intro_GameCutScene(setCurrentSceneIndex, 4),
     new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
     new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
     new GameMapScene(
