@@ -31,9 +31,26 @@ export class GameMapScene extends GameScene {
     this.villagers = charList;
     this.lots = [];
 
+    this.speed = 1;
+
     this.playerx = 570;
     this.playery = 1820;
     this.isLoaded = false;
+
+    this.isMovingUp = false;
+    this.isMovingDown = false;
+    this.isMovingRight = false;
+    this.isMovingLeft = false;
+  }
+
+  setCameraZoom(p5, zoomLevelInt = 1){
+    zoomLevelInt = Math.min(1, Math.max(5,zoomLevelInt));
+    this.scal = 1.5;
+    //const mouse = p5.createVector(400+300+816, 300+16);
+    //this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(mouse).mult(this.scal).add(mouse);
+  }
+  setCameraPosition(positionP5Vec){
+    this.CameraOffset = positionP5Vec;
   }
 
   loadAssets(p5){
@@ -52,7 +69,7 @@ export class GameMapScene extends GameScene {
 
   setup(p5, canvasParentRef) {
     //p5.createCanvas(800, 600).parent(canvasParentRef);
-    this.CameraOffset = p5.createVector(this.playerx*-1, this.playery*-1);
+    //this.CameraOffset = p5.createVector(this.playerx*-1, this.playery*-1);
     //this.initializeEventListeners(p5);
     //this.initializeLots();
     //this.initializeCharacters();
@@ -60,22 +77,90 @@ export class GameMapScene extends GameScene {
 
   draw(p5) {
     if(!this.CameraOffset){
-      this.CameraOffset = p5.createVector((this.playerx*-1)+400, (this.playery*-1)+300);
+      this.initializeEventListeners(p5); 
+      this.setCameraPosition(p5.createVector((this.playerx*-1), (this.playery*-1)));
+      //-p5.width/2+64
+      //-p5.height/2
+      //const viewCenter = p5.createVector(p5.width/2-16, p5.mouseY/p5.height-16);
+     // this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(viewCenter).mult(s).add(viewCenter);
+    }else{
+      this.setCameraZoom(p5,5);
+      this.handleKeys();
+      this.setCameraPosition(p5.createVector((this.playerx*-1), (this.playery*-1)));
+      this.renderBackground(p5);
     }
-    this.renderBackground(p5);
-    this.renderEntities(p5);
+    //this.renderEntities(p5);
+    //this.handleMouseInteraction(p5);
+  }
+
+  renderPlayer(p5){
     p5.rect(this.playerx, this.playery, 32,32);
-    this.handleMouseInteraction(p5);
   }
 
   initializeEventListeners(p5) {
-    window.addEventListener('wheel', (e) => this.handleZoom(e, p5));
-    window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
+   //window.addEventListener('wheel', (e) => this.handleZoom(e, p5));
+   // window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
+    window.addEventListener('keydown', (e)=>this.keyPressed(e));
+    window.addEventListener('keyup', (e)=>this.keyReleased(e));
+  }
+
+  handleKeys() {
+    if (this.isMovingUp) {
+      this.playery -= this.speed*this.scal;
+    }
+    if (this.isMovingDown) {
+      this.playery += this.speed*this.scal;
+    }
+    if (this.isMovingLeft) {
+      this.playerx -= this.speed*this.scal;
+    }
+    if (this.isMovingRight) {
+      this.playerx += this.speed*this.scal;
+    }
+  }
+  
+  keyPressed(e) {
+    let kCode = e.code;
+    //e.preventDefault(); // Cancel the native event
+    console.log("gameMapScene",e);
+    if (kCode === 'KeyW' || kCode === 'ArrowUp') {
+      this.isMovingUp = true;
+    }
+    if (kCode === 'KeyS' || kCode === 'ArrowDown') {
+      this.isMovingDown = true;
+    }
+    if (kCode === 'KeyA' || kCode === 'ArrowLeft') {
+      this.isMovingLeft = true;
+    }
+    if (kCode === 'KeyD' || kCode === 'ArrowRight') {
+      this.isMovingRight = true;
+    }
+   // e.stopPropagation();// Don't bubble/capture the event any further
+  }
+  
+  keyReleased(e) { 
+    console.log('key released',e);
+    let kCode = e.code;
+    //e.preventDefault(); // Cancel the native event
+    console.log("gameMapScene",e);
+    if (kCode === 'KeyW' || kCode === 'ArrowUp') {
+      this.isMovingUp = false;
+    }else if (kCode === 'KeyS' || kCode === 'ArrowDown') {
+      this.isMovingDown = false;
+    }
+    if (kCode === 'KeyA' || kCode === 'ArrowLeft') {
+      this.isMovingLeft = false;
+    }
+    if (kCode === 'KeyD' || kCode === 'ArrowRight') {
+      this.isMovingRight = false;
+    }
+    //e.stopPropagation();// Don't bubble/capture the event any further
   }
 
   handleZoom(e, p5) {
     const s = 1 - e.deltaY / 1000;
     this.scal *= s;
+    console.log("scale", s);
     const mouse = p5.createVector(p5.mouseX, p5.mouseY);
     this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(mouse).mult(s).add(mouse);
   }
@@ -147,14 +232,15 @@ export class GameMapScene extends GameScene {
 
   renderBackground(p5) {
     p5.background('#20D6C7');
-    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
     p5.scale(this.scal);
+    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
     if(this.bgImage){
       p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y);
     }else{
       this.bgImage = p5.loadImage(IslandTemplate.Image.source);
     }
     p5.noTint();
+    this.renderPlayer(p5);
   }
 
   renderEntities(p5) {
