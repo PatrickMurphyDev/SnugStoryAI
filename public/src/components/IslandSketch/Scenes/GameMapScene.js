@@ -17,18 +17,26 @@ export class GameMapScene extends GameScene {
     super('GameMapScene');
     this.onCharacterSelect = onCharacterSelect;
     this.onPropertySelect = onPropertySelect;
+    
     this.charList = charList;
     this.setCharList = setCharList;
+
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
     this.scal = 1;
-    this.offset = { x: 0, y: 0 };
+    this.CameraOffset = undefined;
+
     this.bgImage = null;
     this.charImages = [];
+
     this.villagers = charList;
     this.lots = [];
+
+    this.playerx = 570;
+    this.playery = 1820;
+    this.isLoaded = false;
   }
 
-  preload(p5) {
+  loadAssets(p5){
     let characterImages = {};
     this.bgImage = p5.loadImage(IslandTemplate.Image.source);
     IslandTemplateJSON.layers[this.getLayerIndexByName("Residents")].objects.forEach(resident => {
@@ -38,17 +46,25 @@ export class GameMapScene extends GameScene {
     this.charImages = characterImages;
   }
 
+  preload(p5) {
+    this.loadAssets(p5);
+  }
+
   setup(p5, canvasParentRef) {
-    this.offset = p5.createVector(0, 0);
-    this.initializeEventListeners(p5);
-    p5.createCanvas(800, 600).parent(canvasParentRef);
-    this.initializeLots();
-    this.initializeCharacters();
+    //p5.createCanvas(800, 600).parent(canvasParentRef);
+    this.CameraOffset = p5.createVector(this.playerx*-1, this.playery*-1);
+    //this.initializeEventListeners(p5);
+    //this.initializeLots();
+    //this.initializeCharacters();
   }
 
   draw(p5) {
+    if(!this.CameraOffset){
+      this.CameraOffset = p5.createVector((this.playerx*-1)+400, (this.playery*-1)+300);
+    }
     this.renderBackground(p5);
     this.renderEntities(p5);
+    p5.rect(this.playerx, this.playery, 32,32);
     this.handleMouseInteraction(p5);
   }
 
@@ -61,7 +77,7 @@ export class GameMapScene extends GameScene {
     const s = 1 - e.deltaY / 1000;
     this.scal *= s;
     const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    this.offset = p5.createVector(this.offset.x, this.offset.y).sub(mouse).mult(s).add(mouse);
+    this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(mouse).mult(s).add(mouse);
   }
 
   initializeLots() {
@@ -95,9 +111,9 @@ export class GameMapScene extends GameScene {
     for (var e in this.villagers) {
       this.villagers[e].remove();
     }
-    this.setVillagers([]);
+    this.setCharList([]);
     const characterTempList = IslandTemplateJSON.layers[this.getLayerIndexByName("Residents")].objects.map((v) => this.createCharacterEntity(v));
-    this.setVillagers(characterTempList);
+    this.setCharList(characterTempList);
   }
 
   createCharacterEntity(resident) {
@@ -131,14 +147,18 @@ export class GameMapScene extends GameScene {
 
   renderBackground(p5) {
     p5.background('#20D6C7');
-    p5.translate(this.offset.x, this.offset.y);
+    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
     p5.scale(this.scal);
-    p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y);
+    if(this.bgImage){
+      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y);
+    }else{
+      this.bgImage = p5.loadImage(IslandTemplate.Image.source);
+    }
     p5.noTint();
   }
 
   renderEntities(p5) {
-    this.villagers.forEach(villager => {
+    this.charList.forEach(villager => {
       villager.update();
       villager.draw(p5);
     });
@@ -152,7 +172,7 @@ export class GameMapScene extends GameScene {
   }
 
   isMouseOverLot(p5, lot) {
-    return p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - this.offset.x) / this.scal, (p5.mouseY - this.offset.y) / this.scal) <= 15.0;
+    return p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - this.CameraOffset.x) / this.scal, (p5.mouseY - this.CameraOffset.y) / this.scal) <= 15.0;
   }
 
   handleLotInteraction(p5, lot) {
@@ -165,10 +185,10 @@ export class GameMapScene extends GameScene {
 
   handleMouseInteraction(p5) {
     if (p5.mouseIsPressed) {
-      let tmpOffset = { x: this.offset.x, y: this.offset.y };
+      let tmpOffset = { x: this.CameraOffset.x, y: this.CameraOffset.y };
       tmpOffset.x -= p5.pmouseX - p5.mouseX;
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
-      this.offset = p5.createVector(tmpOffset.x, tmpOffset.y);
+      this.CameraOffset = p5.createVector(tmpOffset.x, tmpOffset.y);
     }
   }
 }
