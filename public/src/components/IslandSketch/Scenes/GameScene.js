@@ -4,7 +4,7 @@ export class GameScene {
       this.name = name; // Scene name
       
       this.lastUIActionFrame = -1;
-      this.UIActionCooldownFrames = 60;
+      this.UIActionCooldownFrames = 15;
     }
 
     doUIAction(currFrame, action){
