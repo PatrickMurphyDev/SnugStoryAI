@@ -19,7 +19,7 @@ const ViewIsland = (props) => {
         setError('Failed to load and view island details.');
         setLoading(false);
       });
-  }, []);
+  }, [props]);
 
   if (loading) return <div>Loading island details...</div>;
   if (error) return <div>{error}</div>;
