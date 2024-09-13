@@ -22,7 +22,7 @@ const ListIslands = (props) => {
         setError("Failed to load islands");
         setLoading(false);
       });
-  }, []);
+  }, [props]);
 
   if (loading) return <div>Loading islands...</div>;
   if (error) return <div>{error}</div>;
