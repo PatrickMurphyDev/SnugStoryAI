@@ -38,7 +38,7 @@ export class GameCutScene extends GameScene {
    * @param {Object} canvasParentRef - The reference to the canvas parent container.
    */
   setup(p5, canvasParentRef) {
-    p5.createCanvas(800, 600).parent(canvasParentRef);
+    //p5.createCanvas(800, 600).parent(canvasParentRef);
   }
 
   updateTypeWriter(maxVal){

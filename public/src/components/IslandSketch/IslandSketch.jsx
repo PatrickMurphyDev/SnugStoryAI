@@ -12,15 +12,20 @@ const IslandSketch = ({
   onPropertySelect,
   charList,
   setCharList,
-  sizeVector = { x: 800, y: 600 },
+  sizeVector = { x: 1000, y: 800 },
 }) => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
+  const setCurrentSceneIndex2 = (i)=>{
+    console.log('setCurrent');
+    return setCurrentSceneIndex;
+  };
 
   let scenes = [];
 
   const goToScene = (index) => {
     if (index >= 0 && index < scenes.length) {
       setCurrentSceneIndex(index);
+      //scenes[index].preload(p5);
     } else {
       console.error("Non-valid scene index " + index);
     }
@@ -34,12 +39,13 @@ const IslandSketch = ({
     goToScene((currentSceneIndex - 1 + scenes.length) % scenes.length);
   };
 
-  const preload = (p5) =>
-    scenes.forEach((val, i) => {
-      scenes[i].preload(p5);
-    });
-  const setup = (p5, canvasParentRef) =>
+  const preload = (p5) => {
+    console.log('PreloadSketch');
+  };
+
+  const setup = (p5, canvasParentRef) =>{
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
+  }
   const draw = (p5) => scenes[currentSceneIndex].draw(p5);
   scenes = [
     new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),

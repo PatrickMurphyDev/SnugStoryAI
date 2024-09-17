@@ -13,6 +13,15 @@ const DefaultLotProperties = {
   };
   const viewMult = 7.5;
 
+const getDefaultLotProperties = ()=>{
+  return {
+    size: { width: 32, height: 32 },
+    zoneType: "Commercial",
+    price: Math.max(15000, Math.floor(Math.random()*250000)),
+    fillColor: "#000000",
+  };
+}
+
 export class GameMapScene extends GameScene {
   constructor(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = { x: 800, y: 600 }) {
     super('GameMapScene');
