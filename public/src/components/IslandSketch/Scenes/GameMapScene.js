@@ -56,6 +56,8 @@ export class GameMapScene extends GameScene {
     this.isMovingRight = false;
     this.isMovingLeft = false;
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
+
+    this.CollideEntities = [];
   }
 
   loadAssets(p5){
@@ -93,6 +95,12 @@ export class GameMapScene extends GameScene {
     this.CameraOffset = positionP5Vec;
   }
 
+  checkCollisions(){
+    this.CollideEntities.forEach(collider => {
+      collider.update();
+    });
+  }
+
   draw(p5) {
     if(!this.CameraOffset){
       this.loadAssets(p5); // load img assets
@@ -116,6 +124,7 @@ export class GameMapScene extends GameScene {
       this.bgCollisionImage.loadPixels();
       console.log(this.bgCollisionImage.pixels);
     }
+    this.checkCollisions();
     this.renderPlayer(p5);
     //this.renderEntities(p5);
     //this.handleMouseInteraction(p5);
@@ -216,7 +225,7 @@ export class GameMapScene extends GameScene {
       this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery,(newVal)=>{this.playerx = newVal.x});
     }
     if (this.isMovingRight) {
-     tmpx += this.speed*this.scal;
+      tmpx += this.speed*this.scal;
       this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery,(newVal)=>{this.playerx = newVal.x});
     }
   }
