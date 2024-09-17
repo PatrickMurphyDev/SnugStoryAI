@@ -190,7 +190,7 @@ handleButtonClick(p5, x, y, buttonWidth, buttonHeight, onClick) {
   draw(p5) {
     p5.background(10); // Clear the screen with a black background
     const currentSlide = this.slides[this.currentSlideIndex];
-    const sizeImg = Math.min(p5.width - 100, p5.height - 100);
+    const sizeImg = Math.min(550, 500);
 
     // Draw the current slide's image
     if (this.preloadedImages[this.currentSlideIndex]) {
