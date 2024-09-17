@@ -20,30 +20,30 @@ export default function Chat() {
 
   const handleCharacterSelect = (character) => {
     setCharacterSelected(character);
-    if(characterSelected)
-      characterSelected.deselect();
+    if (characterSelected) characterSelected.deselect();
     character.select();
     setCharacterSelected(character);
   };
 
   const handlePropertySelect = (property) => {
-    if(propertySelected)
-      propertySelected.deselect();
+    if (propertySelected) propertySelected.deselect();
     property.select();
     setPropertySelected(property);
   };
 
-  useEffect(()=> {(async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/login");
-    } else {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
-      );
-    }
-  })();}, [navigate]);
+  useEffect(() => {
+    (async () => {
+      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        navigate("/login");
+      } else {
+        setCurrentUser(
+          await JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          )
+        );
+      }
+    })();
+  }, [navigate]);
 
   useEffect(() => {
     if (currentUser) {
@@ -52,19 +52,21 @@ export default function Chat() {
     }
   }, [currentUser]);
 
-  useEffect(()=>{(async () => {
-    if (currentUser) {
-      if (currentUser.isAvatarImageSet) {
-        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-        setContacts(data.data);
-      } else {
-        navigate("/setAvatar");
+  useEffect(() => {
+    (async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+          setContacts(data.data);
+        } else {
+          navigate("/setAvatar");
+        }
       }
-    }
-  })();}, [currentUser, navigate, setContacts]);
+    })();
+  }, [currentUser, navigate, setContacts]);
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
-  }; 
+  };
   return (
     <>
       <Container>

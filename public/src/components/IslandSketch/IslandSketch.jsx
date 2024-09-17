@@ -45,24 +45,21 @@ const IslandSketch = ({
 
   const setup = (p5, canvasParentRef) =>{
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
-    scenes = [
-      new Main_GameMenuScene(setCurrentSceneIndex2, 1, 2, 3),
-      new Intro_GameCutScene(4),
-      new Load_GameMenuScene(setCurrentSceneIndex2, 1, 1, 0),
-      new Settings_GameMenuScene(setCurrentSceneIndex2, 3, 0),
-      new GameMapScene(
-        onCharacterSelect,
-        onPropertySelect,
-        charList,
-        setCharList,
-        sizeVector
-      ),
-    ];
-    scenes[currentSceneIndex].setup(p5, canvasParentRef);
   }
-  const draw = (p5) =>
-    scenes.length > 0 ? scenes[currentSceneIndex].draw(p5) : null;
-
+  const draw = (p5) => scenes[currentSceneIndex].draw(p5);
+  scenes = [
+    new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
+    new Intro_GameCutScene(setCurrentSceneIndex, 4),
+    new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
+    new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
+    new GameMapScene(
+      onCharacterSelect,
+      onPropertySelect,
+      charList,
+      setCharList,
+      sizeVector
+    ),
+  ];
 
   return <Sketch preload={preload} setup={setup} draw={draw} />;
 };

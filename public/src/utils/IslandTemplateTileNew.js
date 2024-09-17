@@ -1,4 +1,14 @@
- { "compressionlevel":-1,
+(function(name,data){
+ if(typeof onTileMapLoaded === 'undefined') {
+  if(typeof TileMaps === 'undefined') TileMaps = {};
+  TileMaps[name] = data;
+ } else {
+  onTileMapLoaded(name,data);
+ }
+ if(typeof module === 'object' && module && module.exports) {
+  module.exports = data;
+ }})("IslandTemplateTileNew",
+{ "compressionlevel":-1,
  "height":64,
  "infinite":false,
  "layers":[
@@ -73,7 +83,7 @@
          "name":"Background",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -148,7 +158,7 @@
          "name":"Baselayer",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -223,7 +233,7 @@
          "name":"level2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -300,7 +310,7 @@
          "offsety":0,
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -375,7 +385,7 @@
          "name":"paths",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -450,7 +460,7 @@
          "name":"Builings",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -527,7 +537,7 @@
          "offsety":0,
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":64,
          "x":0,
          "y":0
@@ -801,14 +811,14 @@
                         }],
                  "opacity":1,
                  "type":"objectgroup",
-                 "visible":true,
+                 "visible":false,
                  "x":0,
                  "y":0
                 }, 
                 {
                  "draworder":"topdown",
                  "id":29,
-                 "name":"Object Layer 7",
+                 "name":"WallCollide",
                  "objects":[
                         {
                          "height":124,
@@ -2974,4 +2984,4 @@
  "type":"map",
  "version":"1.10",
  "width":64
-}
+});

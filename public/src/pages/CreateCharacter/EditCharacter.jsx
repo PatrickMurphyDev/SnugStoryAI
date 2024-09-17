@@ -10,8 +10,8 @@ import GoalsFavoritesStep from "./subpages/GoalsFavoritesStep";
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from "react-accessible-accordion";
 import "./styles.css";
 
-const EditCharacter = ({ character, Data }) => {
-    const [character, setCharacter] = useState(character || {});
+const EditCharacter = ({ character1, data }) => {
+    const [character, setCharacter] = useState(character1 || {});
     const [characterData, setCharacterData] = useState(data || {});
 
   useEffect(() => {
