@@ -16,9 +16,12 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 - [License](#license)
 
 ## Screenshots
-![Map](./Documentation/images/MapScreenshot.png)
+![Main Menu](./Documentation/images/homescreenmenu.png)
 
-![Map zoom](./Documentation/images/MapScreenshotZoom.png)
+![Example CutScene](./Documentation/images/CutSceneExample.png)
+
+![In Game No UI](./Documentation/images/ingamepreui.png)
+
 
 ## Features
 
@@ -50,6 +53,12 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
 - **Deepening Connection**: Partners develop a deeper bond.
 - **Engagement and Marriage**: Long-term commitment planning and formalization.
 
+
+
+## Old Screenshots
+![Map](./Documentation/images/MapScreenshot.png)
+
+![Map zoom](./Documentation/images/MapScreenshotZoom.png)
 
 ## Installation Guide
 
