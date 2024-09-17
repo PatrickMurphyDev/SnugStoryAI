@@ -4,6 +4,8 @@ import LotEntity from '../Entities/LotEntity';
 import CharacterEntity from '../Entities/CharacterEntity';
 import { IslandTemplate } from '../../../utils/IslandTemplateTile';
 import IslandTemplateJSON from '../../../utils/IslandTemplateTiled.json';
+import CollideRectEntity from '../Entities/CollideRectEntity';
+import WallData from '../../../utils/WallData.json';
 
 const DefaultLotProperties = {
     size: { width: 32, height: 32 },
@@ -40,7 +42,7 @@ export class GameMapScene extends GameScene {
     this.playerImage = undefined;
     this.playerImageLeft = undefined;
     this.playerImageRight = undefined;
-    this.bgCollisionImage = null;
+    //this.bgCollisionImage = null;
 
     this.villagers = charList;
     this.lots = [];
@@ -58,12 +60,20 @@ export class GameMapScene extends GameScene {
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
 
     this.CollideEntities = [];
+
+    this.loadWallData();
   }
+
+  loadWallData(){
+    WallData.forEach(wall => {
+      this.CollideEntities.push(new CollideRectEntity(wall.id, wall.x+12, wall.y, {"x":wall.width, "y": wall.height}));
+    });
+    }
 
   loadAssets(p5){
     let characterImages = {};
     this.bgImage = p5.loadImage(IslandTemplate.Image.source);
-    this.bgCollisionImage = p5.loadImage("images/SnugIslandCollide.png");
+   // this.bgCollisionImage = p5.loadImage("images/SnugIslandCollide.png");
     this.playerImage = p5.loadImage("images/playerStanding.png");
     this.playerImageLeft = p5.loadImage("images/char_walk_left.gif");
     this.playerImageRight = p5.loadImage("images/char_walk_right.gif");
@@ -96,36 +106,45 @@ export class GameMapScene extends GameScene {
   }
 
   checkCollisions(){
-    this.CollideEntities.forEach(collider => {
+     this.CollideEntities.forEach(collider => {
       collider.update();
     });
   }
-
-  draw(p5) {
-    if(!this.CameraOffset){
-      this.loadAssets(p5); // load img assets
-      this.initializeEventListeners(p5); 
-
-      this.setCameraPosition(p5.createVector((this.playerx*-1), (this.playery*-1)));
 
       //-p5.width/2+64
       //-p5.height/2
       //const viewCenter = p5.createVector(p5.width/2-16, p5.mouseY/p5.height-16);
      // this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(viewCenter).mult(s).add(viewCenter);
+   
+  draw(p5) {
+    if(!this.CameraOffset){
+      // on first run initialize
+      this.loadAssets(p5); // load img assets
+      this.initializeEventListeners(p5); 
+      this.setCameraPosition(p5.createVector((this.playerx*-1), (this.playery*-1)));
     }else{
+      // all subsequent frames
       this.setCameraZoom(p5,5);
       this.handleKeys();
       this.setCameraPosition(p5.createVector((this.playerx*-1)+(p5.width/viewMult)+this.tileWidth/2, (this.playery*-1)+(p5.height/viewMult)+this.tileWidth/2));
       this.renderBackground(p5);
+
+      //this.CollideEntities.forEach(collider => {
+        //collider.draw(p5);
+      //});
+      
+
+      //this.renderEntities(p5);
+      //this.handleMouseInteraction(p5);
+      this.renderPlayer(p5);
     }
-    if(this.bgCollisionImage && !this.isLoaded){
+   /*   if(this.bgCollisionImage && !this.isLoaded){
       console.log("Load Pix");
       this.isLoaded = true;
       this.bgCollisionImage.loadPixels();
       console.log(this.bgCollisionImage.pixels);
-    }
-    this.checkCollisions();
-    this.renderPlayer(p5);
+    }  */
+    //this.renderPlayer(p5);
     //this.renderEntities(p5);
     //this.handleMouseInteraction(p5);
   }
@@ -192,12 +211,15 @@ export class GameMapScene extends GameScene {
     let returnPos =       oldPos; //default to current/old position
     let newPosValidity =  true;   // is the new position a valid pixel?
 
-    const c = this.bgCollisionImage.get(newPos.x,newPos.y);
+    //const c = this.bgCollisionImage.get(newPos.x,newPos.y);
     //if(this.bgCollisionImage.pixels.length>4){
     //if(this.bgCollisionImage.pixels[this.translateVectorToPixelIndex({"x":Math.abs(this.playerx), "y":Math.abs(this.playery)})] > 0){
-    if (c.alpha > 0){
-      newPosValidity = false;
-    }
+    //if (c.alpha > 0){
+      this.CollideEntities.forEach(collider => {
+        if(collider.contains({x:newPos.x+16,y:newPos.y+30})){
+          newPosValidity = false;
+        }
+      });
     //}
   //}
     
@@ -211,22 +233,24 @@ export class GameMapScene extends GameScene {
   handleKeys() {
     let tmpy = this.playery;
     let tmpx = this.playerx;
-    if(this.bgCollisionImage){
+    if(this.bgCollisionImage || true){
+      const YCallBack = (newVal,valid)=>{this.playery = valid ? newVal.y : this.playery;};
+      const XCallBack = (newVal,valid)=>{this.playerx = valid ? newVal.x : this.playerx;};
     if (this.isMovingUp) {
       tmpy -= this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, this.playerx,tmpy,(newVal,valid)=>{if(valid)this.playery = newVal.y});
+      this.checkNextPosititionCollision(this.playerx, this.playery, this.playerx,tmpy, YCallBack);
     }
     if (this.isMovingDown) {
       tmpy += this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, this.playerx,tmpy,(newVal)=>{this.playery = newVal.y});
+      this.checkNextPosititionCollision(this.playerx, this.playery, this.playerx,tmpy, YCallBack);
     }
     if (this.isMovingLeft) {
       tmpx -= this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery,(newVal)=>{this.playerx = newVal.x});
+      this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery, XCallBack);
     }
     if (this.isMovingRight) {
       tmpx += this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery,(newVal)=>{this.playerx = newVal.x});
+      this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery, XCallBack);
     }
   }
 }

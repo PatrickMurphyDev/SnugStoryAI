@@ -10,11 +10,15 @@ class CollideRectEntity extends Entity {
     
   }
 
-  draw(p5, transparency, offset, scal) {
+  contains(newPos){
+    return newPos.x >= this.location.x && newPos.x <= this.location.x+this.size.width && newPos.y >= this.location.y && newPos.y <= this.location.y+this.size.height;
+  }
+
+  draw(p5, transparency, offset) {
     offset = offset || {x:0,y:0};
-    const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
+    const ps = p5.createVector(this.location.x, this.location.y);
     let fillColor = '#000000';
-    if (this.fillColor || this.characters.length) {
+    if (this.fillColor) {
       fillColor = this.fillColor;
       p5.fill(`${fillColor}${transparency}`);
     }
