@@ -1,13 +1,18 @@
 import Entity from './Entity';
 
 class CollideRectEntity extends Entity {
-  constructor(id, x, y, size) {
+  constructor(id, x, y, size, onCollideEvent) {
     super('colliderect', id, { x, y }, { width: size.x || size || 32, height: size.y || size || 32 });
+    this.onCollideEvent = onCollideEvent || ((p1, obj1, obj2)=>{console.log("collide");});
   }
 
   update() {
     // Implement any update logic specific to LotEntity
     
+  }
+
+  onCollide(p1,o1,o2) {
+    this.onCollideEvent(p1,o1,o2);
   }
 
   contains(newPos){

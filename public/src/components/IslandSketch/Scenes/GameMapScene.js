@@ -81,7 +81,8 @@ export class GameMapScene extends GameScene {
     this.initializeCharacters();
 
     //tmp char fix
-    this.charPos = {x:this.playerx+24, y: this.playery-96-64}
+    this.charPos = {x:this.playerx+24, y: this.playery-96-64};
+    this.CollideEntities.push(new CollideRectEntity(66666,this.charPos.x+8, this.charPos.y+12, {x:16,width:16,y:20,height:20}, ()=>{console.log("coll char");}));
   }
 
   loadWallData() {
@@ -96,6 +97,7 @@ export class GameMapScene extends GameScene {
   }
 
   initializeLots() {
+    // todo replace hard coded folder layer access with this.getLayerIndexByFolderAndName("Folder","Name")
     const lotEntities = IslandTemplateJSON.layers[7].layers[0]["objects"].map(
       (pos, index) =>
         new LotEntity(
@@ -113,7 +115,6 @@ export class GameMapScene extends GameScene {
 
   initializeCharacters() {
     this.setCharList([]);
-    console.log(this.getLayerIndexByName("Residents"));
     const characterTempList = IslandTemplateJSON.layers[
       this.getLayerIndexByName("Residents")
     ].objects.map((v) => this.createCharacterEntity(v));
@@ -240,11 +241,12 @@ export class GameMapScene extends GameScene {
     this.CameraOffset = positionP5Vec;
   }
 
-  checkCollisions() {
+ /*  checkCollisions() {
     this.CollideEntities.forEach((collider) => {
       collider.update();
     });
-  }
+  } */
+
   handleZoom(e, p5) {
     const s = 1 - e.deltaY / 1000;
     this.scal *= s;
@@ -383,6 +385,7 @@ export class GameMapScene extends GameScene {
     this.CollideEntities.forEach((collider) => {
       if (collider.contains({ x: newPos.x + 16, y: newPos.y + 30 })) {
         newPosValidity = false;
+        collider.onCollide({ x: newPos.x + 16, y: newPos.y + 30 }, collider, {x:this.playerx, y: this.playery});
       }
     });
 
