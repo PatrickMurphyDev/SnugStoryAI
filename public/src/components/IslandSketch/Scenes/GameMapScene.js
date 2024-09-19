@@ -57,9 +57,11 @@ export class GameMapScene extends GameScene {
     this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
     this.playerImageRight =
       this.parentAssets["GameMapScene"]["PlayerImageRight"];
-    
-    this.otherPlayerImage = this.parentAssets["GameMapScene"]["OtherPlayerImage"];
 
+    this.otherPlayerImage =
+      this.parentAssets["GameMapScene"]["OtherPlayerImage"];
+
+      this.PlayerProfileImage = this.parentAssets['GameMapScene']['PlayerProfileImage'];
     this.lots = [];
     this.useCharImage = true;
     this.useBGImage = true;
@@ -80,9 +82,33 @@ export class GameMapScene extends GameScene {
     this.initializeLots();
     this.initializeCharacters();
 
+    this.GUIElements = [];
+    this.GUIElements.push({ x: 0, y: 650, h: 150, w: 800, fill: 150});
+    this.GUIElements.push({ x: 200, y: 650, h: 150, w: 600, text: "Main UI Window" });
+    this.GUIElements.push({
+      x: 0,
+      y: 600,
+      h: 200,
+      w: 200,
+      isCircle: true,
+      img: this.PlayerProfileImage,
+      text: "Character Details",
+    });
+    this.GUIElements.push({ x: 800, y: 600, h: 200, w: 200, text: "UI Details Options" });
+
     //tmp char fix
-    this.charPos = {x:this.playerx+24, y: this.playery-96-64};
-    this.CollideEntities.push(new CollideRectEntity(66666,this.charPos.x+8, this.charPos.y+12, {x:16,width:16,y:20,height:20}, ()=>{console.log("coll char");}));
+    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
+    this.CollideEntities.push(
+      new CollideRectEntity(
+        66666,
+        this.charPos.x + 8,
+        this.charPos.y + 12,
+        { x: 16, width: 16, y: 20, height: 20 },
+        () => {
+          console.log("coll char");
+        }
+      )
+    );
   }
 
   loadWallData() {
@@ -131,6 +157,7 @@ export class GameMapScene extends GameScene {
 
   draw(p5) {
     this.handleKeyboardUserInputUpdate();
+    p5.push();
     this.setCameraZoom(p5, 5);
     this.setCameraPosition(
       p5.createVector(
@@ -142,13 +169,36 @@ export class GameMapScene extends GameScene {
     this.renderBackground(p5);
     this.renderEntities(p5);
     this.renderPlayer(p5);
-
     if (this.DEBUG_LEVEL >= 2) {
       this.handleMouseInteraction(p5);
       this.CollideEntities.forEach((collider) => {
         collider.draw(p5);
       });
     }
+    p5.pop();
+
+    p5.ellipseMode('CENTER');
+    // after translate
+    this.renderGUI(p5);
+  }
+
+  renderGUI(p5) {
+    this.GUIElements.forEach((v) => {
+      p5.fill(v.fill || 200);
+      if(v.isCircle){
+        p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0);  
+      }else{
+        p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
+      }
+      if(v.img){
+        p5.image(this.PlayerProfileImage, v.x+v.w*.1, v.y+v.h*.05, v.w*.8, v.h*.8);
+        p5.fill(0);
+        p5.text(v.text || "Panel", v.x, v.y+v.h*.8, v.w, v.h*.2);
+      }else{
+        p5.fill(0);
+        p5.text(v.text || "Panel", v.x, v.y, v.w, v.h);
+      }
+    });
   }
 
   renderPlayer(p5) {
@@ -220,8 +270,7 @@ export class GameMapScene extends GameScene {
     });
   }
 
-/* END RENDER FN*/
-  
+  /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
   setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
@@ -241,7 +290,7 @@ export class GameMapScene extends GameScene {
     this.CameraOffset = positionP5Vec;
   }
 
- /*  checkCollisions() {
+  /*  checkCollisions() {
     this.CollideEntities.forEach((collider) => {
       collider.update();
     });
@@ -284,9 +333,9 @@ export class GameMapScene extends GameScene {
       this.playerx = valid ? newVal.x : this.playerx;
     };
 
-    if(isMovingDiagonal) speedModifier = .5;
+    if (isMovingDiagonal) speedModifier = 0.5;
 
-    const moveDist = (this.speed * this.scal)*speedModifier;
+    const moveDist = this.speed * this.scal * speedModifier;
 
     if (this.moveState.isMovingUp) {
       tmpy -= moveDist;
@@ -300,7 +349,7 @@ export class GameMapScene extends GameScene {
     if (this.moveState.isMovingRight) {
       tmpx += moveDist;
     }
-    
+
     this.checkNextPosititionCollision(
       this.playerx,
       this.playery,
@@ -385,7 +434,10 @@ export class GameMapScene extends GameScene {
     this.CollideEntities.forEach((collider) => {
       if (collider.contains({ x: newPos.x + 16, y: newPos.y + 30 })) {
         newPosValidity = false;
-        collider.onCollide({ x: newPos.x + 16, y: newPos.y + 30 }, collider, {x:this.playerx, y: this.playery});
+        collider.onCollide({ x: newPos.x + 16, y: newPos.y + 30 }, collider, {
+          x: this.playerx,
+          y: this.playery,
+        });
       }
     });
 
