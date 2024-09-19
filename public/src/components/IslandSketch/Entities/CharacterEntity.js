@@ -91,7 +91,7 @@ class CharacterEntity extends PathingEntity {
       p5.fill("#aa33aa");
     }
     //p5.image(this.profileImage, ps.x + 12, ps.y + 5)
-    p5.ellipse(ps.x + 12, ps.y + 5, 15, 15);
+    p5.ellipse(ps.x + 12, ps.y + 5, 55, 55);
     if (this.profileImage) {
       p5.image(this.profileImage, ps.x, ps.y, 35,35); // Draw the character's image
     }
@@ -127,46 +127,6 @@ class CharacterEntity extends PathingEntity {
     }
     // Add more conditions as needed
     return this.residenceLot; // Default to residence
-  }
-
-  // Example methods for rest, eat, and drink
-  rest() {
-    this.tasks.addTask(
-      new Task(
-        "rest",
-        (character) => {
-          console.log(`${character.info.name} is resting`);
-          character.needs.setEnergy(character.needs.getEnergy() + 20);
-        },
-        "personal"
-      )
-    );
-  }
-
-  eat() {
-    this.tasks.addTask(
-      new Task(
-        "eat",
-        (character) => {
-          console.log(`${character.info.name} is eating`);
-          character.needs.setHunger(character.needs.getHunger() - 30);
-        },
-        "personal"
-      )
-    );
-  }
-
-  drink() {
-    this.tasks.addTask(
-      new Task(
-        "drink",
-        (character) => {
-          console.log(`${character.info.name} is drinking`);
-          character.needs.setHunger(character.needs.getHunger() - 20);
-        },
-        "personal"
-      )
-    );
   }
 }
 

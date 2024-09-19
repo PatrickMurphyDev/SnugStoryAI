@@ -15,15 +15,17 @@ const DefaultLotProperties = {
   };
   const viewMult = 7.5;
 
-const getDefaultLotProperties = ()=>{
-  return {
-    size: { width: 32, height: 32 },
-    zoneType: "Commercial",
-    price: Math.max(15000, Math.floor(Math.random()*250000)),
-    fillColor: "#000000",
+  const keyMap = {
+    'KeyW': 'isMovingUp',
+    'ArrowUp': 'isMovingUp',
+    'KeyS': 'isMovingDown',
+    'ArrowDown': 'isMovingDown',
+    'KeyA': 'isMovingLeft',
+    'ArrowLeft': 'isMovingLeft',
+    'KeyD': 'isMovingRight',
+    'ArrowRight': 'isMovingRight'
   };
-}
-
+  
 export class GameMapScene extends GameScene {
   constructor(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector = { x: 800, y: 600 }, parentAssetsByScene) {
     super('GameMapScene');
@@ -37,6 +39,7 @@ export class GameMapScene extends GameScene {
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
     this.scal = 1;
     this.CameraOffset = undefined;
+    this.cameraControlMode = "player";
 
     this.bgImage = this.parentAssets["GameMapScene"]['BGImage'];
     this.charImages = [];
@@ -54,16 +57,15 @@ export class GameMapScene extends GameScene {
     this.playery = 1820;
     this.isLoaded = false;
 
-    this.isMovingUp = false;
-    this.isMovingDown = false;
-    this.isMovingRight = false;
-    this.isMovingLeft = false;
+    this.moveState = {};
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
 
     this.CollideEntities = [];
 
     this.loadWallData();
     this.initializeEventListeners();
+    this.initializeLots();
+    this.initializeCharacters();
   }
 
   loadWallData(){
@@ -72,47 +74,22 @@ export class GameMapScene extends GameScene {
     });
     }
 
-  loadAssets(p5){
-    /* this.bgImage = p5.loadImage(IslandTemplate.Image.source);
-
-    let characterImages = {};
-    
-    this.playerImage = p5.loadImage("images/playerStanding.png");
-    this.playerImageLeft = p5.loadImage("images/char_walk_left.gif");
-    this.playerImageRight = p5.loadImage("images/char_walk_right.gif"); */
-    /* 
-    IslandTemplateJSON.layers[this.getLayerIndexByName("Residents")].objects.forEach(resident => {
-      
-      characterImages[resident.name] = p5.loadImage(`images/${resident.img}`);
-    }); */
-
-    //this.charImages = characterImages;
-    //this.initializeLots();
-    //this.initializeCharacters();
-    this.initializeEventListeners(p5); 
-    this.setCameraPosition(p5.createVector((this.playerx*-1), (this.playery*-1)));
-    this.loadAssetsState = 2;
-  }
-
   preload(p5) {
     console.log('preload GameMapScene');
   }
 
   setup(p5, canvasParentRef) {
     console.log('run GameMapScene Setup');
-    //p5.createCanvas(800, 600).parent(canvasParentRef);
-    //this.CameraOffset = p5.createVector(this.playerx*-1, this.playery*-1);
-    //this.initializeEventListeners(p5);
-    //this.initializeLots();
-    //this.initializeCharacters();
   }
 
   /* CAMERA FN TODO: Move to New Class */
-  setCameraZoom(p5, zoomLevelInt = 2){
+  setCameraZoom(p5, zoomLevelInt = 2, factor = 3){
     zoomLevelInt = Math.min(1, Math.max(5,zoomLevelInt));
-    this.scal = zoomLevelInt*3;
-    //const mouse = p5.createVector(400+300+816, 300+16);
-    //this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(mouse).mult(this.scal).add(mouse);
+    this.scal = zoomLevelInt*factor;
+    if(this.cameraControlMode === 'Mouse'){
+      const mouse = p5.createVector(400+300+816, 300+16); // Center ????? TODO:Investigate
+      this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(mouse).mult(this.scal).add(mouse);
+    }
   }
 
   setCameraPosition(positionP5Vec){
@@ -131,12 +108,6 @@ export class GameMapScene extends GameScene {
     const mouse = p5.createVector(p5.mouseX, p5.mouseY);
     this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(mouse).mult(s).add(mouse);
   }
-
-      //-p5.width/2+64
-      //-p5.height/2
-      //const viewCenter = p5.createVector(p5.width/2-16, p5.mouseY/p5.height-16);
-     // this.CameraOffset = p5.createVector(this.CameraOffset.x, this.CameraOffset.y).sub(viewCenter).mult(s).add(viewCenter);
-   
      /**----------- END CAMERA FN */
      /**----------- END CAMERA FN */
      /**----------- END CAMERA FN */
@@ -159,15 +130,15 @@ export class GameMapScene extends GameScene {
   
 
   renderPlayer(p5){
-    if(this.useCharImage && (this.isMovingDown || this.isMovingUp || this.isMovingLeft || this.isMovingRight)){
-      if(this.isMovingLeft){
+    if(this.useCharImage && (this.moveState.isMovingDown || this.moveState.isMovingUp || this.moveState.isMovingLeft || this.moveState.isMovingRight)){
+      if(this.moveState.isMovingLeft){
         p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
-      }else if(this.isMovingRight){
+      }else if(this.moveState.isMovingRight){
         p5.image(this.playerImageRight, this.playerx, this.playery);
       }else{
-        if(this.isMovingUp){
+        if(this.moveState.isMovingUp){
           p5.image(this.playerImage, this.playerx, this.playery);
-        }else if(this.isMovingDown){
+        }else if(this.moveState.isMovingDown){
           p5.image(this.playerImage, this.playerx, this.playery);
         }
       }
@@ -250,71 +221,50 @@ export class GameMapScene extends GameScene {
     let tmpy = this.playery;
     let tmpx = this.playerx;
     if(this.bgCollisionImage || true){
-      const YCallBack = (newVal,valid)=>{this.playery = valid ? newVal.y : this.playery;};
-      const XCallBack = (newVal,valid)=>{this.playerx = valid ? newVal.x : this.playerx;};
-    if (this.isMovingUp) {
-      tmpy -= this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, this.playerx,tmpy, YCallBack);
+      const newCallBack = (newVal,valid)=>{
+        this.playery = valid ? newVal.y : this.playery;
+        this.playerx = valid ? newVal.x : this.playerx;
+      };
+    if (this.moveState.isMovingUp) {
+      tmpy -= this.speed*this.scal; 
     }
-    if (this.isMovingDown) {
+    if (this.moveState.isMovingDown) {
       tmpy += this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, this.playerx,tmpy, YCallBack);
     }
-    if (this.isMovingLeft) {
+    if (this.moveState.isMovingLeft) {
       tmpx -= this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery, XCallBack);
     }
-    if (this.isMovingRight) {
+    if (this.moveState.isMovingRight) {
       tmpx += this.speed*this.scal;
-      this.checkNextPosititionCollision(this.playerx, this.playery, tmpx,this.playery, XCallBack);
     }
+    this.checkNextPosititionCollision(this.playerx, this.playery, tmpx, tmpy, newCallBack);
   }
 } // end handleKeys FN 
   
   keyPressed(e) {
-    let kCode = e.code;
+    if (keyMap[e.code]) this.moveState[keyMap[e.code]] = true;
     this.lastMoveState = 0;
-    //e.preventDefault(); // Cancel the native event
-    // DEBUG console.log("gameMapScene",e);
-    if (kCode === 'KeyW' || kCode === 'ArrowUp') {
-      this.isMovingUp = true;
-    }
-    if (kCode === 'KeyS' || kCode === 'ArrowDown') {
-      this.isMovingDown = true;
-    }
-    if (kCode === 'KeyA' || kCode === 'ArrowLeft') {
-      this.isMovingLeft = true;
-    }
-    if (kCode === 'KeyD' || kCode === 'ArrowRight') {
-      this.isMovingRight = true;
-    }
-   // e.stopPropagation();// Don't bubble/capture the event any further
+    e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
   
   keyReleased(e) { 
-    // DEBUG: console.log('key released',e);
-    let kCode = e.code;
-    //e.preventDefault(); // Cancel the native event
-    // DEBUG: console.log("gameMapScene",e);
-    if (kCode === 'KeyW' || kCode === 'ArrowUp') {
-      this.isMovingUp = false;
-      this.lastMoveState = 1;
-    }else if (kCode === 'KeyS' || kCode === 'ArrowDown') {
-      this.isMovingDown = false;
-      this.lastMoveState = 3;
+    e.preventDefault(); // Cancel the native event
+    if (keyMap[e.code]) {
+      this.moveState[keyMap[e.code]] = false;
+      this.lastMoveState = this.determineLastMoveState(e.code);
     }
-    if (kCode === 'KeyA' || kCode === 'ArrowLeft') {
-      this.isMovingLeft = false;
-      this.lastMoveState = 4;
-    }
-    if (kCode === 'KeyD' || kCode === 'ArrowRight') {
-      this.isMovingRight = false;
-      this.lastMoveState = 2;
-    }
-    //e.stopPropagation();// Don't bubble/capture the event any further
+    e.stopPropagation(); // Don't bubble/capture the event any further
   }
 
-  
+determineLastMoveState(code) {
+  return {
+    'KeyW': 1, 'ArrowUp': 1,
+    'KeyS': 3, 'ArrowDown': 3,
+    'KeyA': 4, 'ArrowLeft': 4,
+    'KeyD': 2, 'ArrowRight': 2
+  }[code] || 0;
+}
+
   isMouseOverLot(p5, lot) {
     return p5.dist(lot.location.x / 2, lot.location.y / 2, (p5.mouseX - this.CameraOffset.x) / this.scal, (p5.mouseY - this.CameraOffset.y) / this.scal) <= 15.0;
   }
@@ -392,8 +342,8 @@ export class GameMapScene extends GameScene {
   }
 
   createCharacterEntity(resident) {
-    const residenceLot = this.lots[0]; //this.findRandomResidentialLot();
-    const employmentLot = this.lots[0]; //this.findRandomCommercialLot();
+    const residenceLot = this.findRandomResidentialLot();
+    const employmentLot = this.findRandomCommercialLot();
 
     if (residenceLot) residenceLot.occupied = true;
     if (employmentLot) employmentLot.occupied = true;
@@ -431,7 +381,6 @@ export class GameMapScene extends GameScene {
     }
     p5.noTint();
   }
-
 
   renderEntities(p5) {
     this.charList.forEach(villager => {
