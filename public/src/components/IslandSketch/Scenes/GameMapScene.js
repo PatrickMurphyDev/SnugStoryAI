@@ -82,19 +82,23 @@ export class GameMapScene extends GameScene {
     this.initializeLots();
     this.initializeCharacters();
 
+    this.alertWindowIsOpen = false;
+
     this.GUIElements = [];
-    this.GUIElements.push({ x: 0, y: 650, h: 150, w: 800, fill: 150});
-    this.GUIElements.push({ x: 200, y: 650, h: 150, w: 600, text: "Main UI Window" });
+    this.GUIElements.push({ x: 0, y: 650, h: 150, w: 1000, GUIType:"GUIBG", fill: 150});
+    this.GUIElements.push({ x: 200, y: 650, h: 150, w: 600, GUIType:"Panel", text: "Main UI Window" });
     this.GUIElements.push({
       x: 0,
       y: 600,
       h: 200,
       w: 200,
+      GUIType:"CirclePanel",
       isCircle: true,
       img: this.PlayerProfileImage,
       text: "Character Details",
     });
-    this.GUIElements.push({ x: 800, y: 600, h: 200, w: 200, text: "UI Details Options" });
+    this.GUIElements.push({ x: 800, y: 600, h: 200, w: 200, GUIType:"Panel", text: "UI Details Options" });
+    this.GUIElements.push({ x: 300, y: 300, h: 200, w: 400, GUIType:"AlertWindow", title: "Alert Window", text:"Alert: Details", actions:[{onClickHandle:(e)=>{this.alertWindowIsOpen = false;}, text:"Close"},{onClickHandle:(e)=>{this.alertWindowIsOpen = false;}, fill:"red", text:"Continue"}] });
 
     //tmp char fix
     this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
@@ -106,6 +110,7 @@ export class GameMapScene extends GameScene {
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
           console.log("coll char");
+          this.alertWindowIsOpen = true;
         }
       )
     );
@@ -185,21 +190,60 @@ export class GameMapScene extends GameScene {
   renderGUI(p5) {
     this.GUIElements.forEach((v) => {
       p5.fill(v.fill || 200);
-      if(v.isCircle){
-        p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0);  
-      }else{
-        p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
+      switch(v.GUIType){
+        case "AlertWindow":
+          if(this.alertWindowIsOpen){
+            p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
+            // add window title bar bg
+            p5.fill(100);
+            p5.rect(v.x, v.y, v.w, 24);
+
+            // window title text
+            p5.fill(200);
+            p5.text(v.title || "Panel", v.x, v.y, v.w, 24);
+
+            // window body text
+            p5.push();
+            p5.fill(0);
+            p5.textAlign("LEFT","TOP");
+            p5.text(v.text || "Panel", v.x + p5.textWidth(v.text)/2 + 10, v.y + 15+ 24, v.w, v.h);
+            p5.pop();
+
+
+            // ---- ADD Alert Window Buttons ----- //s
+            v.actions.forEach((v2, vi)=>{
+              vi = vi+1;
+              p5.push();
+              p5.fill(v2.fill || 65);
+              p5.rect(v.x+v.w-175*vi,v.y+v.h-12,150,24);
+              p5.fill(225);
+              p5.text(v2.text,v.x+v.w-175*vi,v.y+v.h-12,150,24);
+              this.handleTargetClick(p5,v.x+v.w-175*vi,v.y+v.h-12,150,24,v2.onClickHandle)
+              p5.pop();
+            })
+          }
+          break;
+
+        case "CirclePanel":
+          p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0); 
+          if(v.img){
+            p5.image(this.PlayerProfileImage, v.x+v.w*.1, v.y+v.h*.05, v.w*.8, v.h*.8);
+            p5.fill(0);
+            p5.text(v.text || "Panel", v.x, v.y+v.h*.8, v.w, v.h*.2);
+          }
+          break;
+
+        case "Panel":
+        default:
+            p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
       }
-      if(v.img){
-        p5.image(this.PlayerProfileImage, v.x+v.w*.1, v.y+v.h*.05, v.w*.8, v.h*.8);
+
+      /**        // basic text
         p5.fill(0);
-        p5.text(v.text || "Panel", v.x, v.y+v.h*.8, v.w, v.h*.2);
-      }else{
-        p5.fill(0);
-        p5.text(v.text || "Panel", v.x, v.y, v.w, v.h);
-      }
+        p5.text(v.text || "Panel", v.x, v.y, v.w, v.h); */
     });
   }
+
 
   renderPlayer(p5) {
     if (

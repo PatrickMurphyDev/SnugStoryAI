@@ -28,14 +28,6 @@ const IslandSketch = ({
     }
   };
 
-  const nextScene = () => {
-    goToScene((currentSceneIndex + 1) % scenes.length);
-  };
-
-  const prevScene = () => {
-    goToScene((currentSceneIndex - 1 + scenes.length) % scenes.length);
-  };
-
   const preload = (p5) => {
     console.log('run sketchpreload');
     const mapSceneId = "GameMapScene";
@@ -81,6 +73,14 @@ const IslandSketch = ({
       scenes[currentSceneIndex].draw(p5);
   };
 
+  const nextScene = () => {
+    goToScene((currentSceneIndex + 1) % scenes.length);
+  };
+
+  const prevScene = () => {
+    goToScene((currentSceneIndex - 1 + scenes.length) % scenes.length);
+  };
+  
   return <Sketch preload={preload} setup={setup} draw={draw} />;
 };
 
