@@ -57,6 +57,8 @@ export class GameMapScene extends GameScene {
     this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
     this.playerImageRight =
       this.parentAssets["GameMapScene"]["PlayerImageRight"];
+    
+    this.otherPlayerImage = this.parentAssets["GameMapScene"]["OtherPlayerImage"];
 
     this.lots = [];
     this.useCharImage = true;
@@ -77,6 +79,9 @@ export class GameMapScene extends GameScene {
     this.initializeEventListeners();
     this.initializeLots();
     this.initializeCharacters();
+
+    //tmp char fix
+    this.charPos = {x:this.playerx+24, y: this.playery-96-64}
   }
 
   loadWallData() {
@@ -199,6 +204,8 @@ export class GameMapScene extends GameScene {
   }
 
   renderEntities(p5) {
+    //p5.rect(this.charPos.x,this.charPos.y,16,24);
+    p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
     this.charList.forEach((villager) => {
       villager.update();
       villager.draw(p5);

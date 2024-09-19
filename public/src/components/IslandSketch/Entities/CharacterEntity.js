@@ -30,7 +30,7 @@ class CharacterEntity extends PathingEntity {
     super(
       "character", // entity
       Math.floor(Math.random() * 1000), // ID
-      {x: location.x*2, y: location.y*2},
+      {x: location.x*2, y: location.y*2}, // TODO look into *2
       { width: 32, height: 32 }
     );
     this.info = new CharacterInfo(name, age, gender, bio);
@@ -55,9 +55,9 @@ class CharacterEntity extends PathingEntity {
 
     simTime.onTimeUpdate(this.onTimeUpdateHandlerFn);
 
-//    this.dailyRoutine.addStateUpdateListener((data) => {     
- //     console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
-   // });
+    this.dailyRoutine.addStateUpdateListener((data) => {     
+      console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
+    });
   }
   hasReachedDestination() {
     return this.currentTargetIndex >= this.path.length && !this.currentTarget;
