@@ -6,6 +6,7 @@ import { Main_GameMenuScene } from "./Scenes/Main_GameMenuScene";
 import { Load_GameMenuScene } from "./Scenes/Load_GameMenuScene";
 import { Settings_GameMenuScene } from "./Scenes/Settings_GameMenuScene";
 import { Intro_GameCutScene } from "./Scenes/Intro_GameCutScene";
+import { IslandTemplate } from "../../utils/IslandTemplateTile";
 
 const IslandSketch = ({
   onCharacterSelect,
@@ -15,17 +16,13 @@ const IslandSketch = ({
   sizeVector = { x: 1000, y: 800 },
 }) => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
-  const setCurrentSceneIndex2 = (i)=>{
-    console.log('setCurrent');
-    return setCurrentSceneIndex;
-  };
+  let assetsByScene = {};
 
-  let scenes = [];
+  const [scenes, setScenes] = useState([]);
 
   const goToScene = (index) => {
     if (index >= 0 && index < scenes.length) {
       setCurrentSceneIndex(index);
-      //scenes[index].preload(p5);
     } else {
       console.error("Non-valid scene index " + index);
     }
@@ -40,26 +37,47 @@ const IslandSketch = ({
   };
 
   const preload = (p5) => {
-    console.log('PreloadSketch');
+    console.log('run sketchpreload');
+    const mapSceneId = "GameMapScene";
+    assetsByScene[mapSceneId] = {};
+    assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
+      IslandTemplate.Image.source
+    );
+
+    assetsByScene[mapSceneId]["PlayerImage"] = p5.loadImage(
+      "images/playerStanding.png"
+    );
+    assetsByScene[mapSceneId]["PlayerImageLeft"] = p5.loadImage(
+      "images/char_walk_left.gif"
+    );
+    assetsByScene[mapSceneId]["PlayerImageRight"] = p5.loadImage(
+      "images/char_walk_right.gif"
+    );
   };
 
-  const setup = (p5, canvasParentRef) =>{
+  const setup = (p5, canvasParentRef) => {
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
-  }
-  const draw = (p5) => scenes[currentSceneIndex].draw(p5);
-  scenes = [
-    new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
-    new Intro_GameCutScene(setCurrentSceneIndex, 4),
-    new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
-    new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
-    new GameMapScene(
-      onCharacterSelect,
-      onPropertySelect,
-      charList,
-      setCharList,
-      sizeVector
-    ),
-  ];
+    if (scenes.length === 0) {
+      console.log('set scenes');
+      setScenes([
+        new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
+        new Intro_GameCutScene(setCurrentSceneIndex, 4),
+        new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
+        new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
+        new GameMapScene(
+          onCharacterSelect,
+          onPropertySelect,
+          charList,
+          setCharList,
+          sizeVector,
+          assetsByScene
+        ),
+      ]);
+    }
+  };
+  const draw = (p5) => {
+      scenes[currentSceneIndex].draw(p5);
+  };
 
   return <Sketch preload={preload} setup={setup} draw={draw} />;
 };
