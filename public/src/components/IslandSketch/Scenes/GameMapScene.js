@@ -90,6 +90,31 @@ export class GameMapScene extends GameScene {
     });
   }
 
+  initializeLots() {
+    const lotEntities = IslandTemplateJSON.layers[7].layers[0]["objects"].map(
+      (pos, index) =>
+        new LotEntity(
+          index + 1,
+          pos.name || `Lot ${index + 1}`,
+          pos.x * 2,
+          pos.y * 2,
+          pos.properties || DefaultLotProperties,
+          []
+        )
+    );
+    this.lots = [...lotEntities];
+  }
+  //? this.convertPropertiesToLotDetails(pos.properties) :
+
+  initializeCharacters() {
+    this.setCharList([]);
+    console.log(this.getLayerIndexByName("Residents"));
+    const characterTempList = IslandTemplateJSON.layers[
+      this.getLayerIndexByName("Residents")
+    ].objects.map((v) => this.createCharacterEntity(v));
+    this.setCharList(characterTempList);
+  }
+
   preload(p5) {
     console.log("preload GameMapScene");
   }
@@ -97,44 +122,6 @@ export class GameMapScene extends GameScene {
   setup(p5, canvasParentRef) {
     console.log("run GameMapScene Setup");
   }
-
-  /* CAMERA FN TODO: Move to New Class */
-  setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
-    zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
-    this.scal = zoomLevelInt * factor;
-    if (this.cameraControlMode === "Mouse") {
-      const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
-      this.CameraOffset = p5
-        .createVector(this.CameraOffset.x, this.CameraOffset.y)
-        .sub(mouse)
-        .mult(this.scal)
-        .add(mouse);
-    }
-  }
-
-  setCameraPosition(positionP5Vec) {
-    this.CameraOffset = positionP5Vec;
-  }
-
-  checkCollisions() {
-    this.CollideEntities.forEach((collider) => {
-      collider.update();
-    });
-  }
-  handleZoom(e, p5) {
-    const s = 1 - e.deltaY / 1000;
-    this.scal *= s;
-    console.log("scale", s);
-    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    this.CameraOffset = p5
-      .createVector(this.CameraOffset.x, this.CameraOffset.y)
-      .sub(mouse)
-      .mult(s)
-      .add(mouse);
-  }
-  /**----------- END CAMERA FN */
-  /**----------- END CAMERA FN */
-  /**----------- END CAMERA FN */
 
   draw(p5) {
     this.handleKeyboardUserInputUpdate();
@@ -199,6 +186,73 @@ export class GameMapScene extends GameScene {
     }
   }
 
+  renderBackground(p5) {
+    p5.background("#20D6C7");
+    p5.scale(this.scal);
+    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
+    if (this.useBGImage) {
+      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
+    } else {
+      //this.bgImage = p5.loadImage(IslandTemplate.Image.source);
+    }
+    p5.noTint();
+  }
+
+  renderEntities(p5) {
+    this.charList.forEach((villager) => {
+      villager.update();
+      villager.draw(p5);
+    });
+    this.lots.forEach((lot) => {
+      lot.update();
+      //if (this.isMouseOverLot(p5, lot)) {
+      // this.handleLotInteraction(p5, lot);
+      // }
+      lot.draw(p5);
+    });
+  }
+
+/* END RENDER FN*/
+  
+
+  /* CAMERA FN TODO: Move to New Class */
+  setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
+    zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
+    this.scal = zoomLevelInt * factor;
+    if (this.cameraControlMode === "Mouse") {
+      const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
+      this.CameraOffset = p5
+        .createVector(this.CameraOffset.x, this.CameraOffset.y)
+        .sub(mouse)
+        .mult(this.scal)
+        .add(mouse);
+    }
+  }
+
+  setCameraPosition(positionP5Vec) {
+    this.CameraOffset = positionP5Vec;
+  }
+
+  checkCollisions() {
+    this.CollideEntities.forEach((collider) => {
+      collider.update();
+    });
+  }
+  handleZoom(e, p5) {
+    const s = 1 - e.deltaY / 1000;
+    this.scal *= s;
+    console.log("scale", s);
+    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
+    this.CameraOffset = p5
+      .createVector(this.CameraOffset.x, this.CameraOffset.y)
+      .sub(mouse)
+      .mult(s)
+      .add(mouse);
+  }
+  /**----------- END CAMERA FN */
+  /**----------- END CAMERA FN */
+  /**----------- END CAMERA FN */
+
   /* INPUT FN */
   initializeEventListeners() {
     //window.addEventListener('wheel', (e) => this.handleZoom(e, p5));
@@ -210,31 +264,41 @@ export class GameMapScene extends GameScene {
   handleKeyboardUserInputUpdate() {
     let tmpy = this.playery;
     let tmpx = this.playerx;
-    if (this.bgCollisionImage || true) {
-      const newCallBack = (newVal, valid) => {
-        this.playery = valid ? newVal.y : this.playery;
-        this.playerx = valid ? newVal.x : this.playerx;
-      };
-      if (this.moveState.isMovingUp) {
-        tmpy -= this.speed * this.scal;
-      }
-      if (this.moveState.isMovingDown) {
-        tmpy += this.speed * this.scal;
-      }
-      if (this.moveState.isMovingLeft) {
-        tmpx -= this.speed * this.scal;
-      }
-      if (this.moveState.isMovingRight) {
-        tmpx += this.speed * this.scal;
-      }
-      this.checkNextPosititionCollision(
-        this.playerx,
-        this.playery,
-        tmpx,
-        tmpy,
-        newCallBack
-      );
+    let isMovingVertical = this.isMovingUp || this.isMovingDown;
+    let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
+    let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
+
+    let speedModifier = 1;
+
+    const newCallBack = (newVal, valid) => {
+      this.playery = valid ? newVal.y : this.playery;
+      this.playerx = valid ? newVal.x : this.playerx;
+    };
+
+    if(isMovingDiagonal) speedModifier = .5;
+
+    const moveDist = (this.speed * this.scal)*speedModifier;
+
+    if (this.moveState.isMovingUp) {
+      tmpy -= moveDist;
     }
+    if (this.moveState.isMovingDown) {
+      tmpy += moveDist;
+    }
+    if (this.moveState.isMovingLeft) {
+      tmpx -= moveDist;
+    }
+    if (this.moveState.isMovingRight) {
+      tmpx += moveDist;
+    }
+    
+    this.checkNextPosititionCollision(
+      this.playerx,
+      this.playery,
+      tmpx,
+      tmpy,
+      newCallBack
+    );
   } // end handleKeys FN
 
   keyPressed(e) {
@@ -328,31 +392,6 @@ export class GameMapScene extends GameScene {
       .filter((i) => i !== -1)[0];
   }
 
-  initializeLots() {
-    const lotEntities = IslandTemplateJSON.layers[7].layers[0]["objects"].map(
-      (pos, index) =>
-        new LotEntity(
-          index + 1,
-          pos.name || `Lot ${index + 1}`,
-          pos.x * 2,
-          pos.y * 2,
-          pos.properties || DefaultLotProperties,
-          []
-        )
-    );
-    this.lots = [...lotEntities];
-  }
-  //? this.convertPropertiesToLotDetails(pos.properties) :
-
-  initializeCharacters() {
-    this.setCharList([]);
-    console.log(this.getLayerIndexByName("Residents"));
-    const characterTempList = IslandTemplateJSON.layers[
-      this.getLayerIndexByName("Residents")
-    ].objects.map((v) => this.createCharacterEntity(v));
-    this.setCharList(characterTempList);
-  }
-
   createCharacterEntity(resident) {
     const residenceLot = this.findRandomResidentialLot();
     const employmentLot = this.findRandomCommercialLot();
@@ -389,31 +428,5 @@ export class GameMapScene extends GameScene {
         !lot.occupied &&
         Math.random() > 0.6
     );
-  }
-
-  renderBackground(p5) {
-    p5.background("#20D6C7");
-    p5.scale(this.scal);
-    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
-    if (this.useBGImage) {
-      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
-    } else {
-      //this.bgImage = p5.loadImage(IslandTemplate.Image.source);
-    }
-    p5.noTint();
-  }
-
-  renderEntities(p5) {
-    this.charList.forEach((villager) => {
-      villager.update();
-      villager.draw(p5);
-    });
-    this.lots.forEach((lot) => {
-      lot.update();
-      //if (this.isMouseOverLot(p5, lot)) {
-      // this.handleLotInteraction(p5, lot);
-      // }
-      lot.draw(p5);
-    });
   }
 }
