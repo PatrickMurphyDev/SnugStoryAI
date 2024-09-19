@@ -53,6 +53,7 @@ const IslandSketch = ({
     assetsByScene[mapSceneId]["PlayerImageRight"] = p5.loadImage(
       "images/char_walk_right.gif"
     );
+    assetsByScene[mapSceneId]["PlayerProfileImage"] = p5.loadImage("images/Maureen256.png");
     assetsByScene[mapSceneId]["OtherPlayerImage"] = p5.loadImage("images/playerStandingChar.png");
   };
 
