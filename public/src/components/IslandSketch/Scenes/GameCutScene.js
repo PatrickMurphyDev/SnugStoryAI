@@ -66,7 +66,7 @@ drawSlideButtons(p5, choices, slide) {
 
     this.drawButtonBackground(p5, x, y, buttonWidth, buttonHeight, colorBtn, choice, slide);
     this.drawButtonText(p5, x, y, buttonWidth, buttonHeight, choice.text, slide);
-    this.handleButtonClick(p5, x, y, buttonWidth, buttonHeight, choice.onClick);
+    this.handleTargetClick(p5, x, y, buttonWidth, buttonHeight, choice.onClick);
   });
 }
 
@@ -136,28 +136,6 @@ drawButtonText(p5, x, y, buttonWidth, buttonHeight, text, slide) {
   if(text === "Next" && ((this.currentTypeTextIndex) < slide.text.length))
     text = "Skip";
   p5.text(text, x + buttonWidth / 2, y + buttonHeight / 2);
-}
-
-/**
- * handleButtonClick
- * Handles the button click event.
- * @param {Object} p5 - The p5 instance used for drawing.
- * @param {number} x - The x position of the button.
- * @param {number} y - The y position of the button.
- * @param {number} buttonWidth - The width of the button.
- * @param {number} buttonHeight - The height of the button.
- * @param {Function} onClick - The function to execute on button click.
- */
-handleButtonClick(p5, x, y, buttonWidth, buttonHeight, onClick) {
-  if (
-    p5.mouseIsPressed &&
-    p5.mouseX >= x &&
-    p5.mouseX <= x + buttonWidth &&
-    p5.mouseY >= y &&
-    p5.mouseY <= y + buttonHeight
-  ) {
-    this.doUIAction(p5.frameCount, onClick);
-  }
 }
 
   /**
