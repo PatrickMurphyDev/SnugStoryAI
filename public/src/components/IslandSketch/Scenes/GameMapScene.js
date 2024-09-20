@@ -50,6 +50,7 @@ export class GameMapScene extends GameScene {
     this.scal = 1;
     this.CameraOffset = undefined;
     this.cameraControlMode = "player";
+    this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
 
     this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
     this.charImages = [];
@@ -142,6 +143,7 @@ export class GameMapScene extends GameScene {
         {
           onClickHandle: (e) => {
             this.alertWindowIsOpen = false;
+            this.mapDisplayMode = 1;
           },
           fill: "red",
           text: "Chat",
@@ -210,6 +212,7 @@ export class GameMapScene extends GameScene {
   }
 
   draw(p5) {
+    if(this.mapDisplayMode === 0){
     this.handleKeyboardUserInputUpdate();
     p5.push();
     this.setCameraZoom(p5, 5);
@@ -231,6 +234,11 @@ export class GameMapScene extends GameScene {
     }
     p5.pop();
 
+  }else{
+   p5.background(0);
+    p5.rect(100,650,150,150);
+    p5.rect(1000-175,250,150,150);
+  }
     p5.ellipseMode("CENTER");
     // after translate
     this.renderGUI(p5);
