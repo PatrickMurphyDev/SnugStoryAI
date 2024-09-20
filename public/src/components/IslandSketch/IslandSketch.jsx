@@ -35,6 +35,12 @@ const IslandSketch = ({
     assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
       IslandTemplate.Image.source
     );
+    assetsByScene[mapSceneId]["GameMapSceneUI"] = p5.loadImage(
+      "images/GameMapSceneUINoBanner.png"
+    );
+    assetsByScene[mapSceneId]["GameMapSceneUIBanner"] = p5.loadImage(
+      "images/UIBanner.png"
+    );
 
     assetsByScene[mapSceneId]["PlayerImage"] = p5.loadImage(
       "images/playerStanding.png"
@@ -47,6 +53,7 @@ const IslandSketch = ({
     );
     assetsByScene[mapSceneId]["PlayerProfileImage"] = p5.loadImage("images/Maureen256.png");
     assetsByScene[mapSceneId]["OtherPlayerImage"] = p5.loadImage("images/playerStandingChar.png");
+    assetsByScene[mapSceneId]["OtherPlayerProfileImage"] = p5.loadImage("images/LukasSwan.png");
   };
 
   const setup = (p5, canvasParentRef) => {
@@ -80,7 +87,7 @@ const IslandSketch = ({
   const prevScene = () => {
     goToScene((currentSceneIndex - 1 + scenes.length) % scenes.length);
   };
-  
+
   return <Sketch preload={preload} setup={setup} draw={draw} />;
 };
 

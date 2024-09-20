@@ -1,31 +1,31 @@
 // GameMapScene.js
-import { GameScene } from './GameScene';
-import LotEntity from '../Entities/LotEntity';
-import CharacterEntity from '../Entities/CharacterEntity';
-import { IslandTemplate } from '../../../utils/IslandTemplateTile';
-import IslandTemplateJSON from '../../../utils/IslandTemplateTiled.json';
-import CollideRectEntity from '../Entities/CollideRectEntity';
-import WallData from '../../../utils/WallData.json';
+import { GameScene } from "./GameScene";
+import LotEntity from "../Entities/LotEntity";
+import CharacterEntity from "../Entities/CharacterEntity";
+import { IslandTemplate } from "../../../utils/IslandTemplateTile";
+import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
+import CollideRectEntity from "../Entities/CollideRectEntity";
+import WallData from "../../../utils/WallData.json";
 
 const DefaultLotProperties = {
-    size: { width: 32, height: 32 },
-    zoneType: "Commercial",
-    price: 100000,
-    fillColor: "#000000",
-  };
-  const viewMult = 7.5;
+  size: { width: 32, height: 32 },
+  zoneType: "Commercial",
+  price: 100000,
+  fillColor: "#000000",
+};
+const viewMult = 7.5;
 
-  const keyMap = {
-    'KeyW': 'isMovingUp',
-    'ArrowUp': 'isMovingUp',
-    'KeyS': 'isMovingDown',
-    'ArrowDown': 'isMovingDown',
-    'KeyA': 'isMovingLeft',
-    'ArrowLeft': 'isMovingLeft',
-    'KeyD': 'isMovingRight',
-    'ArrowRight': 'isMovingRight'
-  };
-  
+const keyMap = {
+  KeyW: "isMovingUp",
+  ArrowUp: "isMovingUp",
+  KeyS: "isMovingDown",
+  ArrowDown: "isMovingDown",
+  KeyA: "isMovingLeft",
+  ArrowLeft: "isMovingLeft",
+  KeyD: "isMovingRight",
+  ArrowRight: "isMovingRight",
+};
+
 export class GameMapScene extends GameScene {
   constructor(
     onCharacterSelect,
@@ -60,8 +60,13 @@ export class GameMapScene extends GameScene {
 
     this.otherPlayerImage =
       this.parentAssets["GameMapScene"]["OtherPlayerImage"];
+    this.otherPlayerProfileImage =
+      this.parentAssets["GameMapScene"]["OtherPlayerProfileImage"];
 
-      this.PlayerProfileImage = this.parentAssets['GameMapScene']['PlayerProfileImage'];
+    this.PlayerProfileImage =
+      this.parentAssets["GameMapScene"]["PlayerProfileImage"];
+    this.GameMapSceneUI = this.parentAssets["GameMapScene"]["GameMapSceneUI"];
+    this.GameMapSceneUIBanner = this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
     this.lots = [];
     this.useCharImage = true;
     this.useBGImage = true;
@@ -85,20 +90,64 @@ export class GameMapScene extends GameScene {
     this.alertWindowIsOpen = false;
 
     this.GUIElements = [];
-    this.GUIElements.push({ x: 0, y: 650, h: 150, w: 1000, GUIType:"GUIBG", fill: 150});
-    this.GUIElements.push({ x: 200, y: 650, h: 150, w: 600, GUIType:"Panel", text: "Main UI Window" });
+    this.GUIElements.push({
+      x: 0,
+      y: 650,
+      h: 150,
+      w: 1000,
+      GUIType: "GUIBG",
+      fill: 150,
+    });
+    this.GUIElements.push({
+      x: 200,
+      y: 650,
+      h: 150,
+      w: 600,
+      GUIType: "Panel",
+      text: "Main UI Window",
+    });
     this.GUIElements.push({
       x: 0,
       y: 600,
       h: 200,
       w: 200,
-      GUIType:"CirclePanel",
+      GUIType: "CirclePanel",
       isCircle: true,
       img: this.PlayerProfileImage,
-      text: "Character Details",
+      text: "Ellie Tupee",
     });
-    this.GUIElements.push({ x: 800, y: 600, h: 200, w: 200, GUIType:"Panel", text: "UI Details Options" });
-    this.GUIElements.push({ x: 300, y: 300, h: 200, w: 400, GUIType:"AlertWindow", title: "Alert Window", text:"Alert: Details", actions:[{onClickHandle:(e)=>{this.alertWindowIsOpen = false;}, text:"Close"},{onClickHandle:(e)=>{this.alertWindowIsOpen = false;}, fill:"red", text:"Continue"}] });
+    this.GUIElements.push({
+      x: 800,
+      y: 600,
+      h: 200,
+      w: 200,
+      GUIType: "Panel",
+      text: "UI Details Options",
+    });
+    this.GUIElements.push({
+      x: 300,
+      y: 300,
+      h: 200,
+      w: 400,
+      GUIType: "AlertWindow",
+      title: "Welcome Newcomer!",
+      text: "Lukas Swan Introduces himself...",
+      actions: [
+        /* {
+          onClickHandle: (e) => {
+            this.alertWindowIsOpen = false;
+          },
+          text: "Close",
+        }, */
+        {
+          onClickHandle: (e) => {
+            this.alertWindowIsOpen = false;
+          },
+          fill: "red",
+          text: "Chat",
+        },
+      ],
+    });
 
     //tmp char fix
     this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
@@ -182,17 +231,18 @@ export class GameMapScene extends GameScene {
     }
     p5.pop();
 
-    p5.ellipseMode('CENTER');
+    p5.ellipseMode("CENTER");
     // after translate
     this.renderGUI(p5);
   }
 
   renderGUI(p5) {
+    p5.image(this.GameMapSceneUI,0,800-224);
     this.GUIElements.forEach((v) => {
       p5.fill(v.fill || 200);
-      switch(v.GUIType){
+      switch (v.GUIType) {
         case "AlertWindow":
-          if(this.alertWindowIsOpen){
+          if (this.alertWindowIsOpen) {
             p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
             // add window title bar bg
             p5.fill(100);
@@ -205,37 +255,59 @@ export class GameMapScene extends GameScene {
             // window body text
             p5.push();
             p5.fill(0);
-            p5.textAlign("LEFT","TOP");
-            p5.text(v.text || "Panel", v.x + p5.textWidth(v.text)/2 + 10, v.y + 15+ 24, v.w, v.h);
+            p5.textAlign("LEFT", "TOP");
+            p5.text(
+              v.text || "Panel",
+              v.x + p5.textWidth(v.text) / 2 + 10,
+              v.y + 15 + 24,
+              v.w,
+              v.h
+            );
             p5.pop();
 
+            p5.image(this.otherPlayerProfileImage, 570, 350, 125, 125);
 
             // ---- ADD Alert Window Buttons ----- //s
-            v.actions.forEach((v2, vi)=>{
-              vi = vi+1;
+            v.actions.forEach((v2, vi) => {
+              vi = vi + 1;
               p5.push();
               p5.fill(v2.fill || 65);
-              p5.rect(v.x+v.w-175*vi,v.y+v.h-12,150,24);
+              p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
               p5.fill(225);
-              p5.text(v2.text,v.x+v.w-175*vi,v.y+v.h-12,150,24);
-              this.handleTargetClick(p5,v.x+v.w-175*vi,v.y+v.h-12,150,24,v2.onClickHandle)
+              p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
+              this.handleTargetClick(
+                p5,
+                v.x + v.w - 175 * vi,
+                v.y + v.h - 12,
+                150,
+                24,
+                v2.onClickHandle
+              );
               p5.pop();
-            })
+            });
           }
           break;
 
         case "CirclePanel":
-          p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0); 
-          if(v.img){
-            p5.image(this.PlayerProfileImage, v.x+v.w*.1, v.y+v.h*.05, v.w*.8, v.h*.8);
-            p5.fill(0);
-            p5.text(v.text || "Panel", v.x, v.y+v.h*.8, v.w, v.h*.2);
+          //p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0);
+          if (v.img) {
+            p5.image(
+              this.PlayerProfileImage,
+              v.x + v.w * 0.1,
+              v.y + v.h * 0.05,
+              v.w * 0.8,
+              v.h * 0.8
+            );
+            p5.image(this.GameMapSceneUIBanner, 4, 800-47);
+            p5.fill(255);
+            p5.text(v.text || "Panel", v.x, v.y + v.h * 0.75, v.w, v.h * 0.25);
           }
           break;
 
         case "Panel":
         default:
-            p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
+          console.log("no GUI Match Or Panel");
+        //p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
       }
 
       /**        // basic text
@@ -243,7 +315,6 @@ export class GameMapScene extends GameScene {
         p5.text(v.text || "Panel", v.x, v.y, v.w, v.h); */
     });
   }
-
 
   renderPlayer(p5) {
     if (
