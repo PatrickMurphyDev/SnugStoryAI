@@ -7,6 +7,62 @@ import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import WallData from "../../../utils/WallData.json";
 
+const CNPCKeys = [
+  "AddisonClark",
+  "BettyLast",
+  "ChadLast",
+  "ElaineLast",
+  "NataliaChenchko",
+  "AndiMcNuttly",
+  "KyleSueco",
+  "BriggsLast",
+  "LennyCarver",
+  "ShannonDickson",
+  "JeanWong",
+  "DarrelEason",
+  "JaviLopez",
+  "MateoRomano",
+  "DylanMcNuttly",
+  "KatieCarrington",
+  "KovaApak",
+  "MitchBrowning",
+  "LukasMallard",
+  "TeddyMcNuttly",
+  "MarkDickson",
+  "RyderKonieg",
+  "LynnMcNeil",
+  "ChadEllington",
+  "BrittanyConnors",
+  "KarenOMalley",
+  "KorganLuna",
+  "KelleighHawk",
+  "MaraMcNeil",
+  "LindseyLast",
+  "JoeRomano",
+  "BriannaClark",
+  "CharlieMallard",
+  "MarissabelLast",
+  "DanteVenezia",
+  "ChristianLumley",
+  "WesLast",
+  "DaeHoNyguen",
+  "LindaLast",
+  "MarieLast",
+  "ChealseaKing",
+  "MikeCarpenter",
+  "WalterMcNeil",
+  "HenryTurner",
+  "StephanieVenezia",
+  "KennyMcNeil",
+  "LauraHale",
+  "PeteyOBrian",
+  "MelindaCooper",
+  "JenSlate",
+  "ClaraDickson",
+  "KonanNoah",
+  "ScottAnkor"
+];
+
 const DefaultLotProperties = {
   size: { width: 32, height: 32 },
   zoneType: "Commercial",
@@ -51,9 +107,13 @@ export class GameMapScene extends GameScene {
     this.CameraOffset = undefined;
     this.cameraControlMode = "player";
     this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
+    this.testImgSec = 1;
 
     this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
-    this.charImages = [];
+    this.frameCounter = 0;
+    this.npcKeyIndex = 0;
+    this.NPCKeys = CNPCKeys;
+    this.currentNPCKey = "LukasMallard";
     this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
     this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
     this.playerImageRight =
@@ -67,7 +127,8 @@ export class GameMapScene extends GameScene {
     this.PlayerProfileImage =
       this.parentAssets["GameMapScene"]["PlayerProfileImage"];
     this.GameMapSceneUI = this.parentAssets["GameMapScene"]["GameMapSceneUI"];
-    this.GameMapSceneUIBanner = this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
+    this.GameMapSceneUIBanner =
+      this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
     this.lots = [];
     this.useCharImage = true;
     this.useBGImage = true;
@@ -81,16 +142,76 @@ export class GameMapScene extends GameScene {
     this.moveState = {};
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
 
+    // wall data structure
     this.CollideEntities = [];
+
+    // character profile images data structure map CharKey:Str -> p5.Image
+    this.characterProfileImages = {
+      LukasMallard: this.parentAssets.GameMapScene.OtherPlayerProfileImage,
+    };
+    
+    this.GUIElements = [];
+    this.alertWindowIsOpen = false;
 
     this.loadWallData();
     this.initializeEventListeners();
     this.initializeLots();
     this.initializeCharacters();
 
-    this.alertWindowIsOpen = false;
 
-    this.GUIElements = [];
+    //tmp char fix
+    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
+    this.CollideEntities.push(
+      new CollideRectEntity(
+        66666,
+        this.charPos.x + 8,
+        this.charPos.y + 12,
+        { x: 16, width: 16, y: 20, height: 20 },
+        () => {
+          console.log("coll char");
+          this.alertWindowIsOpen = true;
+        }
+      )
+    );
+  } // end constructor
+
+  loadWallData() {
+    WallData.forEach((wall) => {
+      this.CollideEntities.push(
+        new CollideRectEntity(wall.id, wall.x + 12, wall.y, {
+          x: wall.width,
+          y: wall.height,
+        })
+      );
+    });
+  }
+
+  initializeLots() {
+    // todo replace hard coded folder layer access with this.getLayerIndexByFolderAndName("Folder","Name")
+    const lotEntities = IslandTemplateJSON.layers[7].layers[0]["objects"].map(
+      (pos, index) =>
+        new LotEntity(
+          index + 1,
+          pos.name || `Lot ${index + 1}`,
+          pos.x * 2,
+          pos.y * 2,
+          pos.properties || DefaultLotProperties,
+          []
+        )
+    );
+    this.lots = [...lotEntities];
+  }
+  //? this.convertPropertiesToLotDetails(pos.properties) :
+
+  initializeCharacters() {
+    this.setCharList([]);
+    const characterTempList = IslandTemplateJSON.layers[
+      this.getLayerIndexByName("Residents")
+    ].objects.map((v) => this.createCharacterEntity(v));
+    this.setCharList(characterTempList);
+  }
+
+  initializeGUIElements(){
     this.GUIElements.push({
       x: 0,
       y: 650,
@@ -145,62 +266,11 @@ export class GameMapScene extends GameScene {
             this.alertWindowIsOpen = false;
             this.mapDisplayMode = 1;
           },
-          fill: "red",
+          fill: "#63aff3",
           text: "Chat",
         },
       ],
     });
-
-    //tmp char fix
-    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
-    this.CollideEntities.push(
-      new CollideRectEntity(
-        66666,
-        this.charPos.x + 8,
-        this.charPos.y + 12,
-        { x: 16, width: 16, y: 20, height: 20 },
-        () => {
-          console.log("coll char");
-          this.alertWindowIsOpen = true;
-        }
-      )
-    );
-  }
-
-  loadWallData() {
-    WallData.forEach((wall) => {
-      this.CollideEntities.push(
-        new CollideRectEntity(wall.id, wall.x + 12, wall.y, {
-          x: wall.width,
-          y: wall.height,
-        })
-      );
-    });
-  }
-
-  initializeLots() {
-    // todo replace hard coded folder layer access with this.getLayerIndexByFolderAndName("Folder","Name")
-    const lotEntities = IslandTemplateJSON.layers[7].layers[0]["objects"].map(
-      (pos, index) =>
-        new LotEntity(
-          index + 1,
-          pos.name || `Lot ${index + 1}`,
-          pos.x * 2,
-          pos.y * 2,
-          pos.properties || DefaultLotProperties,
-          []
-        )
-    );
-    this.lots = [...lotEntities];
-  }
-  //? this.convertPropertiesToLotDetails(pos.properties) :
-
-  initializeCharacters() {
-    this.setCharList([]);
-    const characterTempList = IslandTemplateJSON.layers[
-      this.getLayerIndexByName("Residents")
-    ].objects.map((v) => this.createCharacterEntity(v));
-    this.setCharList(characterTempList);
   }
 
   preload(p5) {
@@ -212,87 +282,124 @@ export class GameMapScene extends GameScene {
   }
 
   draw(p5) {
-    if(this.mapDisplayMode === 0){
-    this.handleKeyboardUserInputUpdate();
-    p5.push();
-    this.setCameraZoom(p5, 5);
-    this.setCameraPosition(
-      p5.createVector(
-        this.playerx * -1 + p5.width / viewMult + this.tileWidth / 2,
-        this.playery * -1 + p5.height / viewMult + this.tileWidth / 2
-      )
-    );
-
-    this.renderBackground(p5);
-    this.renderEntities(p5);
-    this.renderPlayer(p5);
-    if (this.DEBUG_LEVEL >= 2) {
-      this.handleMouseInteraction(p5);
-      this.CollideEntities.forEach((collider) => {
-        collider.draw(p5);
-      });
+    if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
+      this.frameCounter = 0;
+      this.npcKeyIndex++;
+      this.currentNPCKey = this.NPCKeys[this.npcKeyIndex % this.NPCKeys.length];
+    } else if (this.characterProfileImages[this.currentNPCKey]) {
+      this.frameCounter++;
     }
-    p5.pop();
+    if (this.mapDisplayMode === 0) {
+      this.handleKeyboardUserInputUpdate();
+      p5.push();
+      this.setCameraZoom(p5, 5);
+      this.setCameraPosition(
+        p5.createVector(
+          this.playerx * -1 + p5.width / viewMult + this.tileWidth / 2,
+          this.playery * -1 + p5.height / viewMult + this.tileWidth / 2
+        )
+      );
 
-  }else{
-   p5.background(0);
-    p5.rect(100,650,150,150);
-    p5.rect(1000-175,250,150,150);
-  }
+      this.renderBackground(p5);
+      this.renderEntities(p5);
+      this.renderPlayer(p5);
+      if (this.DEBUG_LEVEL >= 2) {
+        this.handleMouseInteraction(p5);
+        this.CollideEntities.forEach((collider) => {
+          collider.draw(p5);
+        });
+      }
+      p5.pop();
+    } else {
+      p5.background(0);
+      p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250);
+      //p5.rect(100, 400, 150, 150);
+      p5.image(
+        this.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
+        50,
+        200,
+        450,
+        450
+      );
+      p5.image(
+        this.otherPlayerProfileImage,
+        1000 - 175 - 200,
+        250 - 200,
+        350,
+        350
+      );
+      //p5.rect(1000 - 175, 250, 150, 150);
+    }
     p5.ellipseMode("CENTER");
     // after translate
     this.renderGUI(p5);
   }
 
+  renderGUIAlertWindow(p5, v) {
+    p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
+    // add window title bar bg
+    p5.fill(100);
+    p5.rect(v.x, v.y, v.w, 24);
+
+    // window title text
+    p5.fill(200);
+    p5.text(v.title || "Panel", v.x, v.y, v.w, 24);
+
+    // window body text
+    p5.push();
+    p5.fill(0);
+    p5.textAlign("LEFT", "TOP");
+    p5.text(
+      v.text || "Panel",
+      v.x + p5.textWidth(v.text) / 2 + 10,
+      v.y + 15 + 24,
+      v.w,
+      v.h
+    );
+    p5.pop();
+
+    if (this.characterProfileImages[this.currentNPCKey]) {
+      p5.image(
+        this.characterProfileImages[this.currentNPCKey],
+        570,
+        350,
+        125,
+        125
+      );
+
+      // ---- ADD Alert Window Buttons ----- //s
+      v.actions.forEach((v2, vi) => {
+        vi = vi + 1;
+        p5.push();
+        p5.fill(v2.fill || 65);
+        p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
+        p5.fill(225);
+        p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
+        this.handleTargetClick(
+          p5,
+          v.x + v.w - 175 * vi,
+          v.y + v.h - 12,
+          150,
+          24,
+          v2.onClickHandle
+        );
+        p5.pop();
+      });
+    } else {
+      this.characterProfileImages[this.currentNPCKey] = p5.loadImage(
+        "images/CharacterProfileImages/" + this.currentNPCKey + ".png"
+      );
+    }
+  }
+
   renderGUI(p5) {
-    p5.image(this.GameMapSceneUI,0,800-224);
+    p5.image(this.GameMapSceneUI, 0, 800 - 224);
     this.GUIElements.forEach((v) => {
       p5.fill(v.fill || 200);
       switch (v.GUIType) {
         case "AlertWindow":
           if (this.alertWindowIsOpen) {
-            p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
-            // add window title bar bg
-            p5.fill(100);
-            p5.rect(v.x, v.y, v.w, 24);
-
-            // window title text
-            p5.fill(200);
-            p5.text(v.title || "Panel", v.x, v.y, v.w, 24);
-
-            // window body text
-            p5.push();
-            p5.fill(0);
-            p5.textAlign("LEFT", "TOP");
-            p5.text(
-              v.text || "Panel",
-              v.x + p5.textWidth(v.text) / 2 + 10,
-              v.y + 15 + 24,
-              v.w,
-              v.h
-            );
-            p5.pop();
-
-            p5.image(this.otherPlayerProfileImage, 570, 350, 125, 125);
-
-            // ---- ADD Alert Window Buttons ----- //s
-            v.actions.forEach((v2, vi) => {
-              vi = vi + 1;
-              p5.push();
-              p5.fill(v2.fill || 65);
-              p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-              p5.fill(225);
-              p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-              this.handleTargetClick(
-                p5,
-                v.x + v.w - 175 * vi,
-                v.y + v.h - 12,
-                150,
-                24,
-                v2.onClickHandle
-              );
-              p5.pop();
-            });
+            this.renderGUIAlertWindow(p5, v);
           }
           break;
 
@@ -306,8 +413,9 @@ export class GameMapScene extends GameScene {
               v.w * 0.8,
               v.h * 0.8
             );
-            p5.image(this.GameMapSceneUIBanner, 4, 800-47);
+            p5.image(this.GameMapSceneUIBanner, 4, 800 - 47);
             p5.fill(255);
+            p5.textStyle("Bold");
             p5.text(v.text || "Panel", v.x, v.y + v.h * 0.75, v.w, v.h * 0.25);
           }
           break;
@@ -577,6 +685,10 @@ export class GameMapScene extends GameScene {
       .filter((i) => i !== -1)[0];
   }
 
+  /* Called by InitializeCharacters for each char
+    Parameters: Resident
+    Returns: new CharacterEntity object 
+  */
   createCharacterEntity(resident) {
     const residenceLot = this.findRandomResidentialLot();
     const employmentLot = this.findRandomCommercialLot();
@@ -593,7 +705,7 @@ export class GameMapScene extends GameScene {
       resident.attributes,
       residenceLot,
       employmentLot,
-      this.charImages[resident.name] || "",
+      "", //this.charImages[resident.name] || 
       resident.img
     );
   }

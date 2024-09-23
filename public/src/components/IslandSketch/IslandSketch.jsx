@@ -8,6 +8,8 @@ import { Settings_GameMenuScene } from "./Scenes/Settings_GameMenuScene";
 import { Intro_GameCutScene } from "./Scenes/Intro_GameCutScene";
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
 
+
+//const NPCKeys = ["AddisonClark","AndiMcNuttly","Betty","Chad","Elaine"];
 const IslandSketch = ({
   onCharacterSelect,
   onPropertySelect,
@@ -32,9 +34,16 @@ const IslandSketch = ({
     console.log('run sketchpreload');
     const mapSceneId = "GameMapScene";
     assetsByScene[mapSceneId] = {};
+    /* assetsByScene[mapSceneId]["NPCImages"] = {};
+
+    for(var k = 0; k<NPCKeys.length; k++){
+      assetsByScene[mapSceneId]["NPCImages"][NPCKeys[k]] = p5.loadImage("images/CharacterProfileImages/"+NPCKeys[k]+".png");
+    } */
+    
     assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
       IslandTemplate.Image.source
     );
+    assetsByScene[mapSceneId]["BGDocks"] = p5.loadImage("images/SettingBGImages/DocksBlur4.png");
     assetsByScene[mapSceneId]["GameMapSceneUI"] = p5.loadImage(
       "images/GameMapSceneUINoBanner.png"
     );
@@ -52,8 +61,9 @@ const IslandSketch = ({
       "images/char_walk_right.gif"
     );
     assetsByScene[mapSceneId]["PlayerProfileImage"] = p5.loadImage("images/Maureen256.png");
+    assetsByScene[mapSceneId]["PlayerBackHeadImage"] = p5.loadImage("images/BackHeadMainChar.png");
     assetsByScene[mapSceneId]["OtherPlayerImage"] = p5.loadImage("images/playerStandingChar.png");
-    assetsByScene[mapSceneId]["OtherPlayerProfileImage"] = p5.loadImage("images/LukasSwan.png");
+    assetsByScene[mapSceneId]["OtherPlayerProfileImage"] = p5.loadImage("images/CharacterProfileImages/LukasMallard.png");
   };
 
   const setup = (p5, canvasParentRef) => {
