@@ -157,6 +157,7 @@ export class GameMapScene extends GameScene {
     this.initializeEventListeners();
     this.initializeLots();
     this.initializeCharacters();
+    this.initializeGUIElements();
 
 
     //tmp char fix
@@ -394,11 +395,15 @@ export class GameMapScene extends GameScene {
 
   renderGUI(p5) {
     p5.image(this.GameMapSceneUI, 0, 800 - 224);
+    //console.log(this.GUIElements);
     this.GUIElements.forEach((v) => {
+      //console.log(v.GUIType);
       p5.fill(v.fill || 200);
       switch (v.GUIType) {
         case "AlertWindow":
+          //console.log('render alert window try');
           if (this.alertWindowIsOpen) {
+            //console.log('render alert window');
             this.renderGUIAlertWindow(p5, v);
           }
           break;
