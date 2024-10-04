@@ -42,22 +42,7 @@ export class GameMapScene extends GameScene {
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
-
-    this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
-    this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
-    this.playerImageRight =
-      this.parentAssets["GameMapScene"]["PlayerImageRight"];
-
-    this.otherPlayerImage =
-      this.parentAssets["GameMapScene"]["OtherPlayerImage"];
-    this.otherPlayerProfileImage =
-      this.parentAssets["GameMapScene"]["OtherPlayerProfileImage"];
-
-    this.PlayerProfileImage =
-      this.parentAssets["GameMapScene"]["PlayerProfileImage"];
-    this.GameMapSceneUI = this.parentAssets["GameMapScene"]["GameMapSceneUI"];
-    this.GameMapSceneUIBanner =
-      this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
+    this.loadAssets();
     this.lots = [];
     this.useCharImage = true;
     this.useBGImage = true;
@@ -161,6 +146,24 @@ export class GameMapScene extends GameScene {
     ];
   }
 
+  loadAssets(){
+    this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
+    this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
+    this.playerImageRight =
+      this.parentAssets["GameMapScene"]["PlayerImageRight"];
+
+    this.otherPlayerImage =
+      this.parentAssets["GameMapScene"]["OtherPlayerImage"];
+    this.otherPlayerProfileImage =
+      this.parentAssets["GameMapScene"]["OtherPlayerProfileImage"];
+
+    this.PlayerProfileImage =
+      this.parentAssets["GameMapScene"]["PlayerProfileImage"];
+    this.GameMapSceneUI = this.parentAssets["GameMapScene"]["GameMapSceneUI"];
+    this.GameMapSceneUIBanner =
+      this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
+  }
+
   preload(p5) {
     console.log("preload GameMapScene");
   }
@@ -212,6 +215,8 @@ export class GameMapScene extends GameScene {
       }
       p5.pop();
     } else {
+      let otherPlayerPos = p5.createVector(1000 - 175 - 200,
+      250 - 200)
       p5.background(0);
       p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250);
       //p5.rect(100, 400, 150, 150);
@@ -224,12 +229,16 @@ export class GameMapScene extends GameScene {
       );
       p5.image(
         this.otherPlayerProfileImage,
-        1000 - 175 - 200,
-        250 - 200,
+        otherPlayerPos.x,
+        otherPlayerPos.y,
         350,
         350
       );
-      //p5.rect(1000 - 175, 250, 150, 150);
+      p5.fill('blue');
+      p5.rect(35, otherPlayerPos.y, 150, 70);
+      p5.fill('#ffffff');
+      p5.text("End Chat",35,otherPlayerPos.y,150,70);
+      this.handleTargetClick(p5,35,otherPlayerPos.y,150,70,()=>{this.mapDisplayMode = 0;});
     }
     p5.ellipseMode("CENTER");
     // after translate
