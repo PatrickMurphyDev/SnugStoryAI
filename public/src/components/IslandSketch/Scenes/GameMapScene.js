@@ -73,13 +73,6 @@ const VIEW_ZOOM_SETTING = 5;
 const VIEW_ZOOM_MULTIPLIER = 7.5;
 
 
-const DEFAULTLOTPROPERTIES = {
-  size: { width: 32, height: 32 },
-  zoneType: "Commercial",
-  price: 100000,
-  fillColor: "#000000",
-};
-
 // Map Data Structure : keyMap[str Key] : str MoveState 
 //  converts KEYBOARDKEYCODE to PLAYERMOVESTATE
 //  Many to 1
@@ -92,6 +85,13 @@ const INPUTKEY_TO_STATE_MAP = {
   ArrowLeft: "isMovingLeft",
   KeyD: "isMovingRight",
   ArrowRight: "isMovingRight",
+};
+
+const DEFAULTLOTPROPERTIES = {
+  size: { width: 32, height: 32 },
+  zoneType: "Commercial",
+  price: 100000,
+  fillColor: "#000000",
 };
 
 export class GameMapScene extends GameScene {
@@ -294,17 +294,19 @@ export class GameMapScene extends GameScene {
     console.log("run GameMapScene Setup");
   }
 
-  draw(p5) {
-    if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
+  update(p5){
+     // if frame based timer expires
+     if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
       this.frameCounter = 0;
       this.npcKeyIndex++;
       this.currentNPCKey = this.NPCKeys[this.npcKeyIndex % this.NPCKeys.length];
     } else if (this.characterProfileImages[this.currentNPCKey]) {
-      this.frameCounter++;
+      // if timer not expired and the char profileimg isnt null
+      this.frameCounter++; // increment timer of frames this image has been displayed
     }
+
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
-      p5.push();
       this.setCameraZoom(p5, VIEW_ZOOM_SETTING);
       this.setCameraPosition(
         p5.createVector(
@@ -312,7 +314,13 @@ export class GameMapScene extends GameScene {
           this.playery * -1 + p5.height / VIEW_ZOOM_MULTIPLIER + this.tileWidth / 2
         )
       );
+    }
+  }
 
+  draw(p5) {
+    this.update(p5);
+    if (this.mapDisplayMode === 0) {
+      p5.push();
       this.renderBackground(p5);
       this.renderEntities(p5);
       this.renderPlayer(p5);
@@ -524,7 +532,7 @@ export class GameMapScene extends GameScene {
   setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
     zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
-    if (this.cameraControlMode === "Mouse") {
+    if (this.cameraControlMode === "Mouse") { // currently set to player does not run
       const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
       this.CameraOffset = p5
         .createVector(this.CameraOffset.x, this.CameraOffset.y)

@@ -52,6 +52,16 @@ export class GameScene {
   setup(p5, canvasParentRef) {}
 
   /**
+   * update
+   * performs state logic updates each frame before drawing.
+   * This function calls the update method for each entity in the scene.
+   *  TODO: create subset update to only update pct of entities each frame
+   *  TODO: de-prioritize update calls for non visable entities / off-screen entities
+   * @param {Object} p5 - The p5 instance used for drawing the scene.
+   */
+  update(p5) {}
+
+  /**
    * draw
    * Renders the scene.
    * @param {Object} p5 - The p5 instance used for drawing the scene.
