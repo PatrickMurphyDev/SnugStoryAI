@@ -10,89 +10,6 @@ import CollideRectEntity from "../Entities/CollideRectEntity";
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json";
-
-// List of CharacterName Keys {first,last}
-const CNPCKeys = [
-  "AddisonClark",
-  "BettyLast",
-  "ChadLast",
-  "ElaineLast",
-  "NataliaChenchko",
-  "AndiMcNuttly",
-  "KyleSueco",
-  "BriggsLast",
-  "LennyCarver",
-  "ShannonDickson",
-  "JeanWong",
-  "DarrelEason",
-  "JaviLopez",
-  "MateoRomano",
-  "DylanMcNuttly",
-  "KatieCarrington",
-  "KovaApak",
-  "MitchBrowning",
-  "LukasMallard",
-  "TeddyMcNuttly",
-  "MarkDickson",
-  "RyderKonieg",
-  "LynnMcNeil",
-  "ChadEllington",
-  "BrittanyConnors",
-  "KarenOMalley",
-  "KorganLuna",
-  "KelleighHawk",
-  "MaraMcNeil",
-  "LindseyLast",
-  "JoeRomano",
-  "BriannaClark",
-  "CharlieMallard",
-  "MarissabelLast",
-  "DanteVenezia",
-  "ChristianLumley",
-  "WesLast",
-  "DaeHoNyguen",
-  "LindaLast",
-  "MarieLast",
-  "ChealseaKing",
-  "MikeCarpenter",
-  "WalterMcNeil",
-  "HenryTurner",
-  "StephanieVenezia",
-  "KennyMcNeil",
-  "LauraHale",
-  "PeteyOBrian",
-  "MelindaCooper",
-  "JenSlate",
-  "ClaraDickson",
-  "KonanNoah",
-  "ScottAnkor",
-];
-
-// constant that controls the zoom
-const VIEW_ZOOM_SETTING = 5;
-const VIEW_ZOOM_MULTIPLIER = 7.5;
-
-// Map Data Structure : keyMap[str Key] : str MoveState
-//  converts KEYBOARDKEYCODE to PLAYERMOVESTATE
-//  Many to 1
-const INPUTKEY_TO_STATE_MAP = {
-  KeyW: "isMovingUp",
-  ArrowUp: "isMovingUp",
-  KeyS: "isMovingDown",
-  ArrowDown: "isMovingDown",
-  KeyA: "isMovingLeft",
-  ArrowLeft: "isMovingLeft",
-  KeyD: "isMovingRight",
-  ArrowRight: "isMovingRight",
-};
-
-const DEFAULTLOTPROPERTIES = {
-  size: { width: 32, height: 32 },
-  zoneType: "Commercial",
-  price: 100000,
-  fillColor: "#000000",
-};
-
 export class GameMapScene extends GameScene {
   constructor(
     onCharacterSelect,
@@ -123,7 +40,7 @@ export class GameMapScene extends GameScene {
     this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
     this.frameCounter = 0;
     this.npcKeyIndex = 0;
-    this.NPCKeys = CNPCKeys;
+    this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
 
     this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
@@ -207,7 +124,7 @@ export class GameMapScene extends GameScene {
           pos.name || `Lot ${index + 1}`,
           pos.x * 2,
           pos.y * 2,
-          pos.properties || DEFAULTLOTPROPERTIES,
+          pos.properties || IslandTemplate.DEFAULTLOTPROPERTIES,
           []
         )
     );
@@ -224,65 +141,24 @@ export class GameMapScene extends GameScene {
   }
 
   initializeGUIElements() {
-    this.GUIElements.push({
-      x: 0,
-      y: 650,
-      h: 150,
-      w: 1000,
-      GUIType: "GUIBG",
-      fill: 150,
-    });
-    this.GUIElements.push({
-      x: 200,
-      y: 650,
-      h: 150,
-      w: 600,
-      GUIType: "Panel",
-      text: "Main UI Window",
-    });
-    this.GUIElements.push({
-      x: 0,
-      y: 600,
-      h: 200,
-      w: 200,
-      GUIType: "CirclePanel",
-      isCircle: true,
-      img: this.PlayerProfileImage,
-      text: "Ellie Tupee",
-    });
-    this.GUIElements.push({
-      x: 800,
-      y: 600,
-      h: 200,
-      w: 200,
-      GUIType: "Panel",
-      text: "UI Details Options",
-    });
-    this.GUIElements.push({
-      x: 300,
-      y: 300,
-      h: 200,
-      w: 400,
-      GUIType: "AlertWindow",
-      title: "Welcome Newcomer!",
-      text: "Lukas Swan Introduces himself...",
-      actions: [
-        /* {
-          onClickHandle: (e) => {
-            this.alertWindowIsOpen = false;
-          },
-          text: "Close",
-        }, */
-        {
-          onClickHandle: (e) => {
-            this.alertWindowIsOpen = false;
-            this.mapDisplayMode = 1;
-          },
-          fill: "#63aff3",
-          text: "Chat",
+    this.GUIElements = IslandTemplate.GUIElements;
+    this.GUIElements[2].img = this.PlayerProfileImage;
+    this.GUIElements[4].actions = [
+      /* {
+        onClickHandle: (e) => {
+          this.alertWindowIsOpen = false;
         },
-      ],
-    });
+        text: "Close",
+      }, */
+      {
+        onClickHandle: (e) => {
+          this.alertWindowIsOpen = false;
+          this.mapDisplayMode = 1;
+        },
+        fill: "#63aff3",
+        text: "Chat",
+      },
+    ];
   }
 
   preload(p5) {
@@ -306,14 +182,14 @@ export class GameMapScene extends GameScene {
 
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
-      this.setCameraZoom(p5, VIEW_ZOOM_SETTING);
+      this.setCameraZoom(p5, IslandTemplate.VIEW_ZOOM_SETTING);
       this.setCameraPosition(
         p5.createVector(
           this.playerx * -1 +
-            p5.width / VIEW_ZOOM_MULTIPLIER +
+            p5.width / IslandTemplate.VIEW_ZOOM_MULTIPLIER +
             this.tileWidth / 2,
           this.playery * -1 +
-            p5.height / VIEW_ZOOM_MULTIPLIER +
+            p5.height / IslandTemplate.VIEW_ZOOM_MULTIPLIER +
             this.tileWidth / 2
         )
       );
@@ -431,7 +307,8 @@ export class GameMapScene extends GameScene {
       p5.rect(this.playerx, this.playery, 24, 32);
     }
   }
-
+ 
+  /* ******* Start GUI CODE ******** */
   renderGUIAlertWindow(p5, v) {
     p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
     // add window title bar bg
@@ -532,6 +409,7 @@ export class GameMapScene extends GameScene {
         p5.text(v.text || "Panel", v.x, v.y, v.w, v.h); */
     });
   }
+  /* End GUI Fn's */
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
@@ -623,16 +501,16 @@ export class GameMapScene extends GameScene {
   } // end handleKeys FN
 
   keyPressed(e) {
-    if (INPUTKEY_TO_STATE_MAP[e.code])
-      this.moveState[INPUTKEY_TO_STATE_MAP[e.code]] = true;
+    if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
+      this.moveState[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = true;
     this.lastMoveState = 0;
     e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
 
   keyReleased(e) {
     e.preventDefault(); // Cancel the native event
-    if (INPUTKEY_TO_STATE_MAP[e.code]) {
-      this.moveState[INPUTKEY_TO_STATE_MAP[e.code]] = false;
+    if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]) {
+      this.moveState[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = false;
       this.lastMoveState = this.determineLastMoveState(e.code);
     }
     e.stopPropagation(); // Don't bubble/capture the event any further
