@@ -11,6 +11,7 @@ import SimulationTime from "../../../utils/SimulationTime";
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json";
+import AnimatedSpriteEntity from "../Entities/AnimatedSpriteEntity";
 
 const simTime = new SimulationTime();
 export class GameMapScene extends GameScene {
@@ -101,6 +102,17 @@ export class GameMapScene extends GameScene {
     simTime.pause();
     
     this.oceanFrameCount = 0;
+    
+    this.AnimatedSprites = [];
+    this.AnimatedSprites.push(new AnimatedSpriteEntity('as2323',this.parentAssets["GameMapScene"]["WaveSpriteSheet"],640, 1728,{width:32, height:32},{columns:4,rows:1},0));
+    this.AnimatedSprites.push(new AnimatedSpriteEntity('as2324',this.parentAssets["GameMapScene"]["WaveSpriteSheet"],640+32, 1728,{width:32, height:32},{columns:4,rows:1},1));
+    this.AnimatedSprites.push(new AnimatedSpriteEntity('as2325',this.parentAssets["GameMapScene"]["NewCharSheet"],640+64, 1728,{width:24, height:32},{columns:3,rows:4},0,10,2));
+    this.CharRunUp = new AnimatedSpriteEntity('as2326',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,0);
+    this.CharRunRight = new AnimatedSpriteEntity('as2327',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,1);
+    this.CharRunDown = new AnimatedSpriteEntity('as2328',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,2);
+    this.CharRunLeft = new AnimatedSpriteEntity('as2329',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,3);
+    this.CharIdle = new AnimatedSpriteEntity('as2329',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},1,0,2);
+  
   } // end constructor
 
 
@@ -178,6 +190,7 @@ export class GameMapScene extends GameScene {
     this.GameMapSceneUI = this.parentAssets["GameMapScene"]["GameMapSceneUI"];
     this.GameMapSceneUIBanner =
       this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
+
   }
 
   preload(p5) {
@@ -214,6 +227,11 @@ export class GameMapScene extends GameScene {
         )
       );
     }
+
+    this.CharRunUp.update(p5);
+    this.CharRunRight.update(p5);
+    this.CharRunDown.update(p5);
+    this.CharRunLeft.update(p5);
   }
 
   draw(p5) {
@@ -292,23 +310,16 @@ export class GameMapScene extends GameScene {
       lot.draw(p5);
     });
 
-    if(p5.frameCount % 30 === 0){
-      this.oceanFrameCount = this.oceanFrameCount + 1;
-    }
-    this.animationFrame= (offset)=>{return ((this.oceanFrameCount+offset)%4)*32};
-    p5.image(this.WaveSpriteSheet,640,1728,32,32,this.animationFrame(0),0,32,32);
-    
-    p5.image(this.WaveSpriteSheet,640+32,1728,32,32,this.animationFrame(1),0,32,32);
-    
-    p5.image(this.WaveSpriteSheet,640+64,1728,32,32,this.animationFrame(2),0,32,32);
-    
-    p5.image(this.WaveSpriteSheet,640+96,1728,32,32,this.animationFrame(3),0,32,32);
+    this.AnimatedSprites.forEach((AS) => {
+      AS.update(p5);
+      AS.draw(p5);
+    });
   }
 
   renderPlayer(p5) {
     
     let renderCharIdle = ()=>{
-      if (this.lastMoveState <= 2) {
+      if (this.lastMoveState <= 2 && false) {
         p5.push();
         // Scale -1, 1 means reverse the x axis, keep y the same.
         p5.scale(-1, 1);
@@ -321,7 +332,8 @@ export class GameMapScene extends GameScene {
         p5.pop();
       } else {
         // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
-        p5.image(this.playerImage, this.playerx, this.playery);
+        //p5.image(this.playerImage, this.playerx, this.playery);
+        this.CharIdle.draw(p5,this.playerx,this.playery);
       }
     }
     if (
@@ -332,14 +344,18 @@ export class GameMapScene extends GameScene {
         this.moveState.isMovingRight)
     ) {
       if (this.moveState.isMovingLeft) {
-        p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
+        //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
+        this.CharRunLeft.draw(p5,this.playerx,this.playery);
       } else if (this.moveState.isMovingRight) {
-        p5.image(this.playerImageRight, this.playerx, this.playery);
+        //p5.image(this.playerImageRight, this.playerx, this.playery);
+        this.CharRunRight.draw(p5,this.playerx,this.playery);
       } else {
         if (this.moveState.isMovingUp) {
-          p5.image(this.playerImage, this.playerx, this.playery);
+          //p5.image(this.playerImage, this.playerx, this.playery);
+          this.CharRunUp.draw(p5,this.playerx,this.playery);
         } else if (this.moveState.isMovingDown) {
-          p5.image(this.playerImage, this.playerx, this.playery);
+          //p5.image(this.playerImage, this.playerx, this.playery);
+          this.CharRunDown.draw(p5,this.playerx,this.playery);
         }
       }
     } else if (this.useCharImage) {
