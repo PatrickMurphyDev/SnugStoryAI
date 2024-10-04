@@ -5,11 +5,14 @@ import { GameScene } from "./GameScene";
 import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
+import SimulationTime from "../../../utils/SimulationTime";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json";
+
+const simTime = new SimulationTime();
 export class GameMapScene extends GameScene {
   constructor(
     onCharacterSelect,
@@ -87,7 +90,16 @@ export class GameMapScene extends GameScene {
         }
       )
     );
+    simTime.onTimeUpdate((data) => {
+      console.log(
+        `Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
+      ); 
+      //setMinute(data.currentTimeOfDay);
+      //console.log(minute, data.currentTimeOfDay);
+    });
+    simTime.pause();
   } // end constructor
+
 
   loadWallData() {
     WallData.forEach((wall) => {
@@ -174,6 +186,7 @@ export class GameMapScene extends GameScene {
   }
 
   update(p5) {
+    if(simTime.isPaused) simTime.start();
     // if frame based timer expires
     if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
       this.frameCounter = 0;
