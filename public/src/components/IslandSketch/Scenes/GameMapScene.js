@@ -65,15 +65,14 @@ const CNPCKeys = [
   "JenSlate",
   "ClaraDickson",
   "KonanNoah",
-  "ScottAnkor"
+  "ScottAnkor",
 ];
 
 // constant that controls the zoom
 const VIEW_ZOOM_SETTING = 5;
 const VIEW_ZOOM_MULTIPLIER = 7.5;
 
-
-// Map Data Structure : keyMap[str Key] : str MoveState 
+// Map Data Structure : keyMap[str Key] : str MoveState
 //  converts KEYBOARDKEYCODE to PLAYERMOVESTATE
 //  Many to 1
 const INPUTKEY_TO_STATE_MAP = {
@@ -126,6 +125,7 @@ export class GameMapScene extends GameScene {
     this.npcKeyIndex = 0;
     this.NPCKeys = CNPCKeys;
     this.currentNPCKey = "LukasMallard";
+
     this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
     this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
     this.playerImageRight =
@@ -161,7 +161,7 @@ export class GameMapScene extends GameScene {
     this.characterProfileImages = {
       LukasMallard: this.parentAssets.GameMapScene.OtherPlayerProfileImage,
     };
-    
+
     this.GUIElements = [];
     this.alertWindowIsOpen = false;
 
@@ -170,7 +170,6 @@ export class GameMapScene extends GameScene {
     this.initializeLots();
     this.initializeCharacters();
     this.initializeGUIElements();
-
 
     //tmp char fix
     this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
@@ -224,7 +223,7 @@ export class GameMapScene extends GameScene {
     this.setCharList(characterTempList);
   }
 
-  initializeGUIElements(){
+  initializeGUIElements() {
     this.GUIElements.push({
       x: 0,
       y: 650,
@@ -294,9 +293,9 @@ export class GameMapScene extends GameScene {
     console.log("run GameMapScene Setup");
   }
 
-  update(p5){
-     // if frame based timer expires
-     if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
+  update(p5) {
+    // if frame based timer expires
+    if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
       this.frameCounter = 0;
       this.npcKeyIndex++;
       this.currentNPCKey = this.NPCKeys[this.npcKeyIndex % this.NPCKeys.length];
@@ -310,8 +309,12 @@ export class GameMapScene extends GameScene {
       this.setCameraZoom(p5, VIEW_ZOOM_SETTING);
       this.setCameraPosition(
         p5.createVector(
-          this.playerx * -1 + p5.width / VIEW_ZOOM_MULTIPLIER + this.tileWidth / 2,
-          this.playery * -1 + p5.height / VIEW_ZOOM_MULTIPLIER + this.tileWidth / 2
+          this.playerx * -1 +
+            p5.width / VIEW_ZOOM_MULTIPLIER +
+            this.tileWidth / 2,
+          this.playery * -1 +
+            p5.height / VIEW_ZOOM_MULTIPLIER +
+            this.tileWidth / 2
         )
       );
     }
@@ -371,7 +374,7 @@ export class GameMapScene extends GameScene {
     } // else { //this.bgImage = p5.loadImage(IslandTemplate.Image.source); }
     //p5.noTint();
   }
-  
+
   renderEntities(p5) {
     //p5.rect(this.charPos.x,this.charPos.y,16,24);
     p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
@@ -428,7 +431,7 @@ export class GameMapScene extends GameScene {
       p5.rect(this.playerx, this.playery, 24, 32);
     }
   }
-  
+
   renderGUIAlertWindow(p5, v) {
     p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
     // add window title bar bg
@@ -535,7 +538,8 @@ export class GameMapScene extends GameScene {
   setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
     zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
-    if (this.cameraControlMode === "Mouse") { // currently set to player does not run
+    if (this.cameraControlMode === "Mouse") {
+      // currently set to player does not run
       const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
       this.CameraOffset = p5
         .createVector(this.CameraOffset.x, this.CameraOffset.y)
@@ -619,7 +623,8 @@ export class GameMapScene extends GameScene {
   } // end handleKeys FN
 
   keyPressed(e) {
-    if (INPUTKEY_TO_STATE_MAP[e.code]) this.moveState[INPUTKEY_TO_STATE_MAP[e.code]] = true;
+    if (INPUTKEY_TO_STATE_MAP[e.code])
+      this.moveState[INPUTKEY_TO_STATE_MAP[e.code]] = true;
     this.lastMoveState = 0;
     e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
@@ -733,7 +738,7 @@ export class GameMapScene extends GameScene {
       resident.attributes,
       residenceLot,
       employmentLot,
-      "", //this.charImages[resident.name] || 
+      "", //this.charImages[resident.name] ||
       resident.img
     );
   }
