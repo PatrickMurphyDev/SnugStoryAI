@@ -41,6 +41,7 @@ const IslandSketch = ({
     } */
     
       assetsByScene[mapSceneId]["WaveSpriteSheet"] = p5.loadImage("tiles/Wave4.png");
+      assetsByScene[mapSceneId]["NewCharSheet"] = p5.loadImage("images/EllieSpriteNew.png");
     assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
       IslandTemplate.Image.source
     );
