@@ -52,6 +52,10 @@ class Entity {
     this.isClicked = c;
   }
 
+  setLocation(l){
+    this.location.x = l.x || this.location.x;
+    this.location.y = l.y || this.location.y;
+  }
   // Base update method, can be overridden by subclasses
   update() {
     // Handle hover and click states

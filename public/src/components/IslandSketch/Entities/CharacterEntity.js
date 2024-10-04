@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import PathingEntity from './PathingEntity';
 import CharacterInfo from "../CharacterFeatures/CharacterInfo";
-import Task from "./Task";
 import CharacterAttributes from "../CharacterFeatures/CharacterAttributes";
 import CharacterNeeds from "../CharacterFeatures/CharacterNeeds";
 import CharacterTasks from "../CharacterFeatures/CharacterTasks";
@@ -73,9 +72,9 @@ class CharacterEntity extends PathingEntity {
   remove(){
     simTime.clearTimeUpdate(this.onTimeUpdateHandlerFn);
   }
-  update(fsmState) {
+  update(p5,fsmState,x,y,) {
     if (fsmState && fsmState.moveDetails.requiresMove && fsmState.moveDetails.isTraveling) {
-      this.update();
+      super.update(2); // TODO: FIX PLACE HOLDER MINUTES should be set by simTime not 2
     }
     this.needs.updateNeeds();
     this.tasks.updateTasks(this);

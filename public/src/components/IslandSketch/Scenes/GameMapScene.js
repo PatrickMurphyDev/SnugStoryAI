@@ -6,6 +6,7 @@ import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import SimulationTime from "../../../utils/SimulationTime";
+import { GUIElementManager } from "../GUIElementManager";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
@@ -47,6 +48,18 @@ export class GameMapScene extends GameScene {
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
+    this.AnimatedSprites = [];
+    this.AnimatedSprites.push(
+      new AnimatedSpriteEntity(
+        "as2323",
+        this.parentAssets["GameMapScene"]["WaveSpriteSheet"],
+        640,
+        1728,
+        { width: 32, height: 32 },
+        { columns: 4, rows: 1 },
+        0
+      )
+    );
     this.loadAssets();
     this.lots = [];
     this.useCharImage = true;
@@ -69,52 +82,36 @@ export class GameMapScene extends GameScene {
       LukasMallard: this.parentAssets.GameMapScene.OtherPlayerProfileImage,
     };
 
-    this.GUIElements = [];
-    this.alertWindowIsOpen = false;
-
+    this.GUI = new GUIElementManager(this);
     this.loadWallData();
     this.initializeEventListeners();
     this.initializeLots();
     this.initializeCharacters();
-    this.initializeGUIElements();
+    
 
     //tmp char fix
     this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
     this.CollideEntities.push(
       new CollideRectEntity(
         66666,
-        this.charPos.x + 8,
+        this.charPos.x + 8, 
         this.charPos.y + 12,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
           console.log("coll char");
-          this.alertWindowIsOpen = true;
+          this.GUI.openAlert();
         }
       )
     );
     simTime.onTimeUpdate((data) => {
       console.log(
         `Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
-      ); 
+      );
       //setMinute(data.currentTimeOfDay);
       //console.log(minute, data.currentTimeOfDay);
     });
     simTime.pause();
-    
-    this.oceanFrameCount = 0;
-    
-    this.AnimatedSprites = [];
-    this.AnimatedSprites.push(new AnimatedSpriteEntity('as2323',this.parentAssets["GameMapScene"]["WaveSpriteSheet"],640, 1728,{width:32, height:32},{columns:4,rows:1},0));
-    this.AnimatedSprites.push(new AnimatedSpriteEntity('as2324',this.parentAssets["GameMapScene"]["WaveSpriteSheet"],640+32, 1728,{width:32, height:32},{columns:4,rows:1},1));
-    this.AnimatedSprites.push(new AnimatedSpriteEntity('as2325',this.parentAssets["GameMapScene"]["NewCharSheet"],640+64, 1728,{width:24, height:32},{columns:3,rows:4},0,10,2));
-    this.CharRunUp = new AnimatedSpriteEntity('as2326',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,0);
-    this.CharRunRight = new AnimatedSpriteEntity('as2327',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,1);
-    this.CharRunDown = new AnimatedSpriteEntity('as2328',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,2);
-    this.CharRunLeft = new AnimatedSpriteEntity('as2329',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},0,10,3);
-    this.CharIdle = new AnimatedSpriteEntity('as2329',this.parentAssets["GameMapScene"]["NewCharSheet"],0, 0,{width:24, height:32},{columns:3,rows:4},1,0,2);
-  
   } // end constructor
-
 
   loadWallData() {
     WallData.forEach((wall) => {
@@ -153,28 +150,7 @@ export class GameMapScene extends GameScene {
     this.setCharList(characterTempList);
   }
 
-  initializeGUIElements() {
-    this.GUIElements = IslandTemplate.GUIElements;
-    this.GUIElements[2].img = this.PlayerProfileImage;
-    this.GUIElements[4].actions = [
-      /* {
-        onClickHandle: (e) => {
-          this.alertWindowIsOpen = false;
-        },
-        text: "Close",
-      }, */
-      {
-        onClickHandle: (e) => {
-          this.alertWindowIsOpen = false;
-          this.mapDisplayMode = 1;
-        },
-        fill: "#63aff3",
-        text: "Chat",
-      },
-    ];
-  }
-
-  loadAssets(){
+  loadAssets() {
     this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
     this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
     this.playerImageRight =
@@ -191,6 +167,72 @@ export class GameMapScene extends GameScene {
     this.GameMapSceneUIBanner =
       this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
 
+    this.AnimatedSprites.push(
+      new AnimatedSpriteEntity(
+        "as2324",
+        this.parentAssets["GameMapScene"]["WaveSpriteSheet"],
+        640 + 32,
+        1728,
+        { width: 32, height: 32 },
+        { columns: 4, rows: 1 },
+        1
+      )
+    );
+    this.CharRunUp = new AnimatedSpriteEntity(
+      "as2326",
+      this.parentAssets["GameMapScene"]["NewCharSheet"],
+      0,
+      0,
+      { width: 24, height: 32 },
+      { columns: 3, rows: 4 },
+      0,
+      10,
+      0
+    );
+    this.CharRunRight = new AnimatedSpriteEntity(
+      "as2327",
+      this.parentAssets["GameMapScene"]["NewCharSheet"],
+      0,
+      0,
+      { width: 24, height: 32 },
+      { columns: 3, rows: 4 },
+      0,
+      10,
+      1
+    );
+    this.CharRunDown = new AnimatedSpriteEntity(
+      "as2328",
+      this.parentAssets["GameMapScene"]["NewCharSheet"],
+      0,
+      0,
+      { width: 24, height: 32 },
+      { columns: 3, rows: 4 },
+      0,
+      10,
+      2
+    );
+    this.CharRunLeft = new AnimatedSpriteEntity(
+      "as2329",
+      this.parentAssets["GameMapScene"]["NewCharSheet"],
+      0,
+      0,
+      { width: 24, height: 32 },
+      { columns: 3, rows: 4 },
+      0,
+      10,
+      3
+    );
+    this.CharIdle = new AnimatedSpriteEntity(
+      "as2329",
+      this.parentAssets["GameMapScene"]["NewCharSheet"],
+      0,
+      0,
+      { width: 24, height: 32 },
+      { columns: 3, rows: 4 },
+      1,
+      0,
+      2
+    );
   }
 
   preload(p5) {
@@ -202,7 +244,7 @@ export class GameMapScene extends GameScene {
   }
 
   update(p5) {
-    if(simTime.isPaused) simTime.start();
+    if (simTime.isPaused) simTime.start();
     // if frame based timer expires
     if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
       this.frameCounter = 0;
@@ -232,6 +274,9 @@ export class GameMapScene extends GameScene {
     this.CharRunRight.update(p5);
     this.CharRunDown.update(p5);
     this.CharRunLeft.update(p5);
+
+    // temp: set ellie to player x y
+    this.charList[this.charList.length-1].setLocation({x:this.playerx,y:this.playery});
   }
 
   draw(p5) {
@@ -250,8 +295,7 @@ export class GameMapScene extends GameScene {
       }
       p5.pop();
     } else {
-      let otherPlayerPos = p5.createVector(1000 - 175 - 200,
-      250 - 200)
+      let otherPlayerPos = p5.createVector(1000 - 175 - 200, 250 - 200);
       p5.background(0);
       p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250);
       //p5.rect(100, 400, 150, 150);
@@ -269,15 +313,17 @@ export class GameMapScene extends GameScene {
         350,
         350
       );
-      p5.fill('blue');
+      p5.fill("blue");
       p5.rect(35, otherPlayerPos.y, 150, 70);
-      p5.fill('#ffffff');
-      p5.text("End Chat",35,otherPlayerPos.y,150,70);
-      this.handleTargetClick(p5,35,otherPlayerPos.y,150,70,()=>{this.mapDisplayMode = 0;});
+      p5.fill("#ffffff");
+      p5.text("End Chat", 35, otherPlayerPos.y, 150, 70);
+      this.handleTargetClick(p5, 35, otherPlayerPos.y, 150, 70, () => {
+        this.mapDisplayMode = 0;
+      });
     }
     p5.ellipseMode("CENTER");
     // after translate
-    this.renderGUI(p5);
+    this.GUI.renderGUI(p5);
   }
 
   renderBackground(p5) {
@@ -299,7 +345,7 @@ export class GameMapScene extends GameScene {
     //p5.rect(this.charPos.x,this.charPos.y,16,24);
     p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
     this.charList.forEach((villager) => {
-      villager.update();
+      villager.update(p5);
       villager.draw(p5);
     });
     this.lots.forEach((lot) => {
@@ -310,15 +356,14 @@ export class GameMapScene extends GameScene {
       lot.draw(p5);
     });
 
-    this.AnimatedSprites.forEach((AS) => {
-      AS.update(p5);
-      AS.draw(p5);
+    this.AnimatedSprites.forEach((sprite) => {
+      sprite.update(p5);
+      sprite.draw(p5);
     });
   }
 
   renderPlayer(p5) {
-    
-    let renderCharIdle = ()=>{
+    let renderCharIdle = () => {
       if (this.lastMoveState <= 2 && false) {
         p5.push();
         // Scale -1, 1 means reverse the x axis, keep y the same.
@@ -333,9 +378,9 @@ export class GameMapScene extends GameScene {
       } else {
         // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
         //p5.image(this.playerImage, this.playerx, this.playery);
-        this.CharIdle.draw(p5,this.playerx,this.playery);
+        this.CharIdle.draw(p5, this.playerx, this.playery);
       }
-    }
+    };
     if (
       this.useCharImage &&
       (this.moveState.isMovingDown ||
@@ -345,17 +390,17 @@ export class GameMapScene extends GameScene {
     ) {
       if (this.moveState.isMovingLeft) {
         //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
-        this.CharRunLeft.draw(p5,this.playerx,this.playery);
+        this.CharRunLeft.draw(p5, this.playerx, this.playery);
       } else if (this.moveState.isMovingRight) {
         //p5.image(this.playerImageRight, this.playerx, this.playery);
-        this.CharRunRight.draw(p5,this.playerx,this.playery);
+        this.CharRunRight.draw(p5, this.playerx, this.playery);
       } else {
         if (this.moveState.isMovingUp) {
           //p5.image(this.playerImage, this.playerx, this.playery);
-          this.CharRunUp.draw(p5,this.playerx,this.playery);
+          this.CharRunUp.draw(p5, this.playerx, this.playery);
         } else if (this.moveState.isMovingDown) {
           //p5.image(this.playerImage, this.playerx, this.playery);
-          this.CharRunDown.draw(p5,this.playerx,this.playery);
+          this.CharRunDown.draw(p5, this.playerx, this.playery);
         }
       }
     } else if (this.useCharImage) {
@@ -365,109 +410,7 @@ export class GameMapScene extends GameScene {
       p5.rect(this.playerx, this.playery, 24, 32);
     }
   }
- 
-  /* ******* Start GUI CODE ******** */
-  renderGUIAlertWindow(p5, v) {
-    p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
-    // add window title bar bg
-    p5.fill(100);
-    p5.rect(v.x, v.y, v.w, 24);
-
-    // window title text
-    p5.fill(200);
-    p5.text(v.title || "Panel", v.x, v.y, v.w, 24);
-
-    // window body text
-    p5.push();
-    p5.fill(0);
-    p5.textAlign("LEFT", "TOP");
-    p5.text(
-      v.text || "Panel",
-      v.x + p5.textWidth(v.text) / 2 + 10,
-      v.y + 15 + 24,
-      v.w,
-      v.h
-    );
-    p5.pop();
-
-    if (this.characterProfileImages[this.currentNPCKey]) {
-      p5.image(
-        this.characterProfileImages[this.currentNPCKey],
-        570,
-        350,
-        125,
-        125
-      );
-
-      // ---- ADD Alert Window Buttons ----- //s
-      v.actions.forEach((v2, vi) => {
-        vi = vi + 1;
-        p5.push();
-        p5.fill(v2.fill || 65);
-        p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-        p5.fill(225);
-        p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-        this.handleTargetClick(
-          p5,
-          v.x + v.w - 175 * vi,
-          v.y + v.h - 12,
-          150,
-          24,
-          v2.onClickHandle
-        );
-        p5.pop();
-      });
-    } else {
-      this.characterProfileImages[this.currentNPCKey] = p5.loadImage(
-        "images/CharacterProfileImages/" + this.currentNPCKey + ".png"
-      );
-    }
-  }
-
-  renderGUI(p5) {
-    p5.image(this.GameMapSceneUI, 0, 800 - 224);
-    //console.log(this.GUIElements);
-    this.GUIElements.forEach((v) => {
-      //console.log(v.GUIType);
-      p5.fill(v.fill || 200);
-      switch (v.GUIType) {
-        case "AlertWindow":
-          //console.log('render alert window try');
-          if (this.alertWindowIsOpen) {
-            //console.log('render alert window');
-            this.renderGUIAlertWindow(p5, v);
-          }
-          break;
-
-        case "CirclePanel":
-          //p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0);
-          if (v.img) {
-            p5.image(
-              this.PlayerProfileImage,
-              v.x + v.w * 0.1,
-              v.y + v.h * 0.05,
-              v.w * 0.8,
-              v.h * 0.8
-            );
-            p5.image(this.GameMapSceneUIBanner, 4, 800 - 47);
-            p5.fill(255);
-            p5.textStyle("Bold");
-            p5.text(v.text || "Panel", v.x, v.y + v.h * 0.75, v.w, v.h * 0.25);
-          }
-          break;
-
-        case "Panel":
-        default:
-          //console.log("no GUI Match Or Panel");
-        //p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
-      }
-
-      /**        // basic text
-        p5.fill(0);
-        p5.text(v.text || "Panel", v.x, v.y, v.w, v.h); */
-    });
-  }
-  /* End GUI Fn's */
+  
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
@@ -666,7 +609,7 @@ export class GameMapScene extends GameScene {
     if (employmentLot) employmentLot.occupied = true;
 
     return new CharacterEntity(
-      {x:resident.x,y:resident.y},
+      { x: resident.x, y: resident.y },
       resident.name,
       resident.age,
       resident.gender,

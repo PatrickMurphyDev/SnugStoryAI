@@ -146,13 +146,6 @@ export const IslandTemplate = {
   VIEW_ZOOM_SETTING:5,
   VIEW_ZOOM_MULTIPLIER:7.5, 
   GUIElements:[{
-    x: 0,
-    y: 650,
-    h: 150,
-    w: 1000,
-    GUIType: "GUIBG",
-    fill: 150,
-  },{
     x: 200,
     y: 650,
     h: 150,
@@ -164,7 +157,7 @@ export const IslandTemplate = {
     y: 600,
     h: 200,
     w: 200,
-    GUIType: "CirclePanel",
+    GUIType: "PlayerProfileImageCirclePanel",
     isCircle: true,
     text: "Ellie Tupee",
   },{
