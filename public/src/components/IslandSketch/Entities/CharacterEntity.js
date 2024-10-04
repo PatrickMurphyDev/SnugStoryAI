@@ -30,7 +30,7 @@ class CharacterEntity extends PathingEntity {
     super(
       "character", // entity
       Math.floor(Math.random() * 1000), // ID
-      {x: location.x*2, y: location.y*2}, // TODO look into *2
+      {x: location.x, y: location.y}, // TODO look into *2
       { width: 32, height: 32 }
     );
     this.info = new CharacterInfo(name, age, gender, bio);
@@ -83,7 +83,7 @@ class CharacterEntity extends PathingEntity {
 
   draw(p5, transparency, offset, scale) {
     //super.draw(p5, transparency, offset, scale);
-    const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
+    const ps = p5.createVector(this.location.x, this.location.y);
     
       // Fallback if image not found
       p5.fill("#ff0000");

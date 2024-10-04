@@ -122,6 +122,7 @@ export class GameMapScene extends GameScene {
     const characterTempList = IslandTemplateJSON.layers[
       this.getLayerIndexByName("Residents")
     ].objects.map((v) => this.createCharacterEntity(v));
+    console.log(characterTempList);
     this.setCharList(characterTempList);
   }
 
@@ -409,7 +410,7 @@ export class GameMapScene extends GameScene {
 
         case "Panel":
         default:
-          console.log("no GUI Match Or Panel");
+          //console.log("no GUI Match Or Panel");
         //p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
       }
 
@@ -617,6 +618,7 @@ export class GameMapScene extends GameScene {
     if (employmentLot) employmentLot.occupied = true;
 
     return new CharacterEntity(
+      {x:resident.x,y:resident.y},
       resident.name,
       resident.age,
       resident.gender,
