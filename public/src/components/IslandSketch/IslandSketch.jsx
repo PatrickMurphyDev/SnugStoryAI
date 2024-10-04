@@ -40,6 +40,7 @@ const IslandSketch = ({
       assetsByScene[mapSceneId]["NPCImages"][NPCKeys[k]] = p5.loadImage("images/CharacterProfileImages/"+NPCKeys[k]+".png");
     } */
     
+      assetsByScene[mapSceneId]["WaveSpriteSheet"] = p5.loadImage("tiles/Wave4.png");
     assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
       IslandTemplate.Image.source
     );

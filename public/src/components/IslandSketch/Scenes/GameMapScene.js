@@ -41,6 +41,7 @@ export class GameMapScene extends GameScene {
     this.testImgSec = 1;
 
     this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
+    this.WaveSpriteSheet = this.parentAssets["GameMapScene"]["WaveSpriteSheet"];
     this.frameCounter = 0;
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
@@ -98,6 +99,8 @@ export class GameMapScene extends GameScene {
       //console.log(minute, data.currentTimeOfDay);
     });
     simTime.pause();
+    
+    this.oceanFrameCount = 0;
   } // end constructor
 
 
@@ -288,9 +291,39 @@ export class GameMapScene extends GameScene {
       // }
       lot.draw(p5);
     });
+
+    if(p5.frameCount % 30 === 0){
+      this.oceanFrameCount = this.oceanFrameCount + 1;
+    }
+    this.animationFrame= (offset)=>{return ((this.oceanFrameCount+offset)%4)*32};
+    p5.image(this.WaveSpriteSheet,640,1728,32,32,this.animationFrame(0),0,32,32);
+    
+    p5.image(this.WaveSpriteSheet,640+32,1728,32,32,this.animationFrame(1),0,32,32);
+    
+    p5.image(this.WaveSpriteSheet,640+64,1728,32,32,this.animationFrame(2),0,32,32);
+    
+    p5.image(this.WaveSpriteSheet,640+96,1728,32,32,this.animationFrame(3),0,32,32);
   }
 
   renderPlayer(p5) {
+    
+    let renderCharIdle = ()=>{
+      if (this.lastMoveState <= 2) {
+        p5.push();
+        // Scale -1, 1 means reverse the x axis, keep y the same.
+        p5.scale(-1, 1);
+        // Because the x-axis is reversed, we need to draw at different x position. negative x
+        p5.image(
+          this.playerImage,
+          -this.playerx - this.tileWidth,
+          this.playery
+        );
+        p5.pop();
+      } else {
+        // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
+        p5.image(this.playerImage, this.playerx, this.playery);
+      }
+    }
     if (
       this.useCharImage &&
       (this.moveState.isMovingDown ||
@@ -310,23 +343,9 @@ export class GameMapScene extends GameScene {
         }
       }
     } else if (this.useCharImage) {
-      // if not moving then, if last move state was 1 (up) or 2 (right), mirror image
-      if (this.lastMoveState <= 2) {
-        p5.push();
-        // Scale -1, 1 means reverse the x axis, keep y the same.
-        p5.scale(-1, 1);
-        // Because the x-axis is reversed, we need to draw at different x position. negative x
-        p5.image(
-          this.playerImage,
-          -this.playerx - this.tileWidth,
-          this.playery
-        );
-        p5.pop();
-      } else {
-        // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
-        p5.image(this.playerImage, this.playerx, this.playery);
-      }
+      renderCharIdle();
     } else {
+      // no char image def box
       p5.rect(this.playerx, this.playery, 24, 32);
     }
   }
