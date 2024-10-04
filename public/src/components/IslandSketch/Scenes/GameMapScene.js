@@ -1,4 +1,6 @@
 // GameMapScene.js
+
+// import dependents
 import { GameScene } from "./GameScene";
 import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
@@ -7,6 +9,7 @@ import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import WallData from "../../../utils/WallData.json";
 
+// List of CharacterName Keys {first,last}
 const CNPCKeys = [
   "AddisonClark",
   "BettyLast",
@@ -63,15 +66,21 @@ const CNPCKeys = [
   "ScottAnkor"
 ];
 
-const DefaultLotProperties = {
+const DEFAULTLOTPROPERTIES = {
   size: { width: 32, height: 32 },
   zoneType: "Commercial",
   price: 100000,
   fillColor: "#000000",
 };
-const viewMult = 7.5;
 
-const keyMap = {
+// constant that controls the zoom
+const VIEW_ZOOM_SETTING = 5;
+const VIEW_ZOOM_MULTIPLIER = 7.5;
+
+// Map Data Structure : keyMap[str Key] : str MoveState 
+//  converts KEYBOARDKEYCODE to PLAYERMOVESTATE
+//  Many to 1
+const KEY_TO_STATE_MAP = {
   KeyW: "isMovingUp",
   ArrowUp: "isMovingUp",
   KeyS: "isMovingDown",
@@ -196,7 +205,7 @@ export class GameMapScene extends GameScene {
           pos.name || `Lot ${index + 1}`,
           pos.x * 2,
           pos.y * 2,
-          pos.properties || DefaultLotProperties,
+          pos.properties || DEFAULTLOTPROPERTIES,
           []
         )
     );
@@ -293,11 +302,11 @@ export class GameMapScene extends GameScene {
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
       p5.push();
-      this.setCameraZoom(p5, 5);
+      this.setCameraZoom(p5, VIEW_ZOOM_SETTING);
       this.setCameraPosition(
         p5.createVector(
-          this.playerx * -1 + p5.width / viewMult + this.tileWidth / 2,
-          this.playery * -1 + p5.height / viewMult + this.tileWidth / 2
+          this.playerx * -1 + p5.width / VIEW_ZOOM_MULTIPLIER + this.tileWidth / 2,
+          this.playery * -1 + p5.height / VIEW_ZOOM_MULTIPLIER + this.tileWidth / 2
         )
       );
 
@@ -596,15 +605,15 @@ export class GameMapScene extends GameScene {
   } // end handleKeys FN
 
   keyPressed(e) {
-    if (keyMap[e.code]) this.moveState[keyMap[e.code]] = true;
+    if (KEY_TO_STATE_MAP[e.code]) this.moveState[KEY_TO_STATE_MAP[e.code]] = true;
     this.lastMoveState = 0;
     e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
 
   keyReleased(e) {
     e.preventDefault(); // Cancel the native event
-    if (keyMap[e.code]) {
-      this.moveState[keyMap[e.code]] = false;
+    if (KEY_TO_STATE_MAP[e.code]) {
+      this.moveState[KEY_TO_STATE_MAP[e.code]] = false;
       this.lastMoveState = this.determineLastMoveState(e.code);
     }
     e.stopPropagation(); // Don't bubble/capture the event any further
