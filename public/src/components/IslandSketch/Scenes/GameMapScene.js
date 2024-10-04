@@ -4,9 +4,11 @@
 import { GameScene } from "./GameScene";
 import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
+import CollideRectEntity from "../Entities/CollideRectEntity";
+
+// import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
-import CollideRectEntity from "../Entities/CollideRectEntity";
 import WallData from "../../../utils/WallData.json";
 
 // List of CharacterName Keys {first,last}
@@ -66,6 +68,11 @@ const CNPCKeys = [
   "ScottAnkor"
 ];
 
+// constant that controls the zoom
+const VIEW_ZOOM_SETTING = 5;
+const VIEW_ZOOM_MULTIPLIER = 7.5;
+
+
 const DEFAULTLOTPROPERTIES = {
   size: { width: 32, height: 32 },
   zoneType: "Commercial",
@@ -73,14 +80,10 @@ const DEFAULTLOTPROPERTIES = {
   fillColor: "#000000",
 };
 
-// constant that controls the zoom
-const VIEW_ZOOM_SETTING = 5;
-const VIEW_ZOOM_MULTIPLIER = 7.5;
-
 // Map Data Structure : keyMap[str Key] : str MoveState 
 //  converts KEYBOARDKEYCODE to PLAYERMOVESTATE
 //  Many to 1
-const KEY_TO_STATE_MAP = {
+const INPUTKEY_TO_STATE_MAP = {
   KeyW: "isMovingUp",
   ArrowUp: "isMovingUp",
   KeyS: "isMovingDown",
@@ -605,15 +608,15 @@ export class GameMapScene extends GameScene {
   } // end handleKeys FN
 
   keyPressed(e) {
-    if (KEY_TO_STATE_MAP[e.code]) this.moveState[KEY_TO_STATE_MAP[e.code]] = true;
+    if (INPUTKEY_TO_STATE_MAP[e.code]) this.moveState[INPUTKEY_TO_STATE_MAP[e.code]] = true;
     this.lastMoveState = 0;
     e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
 
   keyReleased(e) {
     e.preventDefault(); // Cancel the native event
-    if (KEY_TO_STATE_MAP[e.code]) {
-      this.moveState[KEY_TO_STATE_MAP[e.code]] = false;
+    if (INPUTKEY_TO_STATE_MAP[e.code]) {
+      this.moveState[INPUTKEY_TO_STATE_MAP[e.code]] = false;
       this.lastMoveState = this.determineLastMoveState(e.code);
     }
     e.stopPropagation(); // Don't bubble/capture the event any further
