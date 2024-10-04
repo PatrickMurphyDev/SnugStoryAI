@@ -91,11 +91,11 @@ class CharacterEntity extends PathingEntity {
       p5.fill("#aa33aa");
     }
     //p5.image(this.profileImage, ps.x + 12, ps.y + 5)
-    p5.ellipse(ps.x + 12, ps.y + 5, 55, 55);
+    p5.ellipse(ps.x + 12, ps.y + 5, 25, 25);
     if (this.profileImage) {
       p5.image(this.profileImage, ps.x, ps.y, 35,35); // Draw the character's image
     }
-   p5.text(this.info.name,ps.x,ps.y+60)
+   p5.text(this.info.name,ps.x+11,ps.y+30)
   }
 
   // Method to update location
