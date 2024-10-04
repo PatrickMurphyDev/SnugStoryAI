@@ -324,6 +324,7 @@ export class GameMapScene extends GameScene {
       this.renderBackground(p5);
       this.renderEntities(p5);
       this.renderPlayer(p5);
+
       if (this.DEBUG_LEVEL >= 2) {
         this.handleMouseInteraction(p5);
         this.CollideEntities.forEach((collider) => {
@@ -356,6 +357,78 @@ export class GameMapScene extends GameScene {
     this.renderGUI(p5);
   }
 
+  renderBackground(p5) {
+    // set bg color of water
+    p5.background("#20D6C7");
+
+    // set Camera Settings
+    p5.scale(this.scal);
+    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
+
+    // draw map bg
+    if (this.useBGImage) {
+      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
+    } // else { //this.bgImage = p5.loadImage(IslandTemplate.Image.source); }
+    //p5.noTint();
+  }
+  
+  renderEntities(p5) {
+    //p5.rect(this.charPos.x,this.charPos.y,16,24);
+    p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
+    this.charList.forEach((villager) => {
+      villager.update();
+      villager.draw(p5);
+    });
+    this.lots.forEach((lot) => {
+      lot.update();
+      //if (this.isMouseOverLot(p5, lot)) {
+      // this.handleLotInteraction(p5, lot);
+      // }
+      lot.draw(p5);
+    });
+  }
+
+  renderPlayer(p5) {
+    if (
+      this.useCharImage &&
+      (this.moveState.isMovingDown ||
+        this.moveState.isMovingUp ||
+        this.moveState.isMovingLeft ||
+        this.moveState.isMovingRight)
+    ) {
+      if (this.moveState.isMovingLeft) {
+        p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
+      } else if (this.moveState.isMovingRight) {
+        p5.image(this.playerImageRight, this.playerx, this.playery);
+      } else {
+        if (this.moveState.isMovingUp) {
+          p5.image(this.playerImage, this.playerx, this.playery);
+        } else if (this.moveState.isMovingDown) {
+          p5.image(this.playerImage, this.playerx, this.playery);
+        }
+      }
+    } else if (this.useCharImage) {
+      // if not moving then, if last move state was 1 (up) or 2 (right), mirror image
+      if (this.lastMoveState <= 2) {
+        p5.push();
+        // Scale -1, 1 means reverse the x axis, keep y the same.
+        p5.scale(-1, 1);
+        // Because the x-axis is reversed, we need to draw at different x position. negative x
+        p5.image(
+          this.playerImage,
+          -this.playerx - this.tileWidth,
+          this.playery
+        );
+        p5.pop();
+      } else {
+        // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
+        p5.image(this.playerImage, this.playerx, this.playery);
+      }
+    } else {
+      p5.rect(this.playerx, this.playery, 24, 32);
+    }
+  }
+  
   renderGUIAlertWindow(p5, v) {
     p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
     // add window title bar bg
@@ -456,76 +529,6 @@ export class GameMapScene extends GameScene {
         p5.text(v.text || "Panel", v.x, v.y, v.w, v.h); */
     });
   }
-
-  renderPlayer(p5) {
-    if (
-      this.useCharImage &&
-      (this.moveState.isMovingDown ||
-        this.moveState.isMovingUp ||
-        this.moveState.isMovingLeft ||
-        this.moveState.isMovingRight)
-    ) {
-      if (this.moveState.isMovingLeft) {
-        p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
-      } else if (this.moveState.isMovingRight) {
-        p5.image(this.playerImageRight, this.playerx, this.playery);
-      } else {
-        if (this.moveState.isMovingUp) {
-          p5.image(this.playerImage, this.playerx, this.playery);
-        } else if (this.moveState.isMovingDown) {
-          p5.image(this.playerImage, this.playerx, this.playery);
-        }
-      }
-    } else if (this.useCharImage) {
-      // if not moving then, if last move state was 1 (up) or 2 (right), mirror image
-      if (this.lastMoveState <= 2) {
-        p5.push();
-        // Scale -1, 1 means reverse the x axis, keep y the same.
-        p5.scale(-1, 1);
-        // Because the x-axis is reversed, we need to draw at different x position. negative x
-        p5.image(
-          this.playerImage,
-          -this.playerx - this.tileWidth,
-          this.playery
-        );
-        p5.pop();
-      } else {
-        // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
-        p5.image(this.playerImage, this.playerx, this.playery);
-      }
-    } else {
-      p5.rect(this.playerx, this.playery, 24, 32);
-    }
-  }
-
-  renderBackground(p5) {
-    p5.background("#20D6C7");
-    p5.scale(this.scal);
-    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
-    if (this.useBGImage) {
-      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
-    } else {
-      //this.bgImage = p5.loadImage(IslandTemplate.Image.source);
-    }
-    p5.noTint();
-  }
-
-  renderEntities(p5) {
-    //p5.rect(this.charPos.x,this.charPos.y,16,24);
-    p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
-    this.charList.forEach((villager) => {
-      villager.update();
-      villager.draw(p5);
-    });
-    this.lots.forEach((lot) => {
-      lot.update();
-      //if (this.isMouseOverLot(p5, lot)) {
-      // this.handleLotInteraction(p5, lot);
-      // }
-      lot.draw(p5);
-    });
-  }
-
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
