@@ -35,6 +35,7 @@ export class GameMapScene extends GameScene {
       this.charList = cList;
     };
 
+    this.DEBUG_LEVEL = 0;
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
     this.scal = 1;
     this.CameraOffset = undefined;
@@ -277,6 +278,7 @@ export class GameMapScene extends GameScene {
 
     // temp: set ellie to player x y
     this.charList[this.charList.length-1].setLocation({x:this.playerx,y:this.playery});
+    this.charList[this.charList.length-1].setHidden(true);
   }
 
   draw(p5) {
@@ -289,6 +291,7 @@ export class GameMapScene extends GameScene {
 
       if (this.DEBUG_LEVEL >= 2) {
         this.handleMouseInteraction(p5);
+        // draw walls
         this.CollideEntities.forEach((collider) => {
           collider.draw(p5);
         });
@@ -346,7 +349,9 @@ export class GameMapScene extends GameScene {
     p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
     this.charList.forEach((villager) => {
       villager.update(p5);
-      villager.draw(p5);
+      if(!villager.isHidden()){
+        villager.draw(p5);
+      }
     });
     this.lots.forEach((lot) => {
       lot.update();

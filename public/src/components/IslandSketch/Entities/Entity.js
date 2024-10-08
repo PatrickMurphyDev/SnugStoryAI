@@ -8,6 +8,7 @@ class Entity {
     this.isClicked = false;
     this.isSelected = false;
     this.timeHasUpdated = false;
+    this._isHidden = false;
   }
 
   remove(){
@@ -25,6 +26,14 @@ class Entity {
   isSelected() {
     return this.isSelected;
   }
+
+  isHidden(){
+    return this._isHidden;
+  }
+  setHidden(h){
+    this._isHidden = h;
+  }
+  
 
   isMouseOver(p5, offset, scal, loc, rad) {
     loc = loc || this.location;
