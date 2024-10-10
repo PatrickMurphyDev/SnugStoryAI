@@ -139,9 +139,9 @@ export class GUIElementManager {
         case "Panel":
         default:
           if(GUIElementDetails.PanelType === 'Detail'){
-            let heightPX = 35;
+            let heightPX = 55;
             p5.text(this.SimulationDateTime.time, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+10), GUIElementDetails.w, heightPX);
-            p5.text(this.SimulationDateTime.date, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+15)/2, GUIElementDetails.w, heightPX);
+            p5.text(this.SimulationDateTime.date, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+35), GUIElementDetails.w, heightPX);
           
           }
           this.renderGUIPanelText(p5,GUIElementDetails);
