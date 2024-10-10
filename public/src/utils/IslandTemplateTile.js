@@ -166,7 +166,9 @@ export const IslandTemplate = {
     h: 200,
     w: 200,
     GUIType: "Panel",
+    PanelType: "Detail",
     text: "UI Details Options",
+    //content: []
   },{
     x: 300,
     y: 300,

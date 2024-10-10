@@ -4,12 +4,25 @@ export class GUIElementManager {
   constructor(parent,imgAssets) {
     this.parent = parent;
     this.imageAssets = imgAssets || {'imgKey':null}; // key : image
-    
+    this.SimulationDateTime = {time: '', date:''};
     this.GUIElements = [];
 
     this.alertWindowIsOpen = false;
 
     this.initializeGUIElements();
+  }
+
+  setSimulationDateTime(DateTime){
+    if(DateTime.hasOwnProperty('time')){
+      this.SimulationDateTime.time = DateTime.time;
+    }
+    if(DateTime.hasOwnProperty('date')){
+      this.SimulationDateTime.date = DateTime.date;
+    }
+  }
+
+  getSimulationDateTime(){
+    return this.SimulationDateTime;
   }
 
   openAlert(){
@@ -125,14 +138,14 @@ export class GUIElementManager {
         case "CirclePanel":
         case "Panel":
         default:
-            this.renderGUIPanelText(p5,GUIElementDetails);
-        //console.log("no GUI Match Or Panel");
-        //p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
+          if(GUIElementDetails.PanelType === 'Detail'){
+            let heightPX = 35;
+            p5.text(this.SimulationDateTime.time, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+10), GUIElementDetails.w, heightPX);
+            p5.text(this.SimulationDateTime.date, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+15)/2, GUIElementDetails.w, heightPX);
+          
+          }
+          this.renderGUIPanelText(p5,GUIElementDetails);
       }
-
-      /**        // basic text
-        p5.fill(0);
-        p5.text(v.text || "Panel", v.x, v.y, v.w, v.h); */
     });
   }
 

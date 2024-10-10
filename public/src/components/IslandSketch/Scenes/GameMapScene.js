@@ -43,6 +43,9 @@ export class GameMapScene extends GameScene {
     this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
     this.testImgSec = 1;
 
+    this.GUI_Time = '';
+    this.GUI_Date = '';
+
     this.speed = 0.5;
     this.tileWidth = 32;
     this.playerx = 570;
@@ -120,9 +123,12 @@ export class GameMapScene extends GameScene {
       )
     );
     simTime.onTimeUpdate((data) => {
-      console.log(
+      this.GUI_Time = data.time12;
+      this.GUI_Date = data.date;
+      this.GUI.setSimulationDateTime({time: data.time12, date: data.date});
+      /* console.log(
         `Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
-      );
+      ); */
       //setMinute(data.currentTimeOfDay);
       //console.log(minute, data.currentTimeOfDay);
     });
