@@ -35,13 +35,14 @@ const IslandSketch = ({
     const mapSceneId = "GameMapScene";
     assetsByScene[mapSceneId] = {};
     /* assetsByScene[mapSceneId]["NPCImages"] = {};
-
+    
     for(var k = 0; k<NPCKeys.length; k++){
       assetsByScene[mapSceneId]["NPCImages"][NPCKeys[k]] = p5.loadImage("images/CharacterProfileImages/"+NPCKeys[k]+".png");
     } */
     
-      assetsByScene[mapSceneId]["WaveSpriteSheet"] = p5.loadImage("tiles/Wave4.png");
-      assetsByScene[mapSceneId]["NewCharSheet"] = p5.loadImage("images/EllieSpriteNew.png");
+    assetsByScene[mapSceneId]["WaveSpriteSheet"] = p5.loadImage("tiles/Wave4.png");
+    assetsByScene[mapSceneId]["OtherCharSheet"] = p5.loadImage("images/otherchar.png");
+    assetsByScene[mapSceneId]["NewCharSheet"] = p5.loadImage("images/EllieSpriteNew.png");
     assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
       IslandTemplate.Image.source
     );
