@@ -43,6 +43,15 @@ export class GameMapScene extends GameScene {
     this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
     this.testImgSec = 1;
 
+    this.speed = 0.5;
+    this.tileWidth = 32;
+    this.playerx = 570;
+    this.playery = 1820;
+    this.isLoaded = false;
+
+    //tmp char fix
+    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
+
     this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
     this.WaveSpriteSheet = this.parentAssets["GameMapScene"]["WaveSpriteSheet"];
     this.frameCounter = 0;
@@ -58,19 +67,28 @@ export class GameMapScene extends GameScene {
         1728,
         { width: 32, height: 32 },
         { columns: 4, rows: 1 },
-        0
+        0,
+        30, 
+        1
+      )
+    );
+    this.AnimatedSprites.push(
+      new AnimatedSpriteEntity(
+        "as2323",
+        this.parentAssets["GameMapScene"]["OtherCharSheet"],
+        this.charPos.x,
+        this.charPos.y,
+        { width: 24, height: 32 },
+        { columns: 3, rows: 4 },
+        1, // frame offset
+        -1, // speed
+        2 // row
       )
     );
     this.loadAssets();
     this.lots = [];
     this.useCharImage = true;
     this.useBGImage = true;
-
-    this.speed = 0.5;
-    this.tileWidth = 32;
-    this.playerx = 570;
-    this.playery = 1820;
-    this.isLoaded = false;
 
     this.moveState = {};
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
@@ -88,14 +106,11 @@ export class GameMapScene extends GameScene {
     this.initializeEventListeners();
     this.initializeLots();
     this.initializeCharacters();
-    
 
-    //tmp char fix
-    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
     this.CollideEntities.push(
       new CollideRectEntity(
         66666,
-        this.charPos.x + 8, 
+        this.charPos.x + 8,
         this.charPos.y + 12,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
@@ -277,8 +292,11 @@ export class GameMapScene extends GameScene {
     this.CharRunLeft.update(p5);
 
     // temp: set ellie to player x y
-    this.charList[this.charList.length-1].setLocation({x:this.playerx,y:this.playery});
-    this.charList[this.charList.length-1].setHidden(true);
+    this.charList[this.charList.length - 1].setLocation({
+      x: this.playerx,
+      y: this.playery,
+    });
+    this.charList[this.charList.length - 1].setHidden(true);
   }
 
   draw(p5) {
@@ -346,10 +364,11 @@ export class GameMapScene extends GameScene {
 
   renderEntities(p5) {
     //p5.rect(this.charPos.x,this.charPos.y,16,24);
-    p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
+    //p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
+
     this.charList.forEach((villager) => {
       villager.update(p5);
-      if(!villager.isHidden()){
+      if (!villager.isHidden()) {
         villager.draw(p5);
       }
     });
@@ -415,7 +434,7 @@ export class GameMapScene extends GameScene {
       p5.rect(this.playerx, this.playery, 24, 32);
     }
   }
-  
+
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */

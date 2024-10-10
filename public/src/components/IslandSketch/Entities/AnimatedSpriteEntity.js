@@ -24,7 +24,11 @@ class AnimatedSpriteEntity extends Entity {
     this.SpriteSheetDetails = SpriteSheetDet || { rows: 4, columns: 3 };
 
     this.AnimationFrameCount = 0;
-    this.frameSpeed = speed || 30;
+    if(speed === -1 || speed === 0){
+      this.frameSpeed = 0;
+    }else{
+      this.frameSpeed = speed || 30;
+    }
   }
 
   getAnimationFrame() {
@@ -39,6 +43,7 @@ class AnimatedSpriteEntity extends Entity {
     // Implement any update logic specific to AnimatedSpriteEntity
     if (this.frameSpeed > 0)
       if (p5.frameCount % this.frameSpeed === 0) {
+        // increment animation frame
         this.AnimationFrameCount = this.AnimationFrameCount + 1;
       }
   }
