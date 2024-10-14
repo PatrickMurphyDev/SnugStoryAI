@@ -7,6 +7,7 @@ import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import SimulationTime from "../../../utils/SimulationTime";
 import { GUIElementManager } from "../GUIElementManager";
+import { GameTileMapManager } from "../GameTileMapManager";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
@@ -45,6 +46,8 @@ export class GameMapScene extends GameScene {
 
     this.GUI_Time = '';
     this.GUI_Date = '';
+    var tiles = [];
+    this.GameMap = GameTileMapManager(this, {width:64,height:64}, tiles);
 
     this.speed = 0.5;
     this.tileWidth = 32;
@@ -572,6 +575,7 @@ export class GameMapScene extends GameScene {
       ) <= 15.0
     );
   }
+
   handleLotInteraction(p5, lot) {
     lot.setHover(true);
     if (p5.mouseIsPressed) {
