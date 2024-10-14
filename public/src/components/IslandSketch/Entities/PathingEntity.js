@@ -8,12 +8,12 @@ export default class PathingEntity extends Entity {
     id = Math.floor(Math.random() * 1000),
     location = { x: 0, y: 0 },
     size = { width: 32, height: 32 },
-    map,
+    map = {mapWidth:64,mapHeight:64,tiles:[]},
     speed = 1,
     movementGrid,
   ) {
     super(entityType, id, location, size); //entityType, id, location, size
-    this.map = map;
+    this.map = map; // for set path {mapWidth:0,mapHeight:0,tiles:[]}
     this.speed = speed; // Base speed for the entity
     this.movementGrid = movementGrid; // Reference to the movement speed grid
     this.path = [];

@@ -30,7 +30,9 @@ class CharacterEntity extends PathingEntity {
       "character", // entity
       Math.floor(Math.random() * 1000), // ID
       {x: location.x, y: location.y}, // TODO look into *2
-      { width: 32, height: 32 }
+      { width: 32, height: 32 },
+      "map",1 //speed
+      , []//gridmovement
     );
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
