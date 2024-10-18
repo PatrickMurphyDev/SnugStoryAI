@@ -47,7 +47,7 @@ export class GameMapScene extends GameScene {
     this.GUI_Time = '';
     this.GUI_Date = '';
     var tiles = [];
-    this.GameMap = GameTileMapManager(this, {width:64,height:64}, tiles);
+    this.GameMap = new GameTileMapManager(this, {width:64,height:64}, tiles);
 
     this.speed = 0.5;
     this.tileWidth = 32;
