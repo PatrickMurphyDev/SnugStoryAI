@@ -276,8 +276,8 @@ export class GameMapScene extends GameScene {
     // if frame based timer expires
     if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
       this.frameCounter = 0;
-      this.npcKeyIndex++;
-      this.currentNPCKey = this.NPCKeys[this.npcKeyIndex % this.NPCKeys.length];
+      //this.npcKeyIndex++; // remove move ahead index
+      //this.currentNPCKey = this.NPCKeys[this.npcKeyIndex % this.NPCKeys.length];
     } else if (this.characterProfileImages[this.currentNPCKey]) {
       // if timer not expired and the char profileimg isnt null
       this.frameCounter++; // increment timer of frames this image has been displayed
