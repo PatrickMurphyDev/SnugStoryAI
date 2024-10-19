@@ -14,6 +14,8 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json";
 import AnimatedSpriteEntity from "../Entities/AnimatedSpriteEntity";
+import CharacterInventory from "../CharacterFeatures/CharacterInventory";
+import { ItemsEnum } from "../ItemsEnum";
 
 const simTime = new SimulationTime();
 export class GameMapScene extends GameScene {
@@ -53,6 +55,7 @@ export class GameMapScene extends GameScene {
     this.tileWidth = 32;
     this.playerx = 570;
     this.playery = 1820;
+    this.playerInventory = new CharacterInventory([ItemsEnum["crabtrap"]]);
     this.isLoaded = false;
 
     //tmp char fix

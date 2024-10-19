@@ -1,10 +1,10 @@
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
 
 export class GUIElementManager {
-  constructor(parent,imgAssets) {
+  constructor(parent, imgAssets) {
     this.parent = parent;
-    this.imageAssets = imgAssets || {'imgKey':null}; // key : image
-    this.SimulationDateTime = {time: '', date:''};
+    this.imageAssets = imgAssets || { imgKey: null }; // key : image
+    this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = [];
 
     this.alertWindowIsOpen = false;
@@ -12,32 +12,32 @@ export class GUIElementManager {
     this.initializeGUIElements();
   }
 
-  setSimulationDateTime(DateTime){
-    if(DateTime.hasOwnProperty('time')){
+  setSimulationDateTime(DateTime) {
+    if (DateTime.hasOwnProperty("time")) {
       this.SimulationDateTime.time = DateTime.time;
     }
-    if(DateTime.hasOwnProperty('date')){
+    if (DateTime.hasOwnProperty("date")) {
       this.SimulationDateTime.date = DateTime.date;
     }
   }
 
-  getSimulationDateTime(){
+  getSimulationDateTime() {
     return this.SimulationDateTime;
   }
 
-  openAlert(){
+  openAlert() {
     this.setAlertWindow("OPEN");
   }
-  
-  closeAlert(){
+
+  closeAlert() {
     this.setAlertWindow("CLOSE");
   }
 
-  setAlertWindow(str){
-    if(str === "OPEN"){
-        this.alertWindowIsOpen = true;
-    }else if(str === "CLOSE"){
-        this.alertWindowIsOpen = false;
+  setAlertWindow(str) {
+    if (str === "OPEN") {
+      this.alertWindowIsOpen = true;
+    } else if (str === "CLOSE") {
+      this.alertWindowIsOpen = false;
     }
   }
 
@@ -91,31 +91,32 @@ export class GUIElementManager {
       // ---- ADD Alert Window Buttons ----- //s
       this.renderAlertWindowActionButtons(v, p5);
     } else {
-      this.parent.characterProfileImages[this.parent.currentNPCKey] = p5.loadImage(
-        "images/CharacterProfileImages/" + this.parent.currentNPCKey + ".png"
-      );
+      this.parent.characterProfileImages[this.parent.currentNPCKey] =
+        p5.loadImage(
+          "images/CharacterProfileImages/" + this.parent.currentNPCKey + ".png"
+        );
     }
   }
 
-    renderAlertWindowActionButtons(v, p5) {
-        v.actions.forEach((v2, vi) => {
-            vi = vi + 1;
-            p5.push();
-            p5.fill(v2.fill || 65);
-            p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-            p5.fill(225);
-            p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-            this.parent.handleTargetClick(
-                p5,
-                v.x + v.w - 175 * vi,
-                v.y + v.h - 12,
-                150,
-                24,
-                v2.onClickHandle
-            );
-            p5.pop();
-        });
-    }
+  renderAlertWindowActionButtons(v, p5) {
+    v.actions.forEach((v2, vi) => {
+      vi = vi + 1;
+      p5.push();
+      p5.fill(v2.fill || 65);
+      p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
+      p5.fill(225);
+      p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
+      this.parent.handleTargetClick(
+        p5,
+        v.x + v.w - 175 * vi,
+        v.y + v.h - 12,
+        150,
+        24,
+        v2.onClickHandle
+      );
+      p5.pop();
+    });
+  }
 
   renderGUI(p5) {
     p5.image(this.parent.GameMapSceneUI, 0, 800 - 224);
@@ -138,40 +139,124 @@ export class GUIElementManager {
         case "CirclePanel":
         case "Panel":
         default:
-          if(GUIElementDetails.PanelType === 'Detail'){
+          if (GUIElementDetails.PanelType === "Detail") {
             let heightPX = 55;
-            p5.text(this.SimulationDateTime.time, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+10), GUIElementDetails.w, heightPX);
-            p5.text(this.SimulationDateTime.date, GUIElementDetails.x, GUIElementDetails.y+GUIElementDetails.h-(heightPX+35), GUIElementDetails.w, heightPX);
-          
+            p5.text(
+              this.SimulationDateTime.time,
+              GUIElementDetails.x,
+              GUIElementDetails.y + GUIElementDetails.h - (heightPX + 10),
+              GUIElementDetails.w,
+              heightPX
+            );
+            p5.text(
+              this.SimulationDateTime.date,
+              GUIElementDetails.x,
+              GUIElementDetails.y + GUIElementDetails.h - (heightPX + 35),
+              GUIElementDetails.w,
+              heightPX
+            );
+          } else {
+            p5.fill("#555555");
+            let invPadding = 25;
+            let invSpacing = 13;
+            let invSize = 32;
+            let invSlotsCols = 12;
+            for (var x = 0; x < invSlotsCols; x++) {
+              p5.rect(
+                GUIElementDetails.x + invPadding + (invSize + invSpacing) * x,
+                GUIElementDetails.y + invPadding,
+                invSize,
+                invSize
+              );
+              p5.push();
+              p5.fill("white");
+              if (x === 0) {
+                p5.text(
+                  "🥅",
+                  GUIElementDetails.x +
+                    invPadding +
+                    (invSize + invSpacing) * x +
+                    16,
+                  16 + GUIElementDetails.y + invPadding
+                );
+                p5.text(
+                  "1",
+                  GUIElementDetails.x +
+                    invPadding +
+                    (invSize + invSpacing) * x +
+                    32,
+                  32 + GUIElementDetails.y + invPadding
+                );
+              }
+              if (x === 1) {
+                p5.text(
+                  "🥪",
+                  GUIElementDetails.x +
+                    invPadding +
+                    (invSize + invSpacing) * x +
+                    16,
+                  16 + GUIElementDetails.y + invPadding
+                );
+                p5.text(
+                  "2",
+                  GUIElementDetails.x +
+                    invPadding +
+                    (invSize + invSpacing) * x +
+                    32,
+                  32 + GUIElementDetails.y + invPadding
+                );
+              }
+              p5.pop();
+            }
           }
-          this.renderGUIPanelText(p5,GUIElementDetails);
+          this.renderGUIPanelText(p5, GUIElementDetails);
       }
     });
   }
 
-    renderGUIPlayerProfileImagePanel(GUIElementDetails, p5) {
-        if (GUIElementDetails.img) {
-            let textLocation = {x:GUIElementDetails.x,y:GUIElementDetails.y};
-            textLocation.y += GUIElementDetails.h * 0.75;
-            let textDimensions = {width:GUIElementDetails.w, height: GUIElementDetails.h};
-            textDimensions.height *= .25; //small txt row
-            p5.image(
-                this.parent.PlayerProfileImage,
-                GUIElementDetails.x + GUIElementDetails.w * 0.1,
-                GUIElementDetails.y + GUIElementDetails.h * 0.05,
-                GUIElementDetails.w * 0.8,
-                GUIElementDetails.h * 0.8
-            );
-            p5.image(this.parent.GameMapSceneUIBanner, 4, 800 - 47);
-            this.renderGUIPanelText(p5, GUIElementDetails, textLocation, textDimensions);
-        }
+  renderGUIPlayerProfileImagePanel(GUIElementDetails, p5) {
+    if (GUIElementDetails.img) {
+      let textLocation = { x: GUIElementDetails.x, y: GUIElementDetails.y };
+      textLocation.y += GUIElementDetails.h * 0.75;
+      let textDimensions = {
+        width: GUIElementDetails.w,
+        height: GUIElementDetails.h,
+      };
+      textDimensions.height *= 0.25; //small txt row
+      p5.image(
+        this.parent.PlayerProfileImage,
+        GUIElementDetails.x + GUIElementDetails.w * 0.1,
+        GUIElementDetails.y + GUIElementDetails.h * 0.05,
+        GUIElementDetails.w * 0.8,
+        GUIElementDetails.h * 0.8
+      );
+      p5.image(this.parent.GameMapSceneUIBanner, 4, 800 - 47);
+      this.renderGUIPanelText(
+        p5,
+        GUIElementDetails,
+        textLocation,
+        textDimensions
+      );
     }
+  }
 
-    renderGUIPanelText(p5, GUIElementDetails, textLocation, textDimensions) {
-        textLocation = textLocation || {x:GUIElementDetails.x,y:GUIElementDetails.y};
-        textDimensions = textDimensions || {width:GUIElementDetails.w,height:GUIElementDetails.h};
-        p5.fill(255);
-        p5.textStyle("Bold");
-        p5.text(GUIElementDetails.text || "Panel", textLocation.x, textLocation.y, textDimensions.width, textDimensions.height);
-    }
+  renderGUIPanelText(p5, GUIElementDetails, textLocation, textDimensions) {
+    textLocation = textLocation || {
+      x: GUIElementDetails.x,
+      y: GUIElementDetails.y,
+    };
+    textDimensions = textDimensions || {
+      width: GUIElementDetails.w,
+      height: GUIElementDetails.h,
+    };
+    p5.fill(255);
+    p5.textStyle("Bold");
+    p5.text(
+      GUIElementDetails.text || "Panel",
+      textLocation.x,
+      textLocation.y,
+      textDimensions.width,
+      textDimensions.height
+    );
+  }
 }
