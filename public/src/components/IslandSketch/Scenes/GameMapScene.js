@@ -18,6 +18,7 @@ import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import { ItemsEnum } from "../ItemsEnum";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
 
+// define simulation time object that tracks time and date in world
 const simTime = new SimulationTime();
 export class GameMapScene extends GameScene {
   constructor(
@@ -68,44 +69,19 @@ export class GameMapScene extends GameScene {
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
+
     this.AnimatedSprites = [];
-    this.AnimatedSprites.push(
-      new AnimatedSpriteEntity(
-        "as2323",
-        this.parentAssets["GameMapScene"]["WaveSpriteSheet"],
-        640,
-        1728,
-        { width: 32, height: 32 },
-        { columns: 4, rows: 1 },
-        0,
-        30, 
-        1
-      )
-    );
-    this.AnimatedSprites.push(
-      new AnimatedSpriteEntity(
-        "as2323",
-        this.parentAssets["GameMapScene"]["OtherCharSheet"],
-        this.charPos.x,
-        this.charPos.y,
-        { width: 24, height: 32 },
-        { columns: 3, rows: 4 },
-        1, // frame offset
-        -1, // speed
-        2 // row
-      )
-    );
-    this.loadAssets();
+    this.CollideEntities = []; // wall data structure
     this.lots = [];
     this.CrabTraps = [];
+
+    this.loadAssets();
     this.useCharImage = true;
     this.useBGImage = true;
 
     this.moveState = {};
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
 
-    // wall data structure
-    this.CollideEntities = [];
 
     // character profile images data structure map CharKey:Str -> p5.Image
     this.characterProfileImages = {
@@ -134,11 +110,6 @@ export class GameMapScene extends GameScene {
       this.GUI_Time = data.time12;
       this.GUI_Date = data.date;
       this.GUI.setSimulationDateTime({time: data.time12, date: data.date});
-      /* console.log(
-        `Time 24-hour: ${data.time24}, Time 12-hour: ${data.time12}, Date: ${data.date}`
-      ); */
-      //setMinute(data.currentTimeOfDay);
-      //console.log(minute, data.currentTimeOfDay);
     });
     simTime.pause();
   } // end constructor
@@ -181,6 +152,33 @@ export class GameMapScene extends GameScene {
   }
 
   loadAssets() {
+    this.AnimatedSprites.push(
+      new AnimatedSpriteEntity(
+        "as2323",
+        this.parentAssets["GameMapScene"]["WaveSpriteSheet"],
+        640,
+        1728,
+        { width: 32, height: 32 },
+        { columns: 4, rows: 1 },
+        0,
+        30, 
+        1
+      )
+    );
+    this.AnimatedSprites.push(
+      new AnimatedSpriteEntity(
+        "as2323",
+        this.parentAssets["GameMapScene"]["OtherCharSheet"],
+        this.charPos.x,
+        this.charPos.y,
+        { width: 24, height: 32 },
+        { columns: 3, rows: 4 },
+        1, // frame offset
+        -1, // speed
+        2 // row
+      )
+    );
+
     this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
     this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
     this.playerImageRight =
@@ -263,14 +261,6 @@ export class GameMapScene extends GameScene {
       0,
       2
     );
-  }
-
-  preload(p5) {
-    console.log("preload GameMapScene");
-  }
-
-  setup(p5, canvasParentRef) {
-    console.log("run GameMapScene Setup");
   }
 
   update(p5) {
@@ -411,7 +401,7 @@ export class GameMapScene extends GameScene {
         p5.push();
         // Scale -1, 1 means reverse the x axis, keep y the same.
         p5.scale(-1, 1);
-        // Because the x-axis is reversed, we need to draw at different x position. negative x
+        // Because the x-axis is reversed, we need to draw at different x positio n. negative x
         p5.image(
           this.playerImage,
           -this.playerx - this.tileWidth,
@@ -592,10 +582,9 @@ export class GameMapScene extends GameScene {
       tmpOffset.x -= p5.pmouseX - p5.mouseX;
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-      let offset = this.getPositionInWorld(p5, mouse);
 
-      let v3 = p5.createVector((Math.abs(this.CameraOffset.x) + p5.mouseX) * this.scal,
-      (Math.abs(this.CameraOffset.y) + p5.mouseY) * this.scal);
+      let v3 = p5.createVector((Math.abs(this.CameraOffset.x) + p5.mouseX),
+      (Math.abs(this.CameraOffset.y) + p5.mouseY));
       this.CrabTraps.push(new CrabTrapEntity(p5.frameCounter, v3.x, v3.y, simTime.getDate()+"|"+simTime.getTime()));
 
       console.log("loc: " + v3.x + " - " + v3.y);
