@@ -16,6 +16,7 @@ import WallData from "../../../utils/WallData.json";
 import AnimatedSpriteEntity from "../Entities/AnimatedSpriteEntity";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import { ItemsEnum } from "../ItemsEnum";
+import CrabTrapEntity from "../Entities/CrabTrapEntity";
 
 const simTime = new SimulationTime();
 export class GameMapScene extends GameScene {
@@ -96,6 +97,7 @@ export class GameMapScene extends GameScene {
     );
     this.loadAssets();
     this.lots = [];
+    this.CrabTraps = [];
     this.useCharImage = true;
     this.useBGImage = true;
 
@@ -319,8 +321,8 @@ export class GameMapScene extends GameScene {
       this.renderEntities(p5);
       this.renderPlayer(p5);
 
+      this.handleMouseInteraction(p5);
       if (this.DEBUG_LEVEL >= 2) {
-        this.handleMouseInteraction(p5);
         // draw walls
         this.CollideEntities.forEach((collider) => {
           collider.draw(p5);
@@ -392,6 +394,11 @@ export class GameMapScene extends GameScene {
       lot.draw(p5);
     });
 
+    this.CrabTraps.forEach((ctrap) => {
+      ctrap.update(p5);
+      ctrap.draw(p5);
+    });
+
     this.AnimatedSprites.forEach((sprite) => {
       sprite.update(p5);
       sprite.draw(p5);
@@ -456,11 +463,7 @@ export class GameMapScene extends GameScene {
     if (this.cameraControlMode === "Mouse") {
       // currently set to player does not run
       const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
-      this.CameraOffset = p5
-        .createVector(this.CameraOffset.x, this.CameraOffset.y)
-        .sub(mouse)
-        .mult(this.scal)
-        .add(mouse);
+      this.CameraOffset = this.getPositionInWorld(p5,mouse);
     }
   }
 
@@ -479,11 +482,7 @@ export class GameMapScene extends GameScene {
     this.scal *= s;
     console.log("scale", s);
     const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    this.CameraOffset = p5
-      .createVector(this.CameraOffset.x, this.CameraOffset.y)
-      .sub(mouse)
-      .mult(s)
-      .add(mouse);
+    this.CameraOffset = this.getPositionInWorld(p5, mouse);
   }
   /**----------- END CAMERA FN */
   /**----------- END CAMERA FN */
@@ -592,11 +591,32 @@ export class GameMapScene extends GameScene {
       let tmpOffset = { x: this.CameraOffset.x, y: this.CameraOffset.y };
       tmpOffset.x -= p5.pmouseX - p5.mouseX;
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
-      this.CameraOffset = p5.createVector(tmpOffset.x, tmpOffset.y);
+      const mouse = p5.createVector(p5.mouseX, p5.mouseY);
+      let offset = this.getPositionInWorld(p5, mouse);
+
+      let v3 = p5.createVector((Math.abs(this.CameraOffset.x) + p5.mouseX) * this.scal,
+      (Math.abs(this.CameraOffset.y) + p5.mouseY) * this.scal);
+      this.CrabTraps.push(new CrabTrapEntity(p5.frameCounter, v3.x, v3.y, simTime.getDate()+"|"+simTime.getTime()));
+
+      console.log("loc: " + v3.x + " - " + v3.y);
+      if (this.DEBUG_LEVEL >= 2) {
+        this.CameraOffset = p5.createVector(tmpOffset.x, tmpOffset.y);
+      }
     }
   }
 
   /** ---------- END INPUT FNs */
+
+  getPositionInWorld(p5,posVector){
+    if(!posVector.x && posVector.x !== 0)
+      posVector = p5.createVector(p5.mouseX,p5.mouseY);
+      //throw new Error("getPositionInWorld param PosVector");
+    return p5
+        .createVector(this.CameraOffset.x, this.CameraOffset.y)
+        .sub(posVector)
+        .mult(this.scal)
+        .add(posVector);
+  }
 
   checkNextPosititionCollision(
     oldPosX,
