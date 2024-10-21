@@ -281,11 +281,9 @@ export class GameMapScene extends GameScene {
       this.setCameraPosition(
         p5.createVector(
           this.playerx * -1 +
-            p5.width / IslandTemplate.VIEW_ZOOM_MULTIPLIER +
-            this.tileWidth / 2,
-          this.playery * -1 +
-            p5.height / IslandTemplate.VIEW_ZOOM_MULTIPLIER +
-            this.tileWidth / 2
+            (p5.width / (this.scal))/2,
+          this.playery * -1 +(
+            p5.height / (this.scal))/2.5
         )
       );
     }
@@ -367,9 +365,6 @@ export class GameMapScene extends GameScene {
   }
 
   renderEntities(p5) {
-    //p5.rect(this.charPos.x,this.charPos.y,16,24);
-    //p5.image(this.otherPlayerImage, this.charPos.x, this.charPos.y);
-
     this.charList.forEach((villager) => {
       villager.update(p5);
       if (!villager.isHidden()) {
@@ -452,6 +447,7 @@ export class GameMapScene extends GameScene {
     this.scal = zoomLevelInt * factor;
     if (this.cameraControlMode === "Mouse") {
       // currently set to player does not run
+      // CODE SMELL TODO WIP
       const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
       this.CameraOffset = this.getPositionInWorld(p5,mouse);
     }
@@ -461,12 +457,6 @@ export class GameMapScene extends GameScene {
     this.CameraOffset = positionP5Vec;
   }
 
-  /*  checkCollisions() {
-    this.CollideEntities.forEach((collider) => {
-      collider.update();
-    });
-  } */
-
   handleZoom(e, p5) {
     const s = 1 - e.deltaY / 1000;
     this.scal *= s;
@@ -475,13 +465,11 @@ export class GameMapScene extends GameScene {
     this.CameraOffset = this.getPositionInWorld(p5, mouse);
   }
   /**----------- END CAMERA FN */
-  /**----------- END CAMERA FN */
-  /**----------- END CAMERA FN */
 
   /* INPUT FN */
   initializeEventListeners() {
     //window.addEventListener('wheel', (e) => this.handleZoom(e, p5));
-    // window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
+      // window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
     window.addEventListener("keydown", (e) => this.keyPressed(e));
     window.addEventListener("keyup", (e) => this.keyReleased(e));
   }
@@ -496,8 +484,8 @@ export class GameMapScene extends GameScene {
     let speedModifier = 1;
 
     const newCallBack = (newVal, valid) => {
-      this.playery = valid ? newVal.y : this.playery;
       this.playerx = valid ? newVal.x : this.playerx;
+      this.playery = valid ? newVal.y : this.playery;
     };
 
     if (isMovingDiagonal) speedModifier = 0.5;
