@@ -169,8 +169,17 @@ export class GUIElementManager {
                 invSize
               );
               p5.push();
+              
               p5.fill("white");
               if (x === 0) {
+                p5.fill("#999999");
+                p5.rect(
+                  GUIElementDetails.x + invPadding + (invSize + invSpacing) * x,
+                  GUIElementDetails.y + invPadding,
+                  invSize,
+                  invSize
+                );
+                p5.fill("white");
                 p5.text(
                   "🥅",
                   GUIElementDetails.x +
