@@ -30,6 +30,7 @@ export class GameMapScene extends GameScene {
     parentAssetsByScene
   ) {
     super("GameMapScene");
+    this.DEBUG_LEVEL = 0;
     this.parentAssets = parentAssetsByScene;
     this.onCharacterSelect = onCharacterSelect;
     this.onPropertySelect = onPropertySelect;
@@ -40,7 +41,6 @@ export class GameMapScene extends GameScene {
       this.charList = cList;
     };
 
-    this.DEBUG_LEVEL = 0;
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
     this.scal = 1;
     this.CameraOffset = undefined;
@@ -57,30 +57,28 @@ export class GameMapScene extends GameScene {
     this.tileWidth = 32;
     this.playerx = 570;
     this.playery = 1820;
+    this.moveState = {};
+    this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
+
+    //tmp char fix other char
+    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
+
     this.playerInventory = new CharacterInventory([ItemsEnum["crabtrap"]]);
     this.isLoaded = false;
 
-    //tmp char fix
-    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
 
-    this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
-    this.WaveSpriteSheet = this.parentAssets["GameMapScene"]["WaveSpriteSheet"];
     this.frameCounter = 0;
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
 
-    this.AnimatedSprites = [];
-    this.CollideEntities = []; // wall data structure
-    this.lots = [];
-    this.CrabTraps = [];
 
-    this.loadAssets();
     this.useCharImage = true;
     this.useBGImage = true;
+    this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
+    this.WaveSpriteSheet = this.parentAssets["GameMapScene"]["WaveSpriteSheet"];
 
-    this.moveState = {};
-    this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
+    this.loadAssets();
 
 
     // character profile images data structure map CharKey:Str -> p5.Image
@@ -140,7 +138,6 @@ export class GameMapScene extends GameScene {
     );
     this.lots = [...lotEntities];
   }
-  //? this.convertPropertiesToLotDetails(pos.properties) :
 
   initializeCharacters() {
     this.setCharList([]);
@@ -268,8 +265,6 @@ export class GameMapScene extends GameScene {
     // if frame based timer expires
     if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
       this.frameCounter = 0;
-      //this.npcKeyIndex++; // remove move ahead index
-      //this.currentNPCKey = this.NPCKeys[this.npcKeyIndex % this.NPCKeys.length];
     } else if (this.characterProfileImages[this.currentNPCKey]) {
       // if timer not expired and the char profileimg isnt null
       this.frameCounter++; // increment timer of frames this image has been displayed
@@ -278,7 +273,7 @@ export class GameMapScene extends GameScene {
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
       this.setCameraZoom(p5, IslandTemplate.VIEW_ZOOM_SETTING);
-      this.setCameraPosition(
+      this.setCameraOffset(
         p5.createVector(
           this.playerx * -1 +
             (p5.width / (this.scal))/2,
@@ -304,64 +299,64 @@ export class GameMapScene extends GameScene {
   draw(p5) {
     this.update(p5);
     if (this.mapDisplayMode === 0) {
-      p5.push();
-      this.renderBackground(p5);
-      this.renderEntities(p5);
-      this.renderPlayer(p5);
-
-      this.handleMouseInteraction(p5);
-      if (this.DEBUG_LEVEL >= 2) {
-        // draw walls
-        this.CollideEntities.forEach((collider) => {
-          collider.draw(p5);
-        });
-      }
-      p5.pop();
+      this.renderMainView_Map(p5);
     } else {
       let otherPlayerPos = p5.createVector(1000 - 175 - 200, 250 - 200);
-      p5.background(0);
-      p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250);
-      //p5.rect(100, 400, 150, 150);
-      p5.image(
-        this.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
-        50,
-        200,
-        450,
-        450
-      );
-      p5.image(
-        this.otherPlayerProfileImage,
-        otherPlayerPos.x,
-        otherPlayerPos.y,
-        350,
-        350
-      );
-      p5.fill("blue");
-      p5.rect(35, otherPlayerPos.y, 150, 70);
-      p5.fill("#ffffff");
-      p5.text("End Chat", 35, otherPlayerPos.y, 150, 70);
-      this.handleTargetClick(p5, 35, otherPlayerPos.y, 150, 70, () => {
-        this.mapDisplayMode = 0;
-      });
+      this.renderMainView_Dialog(p5, otherPlayerPos);
     }
     p5.ellipseMode("CENTER");
-    // after translate
     this.GUI.renderGUI(p5);
   }
 
-  renderBackground(p5) {
-    // set bg color of water
-    p5.background("#20D6C7");
+  renderMainView_Map(p5) {
+    p5.push();
+    this.renderBackground(p5);
+    this.renderEntities(p5, this);
+    this.renderPlayer(p5);
 
-    // set Camera Settings
+    this.handleMouseInteraction(p5);
+    if (this.DEBUG_LEVEL >= 2) {
+      // draw walls
+      this.CollideEntities.forEach((collider) => {
+        collider.draw(p5);
+      });
+    }
+    p5.pop();
+  }
+
+  renderMainView_Dialog(p5, otherPlayerPos) {
+    p5.background(0);
+    p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250);
+    p5.image(
+      this.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
+      50,
+      200,
+      450,
+      450
+    );
+    p5.image(
+      this.otherPlayerProfileImage,
+      otherPlayerPos.x,
+      otherPlayerPos.y,
+      350,
+      350
+    );
+    p5.fill("blue");
+    p5.rect(35, otherPlayerPos.y, 150, 70);
+    p5.fill("#ffffff");
+    p5.text("End Chat", 35, otherPlayerPos.y, 150, 70);
+    this.handleTargetClick(p5, 35, otherPlayerPos.y, 150, 70, () => {
+      this.mapDisplayMode = 0;
+    });
+  }
+
+  renderBackground(p5) {
+    p5.background("#20D6C7");
     p5.scale(this.scal);
     p5.translate(this.CameraOffset.x, this.CameraOffset.y);
-
-    // draw map bg
     if (this.useBGImage) {
       p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
-    } // else { //this.bgImage = p5.loadImage(IslandTemplate.Image.source); }
-    //p5.noTint();
+    }
   }
 
   renderEntities(p5) {
@@ -372,18 +367,13 @@ export class GameMapScene extends GameScene {
       }
     });
     this.lots.forEach((lot) => {
-      lot.update();
-      //if (this.isMouseOverLot(p5, lot)) {
-      // this.handleLotInteraction(p5, lot);
-      // }
+      lot.update(p5, this);
       lot.draw(p5);
     });
-
     this.CrabTraps.forEach((ctrap) => {
       ctrap.update(p5);
       ctrap.draw(p5);
     });
-
     this.AnimatedSprites.forEach((sprite) => {
       sprite.update(p5);
       sprite.draw(p5);
@@ -405,8 +395,7 @@ export class GameMapScene extends GameScene {
         p5.pop();
       } else {
         // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
-        //p5.image(this.playerImage, this.playerx, this.playery);
-        this.CharIdle.draw(p5, this.playerx, this.playery);
+        this.CharIdle.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
       }
     };
     if (
@@ -417,18 +406,14 @@ export class GameMapScene extends GameScene {
         this.moveState.isMovingRight)
     ) {
       if (this.moveState.isMovingLeft) {
-        //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
-        this.CharRunLeft.draw(p5, this.playerx, this.playery);
+        this.CharRunLeft.draw(p5, this.playerx, this.playery); //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
       } else if (this.moveState.isMovingRight) {
-        //p5.image(this.playerImageRight, this.playerx, this.playery);
-        this.CharRunRight.draw(p5, this.playerx, this.playery);
+        this.CharRunRight.draw(p5, this.playerx, this.playery); //p5.image(this.playerImageRight, this.playerx, this.playery);
       } else {
         if (this.moveState.isMovingUp) {
-          //p5.image(this.playerImage, this.playerx, this.playery);
-          this.CharRunUp.draw(p5, this.playerx, this.playery);
+          this.CharRunUp.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
         } else if (this.moveState.isMovingDown) {
-          //p5.image(this.playerImage, this.playerx, this.playery);
-          this.CharRunDown.draw(p5, this.playerx, this.playery);
+          this.CharRunDown.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
         }
       }
     } else if (this.useCharImage) {
@@ -442,6 +427,15 @@ export class GameMapScene extends GameScene {
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
+
+  getCameraOffset(){
+    return this.CameraOffset;
+  }
+
+  getCameraZoom(){
+    return this.scal;
+  }
+
   setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
     zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
@@ -453,7 +447,7 @@ export class GameMapScene extends GameScene {
     }
   }
 
-  setCameraPosition(positionP5Vec) {
+  setCameraOffset(positionP5Vec) {
     this.CameraOffset = positionP5Vec;
   }
 
@@ -469,7 +463,7 @@ export class GameMapScene extends GameScene {
   /* INPUT FN */
   initializeEventListeners() {
     //window.addEventListener('wheel', (e) => this.handleZoom(e, p5));
-      // window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
+    // window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
     window.addEventListener("keydown", (e) => this.keyPressed(e));
     window.addEventListener("keyup", (e) => this.keyReleased(e));
   }
@@ -543,25 +537,6 @@ export class GameMapScene extends GameScene {
         ArrowRight: 2,
       }[code] || 0
     );
-  }
-
-  isMouseOverLot(p5, lot) {
-    return (
-      p5.dist(
-        lot.location.x / 2,
-        lot.location.y / 2,
-        (p5.mouseX - this.CameraOffset.x) / this.scal,
-        (p5.mouseY - this.CameraOffset.y) / this.scal
-      ) <= 15.0
-    );
-  }
-
-  handleLotInteraction(p5, lot) {
-    lot.setHover(true);
-    if (p5.mouseIsPressed) {
-      lot.setClick(true);
-      this.onPropertySelect(lot);
-    }
   }
 
   handleMouseInteraction(p5) {

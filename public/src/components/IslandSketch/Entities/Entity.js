@@ -47,7 +47,7 @@ class Entity {
       p5.dist(
         ps.x,
         ps.y,
-        (p5.mouseX - offset.x) / scal,
+        (p5.mouseX - offset.x) / scal, // if offset.x is negative then adding
         (p5.mouseY - offset.y) / scal
       ) <= rad
     );

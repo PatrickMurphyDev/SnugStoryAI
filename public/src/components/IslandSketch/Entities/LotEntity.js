@@ -14,13 +14,23 @@ class LotEntity extends Entity {
   }
 
   isMouseOver(p5, offset, scal){
-    const loc2 = {x:this.location.x/2, y:this.location.y/2};
+    const loc2 = {x:this.location.x/2, y:this.location.y/2};// code smell wip todo / 2 lot issue
     return super.isMouseOver(p5, offset, scal, loc2);
   }
 
-  update() {
+  handleLotInteraction(p5, callback) {
+    this.setHover(true);
+    if (p5.mouseIsPressed) {
+      this.setClick(true);
+      callback(this);
+    }
+  }
+
+  update(p5, parent) {
     // Implement any update logic specific to LotEntity
-    
+      if (this.isMouseOver(p5, parent.getCameraOffset(), parent.getCameraZoom())) {
+        this.handleLotInteraction(p5, (lot)=>{parent.onPropertySelect(lot)});
+      }
   }
 
   draw(p5, transparency, offset, scal) {
