@@ -100,7 +100,7 @@ const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,
             3
         );
         that.CharIdle = new AnimatedSpriteEntity(
-            "as2329",
+            "as2335",
             parentAssetsDict["GameMapScene"]["NewCharSheet"],
             0,
             0,

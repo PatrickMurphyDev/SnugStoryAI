@@ -102,6 +102,7 @@ export class GameMapScene extends GameScene {
       this.GUI.setSimulationDateTime({time: data.time12, date: data.date});
     });
     simTime.pause();
+    simTime.setRateOfTime(3);
   } // end constructor
     
     AddSceneCollideEntities() {
@@ -216,7 +217,12 @@ export class GameMapScene extends GameScene {
           ctdPct = ((maxCTD/2)-(ctd-(maxCTD/2)))/(maxCTD/2);
         }
         // 0 = 0, 360 = 127, 720 = 255, 1080 = 127, 1440 = 0
-        return 255*ctdPct;
+        let amp = 255; 
+        let periodVar = 2;
+        let phaseShift =  1.25;
+        let vertShift = 0;
+
+        return amp*(Math.sin((periodVar*(ctdPct+phaseShift)) * Math.PI) + vertShift);
       }
 
       // tint image alpha
@@ -297,16 +303,11 @@ export class GameMapScene extends GameScene {
 
   renderPlayer(p5) {
     let renderCharIdle = () => {
-      if (this.lastMoveState <= 2 && false) {
-        p5.push();
-        // Scale -1, 1 means reverse the x axis, keep y the same.
-        p5.scale(-1, 1);
-        // Because the x-axis is reversed, we need to draw at different x positio n. negative x
-        p5.image(
-          this.playerImage,
-          -this.playerx - this.tileWidth,
-          this.playery
-        );
+      if (this.lastMoveState <= 2) { //&& false
+        p5.push(); 
+        p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
+        this.CharIdle.draw(p5, -this.playerx - 24, this.playery);
+        //p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
         p5.pop();
       } else {
         // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
