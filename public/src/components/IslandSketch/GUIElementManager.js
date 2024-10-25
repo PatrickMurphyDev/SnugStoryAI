@@ -1,4 +1,5 @@
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
+import { ItemsEnum } from "./ItemsEnum";
 
 export class GUIElementManager {
   constructor(parent, imgAssets) {
@@ -192,7 +193,7 @@ export class GUIElementManager {
                   16 + GUIElementDetails.y + invPadding
                 );
                 p5.text(
-                  "1",
+                  this.parent.playerInventory.getItemCount(ItemsEnum['crabtrap']),
                   GUIElementDetails.x +
                     invPadding +
                     (invSize + invSpacing) * x +
