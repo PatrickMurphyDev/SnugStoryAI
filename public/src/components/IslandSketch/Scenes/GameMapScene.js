@@ -17,6 +17,16 @@ import AssetsListGameMapScene from "./AssetsListGameMapScene";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import { ItemsEnum } from "../ItemsEnum";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
+const KEYCODEMAP = {
+  KeyW: 1,
+  ArrowUp: 1,
+  KeyS: 3,
+  ArrowDown: 3,
+  KeyA: 4,
+  ArrowLeft: 4,
+  KeyD: 2,
+  ArrowRight: 2,
+};
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({'currentTimeOfDay':600}); // start 10 am
@@ -157,7 +167,7 @@ export class GameMapScene extends GameScene {
     this.setCharList(characterTempList);
   }
 
-    loadAssets() {
+  loadAssets() {
       AssetsListGameMapScene(this.parentAssets,this,this.charPos);
   }
 
@@ -208,21 +218,13 @@ export class GameMapScene extends GameScene {
       let tmpTimeToAlpha = (ctd)=>{
         let maxCTD = 1440;
         ctd = ctd || (maxCTD/2); // param or noon
-        let ctdPct = Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
-        if(ctd<=(maxCTD/2)){
-          // ramp
-          ctdPct = ctd/(maxCTD/2);
-        }else{
-          // reverse ramp
-          ctdPct = ((maxCTD/2)-(ctd-(maxCTD/2)))/(maxCTD/2);
-        }
-        // 0 = 0, 360 = 127, 720 = 255, 1080 = 127, 1440 = 0
+        let ctdPct = ctd / maxCTD; //Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
         let amp = 255; 
-        let periodVar = 2;
-        let phaseShift =  1.25;
+        let periodVar = Math.PI * (1/6);
+        let phaseShift = 0;
         let vertShift = 0;
 
-        return amp*(Math.sin((periodVar*(ctdPct+phaseShift)) * Math.PI) + vertShift);
+        return amp*(Math.sin(periodVar*(this.degrees_to_radians(360*ctdPct) + phaseShift)) + vertShift);
       }
 
       // tint image alpha
@@ -376,30 +378,17 @@ export class GameMapScene extends GameScene {
         let isMovingVertical = this.isMovingUp || this.isMovingDown;
         let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
         let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
-
         let speedModifier = .9;
-
         const newCallBack = (newVal, valid) => {
           this.playerx = valid ? newVal.x : this.playerx;
           this.playery = valid ? newVal.y : this.playery;
         };
-
         if (isMovingDiagonal) speedModifier = 0.5;
-
         const moveDist = this.speed * this.getCameraZoom() * speedModifier;
-
-        if (this.moveState.isMovingUp) {
-          tmpy -= moveDist;
-        }
-        if (this.moveState.isMovingDown) {
-          tmpy += moveDist;
-        }
-        if (this.moveState.isMovingLeft) {
-          tmpx -= moveDist;
-        }
-        if (this.moveState.isMovingRight) {
-          tmpx += moveDist;
-        }
+        if (this.moveState.isMovingUp) tmpy -= moveDist;
+        if (this.moveState.isMovingDown) tmpy += moveDist;
+        if (this.moveState.isMovingLeft) tmpx -= moveDist;
+        if (this.moveState.isMovingRight) tmpx += moveDist;
 
         this.checkNextPosititionCollision(
           this.playerx,
@@ -410,15 +399,6 @@ export class GameMapScene extends GameScene {
         );
       }
   } // end handleKeys FN
-  // disabled in initializeEventListeners
-  /*
-  handleZoom(e, p5) {
-    const s = 1 - e.deltaY / 1000;
-    this.scal *= s;
-    console.log("scale", s);
-    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    this.CameraOffset = this.getPositionInWorld(p5, mouse);
-}*/
 
   keyPressed(e) {
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
@@ -437,18 +417,7 @@ export class GameMapScene extends GameScene {
   }
 
   determineLastMoveState(code) {
-    return (
-      {
-        KeyW: 1,
-        ArrowUp: 1,
-        KeyS: 3,
-        ArrowDown: 3,
-        KeyA: 4,
-        ArrowLeft: 4,
-        KeyD: 2,
-        ArrowRight: 2,
-      }[code] || 0
-    );
+    return KEYCODEMAP[code] || 0;
   }
 
   handleMouseInteraction(p5) {
@@ -471,6 +440,8 @@ export class GameMapScene extends GameScene {
   }
 
   /** ---------- END INPUT FNs */
+
+  degrees_to_radians(deg){ return (deg * Math.PI) / 180.0;}
 
   getPositionInWorld(p5,posVector){
     if(!posVector.x && posVector.x !== 0)
