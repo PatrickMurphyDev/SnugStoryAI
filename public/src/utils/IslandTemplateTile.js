@@ -123,8 +123,12 @@ export const IslandTemplate = {
         { x: 115*2, y: 1585*2 },
       ]
   },
+  newLots: [
+    {id: "townhalltabernacle", name: "The Tabernacle", location:{x:775,y:1080}, lotDetails:{"imgFileSrc":"TownHall.png"}},
+    {id: "RedRoofHouse10", name: "House", location:{x:1200,y:1100}, lotDetails:{"imgFileSrc":"houseRedRoof1.png"}}
+  ],
   Image: {
-    source: "images/SnugIslandNew2.png",
+    source: "images/SnugIslandmin.png",
     size: {x:2048,y:2048}
   },
   INPUTKEY_TO_STATE_MAP: {

@@ -1,6 +1,10 @@
 import AnimatedSpriteEntity from "../Entities/AnimatedSpriteEntity";
 
 const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,that,charPos) {
+        
+        that.bgImage = parentAssetsDict["GameMapScene"]["BGImage"];
+        that.WaveSpriteSheet = parentAssetsDict["GameMapScene"]["WaveSpriteSheet"];
+
         that.AnimatedSprites.push(
             new AnimatedSpriteEntity(
                 "as2323",

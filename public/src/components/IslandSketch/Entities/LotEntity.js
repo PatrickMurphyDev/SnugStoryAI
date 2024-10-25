@@ -11,6 +11,9 @@ class LotEntity extends Entity {
     this.characters = characters;
     this.building = {name:this.name, description: this.lotDetails.description || "no desc", type:"Store", owner:"Maureen", value:100000};
     this.occupied = false;
+    this.imgObj = undefined;
+    if(ldetails.imgObj)
+      this.imgObj = ldetails.imgObj;
   }
 
   isMouseOver(p5, offset, scal){
@@ -42,7 +45,11 @@ class LotEntity extends Entity {
       p5.fill(`${fillColor}${transparency}`);
     }
 
-    p5.ellipse(ps.x, ps.y, 10, 10);
+    if(this.imgObj){
+      p5.image(this.imgObj, ps.x*2-90, ps.y*2-171,160,171);
+    }else{
+      p5.ellipse(ps.x, ps.y, 10, 10);
+    }
 
     if (this.isMouseOver(p5,offset,scal) || super.isSelected()) {
       p5.fill(`${fillColor}ff`);

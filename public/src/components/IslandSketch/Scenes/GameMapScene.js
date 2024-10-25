@@ -91,8 +91,7 @@ export class GameMapScene extends GameScene {
 
     this.useCharImage = true;
     this.useBGImage = true;
-    this.bgImage = this.parentAssets["GameMapScene"]["BGImage"];
-    this.WaveSpriteSheet = this.parentAssets["GameMapScene"]["WaveSpriteSheet"];
+    this.lotImages = {};
 
     this.loadAssets();
     // character profile images data structure map CharKey:Str -> p5.Image
@@ -157,6 +156,10 @@ export class GameMapScene extends GameScene {
         )
     );
     this.lots = [...lotEntities];
+    let newLots = [...IslandTemplate.newLots];
+    newLots.forEach((v,i)=>{
+      this.lots.push(new LotEntity(v.id, v.name, v.location.x, v.location.y, {...IslandTemplate.DEFAULTLOTPROPERTIES, ...v.lotDetails, ...{imgObj: this.parentAssets["GameMapScene"][v.id]}}, []));
+    });
   }
 
   initializeCharacters() {
