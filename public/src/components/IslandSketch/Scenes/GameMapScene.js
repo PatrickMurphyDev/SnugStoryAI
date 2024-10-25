@@ -61,6 +61,7 @@ export class GameMapScene extends GameScene {
     this.speed = 0.5;
     this.playerx = 570;
     this.playery = 1820;
+    this.didMove = true;
 
     this.scal = 1;
     this.CameraOffset = undefined;
@@ -123,7 +124,7 @@ export class GameMapScene extends GameScene {
                 this.charPos.y + 12,
                 { x: 16, width: 16, y: 20, height: 20 },
                 () => {
-                    console.log("coll char");
+                    //console.log("coll char");
                     this.GUI.openAlert();
                 }
             )
@@ -163,7 +164,7 @@ export class GameMapScene extends GameScene {
     const characterTempList = IslandTemplateJSON.layers[
       this.getLayerIndexByName("Residents")
     ].objects.map((v) => this.createCharacterEntity(v));
-    console.log(characterTempList);
+    //console.log(characterTempList);
     this.setCharList(characterTempList);
   }
 
@@ -175,16 +176,16 @@ export class GameMapScene extends GameScene {
     if (simTime.isPaused) simTime.start();
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
-      this.setCameraZoom(p5, IslandTemplate.VIEW_ZOOM_SETTING);
+      if(this.didMove){
+        this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING);
+        // determine offset based on playerPosition and CameraZoom
+        const offsetLocal =  p5.createVector(
+          (this.playerx * -1) + (p5.width / (this.getCameraZoom()))/2,
+          (this.playery * -1) + (p5.height / (this.getCameraZoom()))/2.5
+        );
+        this.setCameraOffset(offsetLocal);
+      }
 
-      const offsetLocal =  p5.createVector(
-        this.playerx * -1 +
-          (p5.width / (this.getCameraZoom()))/2,
-        this.playery * -1 +(
-          p5.height / (this.getCameraZoom()))/2.5
-      );
-      this.setCameraOffset(offsetLocal);
-      
       // handle char sprites
       this.CharRunUp.update(p5);
       this.CharRunRight.update(p5);
@@ -198,6 +199,7 @@ export class GameMapScene extends GameScene {
       });
       this.charList[this.charList.length - 1].setHidden(true);
     }
+    this.didMove = false;
   }
 
   draw(p5) {
@@ -308,11 +310,9 @@ export class GameMapScene extends GameScene {
       if (this.lastMoveState <= 2) { //&& false
         p5.push(); 
         p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
-        this.CharIdle.draw(p5, -this.playerx - 24, this.playery);
-        //p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
+        this.CharIdle.draw(p5, -this.playerx - 24, this.playery);//p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
         p5.pop();
-      } else {
-        // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
+      } else { // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
         this.CharIdle.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
       }
     };
@@ -353,9 +353,10 @@ export class GameMapScene extends GameScene {
     return this.scal;
   }
 
-  setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
+  setCameraZoom(zoomLevelInt = 2, factor = 3) {
     zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
+    //console.log('SetScale: ' + this.scal);
   }
 
   setCameraOffset(positionP5Vec) {
@@ -382,6 +383,7 @@ export class GameMapScene extends GameScene {
         const newCallBack = (newVal, valid) => {
           this.playerx = valid ? newVal.x : this.playerx;
           this.playery = valid ? newVal.y : this.playery;
+          this.didMove = true;
         };
         if (isMovingDiagonal) speedModifier = 0.5;
         const moveDist = this.speed * this.getCameraZoom() * speedModifier;
@@ -390,13 +392,14 @@ export class GameMapScene extends GameScene {
         if (this.moveState.isMovingLeft) tmpx -= moveDist;
         if (this.moveState.isMovingRight) tmpx += moveDist;
 
-        this.checkNextPosititionCollision(
-          this.playerx,
-          this.playery,
-          tmpx,
-          tmpy,
-          newCallBack
-        );
+        if(tmpx !== this.playerx || tmpy !== this.playery)
+          this.checkNextPosititionCollision(
+            this.playerx,
+            this.playery,
+            tmpx,
+            tmpy,
+            newCallBack
+          );
       }
   } // end handleKeys FN
 
@@ -427,10 +430,21 @@ export class GameMapScene extends GameScene {
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
 
-      let v3 = p5.createVector(this.getCameraOffset().x + p5.mouseX,
-      this.getCameraOffset().y + p5.mouseY);
+      const plyrLoc = p5.createVector(this.playerx, this.playery);
+
+      let offsetLocal =  p5.createVector(
+        plyrLoc.x - (p5.width / this.getCameraZoom())/2, // 1000 / 3 == 333.33 / 2 === 166.6667
+        plyrLoc.y - (p5.height / this.getCameraZoom())/2.5 // 800 / 3 = 266 / 2.5 === 106.66667
+      );
+
+      offsetLocal.x = offsetLocal.x + (p5.mouseX / this.getCameraZoom());
+      offsetLocal.y = offsetLocal.y + (p5.mouseY / this.getCameraZoom());
+
+      /*let v3 = p5.createVector(((this.getCameraOffset().x * -1) / this.getCameraZoom()) + p5.mouseX,
+      ((this.getCameraOffset().y * -1) / this.getCameraZoom()) + p5.mouseY);*/
         // TODO fix the use of offset
-      this.CrabTraps.push(new CrabTrapEntity(p5.frameCounter, v3.x, v3.y, simTime.getDate()+"|"+simTime.getTime()));
+        let v3 = offsetLocal;
+      this.CrabTraps.push(new CrabTrapEntity("CTE"+p5.frameCounter, v3.x, v3.y, simTime.getDate()+"|"+simTime.getTime()));
 
       console.log("loc: " + v3.x + " - " + v3.y);
       if (this.DEBUG_LEVEL >= 2) {
@@ -478,9 +492,7 @@ export class GameMapScene extends GameScene {
     });
 
     // if new position is valid, set return to newPos
-    if (newPosValidity) {
-      returnPos = newPos;
-    }
+    if (newPosValidity) returnPos = newPos;
     returnNewValueCallback(returnPos, newPosValidity);
   } // end checkNextPositionCollision FN
 
