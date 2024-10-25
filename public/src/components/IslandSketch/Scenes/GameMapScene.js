@@ -82,7 +82,7 @@ export class GameMapScene extends GameScene {
     //tmp char fix other char
     this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
 
-    this.playerInventory = new CharacterInventory([ItemsEnum["crabtrap"]]);
+    this.playerInventory = new CharacterInventory({ "Item2": 5 });
     this.isLoaded = false;
 
     this.npcKeyIndex = 0;
@@ -440,29 +440,25 @@ export class GameMapScene extends GameScene {
 
   handleMouseInteraction(p5) {
     if (p5.mouseIsPressed) {
-      let tmpOffset = { x: this.getCameraOffset().x, y: this.getCameraOffset().y };
-      tmpOffset.x -= p5.pmouseX - p5.mouseX;
-      tmpOffset.y -= p5.pmouseY - p5.mouseY;
-      const mouse = p5.createVector(p5.mouseX, p5.mouseY);
+      if (this.playerInventory.getItemCount(ItemsEnum['crabtrap']) > 0) {
+        const plyrLoc = p5.createVector(this.playerx, this.playery);
 
-      const plyrLoc = p5.createVector(this.playerx, this.playery);
+        let offsetLocal = p5.createVector(
+          plyrLoc.x - (p5.width / this.getCameraZoom()) / 2, // 1000 / 3 == 333.33 / 2 === 166.6667
+          plyrLoc.y - (p5.height / this.getCameraZoom()) / 2.5 // 800 / 3 = 266 / 2.5 === 106.66667
+        );
 
-      let offsetLocal = p5.createVector(
-        plyrLoc.x - (p5.width / this.getCameraZoom()) / 2, // 1000 / 3 == 333.33 / 2 === 166.6667
-        plyrLoc.y - (p5.height / this.getCameraZoom()) / 2.5 // 800 / 3 = 266 / 2.5 === 106.66667
-      );
-
-      offsetLocal.x = offsetLocal.x + (p5.mouseX / this.getCameraZoom());
-      offsetLocal.y = offsetLocal.y + (p5.mouseY / this.getCameraZoom());
-
-      /*let v3 = p5.createVector(((this.getCameraOffset().x * -1) / this.getCameraZoom()) + p5.mouseX,
-      ((this.getCameraOffset().y * -1) / this.getCameraZoom()) + p5.mouseY);*/
-      // TODO fix the use of offset
-      let v3 = offsetLocal;
-      this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, v3.x, v3.y, simTime.getDate() + "|" + simTime.getTime()));
-
-      console.log("loc: " + v3.x + " - " + v3.y);
+        offsetLocal.x = offsetLocal.x + (p5.mouseX / this.getCameraZoom());
+        offsetLocal.y = offsetLocal.y + (p5.mouseY / this.getCameraZoom());
+        this.doUIAction(p5.frameCount, ()=>{
+          this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime()));
+          this.playerInventory.removeItem(ItemsEnum['crabtrap']);
+        })
+      }
       if (this.DEBUG_LEVEL >= 2) {
+        let tmpOffset = { x: this.getCameraOffset().x, y: this.getCameraOffset().y };
+        tmpOffset.x -= p5.pmouseX - p5.mouseX;
+        tmpOffset.y -= p5.pmouseY - p5.mouseY;
         this.setCameraOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
       }
     }
