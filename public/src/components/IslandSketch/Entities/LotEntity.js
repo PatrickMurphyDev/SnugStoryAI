@@ -11,9 +11,16 @@ class LotEntity extends Entity {
     this.characters = characters;
     this.building = {name:this.name, description: this.lotDetails.description || "no desc", type:"Store", owner:"Maureen", value:100000};
     this.occupied = false;
+    this.isPlayerBehind = false;
     this.imgObj = undefined;
     if(ldetails.imgObj)
       this.imgObj = ldetails.imgObj;
+      this.imgSize = ldetails.imgSize || {x:160,y:171};
+      this.imgOffset = ldetails.imgOffset || {x:10,y:20};
+      this.bounds = {x1:this.location.x-(this.imgSize.x/2 + 10)};
+      this.bounds['x2'] = this.bounds.x1 + this.imgSize.x;
+      this.bounds['y1'] = this.location.y - this.imgSize.y;
+      this.bounds['y2'] = this.bounds.y1 + this.imgSize.y * 0.7;
   }
 
   isMouseOver(p5, offset, scal){
@@ -31,6 +38,10 @@ class LotEntity extends Entity {
 
   update(p5, parent) {
     // Implement any update logic specific to LotEntity
+      this.isPlayerBehind = false;
+      if (parent.playerx >= this.bounds.x1 && parent.playerx <= this.bounds.x2 && parent.playery >= this.bounds.y1 && parent.playery <= this.bounds.y2){
+        this.isPlayerBehind = true;
+      }
       if (this.isMouseOver(p5, parent.getCameraOffset(), parent.getCameraZoom())) {
         this.handleLotInteraction(p5, (lot)=>{parent.onPropertySelect(lot)});
       }
@@ -38,7 +49,7 @@ class LotEntity extends Entity {
 
   draw(p5, transparency, offset, scal) {
     offset = offset || {x:0,y:0};
-    const ps = p5.createVector(this.location.x / 2, this.location.y / 2);
+    const ps = p5.createVector(this.location.x, this.location.y);
     let fillColor = '#000000';
     if (this.fillColor || this.characters.length) {
       fillColor = this.fillColor;
@@ -46,7 +57,12 @@ class LotEntity extends Entity {
     }
 
     if(this.imgObj){
-      p5.image(this.imgObj, ps.x*2-90, ps.y*2-171,160,171);
+      p5.push();
+      if(this.isPlayerBehind){
+        p5.tint(255,100);
+      }
+      p5.image(this.imgObj, ps.x-(this.imgSize.x/2 + 10), ps.y-this.imgSize.y, this.imgSize.x,this.imgSize.y);
+      p5.pop();
     }else{
       p5.ellipse(ps.x, ps.y, 10, 10);
     }
