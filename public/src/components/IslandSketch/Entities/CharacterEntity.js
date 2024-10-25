@@ -10,7 +10,7 @@ import { states } from "../states";
 import SimulationTime from "../../../utils/SimulationTime";
 
 
-const simTime = SimulationTime.getInstance();
+const simTime = SimulationTime.getInstance({'currentTimeOfDay':600}); // start 10 am
 
 class CharacterEntity extends PathingEntity {
   constructor(

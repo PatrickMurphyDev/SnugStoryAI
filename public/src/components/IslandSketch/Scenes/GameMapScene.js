@@ -19,7 +19,7 @@ import { ItemsEnum } from "../ItemsEnum";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
 
 // define simulation time object that tracks time and date in world
-const simTime = new SimulationTime({'currentTimeOfDay':720});
+const simTime = SimulationTime.getInstance({'currentTimeOfDay':600}); // start 10 am
 export class GameMapScene extends GameScene {
     constructor(
     onCharacterSelect,

@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 
 class SimulationTime extends EventEmitter {
-  constructor(time, params) {
+  constructor(params) {
     super();
     if (SimulationTime.instance) {
         return SimulationTime.instance;
@@ -11,7 +11,7 @@ class SimulationTime extends EventEmitter {
       params = {};
       params['isPaused'] = false;
       params['rateOfTime'] = 1;
-      params['currentTimeOfDay'] = time || 0;
+      params['currentTimeOfDay'] = 1;
       params['currentDayOfWeek'] = 1;
       params['dayOfMonth'] = 4;
       params['month'] = 7;
@@ -20,7 +20,7 @@ class SimulationTime extends EventEmitter {
 
     this._isPaused = params.isPaused ? params.isPaused : false;
     this._rateOfTime = params.rateOfTime || 1; // 1x, 2x, 3x
-    this._currentTimeOfDay = params.currentTimeOfDay || 0; // in minutes (0-1440)
+    this._currentTimeOfDay = params.currentTimeOfDay || 1; // in minutes (0-1440)
     this._currentDayOfWeek = params.currentDayOfWeek || 1; // 1: Sunday, 2: Monday, ..., 7: Saturday
     this._dayOfMonth = params.dayOfMonth || 4;
     this._month = params.month || 7; // 1: January, ..., 12: December
