@@ -13,6 +13,7 @@ import { GameTileMapManager } from "../GameTileMapManager";
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json";
+import AssetsListGameMapScene from "./AssetsListGameMapScene";
 import AnimatedSpriteEntity from "../Entities/AnimatedSpriteEntity";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import { ItemsEnum } from "../ItemsEnum";
@@ -21,7 +22,7 @@ import CrabTrapEntity from "../Entities/CrabTrapEntity";
 // define simulation time object that tracks time and date in world
 const simTime = new SimulationTime();
 export class GameMapScene extends GameScene {
-  constructor(
+    constructor(
     onCharacterSelect,
     onPropertySelect,
     charList,
@@ -31,17 +32,17 @@ export class GameMapScene extends GameScene {
   ) {
     super("GameMapScene");
     this.DEBUG_LEVEL = 0;
-    this.parentAssets = parentAssetsByScene;
+        
     this.onCharacterSelect = onCharacterSelect;
     this.onPropertySelect = onPropertySelect;
-
     this.charList = charList;
     this.setCharList = (cList) => {
       setCharList(cList);
       this.charList = cList;
     };
-
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
+    this.parentAssets = parentAssetsByScene;
+
     this.scal = 1;
     this.CameraOffset = undefined;
     this.cameraControlMode = "player";
@@ -50,7 +51,12 @@ export class GameMapScene extends GameScene {
 
     this.GUI_Time = '';
     this.GUI_Date = '';
+        
     var tiles = [];
+    this.AnimatedSprites = [];
+    this.CollideEntities = [];
+    this.CrabTraps = [];
+    this.preloadedImages = [];
     this.GameMap = new GameTileMapManager(this, {width:64,height:64}, tiles);
 
     this.speed = 0.5;
@@ -66,12 +72,10 @@ export class GameMapScene extends GameScene {
     this.playerInventory = new CharacterInventory([ItemsEnum["crabtrap"]]);
     this.isLoaded = false;
 
-
     this.frameCounter = 0;
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
-
 
     this.useCharImage = true;
     this.useBGImage = true;
@@ -79,8 +83,6 @@ export class GameMapScene extends GameScene {
     this.WaveSpriteSheet = this.parentAssets["GameMapScene"]["WaveSpriteSheet"];
 
     this.loadAssets();
-
-
     // character profile images data structure map CharKey:Str -> p5.Image
     this.characterProfileImages = {
       LukasMallard: this.parentAssets.GameMapScene.OtherPlayerProfileImage,
@@ -91,19 +93,8 @@ export class GameMapScene extends GameScene {
     this.initializeEventListeners();
     this.initializeLots();
     this.initializeCharacters();
-
-    this.CollideEntities.push(
-      new CollideRectEntity(
-        66666,
-        this.charPos.x + 8,
-        this.charPos.y + 12,
-        { x: 16, width: 16, y: 20, height: 20 },
-        () => {
-          console.log("coll char");
-          this.GUI.openAlert();
-        }
-      )
-    );
+    this.AddSceneCollideEntities();
+        
     simTime.onTimeUpdate((data) => {
       this.GUI_Time = data.time12;
       this.GUI_Date = data.date;
@@ -111,6 +102,22 @@ export class GameMapScene extends GameScene {
     });
     simTime.pause();
   } // end constructor
+    
+    AddSceneCollideEntities() {
+        this.CollideEntities.push(
+            new CollideRectEntity(
+                66666,
+                this.charPos.x + 8,
+                this.charPos.y + 12,
+                { x: 16, width: 16, y: 20, height: 20 },
+                () => {
+                    console.log("coll char");
+                    this.GUI.openAlert();
+                }
+            )
+        );
+    }
+
 
   loadWallData() {
     WallData.forEach((wall) => {
@@ -148,116 +155,8 @@ export class GameMapScene extends GameScene {
     this.setCharList(characterTempList);
   }
 
-  loadAssets() {
-    this.AnimatedSprites.push(
-      new AnimatedSpriteEntity(
-        "as2323",
-        this.parentAssets["GameMapScene"]["WaveSpriteSheet"],
-        640,
-        1728,
-        { width: 32, height: 32 },
-        { columns: 4, rows: 1 },
-        0,
-        30, 
-        1
-      )
-    );
-    this.AnimatedSprites.push(
-      new AnimatedSpriteEntity(
-        "as2323",
-        this.parentAssets["GameMapScene"]["OtherCharSheet"],
-        this.charPos.x,
-        this.charPos.y,
-        { width: 24, height: 32 },
-        { columns: 3, rows: 4 },
-        1, // frame offset
-        -1, // speed
-        2 // row
-      )
-    );
-
-    this.playerImage = this.parentAssets["GameMapScene"]["PlayerImage"];
-    this.playerImageLeft = this.parentAssets["GameMapScene"]["PlayerImageLeft"];
-    this.playerImageRight =
-      this.parentAssets["GameMapScene"]["PlayerImageRight"];
-
-    this.otherPlayerImage =
-      this.parentAssets["GameMapScene"]["OtherPlayerImage"];
-    this.otherPlayerProfileImage =
-      this.parentAssets["GameMapScene"]["OtherPlayerProfileImage"];
-
-    this.PlayerProfileImage =
-      this.parentAssets["GameMapScene"]["PlayerProfileImage"];
-    this.GameMapSceneUI = this.parentAssets["GameMapScene"]["GameMapSceneUI"];
-    this.GameMapSceneUIBanner =
-      this.parentAssets["GameMapScene"]["GameMapSceneUIBanner"];
-
-    this.AnimatedSprites.push(
-      new AnimatedSpriteEntity(
-        "as2324",
-        this.parentAssets["GameMapScene"]["WaveSpriteSheet"],
-        640 + 32,
-        1728,
-        { width: 32, height: 32 },
-        { columns: 4, rows: 1 },
-        1
-      )
-    );
-    this.CharRunUp = new AnimatedSpriteEntity(
-      "as2326",
-      this.parentAssets["GameMapScene"]["NewCharSheet"],
-      0,
-      0,
-      { width: 24, height: 32 },
-      { columns: 3, rows: 4 },
-      0,
-      10,
-      0
-    );
-    this.CharRunRight = new AnimatedSpriteEntity(
-      "as2327",
-      this.parentAssets["GameMapScene"]["NewCharSheet"],
-      0,
-      0,
-      { width: 24, height: 32 },
-      { columns: 3, rows: 4 },
-      0,
-      10,
-      1
-    );
-    this.CharRunDown = new AnimatedSpriteEntity(
-      "as2328",
-      this.parentAssets["GameMapScene"]["NewCharSheet"],
-      0,
-      0,
-      { width: 24, height: 32 },
-      { columns: 3, rows: 4 },
-      0,
-      10,
-      2
-    );
-    this.CharRunLeft = new AnimatedSpriteEntity(
-      "as2329",
-      this.parentAssets["GameMapScene"]["NewCharSheet"],
-      0,
-      0,
-      { width: 24, height: 32 },
-      { columns: 3, rows: 4 },
-      0,
-      10,
-      3
-    );
-    this.CharIdle = new AnimatedSpriteEntity(
-      "as2329",
-      this.parentAssets["GameMapScene"]["NewCharSheet"],
-      0,
-      0,
-      { width: 24, height: 32 },
-      { columns: 3, rows: 4 },
-      1,
-      0,
-      2
-    );
+    loadAssets() {
+      AssetsListGameMapScene(this.parentAssets,this,this.charPos);
   }
 
   update(p5) {
@@ -469,43 +368,45 @@ export class GameMapScene extends GameScene {
   }
 
   handleKeyboardUserInputUpdate() {
-    let tmpy = this.playery;
-    let tmpx = this.playerx;
-    let isMovingVertical = this.isMovingUp || this.isMovingDown;
-    let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
-    let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
+      if(this.GUI.allowMoveInputKeys){
+        let tmpy = this.playery;
+        let tmpx = this.playerx;
+        let isMovingVertical = this.isMovingUp || this.isMovingDown;
+        let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
+        let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
 
-    let speedModifier = 1;
+        let speedModifier = .9;
 
-    const newCallBack = (newVal, valid) => {
-      this.playerx = valid ? newVal.x : this.playerx;
-      this.playery = valid ? newVal.y : this.playery;
-    };
+        const newCallBack = (newVal, valid) => {
+          this.playerx = valid ? newVal.x : this.playerx;
+          this.playery = valid ? newVal.y : this.playery;
+        };
 
-    if (isMovingDiagonal) speedModifier = 0.5;
+        if (isMovingDiagonal) speedModifier = 0.5;
 
-    const moveDist = this.speed * this.scal * speedModifier;
+        const moveDist = this.speed * this.scal * speedModifier;
 
-    if (this.moveState.isMovingUp) {
-      tmpy -= moveDist;
-    }
-    if (this.moveState.isMovingDown) {
-      tmpy += moveDist;
-    }
-    if (this.moveState.isMovingLeft) {
-      tmpx -= moveDist;
-    }
-    if (this.moveState.isMovingRight) {
-      tmpx += moveDist;
-    }
+        if (this.moveState.isMovingUp) {
+          tmpy -= moveDist;
+        }
+        if (this.moveState.isMovingDown) {
+          tmpy += moveDist;
+        }
+        if (this.moveState.isMovingLeft) {
+          tmpx -= moveDist;
+        }
+        if (this.moveState.isMovingRight) {
+          tmpx += moveDist;
+        }
 
-    this.checkNextPosititionCollision(
-      this.playerx,
-      this.playery,
-      tmpx,
-      tmpy,
-      newCallBack
-    );
+        this.checkNextPosititionCollision(
+          this.playerx,
+          this.playery,
+          tmpx,
+          tmpy,
+          newCallBack
+        );
+      }
   } // end handleKeys FN
 
   keyPressed(e) {
@@ -546,8 +447,9 @@ export class GameMapScene extends GameScene {
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
 
-      let v3 = p5.createVector((Math.abs(this.CameraOffset.x) + p5.mouseX),
-      (Math.abs(this.CameraOffset.y) + p5.mouseY));
+      let v3 = p5.createVector(this.CameraOffset.x + p5.mouseX,
+      this.CameraOffset.y + p5.mouseY);
+        // TODO fix the use of offset
       this.CrabTraps.push(new CrabTrapEntity(p5.frameCounter, v3.x, v3.y, simTime.getDate()+"|"+simTime.getTime()));
 
       console.log("loc: " + v3.x + " - " + v3.y);
