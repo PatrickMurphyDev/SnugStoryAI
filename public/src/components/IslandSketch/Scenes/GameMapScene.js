@@ -177,7 +177,7 @@ export class GameMapScene extends GameScene {
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
       if(this.didMove){
-        this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING);
+        this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, 0.6);
         // determine offset based on playerPosition and CameraZoom
         const offsetLocal =  p5.createVector(
           (this.playerx * -1) + (p5.width / (this.getCameraZoom()))/2,
@@ -354,7 +354,7 @@ export class GameMapScene extends GameScene {
   }
 
   setCameraZoom(zoomLevelInt = 2, factor = 3) {
-    zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
+    zoomLevelInt = Math.max(1, Math.min(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
     //console.log('SetScale: ' + this.scal);
   }
