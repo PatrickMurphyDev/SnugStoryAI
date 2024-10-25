@@ -22,7 +22,7 @@ export class GameCutScene extends GameScene {
    */
   preload(p5) {
     this.slides.forEach((slide, index) => {
-      console.log(slide);
+      //console.log(slide);
       if (slide.imagePath) {
         console.log("Load Image");
         this.preloadedImages[index] = p5.loadImage(slide.imagePath); // Preload image for each slide
@@ -171,7 +171,7 @@ drawButtonText(p5, x, y, buttonWidth, buttonHeight, text, slide) {
     const sizeImg = Math.min(550, 500);
 
     // Draw the current slide's image
-    if (this.preloadedImages[this.currentSlideIndex]) {
+    if (this.preloadedImages[this.currentSlideIndex] && currentSlide) {
       // assume square src img
       p5.image(
         this.preloadedImages[this.currentSlideIndex],
@@ -180,7 +180,7 @@ drawButtonText(p5, x, y, buttonWidth, buttonHeight, text, slide) {
         sizeImg,
         sizeImg
       );
-    } else {
+    } else if(currentSlide["imagePath"]){
       this.preloadedImages[this.currentSlideIndex] = p5.loadImage(
         currentSlide["imagePath"]
       );
