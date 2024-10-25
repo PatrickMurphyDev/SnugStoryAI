@@ -8,6 +8,7 @@ export class GUIElementManager {
     this.GUIElements = [];
 
     this.alertWindowIsOpen = false;
+    this.allowMoveInputKeys = true;
 
     this.initializeGUIElements();
   }
@@ -27,10 +28,12 @@ export class GUIElementManager {
 
   openAlert() {
     this.setAlertWindow("OPEN");
+    this.allowMoveInputKeys = false;
   }
 
   closeAlert() {
     this.setAlertWindow("CLOSE");
+    this.allowMoveInputKeys = true;
   }
 
   setAlertWindow(str) {
