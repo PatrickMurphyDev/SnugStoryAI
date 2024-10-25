@@ -33,6 +33,7 @@ export class GameMapScene extends GameScene {
     super("GameMapScene");
     this.DEBUG_LEVEL = 0;
         
+    // ----- Constructor Params ---------
     this.onCharacterSelect = onCharacterSelect;
     this.onPropertySelect = onPropertySelect;
     this.charList = charList;
@@ -42,16 +43,22 @@ export class GameMapScene extends GameScene {
     };
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
     this.parentAssets = parentAssetsByScene;
+    // -- end Constructor Params ---------
+    
+    this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
+    this.GUI_Time = '';
+    this.GUI_Date = '';
+    this.tileWidth = 32;
+    this.speed = 0.5;
+    this.playerx = 570;
+    this.playery = 1820;
 
     this.scal = 1;
     this.CameraOffset = undefined;
     this.cameraControlMode = "player";
-    this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
+
     this.testImgSec = 1;
 
-    this.GUI_Time = '';
-    this.GUI_Date = '';
-        
     var tiles = [];
     this.AnimatedSprites = [];
     this.CollideEntities = [];
@@ -59,10 +66,6 @@ export class GameMapScene extends GameScene {
     this.preloadedImages = [];
     this.GameMap = new GameTileMapManager(this, {width:64,height:64}, tiles);
 
-    this.speed = 0.5;
-    this.tileWidth = 32;
-    this.playerx = 570;
-    this.playery = 1820;
     this.moveState = {};
     this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
 
@@ -72,7 +75,6 @@ export class GameMapScene extends GameScene {
     this.playerInventory = new CharacterInventory([ItemsEnum["crabtrap"]]);
     this.isLoaded = false;
 
-    this.frameCounter = 0;
     this.npcKeyIndex = 0;
     this.NPCKeys = IslandTemplate.NPCKEYS;
     this.currentNPCKey = "LukasMallard";
@@ -161,38 +163,31 @@ export class GameMapScene extends GameScene {
 
   update(p5) {
     if (simTime.isPaused) simTime.start();
-    // if frame based timer expires
-    if (this.frameCounter >= p5.frameRate() * this.testImgSec) {
-      this.frameCounter = 0;
-    } else if (this.characterProfileImages[this.currentNPCKey]) {
-      // if timer not expired and the char profileimg isnt null
-      this.frameCounter++; // increment timer of frames this image has been displayed
-    }
-
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
       this.setCameraZoom(p5, IslandTemplate.VIEW_ZOOM_SETTING);
-      this.setCameraOffset(
-        p5.createVector(
-          this.playerx * -1 +
-            (p5.width / (this.scal))/2,
-          this.playery * -1 +(
-            p5.height / (this.scal))/2.5
-        )
+
+      const offsetLocal =  p5.createVector(
+        this.playerx * -1 +
+          (p5.width / (this.getCameraZoom()))/2,
+        this.playery * -1 +(
+          p5.height / (this.getCameraZoom()))/2.5
       );
+      this.setCameraOffset(offsetLocal);
+      
+      // handle char sprites
+      this.CharRunUp.update(p5);
+      this.CharRunRight.update(p5);
+      this.CharRunDown.update(p5);
+      this.CharRunLeft.update(p5);
+      
+      // WIP TODO: temp: set ellie to player x y
+      this.charList[this.charList.length - 1].setLocation({
+        x: this.playerx,
+        y: this.playery,
+      });
+      this.charList[this.charList.length - 1].setHidden(true);
     }
-
-    this.CharRunUp.update(p5);
-    this.CharRunRight.update(p5);
-    this.CharRunDown.update(p5);
-    this.CharRunLeft.update(p5);
-
-    // temp: set ellie to player x y
-    this.charList[this.charList.length - 1].setLocation({
-      x: this.playerx,
-      y: this.playery,
-    });
-    this.charList[this.charList.length - 1].setHidden(true);
   }
 
   draw(p5) {
@@ -251,8 +246,8 @@ export class GameMapScene extends GameScene {
 
   renderBackground(p5) {
     p5.background("#20D6C7");
-    p5.scale(this.scal);
-    p5.translate(this.CameraOffset.x, this.CameraOffset.y);
+    p5.scale(this.getCameraZoom());
+    p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
     if (this.useBGImage) {
       p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
     }
@@ -326,7 +321,6 @@ export class GameMapScene extends GameScene {
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
-
   getCameraOffset(){
     return this.CameraOffset;
   }
@@ -338,24 +332,10 @@ export class GameMapScene extends GameScene {
   setCameraZoom(p5, zoomLevelInt = 2, factor = 3) {
     zoomLevelInt = Math.min(1, Math.max(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
-    if (this.cameraControlMode === "Mouse") {
-      // currently set to player does not run
-      // CODE SMELL TODO WIP
-      const mouse = p5.createVector(400 + 300 + 816, 300 + 16); // Center ????? TODO:Investigate
-      this.CameraOffset = this.getPositionInWorld(p5,mouse);
-    }
   }
 
   setCameraOffset(positionP5Vec) {
     this.CameraOffset = positionP5Vec;
-  }
-
-  handleZoom(e, p5) {
-    const s = 1 - e.deltaY / 1000;
-    this.scal *= s;
-    console.log("scale", s);
-    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
-    this.CameraOffset = this.getPositionInWorld(p5, mouse);
   }
   /**----------- END CAMERA FN */
 
@@ -384,7 +364,7 @@ export class GameMapScene extends GameScene {
 
         if (isMovingDiagonal) speedModifier = 0.5;
 
-        const moveDist = this.speed * this.scal * speedModifier;
+        const moveDist = this.speed * this.getCameraZoom() * speedModifier;
 
         if (this.moveState.isMovingUp) {
           tmpy -= moveDist;
@@ -408,6 +388,15 @@ export class GameMapScene extends GameScene {
         );
       }
   } // end handleKeys FN
+  // disabled in initializeEventListeners
+  /*
+  handleZoom(e, p5) {
+    const s = 1 - e.deltaY / 1000;
+    this.scal *= s;
+    console.log("scale", s);
+    const mouse = p5.createVector(p5.mouseX, p5.mouseY);
+    this.CameraOffset = this.getPositionInWorld(p5, mouse);
+}*/
 
   keyPressed(e) {
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
@@ -442,19 +431,19 @@ export class GameMapScene extends GameScene {
 
   handleMouseInteraction(p5) {
     if (p5.mouseIsPressed) {
-      let tmpOffset = { x: this.CameraOffset.x, y: this.CameraOffset.y };
+      let tmpOffset = { x: this.getCameraOffset().x, y: this.getCameraOffset().y };
       tmpOffset.x -= p5.pmouseX - p5.mouseX;
       tmpOffset.y -= p5.pmouseY - p5.mouseY;
       const mouse = p5.createVector(p5.mouseX, p5.mouseY);
 
-      let v3 = p5.createVector(this.CameraOffset.x + p5.mouseX,
-      this.CameraOffset.y + p5.mouseY);
+      let v3 = p5.createVector(this.getCameraOffset().x + p5.mouseX,
+      this.getCameraOffset().y + p5.mouseY);
         // TODO fix the use of offset
       this.CrabTraps.push(new CrabTrapEntity(p5.frameCounter, v3.x, v3.y, simTime.getDate()+"|"+simTime.getTime()));
 
       console.log("loc: " + v3.x + " - " + v3.y);
       if (this.DEBUG_LEVEL >= 2) {
-        this.CameraOffset = p5.createVector(tmpOffset.x, tmpOffset.y);
+        this.setCameraOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
       }
     }
   }
@@ -466,9 +455,9 @@ export class GameMapScene extends GameScene {
       posVector = p5.createVector(p5.mouseX,p5.mouseY);
       //throw new Error("getPositionInWorld param PosVector");
     return p5
-        .createVector(this.CameraOffset.x, this.CameraOffset.y)
+        .createVector(this.getCameraOffset().x, this.getCameraOffset().y)
         .sub(posVector)
-        .mult(this.scal)
+        .mult(this.getCameraZoom())
         .add(posVector);
   }
 
