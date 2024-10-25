@@ -31,8 +31,9 @@ class CharacterEntity extends PathingEntity {
       Math.floor(Math.random() * 1000), // ID
       {x: location.x, y: location.y}, // TODO look into *2
       { width: 32, height: 32 },
-      "map",1 //speed
-      , []//gridmovement
+      "map",
+      1, //speed 
+      [] //gridmovement
     );
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
@@ -96,14 +97,14 @@ class CharacterEntity extends PathingEntity {
     if (this.profileImage) {
       p5.image(this.profileImage, ps.x, ps.y, 35,35); // Draw the character's image
     }
-   p5.text(this.info.name,ps.x+11,ps.y+30)
+   p5.text(this.info.name,ps.x+11,ps.y+30);
   }
 
   // Method to update location
-  updateLocation(lot) {
+  updateLocation(newLocation) {
     //this.setPath({x:Math.floor(lot.location.x/32), y:Math.floor(lot.location.y/32)});
-    this.location.x = lot.location.x;
-    this.location.y = lot.location.y;
+    this.location.x = newLocation.location.x;
+    this.location.y = newLocation.location.y;
   }
 
   // Determine if the character needs to move based on the current state
