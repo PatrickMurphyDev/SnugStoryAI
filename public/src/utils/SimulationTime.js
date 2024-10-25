@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 
 class SimulationTime extends EventEmitter {
-  constructor(params) {
+  constructor(time, params) {
     super();
     if (SimulationTime.instance) {
         return SimulationTime.instance;
@@ -11,7 +11,7 @@ class SimulationTime extends EventEmitter {
       params = {};
       params['isPaused'] = false;
       params['rateOfTime'] = 1;
-      params['currentTimeOfDay'] = 0;
+      params['currentTimeOfDay'] = time || 0;
       params['currentDayOfWeek'] = 1;
       params['dayOfMonth'] = 4;
       params['month'] = 7;

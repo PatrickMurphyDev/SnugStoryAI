@@ -14,13 +14,12 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json";
 import AssetsListGameMapScene from "./AssetsListGameMapScene";
-import AnimatedSpriteEntity from "../Entities/AnimatedSpriteEntity";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import { ItemsEnum } from "../ItemsEnum";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
 
 // define simulation time object that tracks time and date in world
-const simTime = new SimulationTime();
+const simTime = new SimulationTime({'currentTimeOfDay':720});
 export class GameMapScene extends GameScene {
     constructor(
     onCharacterSelect,
@@ -208,14 +207,6 @@ export class GameMapScene extends GameScene {
       let tmpTimeToAlpha = (ctd)=>{
         let maxCTD = 1440;
         ctd = ctd || (maxCTD/2); // param or noon
-        /*
-          ctd = 0 = midnight -- black
-            0 + 720 % 1440 = 720 / 1440 = .5
-          ctd = 720 = noon -- light
-            720 + 720 % 1440 = 0
-          ctd = 1440 = midnight -- black
-        */
-        let ctdTmp = ctd;
         let ctdPct = Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
         if(ctd<=(maxCTD/2)){
           // ramp
@@ -230,17 +221,20 @@ export class GameMapScene extends GameScene {
 
       // tint image alpha
       p5.tint(Math.max(35,tmpTimeToAlpha(simTime.currentTimeOfDay)));
-    }
-    this.renderBackground(p5);
-    this.renderEntities(p5, this);
-    this.renderPlayer(p5);
+      this.renderBackground(p5);
+      this.renderEntities(p5, this);
+      this.renderPlayer(p5);
 
-    this.handleMouseInteraction(p5);
-    if (this.DEBUG_LEVEL >= 2) {
-      // draw walls
-      this.CollideEntities.forEach((collider) => {
-        collider.draw(p5);
-      });
+      this.handleMouseInteraction(p5);
+      if (this.DEBUG_LEVEL >= 2) {
+        // draw walls
+        this.CollideEntities.forEach((collider) => {
+          collider.draw(p5);
+        });
+      }
+    }else{ // loading map scene
+      p5.background(60); 
+      p5.text("Loading...",p5.width/2,p5.height/2);
     }
     p5.pop();
   }
