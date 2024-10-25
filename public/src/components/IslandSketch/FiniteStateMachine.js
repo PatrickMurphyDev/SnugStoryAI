@@ -18,8 +18,7 @@ export class FiniteStateMachine extends EventEmitter {
 
   updateStateDetails(){
     this.currentStateDetails = stateDetails[this.currentState.toUpperCase()];
-    this.currentStateDuration = (parseInt(this.currentStateDetails.duration.min) 
-    + Math.random() * parseInt(this.currentStateDetails.duration.max - this.currentStateDetails.duration.min)) || this.currentStateDetails.duration.default;
+    this.currentStateDuration = (parseInt(this.currentStateDetails.duration.min) + Math.random() * parseInt(this.currentStateDetails.duration.max - this.currentStateDetails.duration.min)) || this.currentStateDetails.duration.default;
 
     console.log(this.nameChar + " " + this.currentStateDuration);
   }
