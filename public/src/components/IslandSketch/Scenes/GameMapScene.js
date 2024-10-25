@@ -204,6 +204,33 @@ export class GameMapScene extends GameScene {
 
   renderMainView_Map(p5) {
     p5.push();
+    if(simTime.currentTimeOfDay){
+      let tmpTimeToAlpha = (ctd)=>{
+        let maxCTD = 1440;
+        ctd = ctd || (maxCTD/2); // param or noon
+        /*
+          ctd = 0 = midnight -- black
+            0 + 720 % 1440 = 720 / 1440 = .5
+          ctd = 720 = noon -- light
+            720 + 720 % 1440 = 0
+          ctd = 1440 = midnight -- black
+        */
+        let ctdTmp = ctd;
+        let ctdPct = Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
+        if(ctd<=(maxCTD/2)){
+          // ramp
+          ctdPct = ctd/(maxCTD/2);
+        }else{
+          // reverse ramp
+          ctdPct = ((maxCTD/2)-(ctd-(maxCTD/2)))/(maxCTD/2);
+        }
+        // 0 = 0, 360 = 127, 720 = 255, 1080 = 127, 1440 = 0
+        return 255*ctdPct;
+      }
+
+      // tint image alpha
+      p5.tint(Math.max(35,tmpTimeToAlpha(simTime.currentTimeOfDay)));
+    }
     this.renderBackground(p5);
     this.renderEntities(p5, this);
     this.renderPlayer(p5);
@@ -249,36 +276,7 @@ export class GameMapScene extends GameScene {
     p5.scale(this.getCameraZoom());
     p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
     if (this.useBGImage) {
-      p5.push();
-      if(simTime.currentTimeOfDay){
-        let tmpTimeToAlpha = (ctd)=>{
-          let maxCTD = 1440;
-          ctd = ctd || (maxCTD/2); // param or noon
-          /*
-            ctd = 0 = midnight -- black
-              0 + 720 % 1440 = 720 / 1440 = .5
-            ctd = 720 = noon -- light
-              720 + 720 % 1440 = 0
-            ctd = 1440 = midnight -- black
-          */
-          let ctdTmp = ctd;
-          let ctdPct = Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
-          if(ctd<=(maxCTD/2)){
-            // ramp
-            ctdPct = ctd/(maxCTD/2);
-          }else{
-            // reverse ramp
-            ctdPct = ((maxCTD/2)-(ctd-(maxCTD/2)))/(maxCTD/2);
-          }
-          // 0 = 0, 360 = 127, 720 = 255, 1080 = 127, 1440 = 0
-          return 255*ctdPct;
-        }
-
-        // tint image alpha
-        p5.tint(255, tmpTimeToAlpha(simTime.currentTimeOfDay));
-      }
       p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
-      p5.pop();
     }
   }
 
