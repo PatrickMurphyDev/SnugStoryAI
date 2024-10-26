@@ -9,6 +9,15 @@ class Entity {
     this.isSelected = false;
     this.timeHasUpdated = false;
     this._isHidden = false;
+    this.lastUIActionFrame = -1;
+    this.UIActionCooldownFrames = 15;
+  }
+
+  doUIAction(currFrame, action){
+    if (this.lastUIActionFrame + this.UIActionCooldownFrames <= currFrame) {
+      this.lastUIActionFrame = currFrame;
+      action();
+    }
   }
 
   remove(){

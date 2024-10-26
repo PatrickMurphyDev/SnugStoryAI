@@ -31,8 +31,10 @@ class LotEntity extends Entity {
   handleLotInteraction(p5, callback) {
     this.setHover(true);
     if (p5.mouseIsPressed) {
-      this.setClick(true);
-      callback(this);
+      this.doUIAction(p5.frameCount,()=>{
+        this.setClick(true);
+        callback(this);
+      });
     }
   }
 
@@ -63,6 +65,8 @@ class LotEntity extends Entity {
       }
       p5.image(this.imgObj, ps.x-(this.imgSize.x/2 + 10), ps.y-this.imgSize.y, this.imgSize.x,this.imgSize.y);
       p5.pop();
+      p5.fill('#ffffff66')
+      p5.ellipse(ps.x-16, ps.y-25, 10, 10);
     }else{
       p5.ellipse(ps.x, ps.y, 10, 10);
     }
