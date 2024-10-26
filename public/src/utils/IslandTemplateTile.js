@@ -128,6 +128,7 @@ export const IslandTemplate = {
     {id: "RedRoofHouse10", name: "House", location:{x:1200,y:1100}, lotDetails:{"imgFileSrc":"houseRedRoof1.png"}},
     {id: "Hospital", name: "Medical Center", location:{x:240,y:1200}, lotDetails:{"imgFileSrc":"Hospital.png"}},
     {id: "Marina", name: "Harbor Master", location:{x:740,y:1630}, lotDetails:{"imgFileSrc":"Marina.png"}},
+    {id: "Resturant1", name: "Off The Hook", location:{x:1000,y:1430}, lotDetails:{"imgFileSrc":"Resturant1.png"}},
   ],
   Image: {
     source: "images/SnugIslandmin.png",

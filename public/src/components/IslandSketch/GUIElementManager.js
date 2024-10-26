@@ -7,6 +7,7 @@ export class GUIElementManager {
     this.imageAssets = imgAssets || { imgKey: null }; // key : image
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = [];
+    this.AlertWindowText = "";
 
     this.alertWindowIsOpen = false;
     this.allowMoveInputKeys = true;
@@ -27,14 +28,16 @@ export class GUIElementManager {
     return this.SimulationDateTime;
   }
 
-  openAlert() {
+  openAlert(title,text) {
     this.setAlertWindow("OPEN");
     this.allowMoveInputKeys = false;
+    this.AlertWindowText = {title:title||"alert",text:text||"Message"};
   }
 
   closeAlert() {
     this.setAlertWindow("CLOSE");
     this.allowMoveInputKeys = true;
+    this.AlertWindowText = {};
   }
 
   setAlertWindow(str) {
@@ -48,15 +51,21 @@ export class GUIElementManager {
   initializeGUIElements() {
     this.GUIElements = IslandTemplate.GUIElements;
     this.GUIElements[1].img = this.parent.PlayerProfileImage;
-    this.GUIElements[3].actions = [
-      {
+    this.GUIElements[3].actions = [{
         onClickHandle: (e) => {
           this.closeAlert();
           this.parent.mapDisplayMode = 1;
         },
         fill: "#63aff3",
-        text: "Chat",
+        text: "Continue",
       },
+      {
+        onClickHandle: (e) => {
+          this.closeAlert();
+        },
+        fill: "#666",
+        text: "Cancel",
+      }
     ];
   }
 
@@ -68,15 +77,16 @@ export class GUIElementManager {
 
     // window title text
     p5.fill(200);
-    p5.text(v.title || "Panel", v.x, v.y, v.w, 24);
+    p5.text(this.AlertWindowText.title || v.title || "Panel", v.x, v.y, v.w, 24);
 
+    let txt = this.AlertWindowText.text || v.text || "Msg";
     // window body text
     p5.push();
     p5.fill(0);
     p5.textAlign("LEFT", "TOP");
     p5.text(
-      v.text || "Panel",
-      v.x + p5.textWidth(v.text) / 2 + 10,
+      txt || "Panel",
+      v.x + p5.textWidth(txt) / 2 + 10,
       v.y + 15 + 24,
       v.w,
       v.h
