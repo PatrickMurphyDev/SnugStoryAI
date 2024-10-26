@@ -63,6 +63,9 @@ export class GameMapScene extends GameScene {
     this.playery = 1820;
     this.didMove = true;
 
+    this.lastFrameMousePressed = false;
+    this.isMouseReleased = false;
+
     this.scal = 1;
     this.CameraOffset = undefined;
     this.cameraControlMode = "player";
@@ -164,6 +167,18 @@ export class GameMapScene extends GameScene {
     let newLots = [...IslandTemplate.newLots];
     newLots.forEach((v, i) => {
       this.lots.push(new LotEntity(v.id, v.name, v.location.x, v.location.y, { ...IslandTemplate.DEFAULTLOTPROPERTIES, ...v.lotDetails, ...{ imgObj: this.parentAssets["GameMapScene"][v.id] } }, []));
+      this.CollideEntities.push(
+        new CollideRectEntity(
+          66666+v.id,
+          v.location.x - 16,
+          v.location.y - 25,
+          { x: 16, width: 16, y: 20, height: 20 },
+          () => {
+            //console.log("coll char");
+            this.GUI.openAlert();
+          }
+        )
+      );
     });
   }
 
@@ -440,10 +455,15 @@ export class GameMapScene extends GameScene {
 
   handleMouseInteraction(p5) {
     if (p5.mouseIsPressed) {
+      this.isMouseReleased = false;
+      this.lastFrameMousePressed = true;
+    }else if(this.lastFrameMousePressed){      
+      this.isMouseReleased = true;
+      this.lastFrameMousePressed = false;
       if (this.playerInventory.getItemCount(ItemsEnum['crabtrap']) > 0) {
         let offsetLocal = this.getOffsetLocal(p5, {x:this.playerx,y:this.playery}, this.getCameraZoom());
         this.doUIAction(p5.frameCount, ()=>{
-          this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount));
+          this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount, (i)=>{this.playerInventory.addItem(i)}));
           this.playerInventory.removeItem(ItemsEnum['crabtrap']);
         })
       }
@@ -453,6 +473,7 @@ export class GameMapScene extends GameScene {
         tmpOffset.y -= p5.pmouseY - p5.mouseY;
         this.setCameraOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
       }
+      this.isMouseReleased = false;
     }
   }
 
