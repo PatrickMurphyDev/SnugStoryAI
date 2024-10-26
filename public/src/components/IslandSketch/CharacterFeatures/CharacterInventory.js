@@ -4,7 +4,11 @@ class CharacterInventory {
     }
   
     addItem(i) {
-      this.items["Item"+i.id] = this.items["Item"+i.id] + 1;
+      if(this.items["Item"+i.id]){
+        this.items["Item"+i.id] = this.items["Item"+i.id] + 1;
+      }else{
+        this.items["Item"+i.id] = 1;
+      }
     }
 
     removeItem(i){

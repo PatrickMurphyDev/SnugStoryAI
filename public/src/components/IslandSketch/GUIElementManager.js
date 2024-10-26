@@ -211,7 +211,7 @@ export class GUIElementManager {
                   16 + GUIElementDetails.y + invPadding
                 );
                 p5.text(
-                  "2",
+                  this.parent.playerInventory.getItemCount(ItemsEnum['hermitcrab']),
                   GUIElementDetails.x +
                     invPadding +
                     (invSize + invSpacing) * x +
