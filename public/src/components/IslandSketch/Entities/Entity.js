@@ -33,7 +33,6 @@ class Entity {
   setHidden(h){
     this._isHidden = h;
   }
-  
 
   isMouseOver(p5, offset, scal, loc, rad) {
     loc = loc || this.location;
@@ -47,11 +46,13 @@ class Entity {
       p5.dist(
         ps.x,
         ps.y,
-        (p5.mouseX - offset.x) / scal, // if offset.x is negative then adding
-        (p5.mouseY - offset.y) / scal
+        offset.x * -1 + (p5.mouseX) / scal, // if offset.x is negative then adding
+        offset.y * -1 + (p5.mouseY) / scal
       ) <= rad
     );
   }
+
+
 
   setHover(h) {
     this.isHovered = h;

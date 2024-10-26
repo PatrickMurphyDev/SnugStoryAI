@@ -1,13 +1,22 @@
 import Entity from './Entity';
 
 class CrabTrapEntity extends Entity {
-  constructor(id, x, y, time) {
+  constructor(id, x, y, time, frame) {
     super('CrabTrap', id, { x, y }, { width: 32, height: 32 });
+    this.frameInit = frame;
+    this.randomOffset = Math.floor(Math.random()*25);
     this.castDateTime = time;//now
+    this.fillColor = '#ffffff';
+    this.trapStates = ["recentlyCast","ready","invalid"];
+    this.trapState = 0;
   }
 
-  update() {
-    // Implement any update logic specific to LotEntity
+  update(p5) {
+    // Implement any update logic specific
+    if(this.trapState === 0 && p5.frameCount-this.frameInit > (15+this.randomOffset)*50){
+      this.trapState = 1;
+      this.fillColor = '#ff0000';
+    }
   }
 
   draw(p5, transparency, offset, scal) {
@@ -16,10 +25,13 @@ class CrabTrapEntity extends Entity {
     let fillColor = '#000000';
     if (this.fillColor) {
       fillColor = this.fillColor;
-      p5.fill(`${fillColor}${transparency}`);
+      p5.fill(fillColor);
     }
-    p5.ellipse(ps.x, ps.y, 10, 10);
+    p5.ellipse(ps.x, ps.y+(50-(p5.frameCount+this.randomOffset)%100)/30, 10, 6);
 
+    if(this.trapState === 1 && p5.mouseIsPressed && this.isMouseOver(p5,offset,scal)){
+      this.fillColor = "#00ff00";
+    }
     if (this.isMouseOver(p5,offset,scal) || super.isSelected()) {
       p5.fill(`${fillColor}ff`);
       p5.stroke('#ffffffaa');

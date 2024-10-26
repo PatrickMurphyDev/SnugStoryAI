@@ -312,7 +312,7 @@ export class GameMapScene extends GameScene {
     });
     this.CrabTraps.forEach((ctrap) => {
       ctrap.update(p5);
-      ctrap.draw(p5);
+      ctrap.draw(p5, 255, this.getCameraOffset(), this.getCameraZoom());
     });
     this.AnimatedSprites.forEach((sprite) => {
       sprite.update(p5);
@@ -441,17 +441,9 @@ export class GameMapScene extends GameScene {
   handleMouseInteraction(p5) {
     if (p5.mouseIsPressed) {
       if (this.playerInventory.getItemCount(ItemsEnum['crabtrap']) > 0) {
-        const plyrLoc = p5.createVector(this.playerx, this.playery);
-
-        let offsetLocal = p5.createVector(
-          plyrLoc.x - (p5.width / this.getCameraZoom()) / 2, // 1000 / 3 == 333.33 / 2 === 166.6667
-          plyrLoc.y - (p5.height / this.getCameraZoom()) / 2.5 // 800 / 3 = 266 / 2.5 === 106.66667
-        );
-
-        offsetLocal.x = offsetLocal.x + (p5.mouseX / this.getCameraZoom());
-        offsetLocal.y = offsetLocal.y + (p5.mouseY / this.getCameraZoom());
+        let offsetLocal = this.getOffsetLocal(p5, {x:this.playerx,y:this.playery}, this.getCameraZoom());
         this.doUIAction(p5.frameCount, ()=>{
-          this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime()));
+          this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount));
           this.playerInventory.removeItem(ItemsEnum['crabtrap']);
         })
       }
@@ -462,6 +454,21 @@ export class GameMapScene extends GameScene {
         this.setCameraOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
       }
     }
+  }
+
+  getOffsetLocal(p5, player, zoom) {
+    const plyrLoc = p5.createVector(player.x, player.y);
+    zoom = zoom || 3;
+
+    let offsetLocal = p5.createVector(
+      plyrLoc.x - (p5.width / zoom) / 2, // 1000 / 3 == 333.33 / 2 === 166.6667
+      plyrLoc.y - (p5.height / zoom) / 2.5 // 800 / 3 = 266 / 2.5 === 106.66667
+    );
+
+    offsetLocal.x = offsetLocal.x + (p5.mouseX / zoom);
+    offsetLocal.y = offsetLocal.y + (p5.mouseY / zoom);
+
+    return offsetLocal;
   }
 
   /** ---------- END INPUT FNs */
