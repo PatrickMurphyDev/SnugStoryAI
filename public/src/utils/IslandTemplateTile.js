@@ -55,7 +55,7 @@ export const IslandTemplate = {
     "KonanNoah",
     "ScottAnkor",
   ],
-  BGKeys: ["BGDocks", "BGMarina", "BGGym"],
+  BGKeys: ["BGDocks", "BGMarina", "BGGym", "BGFoodTown"],
   Residents: [
     {
       name: "Leah",
@@ -127,13 +127,20 @@ export const IslandTemplate = {
   newLots: [
     { id: "townhalltabernacle", name: "The Tabernacle", location: { x: 775, y: 1080 }, lotDetails: { "imgFileSrc": "TownHall.png" } },
     { id: "RedRoofHouse10", name: "House", location: { x: 1200, y: 1100 }, lotDetails: { "imgFileSrc": "houseRedRoof1.png", BGKey: "BGBar"} },
+    { id: "MayorsHouse10", name: "Mayors House", location: { x: 895, y: 960 }, lotDetails: { "imgFileSrc": "MayorsHouse.png", BGKey: "BGBar"} },
     { id: "Hospital", name: "Medical Center", location: { x: 240, y: 1200 }, lotDetails: { "imgFileSrc": "Hospital.png", BGKey: "BGBar", NPCKey: "BriannaClark", actionOptions: [{ title: "Heal", action: () => { } }, { title: "Shop", action: () => { } }] } },
-    { id: "Marina", name: "Harbor Master", location: { x: 740, y: 1630 }, lotDetails: { "imgFileSrc": "Marina.png", BGKey: "BGGym", NPCKey: "AndiMcNuttly", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "Resturant1", name: "Off The Hook", location: { x: 1000, y: 1430 }, lotDetails: { "imgFileSrc": "Resturant1.png", NPCKey: "ScottAnkor", actionOptions: [{ title: "Invite Date", action: () => { } }, { title: "Order Takeout", action: () => { } }] } },
-    { id: "PlayerCabin", name: "Homestead", location: { x: 1100, y: 1230 }, lotDetails: { "imgFileSrc": "pnwHouse.png", actionOptions: [{ title: "Sleep", action: () => { } }, { title: "Storage", action: () => { } }] } },
+    { id: "Marina", name: "Harbor Master", location: { x: 740, y: 1630 }, lotDetails: { "imgFileSrc": "Marina.png", BGKey: "BGDocks", NPCKey: "AndiMcNuttly", imgSize: {x:869/5.8,y:795/5.8}, actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "ClothingStore", name: "Island Fashions", location: { x: 424, y: 1550 }, lotDetails: { "imgFileSrc": "ClothingStore.png", BGKey: "BGGym", imgSize: {x:922/8,y:1039/8}, NPCKey: "JoeRomano", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "School", name: "School", location: { x: 425, y: 1275 }, lotDetails: { "imgFileSrc": "School.png", BGKey: "BGGym", imgSize: {x:927/8,y:1085/8}, NPCKey: "JoeRomano", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "GeneralStore", name: "FoodTown", location: { x: 296, y: 1405 }, lotDetails: { "imgFileSrc": "GeneralStore.png", BGKey: "BGFoodTown", imgSize: {x:964/8,y:1013/8}, NPCKey: "MarkDickson", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "Bakery", name: "Batter's Up Bakery", location: { x: 510, y: 1150 }, lotDetails: { "imgFileSrc": "Bakery.png", BGKey: "BGGym", imgSize: {x:977/8,y:1181/8}, NPCKey: "MarkDickson", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "Police", name: "Police", location: { x: 427, y: 1405 }, lotDetails: { "imgFileSrc": "Police.png", BGKey: "BGGym", imgSize: {x:975/8.25,y:1012/8.25}, NPCKey: "CharlieMallard", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "Resturant1", name: "Off The Hook", location: { x: 1666, y: 1225 }, lotDetails: { "imgFileSrc": "Resturant1.png", imgSize: {x:899/5,y:470/5}, NPCKey: "ScottAnkor", actionOptions: [{ title: "Invite Date", action: () => { } }, { title: "Order Takeout", action: () => { } }] } },
+    { id: "Lighthouse", name: "Lighthouse B&B", location: { x: 1164, y: 1615 }, lotDetails: { "imgFileSrc": "Lighthouse.png", imgSize: {x:1024/5,y:1076/5}, NPCKey: "AddisonClark", actionOptions: [{ title: "Invite Date", action: () => { } }, { title: "Order Takeout", action: () => { } }] } },
+    { id: "PlayerCabin", name: "Homestead", location: { x: 1100, y: 1230 }, lotDetails: { "imgFileSrc": "pnwHouse.png", imgSize: {x:1024/9.2,y:949/9.2}, actionOptions: [{ title: "Sleep", action: () => { } }, { title: "Storage", action: () => { } }] } },
   ],
   Image: {
-    source: "images/SnugIslandmin.png",
+    source: "images/SnugIslandminEmpty.png",
     size: { x: 2048, y: 2048 }
   },
   INPUTKEY_TO_STATE_MAP: {

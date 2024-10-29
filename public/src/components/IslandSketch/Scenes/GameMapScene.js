@@ -115,7 +115,8 @@ export class GameMapScene extends GameScene {
   initMapSettings() {
     this.mapDisplayMode = 0;
     this.tileWidth = 32;
-    this.speed = 1.4;
+    this.speed = 1.9;
+    if(this.DEBUG_LEVEL > 2) this.speed += 5;
     this.playerx = 570;
     this.playery = 1820;
     this.didMove = true;
@@ -239,6 +240,7 @@ export class GameMapScene extends GameScene {
     if (simTime.currentTimeOfDay >= this.sleepTimeOfDay && !this.playerControl.isAsleep()) {
       this.playerControl.setAsleep(true);
       // TODO: WIP: penalize player for not sleeping
+      console.log('not in bed in time.... set sleep');
     }
   }
 
@@ -328,9 +330,9 @@ export class GameMapScene extends GameScene {
 
   renderEntities(p5) {
     this.charList.forEach((villager) => {
-      villager.update(p5);
+      //villager.update(p5);
       if (!villager.isHidden()) {
-        villager.draw(p5);
+        //villager.draw(p5);
       }
     });
     this.lots.forEach((lot) => {
