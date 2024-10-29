@@ -55,6 +55,7 @@ export const IslandTemplate = {
     "KonanNoah",
     "ScottAnkor",
   ],
+  BGKeys: ["BGDocks", "BGMarina", "BGGym"],
   Residents: [
     {
       name: "Leah",
@@ -107,32 +108,33 @@ export const IslandTemplate = {
         "Apartment Building",
       ],
     },
-    nonResidential:[
-        { id: 0, x: 275*2, y: 1370*2, name: "Bar", fillColor: "#aa0000", lotDetails: {zoneType: "Commercial", description: "The Bethel more than just a bar, is the meeting place of the town."}},
-        { id: 2, x: 400*2, y: 1370*2, name: "General Store", fillColor: "#0000aa" },
-        { id: 3, x: 525*2, y: 1370*2, name: "School", fillColor: "#008888" },
-        { id: 1, x: 275*2, y: 1535*2, name: "Bar", fillColor: "#aa0000" },
-        { id: 4, x: 400*2, y: 1535*2, name: "General Store", fillColor: "#0000aa" },
-        { id: 5, x: 525*2, y: 1535*2, name: "School", fillColor: "#008888" },
-        { id: 6, x: 670*2, y: 1535*2, name: "General Store", fillColor: "#aabbff" },
-        { id: 15, x: 1024*2, y: 1600*2, name: "Lighthouse" },
-      ],
+    nonResidential: [
+      { id: 0, x: 275 * 2, y: 1370 * 2, name: "Bar", fillColor: "#aa0000", lotDetails: { zoneType: "Commercial", description: "The Bethel more than just a bar, is the meeting place of the town." } },
+      { id: 2, x: 400 * 2, y: 1370 * 2, name: "General Store", fillColor: "#0000aa" },
+      { id: 3, x: 525 * 2, y: 1370 * 2, name: "School", fillColor: "#008888" },
+      { id: 1, x: 275 * 2, y: 1535 * 2, name: "Bar", fillColor: "#aa0000" },
+      { id: 4, x: 400 * 2, y: 1535 * 2, name: "General Store", fillColor: "#0000aa" },
+      { id: 5, x: 525 * 2, y: 1535 * 2, name: "School", fillColor: "#008888" },
+      { id: 6, x: 670 * 2, y: 1535 * 2, name: "General Store", fillColor: "#aabbff" },
+      { id: 15, x: 1024 * 2, y: 1600 * 2, name: "Lighthouse" },
+    ],
     residential: [
-        {x:680, y:1650},
-        { x: 640*2, y: 940*2 },
-        { x: 115*2, y: 1585*2 },
-      ]
+      { x: 680, y: 1650 },
+      { x: 640 * 2, y: 940 * 2 },
+      { x: 115 * 2, y: 1585 * 2 },
+    ]
   },
   newLots: [
-    {id: "townhalltabernacle", name: "The Tabernacle", location:{x:775,y:1080}, lotDetails:{"imgFileSrc":"TownHall.png"}},
-    {id: "RedRoofHouse10", name: "House", location:{x:1200,y:1100}, lotDetails:{"imgFileSrc":"houseRedRoof1.png"}},
-    {id: "Hospital", name: "Medical Center", location:{x:240,y:1200}, lotDetails:{"imgFileSrc":"Hospital.png",NPCKey:"BriannaClark"}},
-    {id: "Marina", name: "Harbor Master", location:{x:740,y:1630}, lotDetails:{"imgFileSrc":"Marina.png",NPCKey:"AndiMcNuttly"}},
-    {id: "Resturant1", name: "Off The Hook", location:{x:1000,y:1430}, lotDetails:{"imgFileSrc":"Resturant1.png"}},
+    { id: "townhalltabernacle", name: "The Tabernacle", location: { x: 775, y: 1080 }, lotDetails: { "imgFileSrc": "TownHall.png" } },
+    { id: "RedRoofHouse10", name: "House", location: { x: 1200, y: 1100 }, lotDetails: { "imgFileSrc": "houseRedRoof1.png", BGKey: "BGBar"} },
+    { id: "Hospital", name: "Medical Center", location: { x: 240, y: 1200 }, lotDetails: { "imgFileSrc": "Hospital.png", BGKey: "BGBar", NPCKey: "BriannaClark", actionOptions: [{ title: "Heal", action: () => { } }, { title: "Shop", action: () => { } }] } },
+    { id: "Marina", name: "Harbor Master", location: { x: 740, y: 1630 }, lotDetails: { "imgFileSrc": "Marina.png", BGKey: "BGGym", NPCKey: "AndiMcNuttly", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
+    { id: "Resturant1", name: "Off The Hook", location: { x: 1000, y: 1430 }, lotDetails: { "imgFileSrc": "Resturant1.png", NPCKey: "ScottAnkor", actionOptions: [{ title: "Invite Date", action: () => { } }, { title: "Order Takeout", action: () => { } }] } },
+    { id: "PlayerCabin", name: "Homestead", location: { x: 1100, y: 1230 }, lotDetails: { "imgFileSrc": "pnwHouse.png", actionOptions: [{ title: "Sleep", action: () => { } }, { title: "Storage", action: () => { } }] } },
   ],
   Image: {
     source: "images/SnugIslandmin.png",
-    size: {x:2048,y:2048}
+    size: { x: 2048, y: 2048 }
   },
   INPUTKEY_TO_STATE_MAP: {
     KeyW: "isMovingUp",
@@ -160,16 +162,16 @@ export const IslandTemplate = {
     price: 100000,
     fillColor: "#000000",
   },
-  VIEW_ZOOM_SETTING:5,
-  VIEW_ZOOM_MULTIPLIER:7.5, 
-  GUIElements:[{
+  VIEW_ZOOM_SETTING: 5,
+  VIEW_ZOOM_MULTIPLIER: 7.5,
+  GUIElements: [{
     x: 200,
     y: 650,
     h: 150,
     w: 600,
     GUIType: "Panel",
     text: "Main UI Window",
-  },{
+  }, {
     x: 0,
     y: 600,
     h: 200,
@@ -177,7 +179,7 @@ export const IslandTemplate = {
     GUIType: "PlayerProfileImageCirclePanel",
     isCircle: true,
     text: "Ellie Tupee",
-  },{
+  }, {
     x: 800,
     y: 600,
     h: 200,
@@ -186,12 +188,13 @@ export const IslandTemplate = {
     PanelType: "Detail",
     text: "UI Details Options",
     //content: []
-  },{
+  }, {
     x: 300,
     y: 300,
     h: 200,
     w: 400,
     GUIType: "AlertWindow",
     title: "Welcome Newcomer!",
-    text: "Lukas Swan Introduces himself...",}]
+    text: "Lukas Swan Introduces himself...",
+  }]
 };
