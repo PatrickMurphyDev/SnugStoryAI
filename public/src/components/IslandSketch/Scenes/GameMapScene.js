@@ -32,35 +32,12 @@ export class GameMapScene extends GameScene {
     super("GameMapScene");
     this.DEBUG_LEVEL = 0;
 
-    // ----- Constructor Params ---------
-    this.onCharacterSelect = onCharacterSelect;
-    this.onPropertySelect = onPropertySelect;
-    this.charList = charList;
-    this.setCharList = (cList) => {
-      setCharList(cList);
-      this.charList = cList;
-    };
-    this.sizeVector = IslandTemplate.Image.size || sizeVector;
-    this.parentAssets = parentAssetsByScene;
-    // -- end Constructor Params ---------
-
-    this.mapDisplayMode = 0; // 0 = standard map, 1 = dialog
+    // process params and set 
+    this.setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene);
+    this.initCamera(); // setup offset and zoom and control mode
+    this.initMapSettings();
     this.GUI_Time = '';
     this.GUI_Date = '';
-    this.tileWidth = 32;
-    this.speed = 0.5;
-    this.playerx = 570;
-    this.playery = 1820;
-    this.didMove = true;
-
-    this.lastFrameMousePressed = false;
-    this.isMouseReleased = false;
-
-    this.scal = 1;
-    this.CameraOffset = undefined;
-    this.cameraControlMode = "player";
-
-    this.testImgSec = 1;
 
     var tiles = [];
     this.AnimatedSprites = [];
@@ -68,9 +45,6 @@ export class GameMapScene extends GameScene {
     this.CrabTraps = [];
     this.preloadedImages = [];
     this.GameMap = new GameTileMapManager(this, { width: 64, height: 64 }, tiles);
-
-    this.moveState = {};
-    this.lastMoveState = 0; // 0: standing, 1:up, 2:rght, 3:dwn, 4:left
 
     //tmp char fix other char
     this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
@@ -112,6 +86,37 @@ export class GameMapScene extends GameScene {
     simTime.pause();
     simTime.setRateOfTime(3);
   } // end constructor
+
+  setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene) {
+    this.onCharacterSelect = onCharacterSelect;
+    this.onPropertySelect = onPropertySelect;
+    this.charList = charList;
+    this.setCharList = (cList) => {
+      setCharList(cList);
+      this.charList = cList;
+    };
+    this.sizeVector = IslandTemplate.Image.size || sizeVector;
+    this.parentAssets = parentAssetsByScene;
+  }
+
+  initCamera() {
+    this.scal = 1;
+    this.CameraOffset = undefined;
+    this.cameraControlMode = "player";
+  }
+
+  initMapSettings() {
+    this.mapDisplayMode = 0;
+    this.tileWidth = 32;
+    this.speed = 0.5;
+    this.playerx = 570;
+    this.playery = 1820;
+    this.didMove = true;
+    this.lastFrameMousePressed = false;
+    this.isMouseReleased = false;
+    this.moveState = {};
+    this.lastMoveState = 0;
+  }
 
   AddSceneCollideEntities() {
     this.CollideEntities.push(
@@ -318,7 +323,7 @@ export class GameMapScene extends GameScene {
 
   renderPlayer(p5) {
     let renderCharIdle = () => {
-      if (this.lastMoveState <= 2) { //&& false
+      if (this.lastMoveState <= 2) {
         p5.push();
         p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
         this.CharIdle.draw(p5, -this.playerx - 24, this.playery);//p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
@@ -358,7 +363,6 @@ export class GameMapScene extends GameScene {
       collider.draw(p5);
     });
   }
-
   /* END RENDER FN*/
 
   /* CAMERA FN TODO: Move to New Class */
@@ -373,7 +377,6 @@ export class GameMapScene extends GameScene {
   setCameraZoom(zoomLevelInt = 2, factor = 3) {
     zoomLevelInt = Math.max(1, Math.min(5, zoomLevelInt));
     this.scal = zoomLevelInt * factor;
-    //console.log('SetScale: ' + this.scal);
   }
 
   setCameraOffset(positionP5Vec) {
@@ -383,8 +386,6 @@ export class GameMapScene extends GameScene {
 
   /* INPUT FN */
   initializeEventListeners() {
-    //window.addEventListener('wheel', (e) => this.handleZoom(e, p5));
-    // window.addEventListener('mouseup', (e) => console.log(`{x:${p5.mouseX}, y:${p5.mouseY}}`));
     window.addEventListener("keydown", (e) => this.keyPressed(e));
     window.addEventListener("keyup", (e) => this.keyReleased(e));
   }
@@ -453,12 +454,6 @@ export class GameMapScene extends GameScene {
           this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount, (i)=>{this.playerInventory.addItem(i)}));
           this.playerInventory.removeItem(ItemsEnum['crabtrap']);
         })
-      }
-      if (this.DEBUG_LEVEL >= 2) {
-        let tmpOffset = { x: this.getCameraOffset().x, y: this.getCameraOffset().y };
-        tmpOffset.x -= p5.pmouseX - p5.mouseX;
-        tmpOffset.y -= p5.pmouseY - p5.mouseY;
-        this.setCameraOffset(p5.createVector(tmpOffset.x, tmpOffset.y));
       }
       this.isMouseReleased = false;
     }
