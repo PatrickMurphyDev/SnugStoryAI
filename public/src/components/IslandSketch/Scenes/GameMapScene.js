@@ -247,20 +247,8 @@ export class GameMapScene extends GameScene {
   renderMainView_Map(p5) {
     p5.push();
     if (simTime.currentTimeOfDay) {
-      let tmpTimeToAlpha = (ctd) => {
-        let maxCTD = 1440;
-        ctd = ctd || (maxCTD / 2); // param or noon
-        let ctdPct = ctd / maxCTD; //Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
-        let amp = 255;
-        let periodVar = Math.PI * (1 / 6);
-        let phaseShift = 0;
-        let vertShift = 0;
-
-        return amp * (Math.sin(periodVar * (this.degrees_to_radians(360 * ctdPct) + phaseShift)) + vertShift);
-      }
-
       // tint image alpha
-      p5.tint(Math.max(35, tmpTimeToAlpha(simTime.currentTimeOfDay)));
+      p5.tint(this.convertTimeOfDayToAlpha(simTime.currentTimeOfDay));
       this.renderBackground(p5);
       this.renderEntities(p5, this);
       this.renderPlayer(p5);
@@ -268,9 +256,7 @@ export class GameMapScene extends GameScene {
       this.handleMouseInteraction(p5);
       if (this.DEBUG_LEVEL >= 2) {
         // draw walls
-        this.CollideEntities.forEach((collider) => {
-          collider.draw(p5);
-        });
+        this.renderWalls(p5);
       }
     } else { // loading map scene
       p5.background(60);
@@ -370,6 +356,12 @@ export class GameMapScene extends GameScene {
       // no char image def box
       p5.rect(this.playerx, this.playery, 24, 32);
     }
+  }
+
+  renderWalls(p5) {
+    this.CollideEntities.forEach((collider) => {
+      collider.draw(p5);
+    });
   }
 
   /* END RENDER FN*/
@@ -493,6 +485,19 @@ export class GameMapScene extends GameScene {
   }
 
   /** ---------- END INPUT FNs */
+
+  convertTimeOfDayToAlpha(ctd){
+    const maxCTD = 1440;
+    ctd = ctd || (maxCTD / 2); // param or noon
+    const ctdPct = ctd / maxCTD; //Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
+    const amp = 255;
+    const periodVar = Math.PI * (1 / 6);
+    const phaseShift = 0;
+    const vertShift = 0;
+    const minAlpha = 35;
+
+    return Math.max(minAlpha, amp * (Math.sin(periodVar * (this.degrees_to_radians(360 * ctdPct) + phaseShift)) + vertShift));
+  }
 
   degrees_to_radians(deg) { return (deg * Math.PI) / 180.0; }
 
