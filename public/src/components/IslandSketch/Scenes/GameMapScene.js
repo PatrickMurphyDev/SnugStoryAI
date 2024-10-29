@@ -10,6 +10,7 @@ import { GUIElementManager } from "../GUIElementManager";
 import { GameTileMapManager } from "../GameTileMapManager";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
+import PlayerController from "../PlayerController";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
@@ -40,6 +41,9 @@ export class GameMapScene extends GameScene {
     this.GUI_Time = '';
     this.GUI_Date = '';
 
+    this.sleepTimeOfDay = 1400; // time of day that force sleep
+
+    this.playerControl = new PlayerController(this, {x:570,y:1820},.4);
     var tiles = [];
     this.AnimatedSprites = [];
     this.CollideEntities = [];
@@ -48,7 +52,7 @@ export class GameMapScene extends GameScene {
     this.GameMap = new GameTileMapManager(this, { width: 64, height: 64 }, tiles);
 
     //tmp char fix other char
-    this.charPos = { x: this.playerx + 24, y: this.playery - 96 - 64 };
+    this.charPos = { x: this.playerControl.location.x + 24, y: this.playerControl.location.y - 96 - 64 };
 
     this.playerInventory = new CharacterInventory({ "Item2": 5 });
     this.isLoaded = false;
@@ -85,7 +89,7 @@ export class GameMapScene extends GameScene {
       this.GUI.setSimulationDateTime({ time: data.time12, date: data.date });
     });
     simTime.pause();
-    simTime.setRateOfTime(3);
+    //simTime.setRateOfTime(3);
   } // end constructor
 
   setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene) {
@@ -111,7 +115,7 @@ export class GameMapScene extends GameScene {
   initMapSettings() {
     this.mapDisplayMode = 0;
     this.tileWidth = 32;
-    this.speed = 0.5;
+    this.speed = 1.4;
     this.playerx = 570;
     this.playery = 1820;
     this.didMove = true;
@@ -193,20 +197,22 @@ export class GameMapScene extends GameScene {
   }
 
   update(p5) {
+    this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
     if (simTime.isPaused) simTime.start();
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
+      this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, this.zoomLevels[this.currentZoomLevel]);
       if (this.didMove) {
-        this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, this.zoomLevels[this.currentZoomLevel]);
         // determine offset based on playerPosition and CameraZoom
         const offsetLocal = p5.createVector(
-          (this.playerx * -1) + (p5.width / (this.getCameraZoom())) / 2,
-          (this.playery * -1) + (p5.height / (this.getCameraZoom())) / 2.5
+          (this.playerControl.location.x * -1) + (p5.width / (this.getCameraZoom())) / 2,
+          (this.playerControl.location.y * -1) + (p5.height / (this.getCameraZoom())) / 2.5
         );
         this.setCameraOffset(offsetLocal);
       }
 
+      // update correct sprite
       if (this.moveState.isMovingLeft) {
         this.CharRunLeft.update(p5);
       } else if (this.moveState.isMovingRight) {
@@ -221,12 +227,19 @@ export class GameMapScene extends GameScene {
 
       // WIP TODO: temp: set ellie to player x y
       this.charList[this.charList.length - 1].setLocation({
-        x: this.playerx,
-        y: this.playery,
+        x: this.playerControl.location.x,
+        y: this.playerControl.location.y,
       });
       this.charList[this.charList.length - 1].setHidden(true);
     }
     this.didMove = false;
+  }
+
+  checkSleepConditionUpdate() {
+    if (simTime.currentTimeOfDay >= this.sleepTimeOfDay && !this.playerControl.isAsleep()) {
+      this.playerControl.setAsleep(true);
+      // TODO: WIP: penalize player for not sleeping
+    }
   }
 
   draw(p5) {
@@ -246,7 +259,7 @@ export class GameMapScene extends GameScene {
     if (simTime.currentTimeOfDay) {
       this.renderBackground(p5);
       this.renderEntities(p5, this);
-      this.renderPlayer(p5);
+      this.playerControl.render(p5);
       this.handleMouseInteraction(p5);
       if (this.DEBUG_LEVEL >= 2) {
         this.renderWalls(p5);
@@ -264,21 +277,30 @@ export class GameMapScene extends GameScene {
 
   renderMainView_Dialog(p5, otherPlayerPos) {
     p5.background(0);
-    p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250); // Draw Background Image
+    if(this.parentAssets["GameMapScene"][this.GUI.BGKey]){
+      p5.image(this.parentAssets["GameMapScene"][this.GUI.BGKey], -12, -250); // Draw Background Image
+    }
+    // Draw Player Back of Head
     p5.image(
       this.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
       50,
       200,
       450,
       450
-    ); // Draw Player Back of Head
-    p5.image(
-      this.otherPlayerProfileImage,
-      otherPlayerPos.x,
-      otherPlayerPos.y,
-      350,
-      350
-    ); // Draw Other Player Profile Image
+    ); 
+    // Draw Other Player Profile Image
+    if(this.characterProfileImages[this.GUI.AlertWindowNPCKey]){
+      p5.image(
+        this.characterProfileImages[this.GUI.AlertWindowNPCKey],
+        otherPlayerPos.x,
+        otherPlayerPos.y,
+        350,
+        350
+      ); 
+    }
+    //this display action buttons
+    //    this display action button sub menus
+    //    this display chat sub panels
     this.drawEndChatButton(p5, otherPlayerPos);
   }
   
@@ -323,43 +345,6 @@ export class GameMapScene extends GameScene {
       sprite.update(p5);
       sprite.draw(p5);
     });
-  }
-
-  renderPlayer(p5) {
-    let renderCharIdle = () => {
-      if (this.lastMoveState <= 2) {
-        p5.push();
-        p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
-        this.CharIdle.draw(p5, -this.playerx - 24, this.playery);//p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
-        p5.pop();
-      } else { // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
-        this.CharIdle.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
-      }
-    };
-    if (
-      this.useCharImage &&
-      (this.moveState.isMovingDown ||
-        this.moveState.isMovingUp ||
-        this.moveState.isMovingLeft ||
-        this.moveState.isMovingRight)
-    ) {
-      if (this.moveState.isMovingLeft) {
-        this.CharRunLeft.draw(p5, this.playerx, this.playery); //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
-      } else if (this.moveState.isMovingRight) {
-        this.CharRunRight.draw(p5, this.playerx, this.playery); //p5.image(this.playerImageRight, this.playerx, this.playery);
-      } else {
-        if (this.moveState.isMovingUp) {
-          this.CharRunUp.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
-        } else if (this.moveState.isMovingDown) {
-          this.CharRunDown.draw(p5, this.playerx, this.playery); //p5.image(this.playerImage, this.playerx, this.playery);
-        }
-      }
-    } else if (this.useCharImage) {
-      renderCharIdle();
-    } else {
-      // no char image def box
-      p5.rect(this.playerx, this.playery, 24, 32);
-    }
   }
 
   renderWalls(p5) {
@@ -407,15 +392,15 @@ export class GameMapScene extends GameScene {
 
   handleKeyboardUserInputUpdate() {
     if (this.GUI.allowMoveInputKeys) {
-      let tmpy = this.playery;
-      let tmpx = this.playerx;
+      let tmpy = this.playerControl.location.y;
+      let tmpx = this.playerControl.location.x;
       let isMovingVertical = this.isMovingUp || this.isMovingDown;
       let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
       let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
       let speedModifier = .9;
       const newCallBack = (newVal, valid) => {
-        this.playerx = valid ? newVal.x : this.playerx;
-        this.playery = valid ? newVal.y : this.playery;
+        this.playerControl.location.x = valid ? newVal.x : this.playerControl.location.x;
+        this.playerControl.location.y = valid ? newVal.y : this.playerControl.location.y;
         this.didMove = true;
       };
       if (isMovingDiagonal) speedModifier = 0.45;
@@ -425,10 +410,10 @@ export class GameMapScene extends GameScene {
       if (this.moveState.isMovingLeft) tmpx -= moveDist;
       if (this.moveState.isMovingRight) tmpx += moveDist;
 
-      if (tmpx !== this.playerx || tmpy !== this.playery)
+      if (tmpx !== this.playerControl.location.x || tmpy !== this.playerControl.location.y)
         this.checkNextPosititionCollision(
-          this.playerx,
-          this.playery,
+          this.playerControl.location.x,
+          this.playerControl.location.y,
           tmpx,
           tmpy,
           newCallBack
@@ -513,8 +498,8 @@ export class GameMapScene extends GameScene {
       if (collider.contains({ x: newPos.x + 16, y: newPos.y + 30 })) {
         newPosValidity = false;
         collider.onCollide({ x: newPos.x + 16, y: newPos.y + 30 }, collider, {
-          x: this.playerx,
-          y: this.playery,
+          x: this.playerControl.location.x,
+          y: this.playerControl.location.y,
         });
       }
     });

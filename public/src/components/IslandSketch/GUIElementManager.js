@@ -12,6 +12,8 @@ export class GUIElementManager {
     this.alertWindowIsOpen = false;
     this.allowMoveInputKeys = true;
 
+    this.BGKey = 'BGDocks';
+
     this.initializeGUIElements();
   }
 
@@ -22,19 +24,24 @@ export class GUIElementManager {
 
   openAlert(title, text, details = {}) {
     this.setAlertWindow(true);
-    this.allowMoveInputKeys = false;
     this.AlertWindowText = { title: title || "alert", text: text || "Message" };
+    this.LotDetails = details;
     if (details.NPCKey) this.AlertWindowNPCKey = details.NPCKey;
+    if (details.BGKey) this.BGKey = details.BGKey;
   }
 
   closeAlert() {
     this.setAlertWindow(false);
-    this.allowMoveInputKeys = true;
     this.AlertWindowText = { title: "alert", text: "Message" };
   }
 
   setAlertWindow(isOpen) {
     this.alertWindowIsOpen = isOpen;
+    if(isOpen){
+      this.allowMoveInputKeys = false;
+    }else{ 
+      this.allowMoveInputKeys = true;
+    }
   }
 
   initializeGUIElements() {
@@ -168,5 +175,12 @@ export class GUIElementManager {
     p5.fill(255);
     p5.textStyle("Bold");
     p5.text(el.text || "Panel", location.x, location.y, dimensions.width, dimensions.height);
+  }
+
+  renderDialogActions(){
+    // display dialog options
+    if(this.LotDetails.actionOptions.length>0){
+      // render act options
+    }
   }
 }

@@ -47,6 +47,8 @@ const IslandSketch = ({
       IslandTemplate.Image.source
     );
     assetsByScene[mapSceneId]["BGDocks"] = p5.loadImage("images/SettingBGImages/DocksBlur4.png");
+    assetsByScene[mapSceneId]["BGGym"] = p5.loadImage("images/SettingBGImages/Gym.png");
+    assetsByScene[mapSceneId]["BGBar"] = p5.loadImage("images/SettingBGImages/TheBethelBlur4.png");
     assetsByScene[mapSceneId]["GameMapSceneUI"] = p5.loadImage(
       "images/GameMapSceneUINoBanner.png"
     );
