@@ -20,7 +20,7 @@ export class FiniteStateMachine extends EventEmitter {
     this.currentStateDetails = stateDetails[this.currentState.toUpperCase()];
     this.currentStateDuration = (parseInt(this.currentStateDetails.duration.min) + Math.random() * parseInt(this.currentStateDetails.duration.max - this.currentStateDetails.duration.min)) || this.currentStateDetails.duration.default;
 
-    console.log(this.nameChar + " " + this.currentStateDuration);
+    //console.log(this.nameChar + " " + this.currentStateDuration);
   }
 
   handleTimeUpdate(minElapsed, date) {
@@ -44,7 +44,7 @@ export class FiniteStateMachine extends EventEmitter {
 
   addStateUpdateListener(listener) {
     // Logic to handle state updates
-    console.log('call onStateUpdate');
+    //console.log('call onStateUpdate');
     this.on("stateUpdate", listener);
   }
 
