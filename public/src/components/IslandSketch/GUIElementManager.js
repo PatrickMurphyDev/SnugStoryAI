@@ -8,6 +8,7 @@ export class GUIElementManager {
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = [];
     this.AlertWindowText = "";
+    this.AlertWindowNPCKey = "AndiMcNuttly";
 
     this.alertWindowIsOpen = false;
     this.allowMoveInputKeys = true;
@@ -28,10 +29,13 @@ export class GUIElementManager {
     return this.SimulationDateTime;
   }
 
-  openAlert(title,text) {
+  openAlert(title,text,details) {
     this.setAlertWindow("OPEN");
     this.allowMoveInputKeys = false;
     this.AlertWindowText = {title:title||"alert",text:text||"Message"};
+    if(details['NPCKey']){
+      this.AlertWindowNPCKey = details['NPCKey'];
+    }
   }
 
   closeAlert() {
@@ -93,9 +97,9 @@ export class GUIElementManager {
     );
     p5.pop();
 
-    if (this.parent.characterProfileImages[this.parent.currentNPCKey]) {
+    if (this.parent.characterProfileImages[this.AlertWindowNPCKey]) {
       p5.image(
-        this.parent.characterProfileImages[this.parent.currentNPCKey],
+        this.parent.characterProfileImages[this.AlertWindowNPCKey],
         570,
         350,
         125,
@@ -105,9 +109,9 @@ export class GUIElementManager {
       // ---- ADD Alert Window Buttons ----- //s
       this.renderAlertWindowActionButtons(v, p5);
     } else {
-      this.parent.characterProfileImages[this.parent.currentNPCKey] =
+      this.parent.characterProfileImages[this.AlertWindowNPCKey] =
         p5.loadImage(
-          "images/CharacterProfileImages/" + this.parent.currentNPCKey + ".png"
+          "images/CharacterProfileImages/" + this.AlertWindowNPCKey + ".png"
         );
     }
   }
