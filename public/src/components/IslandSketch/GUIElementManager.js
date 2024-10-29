@@ -4,286 +4,169 @@ import { ItemsEnum } from "./ItemsEnum";
 export class GUIElementManager {
   constructor(parent, imgAssets) {
     this.parent = parent;
-    this.imageAssets = imgAssets || { imgKey: null }; // key : image
+    this.imageAssets = imgAssets || { imgKey: null };
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = [];
-    this.AlertWindowText = "";
+    this.AlertWindowText = { title: "alert", text: "Message" };
     this.AlertWindowNPCKey = "AndiMcNuttly";
-
     this.alertWindowIsOpen = false;
     this.allowMoveInputKeys = true;
 
     this.initializeGUIElements();
   }
 
-  setSimulationDateTime(DateTime) {
-    if (DateTime.hasOwnProperty("time")) {
-      this.SimulationDateTime.time = DateTime.time;
-    }
-    if (DateTime.hasOwnProperty("date")) {
-      this.SimulationDateTime.date = DateTime.date;
-    }
+  setSimulationDateTime({ time, date }) {
+    if (time) this.SimulationDateTime.time = time;
+    if (date) this.SimulationDateTime.date = date;
   }
 
-  getSimulationDateTime() {
-    return this.SimulationDateTime;
-  }
-
-  openAlert(title,text,details) {
-    this.setAlertWindow("OPEN");
+  openAlert(title, text, details = {}) {
+    this.setAlertWindow(true);
     this.allowMoveInputKeys = false;
-    this.AlertWindowText = {title:title||"alert",text:text||"Message"};
-    if(details['NPCKey']){
-      this.AlertWindowNPCKey = details['NPCKey'];
-    }
+    this.AlertWindowText = { title: title || "alert", text: text || "Message" };
+    if (details.NPCKey) this.AlertWindowNPCKey = details.NPCKey;
   }
 
   closeAlert() {
-    this.setAlertWindow("CLOSE");
+    this.setAlertWindow(false);
     this.allowMoveInputKeys = true;
-    this.AlertWindowText = {};
+    this.AlertWindowText = { title: "alert", text: "Message" };
   }
 
-  setAlertWindow(str) {
-    if (str === "OPEN") {
-      this.alertWindowIsOpen = true;
-    } else if (str === "CLOSE") {
-      this.alertWindowIsOpen = false;
-    }
+  setAlertWindow(isOpen) {
+    this.alertWindowIsOpen = isOpen;
   }
 
   initializeGUIElements() {
     this.GUIElements = IslandTemplate.GUIElements;
     this.GUIElements[1].img = this.parent.PlayerProfileImage;
-    this.GUIElements[3].actions = [{
-        onClickHandle: (e) => {
-          this.closeAlert();
-          this.parent.mapDisplayMode = 1;
-        },
-        fill: "#63aff3",
-        text: "Continue",
-      },
-      {
-        onClickHandle: (e) => {
-          this.closeAlert();
-        },
-        fill: "#666",
-        text: "Cancel",
-      }
+    this.GUIElements[3].actions = [
+      { text: "Continue", fill: "#63aff3", onClickHandle: this.handleContinue.bind(this) },
+      { text: "Cancel", fill: "#666", onClickHandle: this.closeAlert.bind(this) }
     ];
   }
 
-  renderGUIAlertWindow(p5, v) {
-    p5.rect(v.x || 0, v.y || 0, v.w || 0, v.h || 0);
-    // add window title bar bg
-    p5.fill(100);
-    p5.rect(v.x, v.y, v.w, 24);
-
-    // window title text
-    p5.fill(200);
-    p5.text(this.AlertWindowText.title || v.title || "Panel", v.x, v.y, v.w, 24);
-
-    let txt = this.AlertWindowText.text || v.text || "Msg";
-    // window body text
-    p5.push();
-    p5.fill(0);
-    p5.textAlign("LEFT", "TOP");
-    p5.text(
-      txt || "Panel",
-      v.x + p5.textWidth(txt) / 2 + 10,
-      v.y + 15 + 24,
-      v.w,
-      v.h
-    );
-    p5.pop();
-
-    if (this.parent.characterProfileImages[this.AlertWindowNPCKey]) {
-      p5.image(
-        this.parent.characterProfileImages[this.AlertWindowNPCKey],
-        570,
-        350,
-        125,
-        125
-      );
-
-      // ---- ADD Alert Window Buttons ----- //s
-      this.renderAlertWindowActionButtons(v, p5);
-    } else {
-      this.parent.characterProfileImages[this.AlertWindowNPCKey] =
-        p5.loadImage(
-          "images/CharacterProfileImages/" + this.AlertWindowNPCKey + ".png"
-        );
-    }
-  }
-
-  renderAlertWindowActionButtons(v, p5) {
-    v.actions.forEach((v2, vi) => {
-      vi = vi + 1;
-      p5.push();
-      p5.fill(v2.fill || 65);
-      p5.rect(v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-      p5.fill(225);
-      p5.text(v2.text, v.x + v.w - 175 * vi, v.y + v.h - 12, 150, 24);
-      this.parent.handleTargetClick(
-        p5,
-        v.x + v.w - 175 * vi,
-        v.y + v.h - 12,
-        150,
-        24,
-        v2.onClickHandle
-      );
-      p5.pop();
-    });
+  handleContinue() {
+    this.closeAlert();
+    this.parent.mapDisplayMode = 1;
   }
 
   renderGUI(p5) {
-    p5.image(this.parent.GameMapSceneUI, 0, 800 - 224);
-    //console.log(this.GUIElements);
-    this.GUIElements.forEach((GUIElementDetails) => {
-      //console.log(v.GUIType);
-      p5.fill(GUIElementDetails.fill || 200);
-      switch (GUIElementDetails.GUIType) {
-        case "AlertWindow":
-          if (this.alertWindowIsOpen) {
-            this.renderGUIAlertWindow(p5, GUIElementDetails);
-          }
-          break;
-
-        case "PlayerProfileImageCirclePanel":
-          //p5.ellipse((v.x || 0)+v.w/2, (v.y || 0)+v.h/2, v.w || 0, v.h || 0);
-          this.renderGUIPlayerProfileImagePanel(GUIElementDetails, p5);
-          break;
-
-        case "CirclePanel":
-        case "Panel":
-        default:
-          if (GUIElementDetails.PanelType === "Detail") {
-            let heightPX = 55;
-            p5.text(
-              this.SimulationDateTime.time,
-              GUIElementDetails.x,
-              GUIElementDetails.y + GUIElementDetails.h - (heightPX + 10),
-              GUIElementDetails.w,
-              heightPX
-            );
-            p5.text(
-              this.SimulationDateTime.date,
-              GUIElementDetails.x,
-              GUIElementDetails.y + GUIElementDetails.h - (heightPX + 35),
-              GUIElementDetails.w,
-              heightPX
-            );
-          } else {
-            p5.fill("#555555");
-            let invPadding = 25;
-            let invSpacing = 13;
-            let invSize = 32;
-            let invSlotsCols = 12;
-            for (var x = 0; x < invSlotsCols; x++) {
-              p5.rect(
-                GUIElementDetails.x + invPadding + (invSize + invSpacing) * x,
-                GUIElementDetails.y + invPadding,
-                invSize,
-                invSize
-              );
-              p5.push();
-              
-              p5.fill("white");
-              if (x === 0) {
-                p5.fill("#999999");
-                p5.rect(
-                  GUIElementDetails.x + invPadding + (invSize + invSpacing) * x,
-                  GUIElementDetails.y + invPadding,
-                  invSize,
-                  invSize
-                );
-                p5.fill("white");
-                p5.text(
-                  "🥅",
-                  GUIElementDetails.x +
-                    invPadding +
-                    (invSize + invSpacing) * x +
-                    16,
-                  16 + GUIElementDetails.y + invPadding
-                );
-                p5.text(
-                  this.parent.playerInventory.getItemCount(ItemsEnum['crabtrap']),
-                  GUIElementDetails.x +
-                    invPadding +
-                    (invSize + invSpacing) * x +
-                    32,
-                  32 + GUIElementDetails.y + invPadding
-                );
-              }
-              if (x === 1) {
-                p5.text(
-                  "🥪",
-                  GUIElementDetails.x +
-                    invPadding +
-                    (invSize + invSpacing) * x +
-                    16,
-                  16 + GUIElementDetails.y + invPadding
-                );
-                p5.text(
-                  this.parent.playerInventory.getItemCount(ItemsEnum['hermitcrab']),
-                  GUIElementDetails.x +
-                    invPadding +
-                    (invSize + invSpacing) * x +
-                    32,
-                  32 + GUIElementDetails.y + invPadding
-                );
-              }
-              p5.pop();
-            }
-          }
-          this.renderGUIPanelText(p5, GUIElementDetails);
-      }
+    p5.image(this.parent.GameMapSceneUI, 0, 576);
+    this.GUIElements.forEach((el) => {
+      p5.fill(el.fill || 200);
+      this.renderElement(p5, el);
     });
   }
 
-  renderGUIPlayerProfileImagePanel(GUIElementDetails, p5) {
-    if (GUIElementDetails.img) {
-      let textLocation = { x: GUIElementDetails.x, y: GUIElementDetails.y };
-      textLocation.y += GUIElementDetails.h * 0.75;
-      let textDimensions = {
-        width: GUIElementDetails.w,
-        height: GUIElementDetails.h,
-      };
-      textDimensions.height *= 0.25; //small txt row
-      p5.image(
-        this.parent.PlayerProfileImage,
-        GUIElementDetails.x + GUIElementDetails.w * 0.1,
-        GUIElementDetails.y + GUIElementDetails.h * 0.05,
-        GUIElementDetails.w * 0.8,
-        GUIElementDetails.h * 0.8
-      );
-      p5.image(this.parent.GameMapSceneUIBanner, 4, 800 - 47);
-      this.renderGUIPanelText(
-        p5,
-        GUIElementDetails,
-        textLocation,
-        textDimensions
+  renderElement(p5, el) {
+    switch (el.GUIType) {
+      case "AlertWindow":
+        if (this.alertWindowIsOpen) this.renderAlertWindow(p5, el);
+        break;
+      case "PlayerProfileImageCirclePanel":
+        this.renderPlayerProfilePanel(p5, el);
+        break;
+      default:
+        this.renderDefaultPanel(p5, el);
+    }
+  }
+
+  renderAlertWindow(p5, el) {
+    p5.rect(el.x || 0, el.y || 0, el.w || 0, el.h || 0);
+    p5.fill(100);
+    p5.rect(el.x, el.y, el.w, 24);
+    p5.fill(200);
+    p5.text(this.AlertWindowText.title || "Panel", el.x, el.y, el.w, 24);
+    this.renderAlertWindowBody(p5, el);
+    this.renderAlertWindowButtons(p5, el);
+  }
+
+  renderAlertWindowBody(p5, el) {
+    const { x, y, w, h } = el;
+    p5.push();
+    p5.fill(0);
+    p5.textAlign("LEFT", "TOP");
+    p5.text(this.AlertWindowText.text || "Msg", x + p5.textWidth(this.AlertWindowText.text) / 2 + 10, y + 39, w, h);
+    p5.pop();
+
+    const npcImage = this.parent.characterProfileImages[this.AlertWindowNPCKey];
+    if (npcImage) {
+      p5.image(npcImage, 570, 350, 125, 125);
+    } else {
+      this.parent.characterProfileImages[this.AlertWindowNPCKey] = p5.loadImage(
+        `images/CharacterProfileImages/${this.AlertWindowNPCKey}.png`
       );
     }
   }
 
-  renderGUIPanelText(p5, GUIElementDetails, textLocation, textDimensions) {
-    textLocation = textLocation || {
-      x: GUIElementDetails.x,
-      y: GUIElementDetails.y,
-    };
-    textDimensions = textDimensions || {
-      width: GUIElementDetails.w,
-      height: GUIElementDetails.h,
-    };
+  renderAlertWindowButtons(p5, el) {
+    el.actions.forEach((action, i) => {
+      const buttonX = el.x + el.w - 175 * (i + 1);
+      const buttonY = el.y + el.h - 12;
+      this.renderButton(p5, action, buttonX, buttonY, 150, 24);
+    });
+  }
+
+  renderButton(p5, action, x, y, w, h) {
+    p5.push();
+    p5.fill(action.fill || 65);
+    p5.rect(x, y, w, h);
+    p5.fill(225);
+    p5.text(action.text, x, y, w, h);
+    this.parent.handleTargetClick(p5, x, y, w, h, action.onClickHandle);
+    p5.pop();
+  }
+
+  renderPlayerProfilePanel(p5, el) {
+    const textLocation = { x: el.x, y: el.y + el.h * 0.75 };
+    const textDimensions = { width: el.w, height: el.h * 0.25 };
+    p5.image(this.parent.PlayerProfileImage, el.x + el.w * 0.1, el.y + el.h * 0.05, el.w * 0.8, el.h * 0.8);
+    p5.image(this.parent.GameMapSceneUIBanner, 4, 753);
+    this.renderPanelText(p5, el, textLocation, textDimensions);
+  }
+
+  renderDefaultPanel(p5, el) {
+    const padding = 25, spacing = 13, size = 32, cols = 12;
+    if (el.PanelType === "Detail") {
+      this.renderSimulationDate(p5, el);
+    } else {
+      for (let i = 0; i < cols; i++) {
+        this.renderInventorySlot(p5, el, i, padding, spacing, size);
+      }
+    }
+    this.renderPanelText(p5, el);
+  }
+
+  renderSimulationDate(p5, el) {
+    const { time, date } = this.SimulationDateTime;
+    const textY = el.y + el.h - 65;
+    p5.text(time, el.x, textY, el.w, 55);
+    p5.text(date, el.x, textY - 25, el.w, 55);
+  }
+
+  renderInventorySlot(p5, el, index, padding, spacing, size) {
+    const x = el.x + padding + (size + spacing) * index;
+    const y = el.y + padding;
+    p5.rect(x, y, size, size);
+    p5.push();
+    p5.fill(index === 0 ? "#999999" : "white");
+    if (index === 0) {
+      this.renderInventoryIcon(p5, "🥅", x, y, "crabtrap");
+    } else if (index === 1) {
+      this.renderInventoryIcon(p5, "🥪", x, y, "hermitcrab");
+    }
+    p5.pop();
+  }
+
+  renderInventoryIcon(p5, icon, x, y, itemKey) {
+    p5.text(icon, x + 16, y + 16);
+    p5.text(this.parent.playerInventory.getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
+  }
+
+  renderPanelText(p5, el, location = { x: el.x, y: el.y }, dimensions = { width: el.w, height: el.h }) {
     p5.fill(255);
     p5.textStyle("Bold");
-    p5.text(
-      GUIElementDetails.text || "Panel",
-      textLocation.x,
-      textLocation.y,
-      textDimensions.width,
-      textDimensions.height
-    );
+    p5.text(el.text || "Panel", location.x, location.y, dimensions.width, dimensions.height);
   }
 }

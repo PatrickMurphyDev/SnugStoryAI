@@ -5,12 +5,10 @@ import CharacterAttributes from "../CharacterFeatures/CharacterAttributes";
 import CharacterNeeds from "../CharacterFeatures/CharacterNeeds";
 import CharacterTasks from "../CharacterFeatures/CharacterTasks";
 import { FiniteStateMachine } from "../FiniteStateMachine";
-import { stateDetails } from "../states";
-import { states } from "../states";
+import { stateDetails, states } from "../states";
 import SimulationTime from "../../../utils/SimulationTime";
 
-
-const simTime = SimulationTime.getInstance({'currentTimeOfDay':600}); // start 10 am
+const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
 
 class CharacterEntity extends PathingEntity {
   constructor(
@@ -26,15 +24,14 @@ class CharacterEntity extends PathingEntity {
     pImg = undefined,
     imgSrc = ""
   ) {
-    super(
-      "character", // entity
-      Math.floor(Math.random() * 1000), // ID
-      {x: location.x, y: location.y}, // TODO look into *2
-      { width: 32, height: 32 },
-      "map",
-      1, //speed 
-      [] //gridmovement
-    );
+    super("character", Math.floor(Math.random() * 1000), { x: location.x, y: location.y }, { width: 32, height: 32 }, "map", 1, []);
+
+    this.initCharacterInfo(name, age, gender, bio, skills, attributes, residenceLot, employmentLot, pImg, imgSrc);
+    this.setupTimeUpdateHandler();
+  }
+
+  // Initializes character attributes
+  initCharacterInfo(name, age, gender, bio, skills, attributes, residenceLot, employmentLot, pImg, imgSrc) {
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
     this.needs = new CharacterNeeds();
@@ -43,92 +40,95 @@ class CharacterEntity extends PathingEntity {
     this.residenceLot = residenceLot;
     this.employmentLot = employmentLot;
     this.profileImage = pImg;
-    this.img = "/images/"+imgSrc;
+    this.img = `/images/${imgSrc}`;
+  }
 
-    
+  // Sets up the time update handler
+  setupTimeUpdateHandler() {
     this.onTimeUpdateHandlerFn = (data) => {
       this.dailyRoutine.handleTimeUpdate(data.minElapsed, data.date);
-
       if (this.needsToMove()) {
-        const lot = this.determineNewLot();
-        this.updateLocation(lot);
+        this.updateLocation(this.getTargetLot());
       }
     };
-
     simTime.onTimeUpdate(this.onTimeUpdateHandlerFn);
-
-    this.dailyRoutine.addStateUpdateListener((data) => {     
-      console.log(`${this.info.name} Transitioning from STATE|${data.prevState} to STATE|${data.newState}`);
-    });
   }
+
+  // Determines if character has reached destination
   hasReachedDestination() {
     return this.currentTargetIndex >= this.path.length && !this.currentTarget;
   }
+
+  // Initiates movement to a goal
   moveTo(goal) {
     this.setPath(goal);
   }
 
-  getCurrentState(){
+  // Retrieves the character's current state
+  getCurrentState() {
     return this.dailyRoutine.currentState;
   }
 
-  remove(){
+  // Removes the time update handler
+  remove() {
     simTime.clearTimeUpdate(this.onTimeUpdateHandlerFn);
   }
-  update(p5,fsmState,x,y,) {
+
+  // Updates character's state and needs
+  update(p5, fsmState, x, y) {
     if (fsmState && fsmState.moveDetails.requiresMove && fsmState.moveDetails.isTraveling) {
-      super.update(2); // TODO: FIX PLACE HOLDER MINUTES should be set by simTime not 2
+      super.update(2); // TODO: Replace with dynamic simTime value
     }
     this.needs.updateNeeds();
     this.tasks.updateTasks(this);
   }
 
+  // Draws character on canvas
   draw(p5, transparency, offset, scale) {
-    //super.draw(p5, transparency, offset, scale);
+    this.drawCharacter(p5);
+    this.drawName(p5);
+  }
+
+  // Draws the character's shape or image
+  drawCharacter(p5) {
     const ps = p5.createVector(this.location.x, this.location.y);
-    
-      // Fallback if image not found
-      p5.fill("#ff0000");
-    if (this.dailyRoutine.currentState === states.SLEEPING) {
-      p5.fill("#aa33aa");
-    }
-    //p5.image(this.profileImage, ps.x + 12, ps.y + 5)
+    p5.fill(this.getCurrentColor());
     p5.ellipse(ps.x + 12, ps.y + 5, 25, 25);
     if (this.profileImage) {
-      p5.image(this.profileImage, ps.x, ps.y, 35,35); // Draw the character's image
+      p5.image(this.profileImage, ps.x, ps.y, 35, 35);
     }
-   p5.text(this.info.name,ps.x+11,ps.y+30);
   }
 
-  // Method to update location
+  // Draws the character's name
+  drawName(p5) {
+    const ps = p5.createVector(this.location.x, this.location.y);
+    p5.text(this.info.name, ps.x + 11, ps.y + 30);
+  }
+
+  // Returns the color based on the character's state
+  getCurrentColor() {
+    return this.dailyRoutine.currentState === states.SLEEPING ? "#aa33aa" : "#ff0000";
+  }
+
+  // Updates the character's location
   updateLocation(newLocation) {
-    //this.setPath({x:Math.floor(lot.location.x/32), y:Math.floor(lot.location.y/32)});
-    this.location.x = newLocation.location.x;
-    this.location.y = newLocation.location.y;
+    this.location = { ...newLocation.location };
   }
 
-  // Determine if the character needs to move based on the current state
+  // Checks if character needs to move
   needsToMove() {
-    const currentState = this.dailyRoutine.currentState;
-    return stateDetails[currentState.toUpperCase()].moveDetails.requiresMove;
+    return stateDetails[this.dailyRoutine.currentState.toUpperCase()].moveDetails.requiresMove;
   }
 
-  // Determine the new lot based on the character's state
-  determineNewLot() {
-    const currentState = this.dailyRoutine.currentState;
-    if (
-      currentState === states.LEAVING_FOR_WORK ||
-      currentState === states.WALKING_TO_WORK
-    ) {
-      return this.employmentLot;
-    } else if (
-      currentState === states.SLEEPING ||
-      currentState === states.GOING_HOME
-    ) {
-      return this.residenceLot;
-    }
-    // Add more conditions as needed
-    return this.residenceLot; // Default to residence
+  // Gets target lot based on character's current state
+  getTargetLot() {
+    const targetLotMap = {
+      [states.LEAVING_FOR_WORK]: this.employmentLot,
+      [states.WALKING_TO_WORK]: this.employmentLot,
+      [states.SLEEPING]: this.residenceLot,
+      [states.GOING_HOME]: this.residenceLot,
+    };
+    return targetLotMap[this.dailyRoutine.currentState] || this.residenceLot;
   }
 }
 
