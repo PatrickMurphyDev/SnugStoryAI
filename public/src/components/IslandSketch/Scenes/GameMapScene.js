@@ -418,8 +418,8 @@ export class GameMapScene extends GameScene {
         this.playery = valid ? newVal.y : this.playery;
         this.didMove = true;
       };
-      if (isMovingDiagonal) speedModifier = 0.5;
-      const moveDist = this.speed * this.getCameraZoom() * speedModifier;
+      if (isMovingDiagonal) speedModifier = 0.45;
+      const moveDist = this.speed * speedModifier;
       if (this.moveState.isMovingUp) tmpy -= moveDist;
       if (this.moveState.isMovingDown) tmpy += moveDist;
       if (this.moveState.isMovingLeft) tmpx -= moveDist;
@@ -491,20 +491,9 @@ export class GameMapScene extends GameScene {
     const vertShift = 0;
     const minAlpha = 35;
 
-    return Math.max(minAlpha, amp * (Math.sin(periodVar * (this.degrees_to_radians(360 * ctdPct) + phaseShift)) + vertShift));
-  }
+    const degrees_to_radians = (deg) => { return (deg * Math.PI) / 180.0; }
 
-  degrees_to_radians(deg) { return (deg * Math.PI) / 180.0; }
-
-  getPositionInWorld(p5, posVector) {
-    if (!posVector.x && posVector.x !== 0)
-      posVector = p5.createVector(p5.mouseX, p5.mouseY);
-    //throw new Error("getPositionInWorld param PosVector");
-    return p5
-      .createVector(this.getCameraOffset().x, this.getCameraOffset().y)
-      .sub(posVector)
-      .mult(this.getCameraZoom())
-      .add(posVector);
+    return Math.max(minAlpha, amp * (Math.sin(periodVar * (degrees_to_radians(360 * ctdPct) + phaseShift)) + vertShift));
   }
 
   checkNextPosititionCollision(
