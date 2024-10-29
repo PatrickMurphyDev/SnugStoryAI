@@ -31,6 +31,7 @@ export class GameMapScene extends GameScene {
   ) {
     super("GameMapScene");
     this.DEBUG_LEVEL = 0;
+    this.lastFrame = -1;
 
     // process params and set 
     this.setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene);
@@ -102,6 +103,8 @@ export class GameMapScene extends GameScene {
   initCamera() {
     this.scal = 1;
     this.CameraOffset = undefined;
+    this.currentZoomLevel = 1;
+    this.zoomLevels = [.4,.6,.8,.9];
     this.cameraControlMode = "player";
   }
 
@@ -190,11 +193,12 @@ export class GameMapScene extends GameScene {
   }
 
   update(p5) {
+    this.lastFrame = p5.frameCount;
     if (simTime.isPaused) simTime.start();
     if (this.mapDisplayMode === 0) {
       this.handleKeyboardUserInputUpdate();
       if (this.didMove) {
-        this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, 0.6);
+        this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, this.zoomLevels[this.currentZoomLevel]);
         // determine offset based on playerPosition and CameraZoom
         const offsetLocal = p5.createVector(
           (this.playerx * -1) + (p5.width / (this.getCameraZoom())) / 2,
@@ -386,6 +390,17 @@ export class GameMapScene extends GameScene {
 
   /* INPUT FN */
   initializeEventListeners() {
+    window.addEventListener("wheel", event => {
+      var dir = Math.sign(event.deltaY);
+        this.doUIAction(this.lastFrame,()=>{       
+          if(dir > 0){
+            this.currentZoomLevel--;
+          }else{
+            this.currentZoomLevel++;
+          }
+          this.currentZoomLevel = Math.max(0,Math.min(this.zoomLevels.length-1,this.currentZoomLevel));   //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
+        });
+    });
     window.addEventListener("keydown", (e) => this.keyPressed(e));
     window.addEventListener("keyup", (e) => this.keyReleased(e));
   }
