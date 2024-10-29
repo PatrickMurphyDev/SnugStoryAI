@@ -448,7 +448,7 @@ export class GameMapScene extends GameScene {
       this.isMouseReleased = true;
       this.lastFrameMousePressed = false;
       if (this.playerInventory.getItemCount(ItemsEnum['crabtrap']) > 0) {
-        let offsetLocal = this.getOffsetLocal(p5, {x:this.playerx,y:this.playery}, this.getCameraZoom());
+        let offsetLocal = this.getOffsetLocal(p5, this.getCameraOffset(), this.getCameraZoom());
         this.doUIAction(p5.frameCount, ()=>{
           this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount, (i)=>{this.playerInventory.addItem(i)}));
           this.playerInventory.removeItem(ItemsEnum['crabtrap']);
@@ -464,21 +464,11 @@ export class GameMapScene extends GameScene {
     }
   }
 
-  getOffsetLocal(p5, player, zoom) {
-    const plyrLoc = p5.createVector(player.x, player.y);
+  getOffsetLocal(p5, offset, zoom) {
+    offset = offset || p5.createVector(0,0);
     zoom = zoom || 3;
-
-    let offsetLocal = p5.createVector(
-      plyrLoc.x - (p5.width / zoom) / 2, // 1000 / 3 == 333.33 / 2 === 166.6667
-      plyrLoc.y - (p5.height / zoom) / 2.5 // 800 / 3 = 266 / 2.5 === 106.66667
-    );
-
-    offsetLocal.x = offsetLocal.x + (p5.mouseX / zoom);
-    offsetLocal.y = offsetLocal.y + (p5.mouseY / zoom);
-
-    return offsetLocal;
+    return p5.createVector(offset.x * -1 + (p5.mouseX / zoom),offset.y * -1  + (p5.mouseY / zoom));;
   }
-
   /** ---------- END INPUT FNs */
 
   convertTimeOfDayToAlpha(ctd){
