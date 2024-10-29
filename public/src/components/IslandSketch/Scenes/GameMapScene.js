@@ -8,25 +8,15 @@ import CollideRectEntity from "../Entities/CollideRectEntity";
 import SimulationTime from "../../../utils/SimulationTime";
 import { GUIElementManager } from "../GUIElementManager";
 import { GameTileMapManager } from "../GameTileMapManager";
+import CharacterInventory from "../CharacterFeatures/CharacterInventory";
+import CrabTrapEntity from "../Entities/CrabTrapEntity";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
-import WallData from "../../../utils/WallData.json";
-import AssetsListGameMapScene from "./AssetsListGameMapScene";
-import CharacterInventory from "../CharacterFeatures/CharacterInventory";
-import { ItemsEnum } from "../ItemsEnum";
-import CrabTrapEntity from "../Entities/CrabTrapEntity";
-const KEYCODEMAP = {
-  KeyW: 1,
-  ArrowUp: 1,
-  KeyS: 3,
-  ArrowDown: 3,
-  KeyA: 4,
-  ArrowLeft: 4,
-  KeyD: 2,
-  ArrowRight: 2,
-};
+import WallData from "../../../utils/WallData.json"; // Static Data: Wall Positions
+import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
+import { ItemsEnum } from "../ItemsEnum"; // Static Data: Possible Items
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ 'currentTimeOfDay': 600 }); // start 10 am
@@ -138,7 +128,6 @@ export class GameMapScene extends GameScene {
     );
   }
 
-
   loadWallData() {
     WallData.forEach((wall) => {
       this.CollideEntities.push(
@@ -221,7 +210,6 @@ export class GameMapScene extends GameScene {
         }
       }
 
-
       // WIP TODO: temp: set ellie to player x y
       this.charList[this.charList.length - 1].setLocation({
         x: this.playerx,
@@ -247,51 +235,58 @@ export class GameMapScene extends GameScene {
   renderMainView_Map(p5) {
     p5.push();
     if (simTime.currentTimeOfDay) {
-      // tint image alpha
-      p5.tint(this.convertTimeOfDayToAlpha(simTime.currentTimeOfDay));
       this.renderBackground(p5);
       this.renderEntities(p5, this);
       this.renderPlayer(p5);
-
       this.handleMouseInteraction(p5);
       if (this.DEBUG_LEVEL >= 2) {
-        // draw walls
         this.renderWalls(p5);
       }
     } else { // loading map scene
-      p5.background(60);
-      p5.text("Loading...", p5.width / 2, p5.height / 2);
+      this.renderLoadingScreen(p5);
     }
     p5.pop();
   }
 
+  renderLoadingScreen(p5) {
+    p5.background(60);
+    p5.text("Loading...", p5.width / 2, p5.height / 2);
+  }
+
   renderMainView_Dialog(p5, otherPlayerPos) {
     p5.background(0);
-    p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250);
+    p5.image(this.parentAssets["GameMapScene"]["BGDocks"], -12, -250); // Draw Background Image
     p5.image(
       this.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
       50,
       200,
       450,
       450
-    );
+    ); // Draw Player Back of Head
     p5.image(
       this.otherPlayerProfileImage,
       otherPlayerPos.x,
       otherPlayerPos.y,
       350,
       350
-    );
+    ); // Draw Other Player Profile Image
+    this.drawEndChatButton(p5, otherPlayerPos);
+  }
+  
+  drawEndChatButton(p5, otherPlayerPos) {
+    const pos = p5.createVector(35,otherPlayerPos.y);
+    const dim = p5.createVector(150,70);
     p5.fill("blue");
-    p5.rect(35, otherPlayerPos.y, 150, 70);
+    p5.rect(pos.x, pos.y, dim.x, dim.y);
     p5.fill("#ffffff");
-    p5.text("End Chat", 35, otherPlayerPos.y, 150, 70);
-    this.handleTargetClick(p5, 35, otherPlayerPos.y, 150, 70, () => {
+    p5.text("End Chat", pos.x, pos.y, dim.x, dim.y);
+    this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
       this.mapDisplayMode = 0;
     });
   }
 
   renderBackground(p5) {
+    p5.tint(this.convertTimeOfDayToAlpha(simTime.currentTimeOfDay));
     p5.background("#111");//"#20D6C7");
     p5.scale(this.getCameraZoom());
     p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
@@ -442,7 +437,7 @@ export class GameMapScene extends GameScene {
   }
 
   determineLastMoveState(code) {
-    return KEYCODEMAP[code] || 0;
+    return IslandTemplate.KEYCODEMAP[code] || 0;
   }
 
   handleMouseInteraction(p5) {

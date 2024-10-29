@@ -144,6 +144,16 @@ export const IslandTemplate = {
     KeyD: "isMovingRight",
     ArrowRight: "isMovingRight",
   },
+  KEYCODEMAP: {
+    KeyW: 1,
+    ArrowUp: 1,
+    KeyS: 3,
+    ArrowDown: 3,
+    KeyA: 4,
+    ArrowLeft: 4,
+    KeyD: 2,
+    ArrowRight: 2,
+  },
   DEFAULTLOTPROPERTIES: {
     size: { width: 32, height: 32 },
     zoneType: "Commercial",
