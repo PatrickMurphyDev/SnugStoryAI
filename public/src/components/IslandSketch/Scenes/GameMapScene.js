@@ -300,19 +300,48 @@ export class GameMapScene extends GameScene {
         350
       ); 
     }
+    this.drawDialogBubble(p5,"Hey you must be Ellie! Nice to meet you I'm "+this.GUI.AlertWindowNPCKey+"!", 0, this.GUI.AlertWindowNPCKey, '10s ago');
+    this.drawDialogBubble(p5,"Hey "+this.GUI.AlertWindowNPCKey+"!", 1, "PLAYER", '6s ago');
     //this display action buttons
     //    this display action button sub menus
     //    this display chat sub panels
     this.drawEndChatButton(p5, otherPlayerPos);
+    this.drawShopButton(p5, otherPlayerPos);
+  }
+
+  drawDialogBubble(p5, text, seq, senderName, sentTime){
+    let offset = senderName === "PLAYER" ? -250 : 0;
+    p5.push();
+    p5.fill(senderName === "PLAYER" ? "#aaffFFcc" : "#aaaaffcc");
+    p5.rect(p5.width/2 + offset, p5.height/2 + 100*seq, p5.width*.45,80);
+    p5.fill("#333333");
+    p5.text(text, p5.width/2 + p5.width*.225 + offset, p5.height/2+40 + 100*seq);
+    p5.pop();
   }
   
   drawEndChatButton(p5, otherPlayerPos) {
-    const pos = p5.createVector(35,otherPlayerPos.y);
+    const pos = p5.createVector(35,otherPlayerPos.y-30);
     const dim = p5.createVector(150,70);
     p5.fill("blue");
+    p5.stroke("lightblue");
     p5.rect(pos.x, pos.y, dim.x, dim.y);
+    p5.noStroke();
     p5.fill("#ffffff");
     p5.text("End Chat", pos.x, pos.y, dim.x, dim.y);
+    this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
+      this.mapDisplayMode = 0;
+    });
+  }
+
+  drawShopButton(p5, otherPlayerPos) {
+    const pos = p5.createVector(35, otherPlayerPos.y+80-30);
+    const dim = p5.createVector(150, 70);
+    p5.fill("#222222ee");
+    p5.stroke("#666666ee");
+    p5.rect(pos.x, pos.y, dim.x, dim.y);
+    p5.noStroke();
+    p5.fill("#ffffff");
+    p5.text("Shop", pos.x, pos.y, dim.x, dim.y);
     this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
       this.mapDisplayMode = 0;
     });
