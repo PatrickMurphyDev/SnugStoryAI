@@ -43,6 +43,7 @@ export class GameMapScene extends GameScene {
 
     this.sleepTimeOfDay = 1400; // time of day that force sleep
 
+    this.maxDialogSeq = 0;
     this.playerControl = new PlayerController(this, {x:570,y:1820},.4);
     var tiles = [];
     this.AnimatedSprites = [];
@@ -77,6 +78,11 @@ export class GameMapScene extends GameScene {
     };
 
     this.GUI = new GUIElementManager(this);
+    this.chatData = [{text:"Hey you must be Ellie! Nice to meet you I'm "+this.GUI.AlertWindowNPCKey+"!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
+      {text:"Hey "+this.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
+      {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
+      {text:"You are stunning!", seq:3, sender:this.GUI.AlertWindowNPCKey, sentTime:'2s ago'}
+    ];
     this.loadWallData();
     this.initializeEventListeners();
     this.initializeLots();
@@ -300,8 +306,10 @@ export class GameMapScene extends GameScene {
         350
       ); 
     }
-    this.drawDialogBubble(p5,"Hey you must be Ellie! Nice to meet you I'm "+this.GUI.AlertWindowNPCKey+"!", 0, this.GUI.AlertWindowNPCKey, '10s ago');
-    this.drawDialogBubble(p5,"Hey "+this.GUI.AlertWindowNPCKey+"!", 1, "PLAYER", '6s ago');
+    this.chatData.forEach((v)=>{
+      this.drawDialogBubble(p5,v.text,v.seq,v.sender,v.sentTime);
+    });
+    
     //this display action buttons
     //    this display action button sub menus
     //    this display chat sub panels
@@ -310,12 +318,34 @@ export class GameMapScene extends GameScene {
   }
 
   drawDialogBubble(p5, text, seq, senderName, sentTime){
+    this.maxDialogSeq = Math.max(this.maxDialogSeq, seq);
+    seq = seq - this.maxDialogSeq;
     let offset = senderName === "PLAYER" ? -250 : 0;
     p5.push();
-    p5.fill(senderName === "PLAYER" ? "#aaffFFcc" : "#aaaaffcc");
-    p5.rect(p5.width/2 + offset, p5.height/2 + 100*seq, p5.width*.45,80);
+    let trans = "cc";
+    if(Math.abs(seq)===1){
+      trans = "90";
+    }
+    if(Math.abs(seq)===2){
+      trans = "60";
+    }
+    if(Math.abs(seq)===3){
+      trans = "30";
+    }
+    if(Math.abs(seq)===4){
+      trans = "10";
+    }
+    if(Math.abs(seq)>4){
+      trans = "05";
+    }
+    p5.fill(senderName === "PLAYER" ? "#aaffFF"+trans : "#aaaaff"+trans);
+    p5.stroke(senderName === "PLAYER" ? "#44aaaaee" : "#4444aaee");
+    p5.rect(p5.width/2 + offset, p5.height*.6 + 100*seq, p5.width*.45,80);
+    p5.noStroke();
     p5.fill("#333333");
-    p5.text(text, p5.width/2 + p5.width*.225 + offset, p5.height/2+40 + 100*seq);
+    p5.text(senderName === "PLAYER" ? "You" : senderName, p5.width/2 + p5.width*.055 + offset, p5.height*.6+15 + 100*seq);
+    p5.text(text, p5.width/2 + p5.width*.225 + offset, p5.height*.6+40 + 100*seq);
+    p5.text(sentTime, p5.width/2 + p5.width*.40 + offset, p5.height*.6+40+24 + 100*seq);
     p5.pop();
   }
   
@@ -353,6 +383,7 @@ export class GameMapScene extends GameScene {
     p5.scale(this.getCameraZoom());
     p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
     if (this.useBGImage) {
+      // TODO: WIP: Image Chunks
       p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
     }
   }
