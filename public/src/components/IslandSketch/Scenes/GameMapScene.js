@@ -18,6 +18,7 @@ import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json"; // Static Data: Wall Positions
 import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
 import { ItemsEnum } from "../ItemsEnum"; // Static Data: Possible Items
+import ConversationController from "../Controllers/ConversationController";
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ 'currentTimeOfDay': 600 }); // start 10 am
@@ -35,6 +36,7 @@ export class GameMapScene extends GameScene {
     this.lastFrame = -1;
 
     // process params and set 
+    this.playerControl = new PlayerController(this, {x:570,y:1820},.4);
     this.setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene);
     this.initCamera(); // setup offset and zoom and control mode
     this.initMapSettings();
@@ -44,7 +46,6 @@ export class GameMapScene extends GameScene {
     this.sleepTimeOfDay = 1400; // time of day that force sleep
 
     this.maxDialogSeq = 0;
-    this.playerControl = new PlayerController(this, {x:570,y:1820},.4);
     var tiles = [];
     this.AnimatedSprites = [];
     this.CollideEntities = [];
@@ -78,11 +79,11 @@ export class GameMapScene extends GameScene {
     };
 
     this.GUI = new GUIElementManager(this);
-    this.chatData = [{text:"Hey you must be Ellie! Nice to meet you I'm "+this.GUI.AlertWindowNPCKey+"!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
+    this.chatData = new ConversationController(this,[{text:"Hey you must be Ellie! Nice to meet you I'm "+this.GUI.AlertWindowNPCKey+"!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
       {text:"Hey "+this.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
       {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
       {text:"You are stunning!", seq:3, sender:this.GUI.AlertWindowNPCKey, sentTime:'2s ago'}
-    ];
+    ]);
     this.loadWallData();
     this.initializeEventListeners();
     this.initializeLots();
@@ -119,17 +120,14 @@ export class GameMapScene extends GameScene {
   }
 
   initMapSettings() {
-    this.mapDisplayMode = 0;
+    this.isFirstFrame = true;
     this.tileWidth = 32;
     this.speed = 1.9;
     if(this.DEBUG_LEVEL > 2) this.speed += 5;
     this.playerx = 570;
     this.playery = 1820;
-    this.didMove = true;
     this.lastFrameMousePressed = false;
     this.isMouseReleased = false;
-    this.moveState = {};
-    this.lastMoveState = 0;
   }
 
   AddSceneCollideEntities() {
@@ -207,10 +205,10 @@ export class GameMapScene extends GameScene {
     this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
     if (simTime.isPaused) simTime.start();
-    if (this.mapDisplayMode === 0) {
+    if (this.GUI.getDisplayMode() === 0) {
       this.handleKeyboardUserInputUpdate();
       this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, this.zoomLevels[this.currentZoomLevel]);
-      if (this.didMove) {
+      if (this.playerControl.getDidMove()) {
         // determine offset based on playerPosition and CameraZoom
         const offsetLocal = p5.createVector(
           (this.playerControl.location.x * -1) + (p5.width / (this.getCameraZoom())) / 2,
@@ -220,14 +218,14 @@ export class GameMapScene extends GameScene {
       }
 
       // update correct sprite
-      if (this.moveState.isMovingLeft) {
+      if (this.playerControl.getMoveState().isMovingLeft) {
         this.CharRunLeft.update(p5);
-      } else if (this.moveState.isMovingRight) {
+      } else if (this.playerControl.getMoveState().isMovingRight) {
         this.CharRunRight.update(p5);
       } else {
-        if (this.moveState.isMovingUp) {
+        if (this.playerControl.getMoveState().isMovingUp) {
           this.CharRunUp.update(p5);
-        } else if (this.moveState.isMovingDown) {
+        } else if (this.playerControl.getMoveState().isMovingDown) {
           this.CharRunDown.update(p5);
         }
       }
@@ -239,7 +237,7 @@ export class GameMapScene extends GameScene {
       });
       this.charList[this.charList.length - 1].setHidden(true);
     }
-    this.didMove = false;
+    this.playerControl.setDidMove(false);
   }
 
   checkSleepConditionUpdate() {
@@ -252,7 +250,7 @@ export class GameMapScene extends GameScene {
 
   draw(p5) {
     this.update(p5);
-    if (this.mapDisplayMode === 0) {
+    if (this.GUI.getDisplayMode() === 0) {
       this.renderMainView_Map(p5);
     } else {
       let otherPlayerPos = p5.createVector(1000 - 175 - 200, 250 - 200);
@@ -336,7 +334,7 @@ export class GameMapScene extends GameScene {
       trans = "10";
     }
     if(Math.abs(seq)>4){
-      trans = "05";
+      trans = "00";
     }
     p5.fill(senderName === "PLAYER" ? "#aaffFF"+trans : "#aaaaff"+trans);
     p5.stroke(senderName === "PLAYER" ? "#44aaaaee" : "#4444aaee");
@@ -359,7 +357,7 @@ export class GameMapScene extends GameScene {
     p5.fill("#ffffff");
     p5.text("End Chat", pos.x, pos.y, dim.x, dim.y);
     this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
-      this.mapDisplayMode = 0;
+      this.GUI.setDisplayMode(0);
     });
   }
 
@@ -373,7 +371,7 @@ export class GameMapScene extends GameScene {
     p5.fill("#ffffff");
     p5.text("Shop", pos.x, pos.y, dim.x, dim.y);
     this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
-      this.mapDisplayMode = 0;
+      this.GUI.setDisplayMode(0);
     });
   }
 
@@ -463,14 +461,14 @@ export class GameMapScene extends GameScene {
       const newCallBack = (newVal, valid) => {
         this.playerControl.location.x = valid ? newVal.x : this.playerControl.location.x;
         this.playerControl.location.y = valid ? newVal.y : this.playerControl.location.y;
-        this.didMove = true;
+        this.playerControl.setDidMove(true);
       };
       if (isMovingDiagonal) speedModifier = 0.45;
       const moveDist = this.speed * speedModifier;
-      if (this.moveState.isMovingUp) tmpy -= moveDist;
-      if (this.moveState.isMovingDown) tmpy += moveDist;
-      if (this.moveState.isMovingLeft) tmpx -= moveDist;
-      if (this.moveState.isMovingRight) tmpx += moveDist;
+      if (this.playerControl.getMoveState().isMovingUp) tmpy -= moveDist;
+      if (this.playerControl.getMoveState().isMovingDown) tmpy += moveDist;
+      if (this.playerControl.getMoveState().isMovingLeft) tmpx -= moveDist;
+      if (this.playerControl.getMoveState().isMovingRight) tmpx += moveDist;
 
       if (tmpx !== this.playerControl.location.x || tmpy !== this.playerControl.location.y)
         this.checkNextPosititionCollision(
@@ -485,16 +483,16 @@ export class GameMapScene extends GameScene {
 
   keyPressed(e) {
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
-      this.moveState[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = true;
-    this.lastMoveState = 0;
+      this.playerControl.getMoveState()[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = true;
+    this.playerControl.setLastMoveState(0);
     e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
 
   keyReleased(e) {
     e.preventDefault(); // Cancel the native event
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]) {
-      this.moveState[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = false;
-      this.lastMoveState = this.determineLastMoveState(e.code);
+      this.playerControl.getMoveState()[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = false;
+      this.playerControl.setLastMoveState(this.determineLastMoveState(e.code));
     }
     e.stopPropagation(); // Don't bubble/capture the event any further
   }

@@ -11,10 +11,22 @@ export class GUIElementManager {
     this.AlertWindowNPCKey = "AndiMcNuttly";
     this.alertWindowIsOpen = false;
     this.allowMoveInputKeys = true;
+    this.displayMode = 0;
+
+    this.mainPanelViewTypes = ["Inventory", "Chat"];
+    this.mainPanelViewTypeID = 0;
+    this.mainPanelViewType = this.mainPanelViewTypes[this.mainPanelViewTypeID];
 
     this.BGKey = 'BGDocks';
 
     this.initializeGUIElements();
+    this.chatInput = undefined;
+    this.chatSubmit = undefined;
+  }
+
+  toggleMainPanelViewType(){
+    this.mainPanelViewTypeID = this.mainPanelViewTypeID++ % this.mainPanelViewTypes.length;
+    this.mainPanelViewType = this.mainPanelViewTypes[this.mainPanelViewTypeID];
   }
 
   setSimulationDateTime({ time, date }) {
@@ -48,14 +60,29 @@ export class GUIElementManager {
     this.GUIElements = IslandTemplate.GUIElements;
     this.GUIElements[1].img = this.parent.PlayerProfileImage;
     this.GUIElements[3].actions = [
-      { text: "Continue", fill: "#63aff3", onClickHandle: this.handleContinue.bind(this) },
+      { text: "Continue", fill: "#63aff3", onClickHandle: this.transitionToDialogView.bind(this) },
       { text: "Cancel", fill: "#666", onClickHandle: this.closeAlert.bind(this) }
     ];
   }
 
-  handleContinue() {
+  setDisplayMode(dm){
+    if(dm===0 && this.chatInput){
+      this.chatInput.hide();
+      this.chatSubmit.hide();
+    }else if(this.chatInput){
+      this.chatInput.show();
+      this.chatSubmit.show();
+    }
+    this.displayMode = dm;
+  }
+
+  getDisplayMode(){
+    return this.displayMode;
+  }
+
+  transitionToDialogView() {
     this.closeAlert();
-    this.parent.mapDisplayMode = 1;
+    this.setDisplayMode(1);
   }
 
   renderGUI(p5) {
@@ -138,11 +165,34 @@ export class GUIElementManager {
     if (el.PanelType === "Detail") {
       this.renderSimulationDate(p5, el);
     } else {
-      for (let i = 0; i < cols; i++) {
-        this.renderInventorySlot(p5, el, i, padding, spacing, size);
+      if(this.getDisplayMode()===0){
+        this.renderInventoryView(p5, el, cols, padding, spacing, size);
+      }else{
+        this.renderChatInputView(p5);
       }
     }
     this.renderPanelText(p5, el);
+  }
+
+  renderInventoryView(p5, el, cols, padding, spacing, size){
+    for (let i = 0; i < cols; i++) {
+      this.renderInventorySlot(p5, el, i, padding, spacing, size);
+    }
+  }
+
+  renderChatInputView(p5){
+    if(!this.chatInput || !this.chatSubmit){
+      this.chatInput = p5.createInput();
+      this.chatSubmit = p5.createButton("Send");
+      this.chatInput.attribute('placeholder', 'Chat here.....');
+      this.chatSubmit.size(p5.width/6);
+      this.chatInput.size(p5.width/2);
+      this.chatSubmit.position(p5.width + 35, p5.height*.96);
+      this.chatInput.position(p5.width/2+p5.width/5, p5.height*.93);
+      this.chatSubmit.mousePressed(()=>{
+        this.parent.chatData.addChat({text:this.chatInput.value()});
+      });
+    }
   }
 
   renderSimulationDate(p5, el) {

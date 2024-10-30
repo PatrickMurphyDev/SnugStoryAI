@@ -5,6 +5,8 @@ class PlayerController {
         this.parent = parent;
         this._isAsleep = false;    
         this.speed = 0.5;
+        this.moveState = {};
+        this.lastMoveState = 0;
         this.location = {x:570, y:1820};
         this.didMove = true;
     }
@@ -15,6 +17,14 @@ class PlayerController {
 
     playery(){
         return this.location.y;
+    }
+
+    setMoveState(ms){
+        this.moveState = ms;
+    }
+
+    getMoveState(){
+        return this.moveState;
     }
 
     setLocation(vec2){
@@ -40,9 +50,25 @@ class PlayerController {
     isAsleep(){
         return this._isAsleep;
     }
+
+    setLastMoveState(lms){
+        this.lastMoveState = lms;
+    }
+
+    getLastMoveState(){
+        return this.lastMoveState;
+    }
         
     determineLastMoveState(code) {
         return IslandTemplate.KEYCODEMAP[code] || 0;
+    }
+
+    setDidMove(dm){
+        this.didMove = dm;
+    }
+
+    getDidMove(){
+        return this.didMove;
     }
 
     update(p5) {
@@ -51,7 +77,7 @@ class PlayerController {
 
     render(p5) {
         let renderCharIdle = () => {
-        if (this.parent.lastMoveState <= 2) {
+        if (this.lastMoveState <= 2) {
             p5.push();
             p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
             this.parent.CharIdle.draw(p5, -this.location.x - 24, this.location.y);//p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
@@ -63,19 +89,19 @@ class PlayerController {
 
         if (
         this.parent.useCharImage &&
-        (this.parent.moveState.isMovingDown ||
-            this.parent.moveState.isMovingUp ||
-            this.parent.moveState.isMovingLeft ||
-            this.parent.moveState.isMovingRight)
+        (this.moveState.isMovingDown ||
+            this.moveState.isMovingUp ||
+            this.moveState.isMovingLeft ||
+            this.moveState.isMovingRight)
         ) {
-        if (this.parent.moveState.isMovingLeft) {
+        if (this.moveState.isMovingLeft) {
             this.parent.CharRunLeft.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
-        } else if (this.parent.moveState.isMovingRight) {
+        } else if (this.moveState.isMovingRight) {
             this.parent.CharRunRight.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImageRight, this.playerx, this.playery);
         } else {
-            if (this.parent.moveState.isMovingUp) {
+            if (this.moveState.isMovingUp) {
             this.parent.CharRunUp.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImage, this.playerx, this.playery);
-            } else if (this.parent.moveState.isMovingDown) {
+            } else if (this.moveState.isMovingDown) {
             this.parent.CharRunDown.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImage, this.playerx, this.playery);
             }
         }
