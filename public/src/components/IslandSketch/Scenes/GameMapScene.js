@@ -330,9 +330,9 @@ export class GameMapScene extends GameScene {
 
   renderEntities(p5) {
     this.charList.forEach((villager) => {
-      //villager.update(p5);
+      villager.update(p5);
       if (!villager.isHidden()) {
-        //villager.draw(p5);
+        villager.draw(p5);
       }
     });
     this.lots.forEach((lot) => {
