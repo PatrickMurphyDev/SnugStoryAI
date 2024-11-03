@@ -9,20 +9,6 @@ class PlayerController {
         this.lastMoveState = 0;
         this.location = {x:570, y:1820};
         this.didMove = true;
-    initializeEventListeners() {
-        window.addEventListener("wheel", (event) => {
-            const dir = Math.sign(event.deltaY);
-            if (dir > 0) {
-                this.currentZoomLevel--;
-            } else {
-                this.currentZoomLevel++;
-            }
-            this.currentZoomLevel = Math.max(0, Math.min(this.zoomLevels.length - 1, this.currentZoomLevel));
-        });
-        window.addEventListener("keydown", (e) => this.keyPressed(e));
-        window.addEventListener("keyup", (e) => this.keyReleased(e));
-    }
-
     }
 
     playerx(){
