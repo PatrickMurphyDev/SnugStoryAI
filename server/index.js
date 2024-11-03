@@ -263,8 +263,8 @@ app.get("/ping", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-const server = app.listen(process.env.PORT, () =>
-  console.log(`Server started on ${process.env.PORT}`)
+const server = app.listen(5006, () =>
+  console.log(`Server started on 5006`)
 );
 
 const storeMessage = async (msg, to, from, selfSent) => {
