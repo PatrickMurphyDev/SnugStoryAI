@@ -377,7 +377,7 @@ io.on("connection", async (socket) => {
 
       broadcastMsg(socketList, "msg-recieve-ai", response.output);
 
-      console.log("Store Data");
+      console.log("Store Data:  " + response.output);
       const newMsg = await storeMessage(
         response.output,
         data.to,

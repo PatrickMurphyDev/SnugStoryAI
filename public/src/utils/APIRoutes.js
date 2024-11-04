@@ -1,5 +1,5 @@
 export const APIURL = (process.env.hasOwnProperty("NODE_ENV")) ? 
-"localhost:5000" : "68.118.217.102:3010";
+"localhost:5006" : "68.118.217.102:3010";
 export const host = `http://${APIURL}`;
 export const loginRoute =   `${host}/api/auth/login`;
 export const registerRoute = `${host}/api/auth/register`;

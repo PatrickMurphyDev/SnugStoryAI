@@ -1,6 +1,7 @@
 export const IslandTemplate = {
   //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
   NPCKEYS: [
+    "PLAYER",
     "AddisonClark",
     "BettyLast",
     "ChadLast",
