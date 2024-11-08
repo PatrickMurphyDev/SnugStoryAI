@@ -6,6 +6,9 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 class ConversationController {
     constructor(parent,data) {
         this.parent = parent;
+        this.options = {};
+        this.options['hideNarrative'] = false;
+        this.options['syntaxKey'] = '"';
         this.isProcessing = false;
         this.maxDialogSeq = 0;
 
@@ -96,6 +99,15 @@ class ConversationController {
             cm.sentTime = "10s";
         if(!cm.seq)
             cm.seq = this.getSeq() + 1;
+
+        if(this.options.hideNarrative && !isGUI){
+            if(cm.text.indexOf(this.optioins.syntaxKey) >= 0){
+                cm.text = cm.text.substring(cm.text.indexOf(this.optioins.syntaxKey), cm.text.length-1);
+                if(cm.text.indexOf(this.optioins.syntaxKey) >= 0){
+                    cm.text = cm.text.substring(0,cm.text.indexOf(this.optioins.syntaxKey));
+                }
+            }
+        }
 
         if(isGUI){
             // if sent from gui not AI send msg socket
