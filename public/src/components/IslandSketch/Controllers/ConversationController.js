@@ -15,7 +15,8 @@ class ConversationController {
         this.socket = {};
         this.socket.current = io(host)
         
-        this.socket.current.emit("add-user", "000000000000000000000001");
+        // add user ellie
+        this.socket.current.emit("add-user", "000000000000000000000001"); 
 
         let getDataEl = (data)=>{return data || [{text:"Hey you must be Ellie! Nice to meet you I'm " + this.parent.GUI.AlertWindowNPCKey + "!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
             {text:"Hey "+this.parent.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},

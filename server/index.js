@@ -238,7 +238,7 @@ let promptCount = 0;
 const ollama = new Ollama.Ollama();
 ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
 
-const getPresentCharactersData = function(){
+const getPresentCharactersData = function(NPCIDs){
   return [{
     name: "Ellie Tupee",
     gender: "Female",
@@ -317,7 +317,7 @@ const storeMessage = async (msg, to, from, selfSent) => {
   return await Messages.create({
     message: { text: msg },
     users: [from, to],
-    sender: selfSent ? from : mongoose.Types.ObjectId(process.env.AIUUID),
+    sender: from,
   });
 };
 

@@ -1,3 +1,42 @@
+const GUIElements = [
+  {
+    x: 200,
+    y: 650,
+    h: 150,
+    w: 600,
+    GUIType: "Panel",
+    text: "Main UI Window",
+  },
+  {
+    x: 0,
+    y: 600,
+    h: 200,
+    w: 200,
+    GUIType: "PlayerProfileImageCirclePanel",
+    isCircle: true,
+    text: "Ellie Tupee",
+  },
+  {
+    x: 800,
+    y: 600,
+    h: 200,
+    w: 200,
+    GUIType: "Panel",
+    PanelType: "Detail",
+    text: "UI Details Options",
+    //content: []
+  },
+  {
+    x: 300,
+    y: 300,
+    h: 200,
+    w: 400,
+    GUIType: "AlertWindow",
+    title: "Welcome Newcomer!",
+    text: "Lukas Swan Introduces himself...",
+  },
+];
+
 export const IslandTemplate = {
   //"Residents":["Leah","Maureen","Rob","Justine","Deb", "Callum"],
   NPCKEYS: [
@@ -59,6 +98,166 @@ export const IslandTemplate = {
   BGKeys: ["BGDocks", "BGMarina", "BGGym", "BGFoodTown"],
   Residents: [
     {
+      id: "000000000000000000000001",
+      island_id: "66dc506deaae235d2dbe4a3a",
+      is_npc: false,
+      is_active: true,
+      name: {
+        first: "Ellie",
+        last: "Wigg",
+      },
+      age: 28,
+      biologicalGender: "female",
+      details: {
+        _id: {
+          $oid: "672e7f1c18728437820b7179",
+        },
+        island_id: "66dc506deaae235d2dbe4a3a",
+        character_id: "000000000000000000000001",
+        presentingGender: "female",
+        raceEthnicity: "white",
+        sexualOrientation: "heterosexual",
+        occupation: "Crab Fishermen",
+        job_id: "672e893418728437820b717d",
+        residence_id: "672e893418728437820b717d",
+        description:
+          "Newest island resident here to take over her estranged fathers crab fishing business after her father passed away.",
+        appearance: {
+          height: "5ft 6in",
+          bodyType: "slim",
+          hairColor: "brown",
+          hairStyle: "ponytail",
+          eyeDescriptor: "large",
+          eyeColor: "brown",
+          clothingStyle: "dresses and skirts",
+        },
+        goals: [
+          {
+            goalType: "Story",
+            goalName: "Main Goal",
+            goalDescription: "Repair and grow the crab business",
+          },
+          {
+            goalType: "Story",
+            goalName: "Secondary Goal",
+            goalDescription: "Find a new boyfriend and eventually get married",
+          },
+        ],
+        traits: "672e893418728437820b717d",
+        resources_id: "672e893418728437820b717d",
+        behavioral_patterns_id: "672e893418728437820b717d",
+        special_conditions_id: "672e893418728437820b717d",
+      },
+    },
+    {
+      id: "000000000000000000000002",
+      island_id: "66dc506deaae235d2dbe4a3a",
+      is_npc: true,
+      is_active: true,
+      name: {
+        first: "Addison",
+        last: "Clark",
+      },
+      age: 28,
+      biologicalGender: "male",
+      details: {
+        presentingGender: "male",
+        raceEthnicity: "white",
+        sexualOrientation: "heterosexual",
+        occupation: "Hotel Owner",
+        description: "Father of Brianna Clark, owner of the Lighthouse B&B.",
+        appearance: {
+          height: "5ft 11in",
+          bodyType: "slim",
+          hairColor: "brown",
+          hairStyle: "side part",
+          eyeDescriptor: "tired",
+          eyeColor: "brown",
+          clothingStyle: "tux and tie",
+        },
+        goals: [
+          {
+            goalType: "Story",
+            goalName: "Main Goal",
+            goalDescription: "Wants to turn the island into a tourism resort destination, even if the island loses its character.",
+          },
+        ],
+        traits: "672e893418728437820b717d"
+      },
+    },
+    {
+      id: "000000000000000000000003",
+      island_id: "66dc506deaae235d2dbe4a3a",
+      is_npc: true,
+      is_active: true,
+      name: {
+        first: "Betty",
+        last: "Last",
+      },
+      age: 30,
+      biologicalGender: "female",
+      details: {
+        presentingGender: "female",
+        raceEthnicity: "white",
+        sexualOrientation: "heterosexual",
+        occupation: "Bakery Owner",
+        description: "Owner of the local bakery and single.",
+        appearance: {
+          height: "5ft 4in",
+          bodyType: "slim",
+          hairColor: "blonde",
+          hairStyle: "messy bun",
+          eyeDescriptor: "sparkling",
+          eyeColor: "blue",
+          clothingStyle: "apron and sundresses",
+        },
+        goals: [
+          {
+            goalType: "Story",
+            goalName: "Main Goal",
+            goalDescription: "Want's to sell her bakery and move to the main land.",
+          },
+        ],
+        traits: "672e893418728437820b717d"
+      },
+    },
+    {
+      id: "000000000000000000000004",
+      island_id: "66dc506deaae235d2dbe4a3a",
+      is_npc: true,
+      is_active: true,
+      name: {
+        first: "Chad",
+        last: "Ellington",
+      },
+      age: 32,
+      biologicalGender: "male",
+      details: {
+        presentingGender: "male",
+        raceEthnicity: "white",
+        sexualOrientation: "heterosexual",
+        occupation: "Personal Trainer",
+        description: "Owner of the local bakery and single.",
+        appearance: {
+          height: "5ft 10in",
+          bodyType: "athletic",
+          hairColor: "brown",
+          hairStyle: "gelled hair spiked",
+          eyeDescriptor: "determined",
+          eyeColor: "blue",
+          clothingStyle: "workout",
+        },
+        goals: [
+          {
+            goalType: "Story",
+            goalName: "Main Goal",
+            goalDescription: "Have the lowest BMI and highest bench press",
+          },
+        ],
+        traits: "672e893418728437820b717d"
+      },
+    },
+    {
       name: "Leah",
       age: 26,
       gender: "Female",
@@ -84,7 +283,7 @@ export const IslandTemplate = {
       bio: "bio",
       attributes: [],
       img: "Maureen64.png",
-    }
+    },
   ],
   Buildings: {
     civic: {
@@ -110,39 +309,218 @@ export const IslandTemplate = {
       ],
     },
     nonResidential: [
-      { id: 0, x: 275 * 2, y: 1370 * 2, name: "Bar", fillColor: "#aa0000", lotDetails: { zoneType: "Commercial", description: "The Bethel more than just a bar, is the meeting place of the town." } },
-      { id: 2, x: 400 * 2, y: 1370 * 2, name: "General Store", fillColor: "#0000aa" },
+      {
+        id: 0,
+        x: 275 * 2,
+        y: 1370 * 2,
+        name: "Bar",
+        fillColor: "#aa0000",
+        lotDetails: {
+          zoneType: "Commercial",
+          description:
+            "The Bethel more than just a bar, is the meeting place of the town.",
+        },
+      },
+      {
+        id: 2,
+        x: 400 * 2,
+        y: 1370 * 2,
+        name: "General Store",
+        fillColor: "#0000aa",
+      },
       { id: 3, x: 525 * 2, y: 1370 * 2, name: "School", fillColor: "#008888" },
       { id: 1, x: 275 * 2, y: 1535 * 2, name: "Bar", fillColor: "#aa0000" },
-      { id: 4, x: 400 * 2, y: 1535 * 2, name: "General Store", fillColor: "#0000aa" },
+      {
+        id: 4,
+        x: 400 * 2,
+        y: 1535 * 2,
+        name: "General Store",
+        fillColor: "#0000aa",
+      },
       { id: 5, x: 525 * 2, y: 1535 * 2, name: "School", fillColor: "#008888" },
-      { id: 6, x: 670 * 2, y: 1535 * 2, name: "General Store", fillColor: "#aabbff" },
+      {
+        id: 6,
+        x: 670 * 2,
+        y: 1535 * 2,
+        name: "General Store",
+        fillColor: "#aabbff",
+      },
       { id: 15, x: 1024 * 2, y: 1600 * 2, name: "Lighthouse" },
     ],
     residential: [
       { x: 680, y: 1650 },
       { x: 640 * 2, y: 940 * 2 },
       { x: 115 * 2, y: 1585 * 2 },
-    ]
+    ],
   },
   newLots: [
-    { id: "townhalltabernacle", name: "The Tabernacle", location: { x: 775, y: 1080 }, lotDetails: { "imgFileSrc": "TownHall2x.png" } },
-    { id: "RedRoofHouse10", name: "House", location: { x: 1200, y: 1100 }, lotDetails: { "imgFileSrc": "houseRedRoof12x.png", BGKey: "BGBar"} },
-    { id: "MayorsHouse10", name: "Mayors House", location: { x: 895, y: 960 }, lotDetails: { "imgFileSrc": "MayorsHouse2x.png", BGKey: "BGBar"} },
-    { id: "Hospital", name: "Medical Center", location: { x: 240, y: 1200 }, lotDetails: { "imgFileSrc": "Hospital2x.png", BGKey: "BGBar", NPCKey: "BriannaClark", actionOptions: [{ title: "Heal", action: () => { } }, { title: "Shop", action: () => { } }] } },
-    { id: "Marina", name: "Harbor Master", location: { x: 740, y: 1630 }, lotDetails: { "imgFileSrc": "Marina2x.png", BGKey: "BGDocks", NPCKey: "AndiMcNuttly", imgSize: {x:869/5.8,y:795/5.8}, actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "ClothingStore", name: "Island Fashions", location: { x: 424, y: 1550 }, lotDetails: { "imgFileSrc": "ClothingStore2x.png", BGKey: "BGGym", imgSize: {x:922/8,y:1039/8}, NPCKey: "JoeRomano", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "School", name: "School", location: { x: 425, y: 1275 }, lotDetails: { "imgFileSrc": "School2x.png", BGKey: "BGGym", imgSize: {x:927/8,y:1085/8}, NPCKey: "JoeRomano", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "GeneralStore", name: "FoodTown", location: { x: 296, y: 1405 }, lotDetails: { "imgFileSrc": "GeneralStore2x.png", BGKey: "BGFoodTown", imgSize: {x:964/8,y:1013/8}, NPCKey: "MarkDickson", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "Bakery", name: "Batter's Up Bakery", location: { x: 510, y: 1150 }, lotDetails: { "imgFileSrc": "Bakery2x.png", BGKey: "BGGym", imgSize: {x:977/8,y:1181/8}, NPCKey: "MarkDickson", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "Police", name: "Police", location: { x: 427, y: 1405 }, lotDetails: { "imgFileSrc": "Police2x.png", BGKey: "BGGym", imgSize: {x:975/8.25,y:1012/8.25}, NPCKey: "CharlieMallard", actionOptions: [{ title: "Shop", action: () => { } }, { title: "Information", action: () => { } }] } },
-    { id: "Resturant1", name: "Off The Hook", location: { x: 1666, y: 1225 }, lotDetails: { "imgFileSrc": "Resturant12x.png", imgSize: {x:899/5,y:470/5}, NPCKey: "ScottAnkor", actionOptions: [{ title: "Invite Date", action: () => { } }, { title: "Order Takeout", action: () => { } }] } },
-    { id: "Lighthouse", name: "Lighthouse B&B", location: { x: 1164, y: 1615 }, lotDetails: { "imgFileSrc": "Lighthouse2x.png", imgSize: {x:1024/5,y:1076/5}, NPCKey: "AddisonClark", actionOptions: [{ title: "Invite Date", action: () => { } }, { title: "Order Takeout", action: () => { } }] } },
-    { id: "PlayerCabin", name: "Homestead", location: { x: 1100, y: 1230 }, lotDetails: { "imgFileSrc": "pnwHouse2x.png", imgSize: {x:1024/9.2,y:949/9.2}, actionOptions: [{ title: "Sleep", action: () => { } }, { title: "Storage", action: () => { } }] } },
+    {
+      id: "townhalltabernacle",
+      name: "The Tabernacle",
+      location: { x: 775, y: 1080 },
+      lotDetails: { imgFileSrc: "TownHall2x.png" },
+    },
+    {
+      id: "RedRoofHouse10",
+      name: "House",
+      location: { x: 1200, y: 1100 },
+      lotDetails: { imgFileSrc: "houseRedRoof12x.png", BGKey: "BGBar" },
+    },
+    {
+      id: "MayorsHouse10",
+      name: "Mayors House",
+      location: { x: 895, y: 960 },
+      lotDetails: { imgFileSrc: "MayorsHouse2x.png", BGKey: "BGBar" },
+    },
+    {
+      id: "Hospital",
+      name: "Medical Center",
+      location: { x: 240, y: 1200 },
+      lotDetails: {
+        imgFileSrc: "Hospital2x.png",
+        BGKey: "BGBar",
+        NPCKey: "BriannaClark",
+        actionOptions: [
+          { title: "Heal", action: () => {} },
+          { title: "Shop", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Marina",
+      name: "Harbor Master",
+      location: { x: 740, y: 1630 },
+      lotDetails: {
+        imgFileSrc: "Marina2x.png",
+        BGKey: "BGDocks",
+        NPCKey: "AndiMcNuttly",
+        imgSize: { x: 869 / 5.8, y: 795 / 5.8 },
+        actionOptions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "ClothingStore",
+      name: "Island Fashions",
+      location: { x: 424, y: 1550 },
+      lotDetails: {
+        imgFileSrc: "ClothingStore2x.png",
+        BGKey: "BGGym",
+        imgSize: { x: 922 / 8, y: 1039 / 8 },
+        NPCKey: "JoeRomano",
+        actionOptions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "School",
+      name: "School",
+      location: { x: 425, y: 1275 },
+      lotDetails: {
+        imgFileSrc: "School2x.png",
+        BGKey: "BGGym",
+        imgSize: { x: 927 / 8, y: 1085 / 8 },
+        NPCKey: "JoeRomano",
+        actionOptions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "GeneralStore",
+      name: "FoodTown",
+      location: { x: 296, y: 1405 },
+      lotDetails: {
+        imgFileSrc: "GeneralStore2x.png",
+        BGKey: "BGFoodTown",
+        imgSize: { x: 964 / 8, y: 1013 / 8 },
+        NPCKey: "MarkDickson",
+        actionOptions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Bakery",
+      name: "Batter's Up Bakery",
+      location: { x: 510, y: 1150 },
+      lotDetails: {
+        imgFileSrc: "Bakery2x.png",
+        BGKey: "BGGym",
+        imgSize: { x: 977 / 8, y: 1181 / 8 },
+        NPCKey: "MarkDickson",
+        actionOptions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Police",
+      name: "Police",
+      location: { x: 427, y: 1405 },
+      lotDetails: {
+        imgFileSrc: "Police2x.png",
+        BGKey: "BGGym",
+        imgSize: { x: 975 / 8.25, y: 1012 / 8.25 },
+        NPCKey: "CharlieMallard",
+        actionOptions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Resturant1",
+      name: "Off The Hook",
+      location: { x: 1666, y: 1225 },
+      lotDetails: {
+        imgFileSrc: "Resturant12x.png",
+        imgSize: { x: 899 / 5, y: 470 / 5 },
+        NPCKey: "ScottAnkor",
+        actionOptions: [
+          { title: "Invite Date", action: () => {} },
+          { title: "Order Takeout", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Lighthouse",
+      name: "Lighthouse B&B",
+      location: { x: 1164, y: 1615 },
+      lotDetails: {
+        imgFileSrc: "Lighthouse2x.png",
+        imgSize: { x: 1024 / 5, y: 1076 / 5 },
+        NPCKey: "AddisonClark",
+        actionOptions: [
+          { title: "Invite Date", action: () => {} },
+          { title: "Order Takeout", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "PlayerCabin",
+      name: "Homestead",
+      location: { x: 1100, y: 1230 },
+      lotDetails: {
+        imgFileSrc: "pnwHouse2x.png",
+        imgSize: { x: 1024 / 9.2, y: 949 / 9.2 },
+        actionOptions: [
+          { title: "Sleep", action: () => {} },
+          { title: "Storage", action: () => {} },
+        ],
+      },
+    },
   ],
   Image: {
     source: "images/SnugIslandminEmpty.png",
-    size: { x: 2048+16, y: 2048 }
+    size: { x: 2048 + 16, y: 2048 },
   },
   INPUTKEY_TO_STATE_MAP: {
     KeyW: "isMovingUp",
@@ -172,37 +550,5 @@ export const IslandTemplate = {
   },
   VIEW_ZOOM_SETTING: 5,
   VIEW_ZOOM_MULTIPLIER: 7.5,
-  GUIElements: [{
-    x: 200,
-    y: 650,
-    h: 150,
-    w: 600,
-    GUIType: "Panel",
-    text: "Main UI Window",
-  }, {
-    x: 0,
-    y: 600,
-    h: 200,
-    w: 200,
-    GUIType: "PlayerProfileImageCirclePanel",
-    isCircle: true,
-    text: "Ellie Tupee",
-  }, {
-    x: 800,
-    y: 600,
-    h: 200,
-    w: 200,
-    GUIType: "Panel",
-    PanelType: "Detail",
-    text: "UI Details Options",
-    //content: []
-  }, {
-    x: 300,
-    y: 300,
-    h: 200,
-    w: 400,
-    GUIType: "AlertWindow",
-    title: "Welcome Newcomer!",
-    text: "Lukas Swan Introduces himself...",
-  }]
+  GUIElements: GUIElements,
 };
