@@ -222,6 +222,9 @@ app.get("/api/characterrelationships/:id", getCharacterRelationshipById);
 app.put("/api/characterrelationships/:id", updateCharacterRelationship);
 app.delete("/api/characterrelationships/:id", deleteCharacterRelationship);
 
+
+
+
 // SERVER STATE - Displayed on /ping
 let isDBConnected = false;
 let isAIConnected = false;
@@ -231,6 +234,37 @@ let promptCount = 0;
 // SETUP AI Instances
 const ollama = new Ollama.Ollama();
 ollama.setModel("rp"); //"phi3:mini");
+
+const getPresentCharactersData = function(){
+  return [{
+    name: "Ellie Tupee",
+    gender: "Female",
+    age: 25,
+    appearance: {
+      height: "tall",
+      bodyType: "fit",
+      hairColor: "brunette",
+      eyeColor: "brown",
+      clothingStyle: "cocktail dresses",
+    },
+    personalityTraits: ["friendly", "shy"],
+    backstory: "a traveler passing through town",
+  },
+  {
+    name: "Andi McNuttly",
+    gender: "Female",
+    age: 32,
+    appearance: {
+      height: "tall",
+      bodyType: "slim",
+      hairColor: "red",
+      eyeColor: "blue",
+      clothingStyle: "athleisure",
+    },
+    personalityTraits: ["friendly", "shy"],
+    backstory: "Town Harbor Master who knows everyone",
+  }];
+}
 
 // SETUP DB Instances
 mongoose
@@ -267,6 +301,14 @@ const server = app.listen(5006, () =>
   console.log(`Server started on 5006`)
 );
 
+// initialize socket server
+const io = socket(server, {
+  cors: {
+    origin: "*", //"http://localhost:3005",
+    credentials: true,
+  },
+});
+
 const storeMessage = async (msg, to, from, selfSent) => {
   const Messages = require("./models/messageModel");
   return await Messages.create({
@@ -282,7 +324,9 @@ const broadcastMsg = (sockets, msg, params) => {
 };
 
 // TODO: Implement the PromptAI function
-const promptAI = async (data, sockets) => {
+const promptAI = async (data, socketList) => { 
+  //var { sendUserSocket, fromUserSocket } = sockets;
+  /*
   var { sendUserSocket, fromUserSocket } = sockets;
   console.log("Send AI");
 
@@ -294,88 +338,95 @@ const promptAI = async (data, sockets) => {
   );
 
   //persist
-  const newMsg = await storeMessage(response.output, data.to, data.from, true);
+  const newMsg = await storeMessage(response.output, data.to, data.from, false);
+  */
+  //return newMsg;
+
+  // ----------------- current -------------------- 
+  let dataPrefix = [];
+  if (promptCount <= 0) {
+    dataPrefix = getPresentCharactersData(); // initial setting
+  }
+  
+  promptCount++;
+  // start ai processing
+  broadcastMsg(socketList, "msg-start-ai", data.msg);
+
+  console.log("Send AI");
+  isAIProcessing = true;
+
+  let sendMsg = data.msg;
+  if (dataPrefix.length > 0) {
+    sendMsg = JSON.stringify(dataPrefix) + " #Limit your response to 2 sentences or less. do not add narrative text.#  User Prompt: Ellie Says:" + data.msg;
+  }
+  const response = await ollama.generate(sendMsg);
+
+  broadcastMsg(socketList, "msg-recieve-ai", response.output);
+  isAIProcessing = false;
+
+  console.log("Store Data:  " + response.output);
+  const newMsg = await storeMessage(
+    response.output,
+    data.to,
+    data.from,
+    false
+  );
   return newMsg;
 };
 
-const io = socket(server, {
-  cors: {
-    origin: "*", //"http://localhost:3005",
-    credentials: true,
-  },
-});
+const socketAddUser = (userId, socketID) => {
+  global.onlineUsers.set(userId, socketID);
+};
 
 global.onlineUsers = new Map();
+
 io.on("connection", async (socket) => {
   global.chatSocket = socket;
-
-  socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.id);
-  });
+  socket.on("add-user", (userID)=>{return socketAddUser(userID, socket.id);});
 
   socket.on("send-msg", async (data) => {
     console.log(data);
-    const sendUserSocket = onlineUsers.get(data.to);
-    const fromUserSocket = onlineUsers.get(data.from);
+    /*
+    {
+      to: '000000000000000000000006',
+      from: '000000000000000000000001',
+      llmodel: 1,
+      senderIsAI: 0,
+      msg: "Hey andi right? Im Ellie I'm new here!"
+    }
+  */
+    const sendUserSocket = global.onlineUsers.get(data.to);
+    const fromUserSocket = global.onlineUsers.get(data.from);
     const socketList = [socket, io, sendUserSocket, fromUserSocket];
+
     if (sendUserSocket) {
-      console.log("sendUseSocket msg-recieve conditional?");
+      console.log("sendUseSocket msg-recieve conditional - if send to user is online");
       socket.to(sendUserSocket).emit("msg-recieve", data.msg);
     }
 
+    // save persistant store msg sent by user
     const newMsg = await storeMessage(data.msg, data.to, data.from, true);
 
     // if AI requested
     if (data.llmodel !== 0) {
+      const newPrompt = await promptAI(data, socketList);
+      /*
       let dataPrefix = [];
       if (promptCount <= 0) {
-        // initial setting
-        dataPrefix = [
-          {
-            name: "Jane Davis",
-            gender: "Female",
-            age: 59,
-            appearance: {
-              height: "tall",
-              bodyType: "heavy",
-              hairColor: "red",
-              eyeColor: "hazel",
-              clothingStyle: "goth",
-            },
-            personalityTraits: ["friendly", "shy"],
-            backstory: "a traveler passing through town",
-          },
-          {
-            name: "Michael Smith",
-            gender: "Male",
-            age: 38,
-            appearance: {
-              height: "tall",
-              bodyType: "slim",
-              hairColor: "red",
-              eyeColor: "blue",
-              clothingStyle: "athleisure",
-            },
-            personalityTraits: ["friendly", "shy"],
-            backstory: "a regular who knows everyone",
-          },
-        ];
+        dataPrefix = getPresentCharactersData(); // initial setting
       }
-
       promptCount++;
       broadcastMsg(socketList, "msg-start-ai", data.msg);
-
       console.log("Send AI");
       isAIProcessing = true;
 
       let sendMsg = data.msg;
       if (dataPrefix.length > 0) {
-        sendMsg = JSON.stringify(dataPrefix) + "   User Prompt: " + data.msg;
+        sendMsg = JSON.stringify(dataPrefix) + " #Limit your response to 2 sentences or less.#  User Prompt: Ellie Says:" + data.msg;
       }
-
       const response = await ollama.generate(sendMsg);
-
       broadcastMsg(socketList, "msg-recieve-ai", response.output);
+      isAIProcessing = false;
 
       console.log("Store Data:  " + response.output);
       const newMsg = await storeMessage(
@@ -385,6 +436,7 @@ io.on("connection", async (socket) => {
         false
       );
       return newMsg;
+      */
     }
   });
 });
