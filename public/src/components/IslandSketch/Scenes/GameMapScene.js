@@ -344,9 +344,9 @@ export class GameMapScene extends GameScene {
     p5.rect(rectDimensions.x, rectDimensions.y, rectDimensions.w, rectDimensions.h);
     p5.noStroke();
     p5.fill("#333333");
-    p5.text(senderName === "PLAYER" ? "You" : this.convertNPCIDToNPCKey(senderName), rectDimensions.x + rectDimensions.getWidth(.0355), rectDimensions.y + textNameVertOffset);
+    //p5.text(senderName === "PLAYER" ? "You" : this.convertNPCIDToNPCKey(senderName), rectDimensions.x + rectDimensions.getWidth(.0355), rectDimensions.y + textNameVertOffset);
     p5.text(text, rectDimensions.x, rectDimensions.y, rectDimensions.getWidth(.43), rectDimensions.h);
-    p5.text(sentTime, rectDimensions.x + rectDimensions.getWidth(.40), rectDimensions.y + textSentTimeVertOffset);
+    //p5.text(sentTime, rectDimensions.x + rectDimensions.getWidth(.40), rectDimensions.y + textSentTimeVertOffset);
     p5.pop();
   }
   
