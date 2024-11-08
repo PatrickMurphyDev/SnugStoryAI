@@ -45,7 +45,6 @@ export class GameMapScene extends GameScene {
 
     this.sleepTimeOfDay = 1400; // time of day that force sleep
 
-    this.maxDialogSeq = 0;
     var tiles = [];
     this.AnimatedSprites = [];
     this.CollideEntities = [];
@@ -316,9 +315,8 @@ export class GameMapScene extends GameScene {
   }
 
   drawDialogBubble(p5, text, seq, senderName, sentTime){
-    this.maxDialogSeq = Math.max(this.maxDialogSeq, seq);
-    seq = seq - this.maxDialogSeq;
-    const textHeight = 120;
+    this.chatData.setSeq(seq);
+    seq = seq - this.chatData.getSeq();
     const textNameVertOffset = 12;
     const textSentTimeVertOffset = 54;
     const offset = senderName === "PLAYER" ? -250 : 0;

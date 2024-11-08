@@ -67,9 +67,11 @@ export class GUIElementManager {
 
   setDisplayMode(dm){
     if(dm===0 && this.chatInput){
+      this.parent.chatData.closeConversation();
       this.chatInput.hide();
       this.chatSubmit.hide();
     }else if(this.chatInput){
+      this.parent.chatData.openConversation();
       this.chatInput.show();
       this.chatSubmit.show();
     }
