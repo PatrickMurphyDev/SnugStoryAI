@@ -12,6 +12,7 @@ class ConversationController {
         this.socket.current = io(host)
         
         this.socket.current.emit("add-user", "000000000000000000000001");
+
         this.chatData = data || [{text:"Hey you must be Ellie! Nice to meet you I'm " + this.parent.GUI.AlertWindowNPCKey + "!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
             {text:"Hey "+this.parent.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
             {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
@@ -20,10 +21,12 @@ class ConversationController {
 
           const handleMsgReceiveAI = (msg) => {
             console.log("msg-recieve-ai: ", msg);
+            
             this.isProcessing = false;
             let msg2 = {text:msg}; 
             msg2.to = "000000000000000000000001";
             msg2.sender = this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+            this.socket.current.emit("add-user", msg2.sender);
             this.addChat(msg2);
           };
       
@@ -40,7 +43,7 @@ class ConversationController {
         return ("000000000000000000000000" + IslandTemplate.NPCKEYS.indexOf(npcKey)).substring((IslandTemplate.NPCKEYS.indexOf(npcKey)+"").length);
     }
 
-    addChat(cm){
+    addChat(cm,isGUI){
         cm = cm || {};
         if(!cm.to)
             cm.to = this.parent.GUI.AlertWindowNPCKey;
@@ -58,13 +61,15 @@ class ConversationController {
         if(!cm.seq)
             cm.seq = this.parent.maxDialogSeq + 1;
 
-        this.socket.current.emit("send-msg", {
-            to: cm.toID,
-            from: cm.from,
-            llmodel: 1,
-            senderIsAI: 0,
-            msg: cm.text
-          });
+        if(isGUI){
+            this.socket.current.emit("send-msg", {
+                to: cm.toID,
+                from: cm.from,
+                llmodel: 1,
+                senderIsAI: 0,
+                msg: cm.text
+            });
+        }
         this.chatData.push(cm);
     }
 

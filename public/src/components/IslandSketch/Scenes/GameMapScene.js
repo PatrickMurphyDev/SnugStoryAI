@@ -318,32 +318,30 @@ export class GameMapScene extends GameScene {
   drawDialogBubble(p5, text, seq, senderName, sentTime){
     this.maxDialogSeq = Math.max(this.maxDialogSeq, seq);
     seq = seq - this.maxDialogSeq;
-    let offset = senderName === "PLAYER" ? -250 : 0;
+    const textHeight = 120;
+    const textNameVertOffset = 12;
+    const textSentTimeVertOffset = 54;
+    const offset = senderName === "PLAYER" ? -250 : 0;
+    const rectDimensions = {
+      x: p5.width*.35 + offset, 
+      y: p5.height*.6 + 100*seq, 
+      w: p5.width*.45, 
+      getWidth: (pct)=>p5.width*(pct || .45),
+      h: Math.max(65, (text.length/150)*50 + 30)
+    };
+    // 0123456789abcdef
+    const opacityMap = ["dd","bb","99","77","55","33"];
+    const trans = opacityMap[Math.min(opacityMap.length-1, Math.abs(seq))] || "cc";
+
     p5.push();
-    let trans = "cc";
-    if(Math.abs(seq)===1){
-      trans = "90";
-    }
-    if(Math.abs(seq)===2){
-      trans = "60";
-    }
-    if(Math.abs(seq)===3){
-      trans = "30";
-    }
-    if(Math.abs(seq)===4){
-      trans = "10";
-    }
-    if(Math.abs(seq)>4){
-      trans = "00";
-    }
-    p5.fill(senderName === "PLAYER" ? "#aaffFF"+trans : "#aaaaff"+trans);
+    p5.fill(senderName === "PLAYER" ? "#aaffFF" + trans : "#aaaaff"+trans);
     p5.stroke(senderName === "PLAYER" ? "#44aaaaee" : "#4444aaee");
-    p5.rect(p5.width/2 + offset, p5.height*.6 + 100*seq, p5.width*.45,80);
+    p5.rect(rectDimensions.x, rectDimensions.y, rectDimensions.w, rectDimensions.h);
     p5.noStroke();
     p5.fill("#333333");
-    p5.text(senderName === "PLAYER" ? "You" : senderName, p5.width/2 + p5.width*.055 + offset, p5.height*.6+15 + 100*seq);
-    p5.text(text, p5.width/2 + p5.width*.225 + offset, p5.height*.6+40 + 100*seq);
-    p5.text(sentTime, p5.width/2 + p5.width*.40 + offset, p5.height*.6+40+24 + 100*seq);
+    p5.text(senderName === "PLAYER" ? "You" : this.convertNPCIDToNPCKey(senderName), rectDimensions.x + rectDimensions.getWidth(.0355), rectDimensions.y + textNameVertOffset);
+    p5.text(text, rectDimensions.x, rectDimensions.y, rectDimensions.getWidth(.43), rectDimensions.h);
+    p5.text(sentTime, rectDimensions.x + rectDimensions.getWidth(.40), rectDimensions.y + textSentTimeVertOffset);
     p5.pop();
   }
   
@@ -382,7 +380,8 @@ export class GameMapScene extends GameScene {
     p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
     if (this.useBGImage) {
       // TODO: WIP: Image Chunks
-      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); //this.parent.getAssets('GameMapScene')['BGImage']
+      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); 
+      //this.parent.getAssets('GameMapScene')['BGImage']
     }
   }
 
@@ -599,6 +598,10 @@ export class GameMapScene extends GameScene {
       "", //this.charImages[resident.name] ||
       resident.img
     );
+  }
+
+  convertNPCIDToNPCKey(npcId){
+    return IslandTemplate.NPCKEYS[parseInt(npcId)];
   }
 
   findRandomResidentialLot() {

@@ -190,7 +190,7 @@ export class GUIElementManager {
       this.chatSubmit.position(p5.width + 35, p5.height*.96);
       this.chatInput.position(p5.width/2+p5.width/5, p5.height*.93);
       this.chatSubmit.mousePressed(()=>{
-        this.parent.chatData.addChat({text:this.chatInput.value()});
+        this.parent.chatData.addChat({text:this.chatInput.value()},1);
         this.chatInput.value("");
       });
     }
