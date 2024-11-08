@@ -327,12 +327,12 @@ const broadcastMsg = (sockets, msg, params) => {
 };
 
 function buildAIPromptTXT(data,dataPrefix) {
-  let sendMsg = "";
+  let sendMsg = "#using the following character data: ";
   if (dataPrefix.length > 0) {
     sendMsg += JSON.stringify(dataPrefix);
   }
-  sendMsg += " #Limit your response to 2 sentences or less. do not add narrative text.#";
-  sendMsg += " User Prompt: Ellie Says:" + data.msg;
+  sendMsg += " #Limit your response to 2 sentences or less. role play as a character talking to the main character ellie. do not announce who you are role playing as.# ";
+  sendMsg += "Ellie Says:" + data.msg;
   return sendMsg;
 };
 
