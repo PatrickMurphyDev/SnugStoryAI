@@ -236,7 +236,7 @@ let promptCount = 0;
 
 // SETUP AI Instances
 const ollama = new Ollama.Ollama();
-ollama.setModel("rp"); //"phi3:mini");
+ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
 
 const getPresentCharactersData = function(){
   return [{
