@@ -306,6 +306,13 @@ export class GameMapScene extends GameScene {
     this.chatData.forEach((v)=>{
       this.drawDialogBubble(p5,v.text,v.seq,v.sender,v.sentTime);
     });
+
+    if(this.chatData.isProcessing){
+      p5.push();
+      p5.fill("#00ffffaa");
+      p5.rect(p5.width*.4,p5.height*.7,p5.width*.2,22);
+      p5.pop();
+    }
     
     //this display action buttons
     //    this display action button sub menus
