@@ -11,6 +11,7 @@ class ConversationController {
         this.options['syntaxKey'] = '"';
         this.isProcessing = false;
         this.maxDialogSeq = 0;
+        this.currentNPC = '';
 
         this.socket = {};
         this.socket.current = io(host)
@@ -18,12 +19,8 @@ class ConversationController {
         // add user ellie
         this.socket.current.emit("add-user", "000000000000000000000001"); 
 
-        let getDataEl = (data)=>{return data || [{text:"Hey you must be Ellie! Nice to meet you I'm " + this.parent.GUI.AlertWindowNPCKey + "!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
-            {text:"Hey "+this.parent.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
-            {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
-            {text:"You are stunning!", seq:3, sender:this.parent.GUI.AlertWindowNPCKey, sentTime:'2s ago'}
-          ];}
-        this.converstionMap = {};
+        let getDataEl = (data)=>{return data || [];}
+        this.conversationMap = {};
         this.chatData = getDataEl(data);
 
           const handleMsgReceiveAI = (msg) => {
@@ -59,28 +56,31 @@ class ConversationController {
     }
 
     openConversation(NPC){
-        NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
-        if(!this.converstionMap[NPC]){
-            this.converstionMap[NPC] = [];
-            /*{text:"Hey you must be Ellie! Nice to meet you I'm " + this.parent.GUI.AlertWindowNPCKey + "!", seq: 0, sender: this.parent.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
-                {text:"Hey "+this.parent.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
-                {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
-                {text:"You are stunning!", seq:3, sender:this.parent.GUI.AlertWindowNPCKey, sentTime:'2s ago'} */
+        console.log("open convo ", NPC);
+        NPC = this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+        this.currentNPC = NPC;
+        if(Object.keys(this.conversationMap).indexOf(NPC) === -1){
+            this.conversationMap[NPC] = [];
         }
-        this.chatData = this.converstionMap[NPC];
-        return this.converstionMap[NPC];
+        this.chatData = this.getConversation(NPC);
+        return this.getConversation(NPC);
     }
+
     closeConversation(){
+        this.setConversation(this.currentNPC, this.chatData);
         this.chatData = [];
+        this.currentNPC = '';
         this.maxDialogSeq = 0;
     }
+
     getConversation(NPC,historyOffset){
         NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
-        historyOffset = 0;
-        return this.converstionMap[NPC];
+        historyOffset = historyOffset || 10;
+        return this.conversationMap[NPC];
     }
+
     setConversation(NPC,dataArr){
-        this.converstionMap[NPC] = dataArr;
+        this.conversationMap[NPC] = dataArr;
     }
 
     addChat(cm,isGUI){
@@ -112,13 +112,13 @@ class ConversationController {
 
         if(isGUI){
             // if sent from gui not AI send msg socket
-            this.socket.current.emit("send-msg", {
+            this.socket.current.emit("send-msg", [{
                 to: cm.toID,
                 from: cm.from,
                 llmodel: 1,
                 senderIsAI: 0,
                 msg: cm.text
-            });
+            },[this.chatData]]);
         }
         this.chatData.push(cm);
     }

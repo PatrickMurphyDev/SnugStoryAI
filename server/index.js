@@ -7,6 +7,7 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 const Ollama = require("ollama-node");
+const IslandTemplate = require("./IslandTemplateServer");
 const global = {};
 global.onlineUsers = new Map();
 
@@ -97,6 +98,11 @@ const {
   updateCharacterDetails,
   deleteCharacterDetails,
   createCharacterDetails,
+  createSavedGame,
+  getSavedGamesById,
+  getSavedGames,
+  updateSavedGame,
+  deleteSavedGame
 } = require("./controllers/crud");
 
 app.use(cors());
@@ -226,7 +232,12 @@ app.put("/api/characterrelationships/:id", updateCharacterRelationship);
 app.delete("/api/characterrelationships/:id", deleteCharacterRelationship);
 
 
-
+// REST API endpoints for SaveGame
+app.post("/api/savedgame", createSavedGame);
+app.get("/api/savedgame", getSavedGames);
+app.get("/api/savedgame/:id", getSavedGamesById);
+app.put("/api/savedgame/:id", updateSavedGame);
+app.delete("/api/savedgame/:id", deleteSavedGame);
 
 // SERVER STATE - Displayed on /ping
 let isDBConnected = false;
@@ -239,34 +250,7 @@ const ollama = new Ollama.Ollama();
 ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
 
 const getPresentCharactersData = function(NPCIDs){
-  return [{
-    name: "Ellie Tupee",
-    gender: "Female",
-    age: 25,
-    appearance: {
-      height: "tall",
-      bodyType: "fit",
-      hairColor: "brunette",
-      eyeColor: "brown",
-      clothingStyle: "cocktail dresses",
-    },
-    personalityTraits: ["friendly", "shy"],
-    backstory: "a traveler passing through town",
-  },
-  {
-    name: "Andi McNuttly",
-    gender: "Female",
-    age: 32,
-    appearance: {
-      height: "tall",
-      bodyType: "slim",
-      hairColor: "red",
-      eyeColor: "blue",
-      clothingStyle: "athleisure",
-    },
-    personalityTraits: ["friendly", "shy"],
-    backstory: "Town Harbor Master who knows everyone",
-  }];
+  return [IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[0])-1]), IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[1])-1])];
 }
 
 // SETUP DB Instances
@@ -312,6 +296,13 @@ const io = socket(server, {
   },
 });
 
+const storeSavedGame = async (userid,name,usrLoc,simTimeData) => {
+  const {SavedGame} = require("./models/models");
+  return await SavedGame.create({
+    savedUser
+  });
+};
+
 const storeMessage = async (msg, to, from, selfSent) => {
   const Messages = require("./models/messageModel");
   return await Messages.create({
@@ -337,11 +328,11 @@ function buildAIPromptTXT(data,dataPrefix) {
 };
 
 // TODO: Implement the PromptAI function
-const promptAI = async (data, socketList) => { 
+const promptAI = async (data, socketList, convoHistory) => { 
   console.log("Send AI");
   let dataPrefix = [];
   if (promptCount <= 0) {
-    dataPrefix = getPresentCharactersData(); // initial setting
+    dataPrefix = getPresentCharactersData([data.to,data.from]); // initial setting
   }
   
   promptCount++;
@@ -349,7 +340,7 @@ const promptAI = async (data, socketList) => {
   broadcastMsg(socketList, "msg-start-ai", data.msg);
   isAIProcessing = true;
 
-  let sendMsg = buildAIPromptTXT(data, dataPrefix);
+  let sendMsg = buildAIPromptTXT(data, dataPrefix, convoHistory);
   const response = await ollama.generate(sendMsg);
 
   broadcastMsg(socketList, "msg-recieve-ai", response.output);
@@ -375,6 +366,8 @@ io.on("connection", async (socket) => {
 
   socket.on("send-msg", async (data) => {
     console.log(data);
+    const convoHistory = data[1] || [];
+    data = data[0];
     const sendUserSocket = global.onlineUsers.get(data.to);
     const fromUserSocket = global.onlineUsers.get(data.from);
     const socketList = [socket, io, sendUserSocket, fromUserSocket];
@@ -389,7 +382,7 @@ io.on("connection", async (socket) => {
 
     // if AI requested
     if (data.llmodel !== 0) {
-      const newPrompt = await promptAI(data, socketList);
+      const newPrompt = await promptAI(data, socketList, convoHistory);
       return newPrompt;
     }
   });
