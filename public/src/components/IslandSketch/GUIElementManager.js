@@ -71,10 +71,14 @@ export class GUIElementManager {
       this.chatInput.hide();
       this.chatSubmit.hide();
     }else if(this.chatInput){
-      this.parent.chatData.openConversation();
       this.chatInput.show();
       this.chatSubmit.show();
     }
+
+    if(dm !== 0){
+      this.parent.chatData.openConversation(this.parent.chatData.convertNPCKeyToID(this.AlertWindowNPCKey));
+    }
+
     this.displayMode = dm;
   }
 
@@ -189,8 +193,8 @@ export class GUIElementManager {
       this.chatInput.attribute('placeholder', 'Chat here.....');
       this.chatSubmit.size(p5.width/6);
       this.chatInput.size(p5.width/2);
-      this.chatSubmit.position(p5.width + 35, p5.height*.96);
-      this.chatInput.position(p5.width/2+p5.width/5, p5.height*.93);
+      this.chatSubmit.position(p5.width, p5.height*.95);
+      this.chatInput.position(p5.width/2+p5.width/6, p5.height*.92);
       this.chatSubmit.mousePressed(()=>{
         this.parent.chatData.addChat({text:this.chatInput.value()},1);
         this.chatInput.value("");
