@@ -20,6 +20,7 @@ import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: I
 import { ItemsEnum } from "../ItemsEnum"; // Static Data: Possible Items
 import ConversationController from "../Controllers/ConversationController";
 import GameDialogScene from "./GameDialogScene";
+import GameViewMapScene from "./GameViewMapScene";
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ 'currentTimeOfDay': 600 }); // start 10 am
@@ -39,7 +40,7 @@ export class GameMapScene extends GameScene {
     // process params and set 
     this.playerControl = new PlayerController(this, {x:570,y:1820},.4);
     this.setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene);
-    this.initCamera(); // setup offset and zoom and control mode
+    
     this.initMapSettings();
     this.GUI_Time = '';
     this.GUI_Date = '';
@@ -53,7 +54,10 @@ export class GameMapScene extends GameScene {
     this.preloadedImages = [];
     this.GameMap = new GameTileMapManager(this, { width: 64, height: 64 }, tiles);
 
+    this.currentZoomLevel = 1;
+
     this.gameDialogScene = new GameDialogScene(this);
+    this.gameViewMapScene = new GameViewMapScene(this);
     //tmp char fix other char
     this.charPos = { x: this.playerControl.location.x + 24, y: this.playerControl.location.y - 96 - 64 };
 
@@ -112,13 +116,6 @@ export class GameMapScene extends GameScene {
     this.parentAssets = parentAssetsByScene;
   }
 
-  initCamera() {
-    this.scal = 1;
-    this.CameraOffset = undefined;
-    this.currentZoomLevel = 1;
-    this.zoomLevels = [.4,.6,.8,.9];
-    this.cameraControlMode = "player";
-  }
 
   initMapSettings() {
     this.isFirstFrame = true;
@@ -208,35 +205,7 @@ export class GameMapScene extends GameScene {
     if (simTime.isPaused) simTime.start();
     if (this.GUI.getDisplayMode() === 0) {
       this.handleKeyboardUserInputUpdate();
-      this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, this.zoomLevels[this.currentZoomLevel]);
-      if (this.playerControl.getDidMove()) {
-        // determine offset based on playerPosition and CameraZoom
-        const offsetLocal = p5.createVector(
-          (this.playerControl.location.x * -1) + (p5.width / (this.getCameraZoom())) / 2,
-          (this.playerControl.location.y * -1) + (p5.height / (this.getCameraZoom())) / 2.5
-        );
-        this.setCameraOffset(offsetLocal);
-      }
-
-      // update correct sprite
-      if (this.playerControl.getMoveState().isMovingLeft) {
-        this.CharRunLeft.update(p5);
-      } else if (this.playerControl.getMoveState().isMovingRight) {
-        this.CharRunRight.update(p5);
-      } else {
-        if (this.playerControl.getMoveState().isMovingUp) {
-          this.CharRunUp.update(p5);
-        } else if (this.playerControl.getMoveState().isMovingDown) {
-          this.CharRunDown.update(p5);
-        }
-      }
-
-      // WIP TODO: temp: set ellie to player x y
-      this.charList[this.charList.length - 1].setLocation({
-        x: this.playerControl.location.x,
-        y: this.playerControl.location.y,
-      });
-      this.charList[this.charList.length - 1].setHidden(true);
+      this.gameViewMapScene.update(p5);
     }
     this.playerControl.setDidMove(false);
   }
@@ -252,7 +221,7 @@ export class GameMapScene extends GameScene {
   draw(p5) {
     this.update(p5);
     if (this.GUI.getDisplayMode() === 0) {
-      this.renderMainView_Map(p5);
+      this.gameViewMapScene.draw(p5);
     } else {
       this.gameDialogScene.draw(p5);
     }
@@ -260,85 +229,13 @@ export class GameMapScene extends GameScene {
     this.GUI.renderGUI(p5);
   }
 
-  renderMainView_Map(p5) {
-    p5.push();
-    if (simTime.currentTimeOfDay) {
-      this.renderBackground(p5);
-      this.renderEntities(p5, this);
-      this.playerControl.render(p5);
-      this.handleMouseInteraction(p5);
-      if (this.DEBUG_LEVEL >= 2) {
-        this.renderWalls(p5);
-      }
-    } else { // loading map scene
-      this.renderLoadingScreen(p5);
-    }
-    p5.pop();
-  }
-
-  renderLoadingScreen(p5) {
-    p5.background(60);
-    p5.text("Loading...", p5.width / 2, p5.height / 2);
-  }
-
-  renderBackground(p5) {
-    p5.tint(this.convertTimeOfDayToAlpha(simTime.currentTimeOfDay));
-    p5.background("#111");//"#20D6C7");
-    p5.scale(this.getCameraZoom());
-    p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
-    if (this.useBGImage) {
-      // TODO: WIP: Image Chunks
-      p5.image(this.bgImage, 0, 0, this.sizeVector.x, this.sizeVector.y); 
-      //this.parent.getAssets('GameMapScene')['BGImage']
-    }
-  }
-
-  renderEntities(p5) {
-    this.charList.forEach((villager) => {
-      villager.update(p5);
-      if (!villager.isHidden()) {
-        villager.draw(p5);
-      }
-    });
-    this.lots.forEach((lot) => {
-      lot.update(p5, this);
-      lot.draw(p5);
-    });
-    this.CrabTraps.forEach((ctrap) => {
-      ctrap.update(p5);
-      ctrap.draw(p5, 255, this.getCameraOffset(), this.getCameraZoom());
-    });
-    this.AnimatedSprites.forEach((sprite) => {
-      sprite.update(p5);
-      sprite.draw(p5);
-    });
-  }
-
-  renderWalls(p5) {
-    this.CollideEntities.forEach((collider) => {
-      collider.draw(p5);
-    });
-  }
-  /* END RENDER FN*/
-
-  /* CAMERA FN TODO: Move to New Class */
   getCameraOffset() {
-    return this.CameraOffset;
+    return this.gameViewMapScene.cameraOffset;
   }
 
   getCameraZoom() {
-    return this.scal;
+    return this.gameViewMapScene.scal;
   }
-
-  setCameraZoom(zoomLevelInt = 2, factor = 3) {
-    zoomLevelInt = Math.max(1, Math.min(5, zoomLevelInt));
-    this.scal = zoomLevelInt * factor;
-  }
-
-  setCameraOffset(positionP5Vec) {
-    this.CameraOffset = positionP5Vec;
-  }
-  /**----------- END CAMERA FN */
 
   /* INPUT FN */
   initializeEventListeners() {
@@ -350,7 +247,7 @@ export class GameMapScene extends GameScene {
           }else{
             this.currentZoomLevel++;
           }
-          this.currentZoomLevel = Math.max(0,Math.min(this.zoomLevels.length-1,this.currentZoomLevel));   //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
+          this.currentZoomLevel = Math.max(0,Math.min(this.gameViewMapScene.zoomLevels.length-1,this.currentZoomLevel));   //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
         });
     });
     window.addEventListener("keydown", (e) => this.keyPressed(e));
@@ -416,7 +313,7 @@ export class GameMapScene extends GameScene {
       this.isMouseReleased = true;
       this.lastFrameMousePressed = false;
       if (this.playerInventory.getItemCount(ItemsEnum['crabtrap']) > 0) {
-        let offsetLocal = this.getOffsetLocal(p5, this.getCameraOffset(), this.getCameraZoom());
+        let offsetLocal = this.getOffsetLocal(p5, this.gameViewMapScene.getCameraOffset(), this.gameViewMapScene.getCameraZoom());
         this.doUIAction(p5.frameCount, ()=>{
           this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount, (i)=>{this.playerInventory.addItem(i)}));
           this.playerInventory.removeItem(ItemsEnum['crabtrap']);
@@ -433,20 +330,6 @@ export class GameMapScene extends GameScene {
   }
   /** ---------- END INPUT FNs */
 
-  convertTimeOfDayToAlpha(ctd){
-    const maxCTD = 1440;
-    ctd = ctd || (maxCTD / 2); // param or noon
-    const ctdPct = ctd / maxCTD; //Math.min((ctd + (maxCTD/2)), maxCTD) / maxCTD;
-    const amp = 255;
-    const periodVar = Math.PI * (1 / 6);
-    const phaseShift = 0;
-    const vertShift = 0;
-    const minAlpha = 35;
-
-    const degrees_to_radians = (deg) => { return (deg * Math.PI) / 180.0; }
-
-    return Math.max(minAlpha, amp * (Math.sin(periodVar * (degrees_to_radians(360 * ctdPct) + phaseShift)) + vertShift));
-  }
 
   checkNextPosititionCollision(
     oldPosX,
@@ -506,10 +389,6 @@ export class GameMapScene extends GameScene {
       "", //this.charImages[resident.name] ||
       resident.img
     );
-  }
-
-  convertNPCIDToNPCKey(npcId){
-    return IslandTemplate.NPCKEYS[parseInt(npcId)];
   }
 
   findRandomResidentialLot() {
