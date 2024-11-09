@@ -1,5 +1,6 @@
 const {
     Island,
+    SavedGame,
     Area,
     IslandPropertyLot,
     Building,
@@ -216,6 +217,12 @@ const {
     getCharacterRelationshipById: getDocumentById(CharacterRelationship),
     updateCharacterRelationship: updateDocument(CharacterRelationship),
     deleteCharacterRelationship: deleteDocument(CharacterRelationship),
+
+    createSavedGame: createDocument(SavedGame),
+    getSavedGames: getDocuments(SavedGame),
+    getSavedGameById: getDocumentById(SavedGame),
+    updateSavedGame: updateDocument(SavedGame),
+    deleteSavedGame: deleteDocument(SavedGame),
 
     getCharacterAttributeField: getDocumentWhere(CharacterAttributeField), // default uses req.params
   };

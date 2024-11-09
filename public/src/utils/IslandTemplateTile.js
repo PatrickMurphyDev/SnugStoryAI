@@ -96,18 +96,32 @@ export const IslandTemplate = {
     "ScottAnkor",
   ],
   BGKeys: ["BGDocks", "BGMarina", "BGGym", "BGFoodTown"],
+  summarizeResident: (res) => {
+    return {
+      firstName: res.nameObj.first,
+      lastName: res.nameObj.last,
+      age: res.age,
+      gender: res.gender,
+      raceEthnicity: res.details.raceEthnicity,
+      descr: res.details.description,
+      occupation: res.details.occupation,
+      goal: res.goals[0].goalDescription,
+      appearance: res.appearance
+    };
+  },
   Residents: [
     {
       id: "000000000000000000000001",
       island_id: "66dc506deaae235d2dbe4a3a",
       is_npc: false,
       is_active: true,
-      name: {
+      nameObj: {
         first: "Ellie",
         last: "Wigg",
       },
+      name: "Ellie",
       age: 28,
-      biologicalGender: "female",
+      gender: "female",
       details: {
         _id: {
           $oid: "672e7f1c18728437820b7179",
@@ -154,12 +168,13 @@ export const IslandTemplate = {
       island_id: "66dc506deaae235d2dbe4a3a",
       is_npc: true,
       is_active: true,
-      name: {
+      nameObj: {
         first: "Addison",
         last: "Clark",
       },
+      name: "Addison",
       age: 28,
-      biologicalGender: "male",
+      gender: "male",
       details: {
         presentingGender: "male",
         raceEthnicity: "white",
@@ -179,10 +194,11 @@ export const IslandTemplate = {
           {
             goalType: "Story",
             goalName: "Main Goal",
-            goalDescription: "Wants to turn the island into a tourism resort destination, even if the island loses its character.",
+            goalDescription:
+              "Wants to turn the island into a tourism resort destination, even if the island loses its character.",
           },
         ],
-        traits: "672e893418728437820b717d"
+        traits: "672e893418728437820b717d",
       },
     },
     {
@@ -190,12 +206,13 @@ export const IslandTemplate = {
       island_id: "66dc506deaae235d2dbe4a3a",
       is_npc: true,
       is_active: true,
-      name: {
+      nameObj: {
         first: "Betty",
         last: "Last",
       },
+      name: "Betty",
       age: 30,
-      biologicalGender: "female",
+      gender: "female",
       details: {
         presentingGender: "female",
         raceEthnicity: "white",
@@ -215,10 +232,11 @@ export const IslandTemplate = {
           {
             goalType: "Story",
             goalName: "Main Goal",
-            goalDescription: "Want's to sell her bakery and move to the main land.",
+            goalDescription:
+              "Want's to sell her bakery and move to the main land.",
           },
         ],
-        traits: "672e893418728437820b717d"
+        traits: "672e893418728437820b717d",
       },
     },
     {
@@ -226,12 +244,13 @@ export const IslandTemplate = {
       island_id: "66dc506deaae235d2dbe4a3a",
       is_npc: true,
       is_active: true,
-      name: {
+      nameObj: {
         first: "Chad",
         last: "Ellington",
       },
+      name: "Chad",
       age: 32,
-      biologicalGender: "male",
+      gender: "male",
       details: {
         presentingGender: "male",
         raceEthnicity: "white",
@@ -254,35 +273,8 @@ export const IslandTemplate = {
             goalDescription: "Have the lowest BMI and highest bench press",
           },
         ],
-        traits: "672e893418728437820b717d"
+        traits: "672e893418728437820b717d",
       },
-    },
-    {
-      name: "Leah",
-      age: 26,
-      gender: "Female",
-      skills: [],
-      bio: "bio",
-      attributes: [],
-      img: "Leah64.png",
-    },
-    {
-      name: "Rob",
-      age: 24,
-      gender: "Male",
-      skills: [],
-      bio: "bio",
-      attributes: [],
-      img: "Rob64.png",
-    },
-    {
-      name: "Maureen",
-      age: 27,
-      gender: "Female",
-      skills: [],
-      bio: "bio",
-      attributes: [],
-      img: "Maureen64.png",
     },
   ],
   Buildings: {
