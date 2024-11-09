@@ -61,11 +61,11 @@ class ConversationController {
     openConversation(NPC){
         NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
         if(!this.converstionMap[NPC]){
-            this.converstionMap[NPC] = [{text:"Hey you must be Ellie! Nice to meet you I'm " + this.parent.GUI.AlertWindowNPCKey + "!", seq: 0, sender: this.parent.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
+            this.converstionMap[NPC] = [];
+            /*{text:"Hey you must be Ellie! Nice to meet you I'm " + this.parent.GUI.AlertWindowNPCKey + "!", seq: 0, sender: this.parent.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
                 {text:"Hey "+this.parent.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
                 {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
-                {text:"You are stunning!", seq:3, sender:this.parent.GUI.AlertWindowNPCKey, sentTime:'2s ago'}
-              ];
+                {text:"You are stunning!", seq:3, sender:this.parent.GUI.AlertWindowNPCKey, sentTime:'2s ago'} */
         }
         this.chatData = this.converstionMap[NPC];
         return this.converstionMap[NPC];

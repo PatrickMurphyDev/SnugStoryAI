@@ -19,6 +19,7 @@ import WallData from "../../../utils/WallData.json"; // Static Data: Wall Positi
 import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
 import { ItemsEnum } from "../ItemsEnum"; // Static Data: Possible Items
 import ConversationController from "../Controllers/ConversationController";
+import GameDialogScene from "./GameDialogScene";
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ 'currentTimeOfDay': 600 }); // start 10 am
@@ -52,6 +53,7 @@ export class GameMapScene extends GameScene {
     this.preloadedImages = [];
     this.GameMap = new GameTileMapManager(this, { width: 64, height: 64 }, tiles);
 
+    this.gameDialogScene = new GameDialogScene(this);
     //tmp char fix other char
     this.charPos = { x: this.playerControl.location.x + 24, y: this.playerControl.location.y - 96 - 64 };
 
@@ -252,8 +254,7 @@ export class GameMapScene extends GameScene {
     if (this.GUI.getDisplayMode() === 0) {
       this.renderMainView_Map(p5);
     } else {
-      let otherPlayerPos = p5.createVector(1000 - 175 - 200, 250 - 200);
-      this.renderMainView_Dialog(p5, otherPlayerPos);
+      this.gameDialogScene.draw(p5);
     }
     p5.ellipseMode("CENTER");
     this.GUI.renderGUI(p5);
@@ -278,104 +279,6 @@ export class GameMapScene extends GameScene {
   renderLoadingScreen(p5) {
     p5.background(60);
     p5.text("Loading...", p5.width / 2, p5.height / 2);
-  }
-
-  renderMainView_Dialog(p5, otherPlayerPos) {
-    p5.background(0);
-    if(this.parentAssets["GameMapScene"][this.GUI.BGKey]){
-      p5.image(this.parentAssets["GameMapScene"][this.GUI.BGKey], -12, -250); // Draw Background Image
-    }
-    // Draw Player Back of Head
-    p5.image(
-      this.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
-      50,
-      200,
-      450,
-      450
-    ); 
-    // Draw Other Player Profile Image
-    if(this.characterProfileImages[this.GUI.AlertWindowNPCKey]){
-      p5.image(
-        this.characterProfileImages[this.GUI.AlertWindowNPCKey],
-        otherPlayerPos.x,
-        otherPlayerPos.y,
-        350,
-        350
-      ); 
-    }
-    this.chatData.forEach((v)=>{
-      this.drawDialogBubble(p5,v.text,v.seq,v.sender,v.sentTime);
-    });
-
-    if(this.chatData.isProcessing){
-      p5.push();
-      p5.fill("#00ffffaa");
-      p5.rect(p5.width*.4,p5.height*.7,p5.width*.2,22);
-      p5.pop();
-    }
-    
-    //this display action buttons
-    //    this display action button sub menus
-    //    this display chat sub panels
-    this.drawEndChatButton(p5, otherPlayerPos);
-    this.drawShopButton(p5, otherPlayerPos);
-  }
-
-  drawDialogBubble(p5, text, seq, senderName, sentTime){
-    this.chatData.setSeq(seq);
-    seq = seq - this.chatData.getSeq();
-    const textNameVertOffset = 12;
-    const textSentTimeVertOffset = 54;
-    const offset = senderName === "PLAYER" ? -250 : 0;
-    const rectDimensions = {
-      x: p5.width*.35 + offset, 
-      y: p5.height*.6 + 100*seq, 
-      w: p5.width*.45, 
-      getWidth: (pct)=>p5.width*(pct || .45),
-      h: Math.max(65, (text.length/150)*50 + 30)
-    };
-    // 0123456789abcdef
-    const opacityMap = ["dd","bb","99","77","55","33"];
-    const trans = opacityMap[Math.min(opacityMap.length-1, Math.abs(seq))] || "cc";
-
-    p5.push();
-    p5.fill(senderName === "PLAYER" ? "#aaffFF" + trans : "#aaaaff"+trans);
-    p5.stroke(senderName === "PLAYER" ? "#44aaaaee" : "#4444aaee");
-    p5.rect(rectDimensions.x, rectDimensions.y, rectDimensions.w, rectDimensions.h);
-    p5.noStroke();
-    p5.fill("#333333");
-    //p5.text(senderName === "PLAYER" ? "You" : this.convertNPCIDToNPCKey(senderName), rectDimensions.x + rectDimensions.getWidth(.0355), rectDimensions.y + textNameVertOffset);
-    p5.text(text, rectDimensions.x, rectDimensions.y, rectDimensions.getWidth(.43), rectDimensions.h);
-    //p5.text(sentTime, rectDimensions.x + rectDimensions.getWidth(.40), rectDimensions.y + textSentTimeVertOffset);
-    p5.pop();
-  }
-  
-  drawEndChatButton(p5, otherPlayerPos) {
-    const pos = p5.createVector(35,otherPlayerPos.y-30);
-    const dim = p5.createVector(150,70);
-    p5.fill("blue");
-    p5.stroke("lightblue");
-    p5.rect(pos.x, pos.y, dim.x, dim.y);
-    p5.noStroke();
-    p5.fill("#ffffff");
-    p5.text("End Chat", pos.x, pos.y, dim.x, dim.y);
-    this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
-      this.GUI.setDisplayMode(0);
-    });
-  }
-
-  drawShopButton(p5, otherPlayerPos) {
-    const pos = p5.createVector(35, otherPlayerPos.y+80-30);
-    const dim = p5.createVector(150, 70);
-    p5.fill("#222222ee");
-    p5.stroke("#666666ee");
-    p5.rect(pos.x, pos.y, dim.x, dim.y);
-    p5.noStroke();
-    p5.fill("#ffffff");
-    p5.text("Shop", pos.x, pos.y, dim.x, dim.y);
-    this.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
-      this.GUI.setDisplayMode(0);
-    });
   }
 
   renderBackground(p5) {
