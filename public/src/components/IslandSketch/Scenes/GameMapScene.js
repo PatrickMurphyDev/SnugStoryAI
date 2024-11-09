@@ -23,7 +23,7 @@ import GameDialogScene from "./GameDialogScene";
 import GameViewMapScene from "./GameViewMapScene";
 
 // define simulation time object that tracks time and date in world
-const simTime = SimulationTime.getInstance({ 'currentTimeOfDay': 600 }); // start 10 am
+const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
 export class GameMapScene extends GameScene {
   constructor(
     onCharacterSelect,
@@ -37,13 +37,20 @@ export class GameMapScene extends GameScene {
     this.DEBUG_LEVEL = 0;
     this.lastFrame = -1;
 
-    // process params and set 
-    this.playerControl = new PlayerController(this, {x:570,y:1820},.4);
-    this.setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene);
-    
+    // process params and set
+    this.playerControl = new PlayerController(this, { x: 570, y: 1820 }, 0.4);
+    this.setupParams(
+      onCharacterSelect,
+      onPropertySelect,
+      charList,
+      setCharList,
+      sizeVector,
+      parentAssetsByScene
+    );
+
     this.initMapSettings();
-    this.GUI_Time = '';
-    this.GUI_Date = '';
+    this.GUI_Time = "";
+    this.GUI_Date = "";
 
     this.sleepTimeOfDay = 1400; // time of day that force sleep
 
@@ -52,16 +59,23 @@ export class GameMapScene extends GameScene {
     this.CollideEntities = [];
     this.CrabTraps = [];
     this.preloadedImages = [];
-    this.GameMap = new GameTileMapManager(this, { width: 64, height: 64 }, tiles);
+    this.GameMap = new GameTileMapManager(
+      this,
+      { width: 64, height: 64 },
+      tiles
+    );
 
     this.currentZoomLevel = 1;
 
     this.gameDialogScene = new GameDialogScene(this);
     this.gameViewMapScene = new GameViewMapScene(this);
     //tmp char fix other char
-    this.charPos = { x: this.playerControl.location.x + 24, y: this.playerControl.location.y - 96 - 64 };
+    this.charPos = {
+      x: this.playerControl.location.x + 24,
+      y: this.playerControl.location.y - 96 - 64,
+    };
 
-    this.playerInventory = new CharacterInventory({ "Item2": 5 });
+    this.playerInventory = new CharacterInventory({ Item2: 5 });
     this.isLoaded = false;
 
     this.npcKeyIndex = 0;
@@ -84,11 +98,7 @@ export class GameMapScene extends GameScene {
     };
 
     this.GUI = new GUIElementManager(this);
-    this.chatData = new ConversationController(this,[{text:"Hey you must be Ellie! Nice to meet you I'm "+this.GUI.AlertWindowNPCKey+"!", seq: 0, sender: this.GUI.AlertWindowNPCKey, sentTime: '10s ago'},
-      {text:"Hey "+this.GUI.AlertWindowNPCKey+"!", seq: 1, sender: "PLAYER", sentTime:'6s ago'},
-      {text:"I'm so happy to meet you!",seq: 2, sender: "PLAYER", sentTime:'4s ago'},
-      {text:"You are stunning!", seq:3, sender:this.GUI.AlertWindowNPCKey, sentTime:'2s ago'}
-    ]);
+    this.chatData = new ConversationController(this, []);
     this.loadWallData();
     this.initializeEventListeners();
     this.initializeLots();
@@ -104,7 +114,14 @@ export class GameMapScene extends GameScene {
     //simTime.setRateOfTime(3);
   } // end constructor
 
-  setupParams(onCharacterSelect, onPropertySelect, charList, setCharList, sizeVector, parentAssetsByScene) {
+  setupParams(
+    onCharacterSelect,
+    onPropertySelect,
+    charList,
+    setCharList,
+    sizeVector,
+    parentAssetsByScene
+  ) {
     this.onCharacterSelect = onCharacterSelect;
     this.onPropertySelect = onPropertySelect;
     this.charList = charList;
@@ -116,12 +133,11 @@ export class GameMapScene extends GameScene {
     this.parentAssets = parentAssetsByScene;
   }
 
-
   initMapSettings() {
     this.isFirstFrame = true;
     this.tileWidth = 32;
     this.speed = 1.9;
-    if(this.DEBUG_LEVEL > 2) this.speed += 5;
+    if (this.DEBUG_LEVEL > 2) this.speed += 5;
     this.playerx = 570;
     this.playery = 1820;
     this.lastFrameMousePressed = false;
@@ -170,16 +186,33 @@ export class GameMapScene extends GameScene {
     this.lots = [...lotEntities];
     let newLots = [...IslandTemplate.newLots];
     newLots.forEach((v, i) => {
-      this.lots.push(new LotEntity(v.id, v.name, v.location.x, v.location.y, { ...IslandTemplate.DEFAULTLOTPROPERTIES, ...v.lotDetails, ...{ imgObj: this.parentAssets["GameMapScene"][v.id] } }, []));
+      this.lots.push(
+        new LotEntity(
+          v.id,
+          v.name,
+          v.location.x,
+          v.location.y,
+          {
+            ...IslandTemplate.DEFAULTLOTPROPERTIES,
+            ...v.lotDetails,
+            ...{ imgObj: this.parentAssets["GameMapScene"][v.id] },
+          },
+          []
+        )
+      );
       this.CollideEntities.push(
         new CollideRectEntity(
-          66666+v.id,
+          66666 + v.id,
           v.location.x - 16,
           v.location.y - 25,
           { x: 16, width: 16, y: 20, height: 20 },
           () => {
             //console.log("coll char");
-            this.GUI.openAlert(v.name, "Enter the " + v.name + " building?",v.lotDetails);
+            this.GUI.openAlert(
+              v.name,
+              "Enter the " + v.name + " building?",
+              v.lotDetails
+            );
           }
         )
       );
@@ -211,10 +244,13 @@ export class GameMapScene extends GameScene {
   }
 
   checkSleepConditionUpdate() {
-    if (simTime.currentTimeOfDay >= this.sleepTimeOfDay && !this.playerControl.isAsleep()) {
+    if (
+      simTime.currentTimeOfDay >= this.sleepTimeOfDay &&
+      !this.playerControl.isAsleep()
+    ) {
       this.playerControl.setAsleep(true);
       // TODO: WIP: penalize player for not sleeping
-      console.log('not in bed in time.... set sleep');
+      console.log("not in bed in time.... set sleep");
     }
   }
 
@@ -239,16 +275,22 @@ export class GameMapScene extends GameScene {
 
   /* INPUT FN */
   initializeEventListeners() {
-    window.addEventListener("wheel", event => {
+    window.addEventListener("wheel", (event) => {
       var dir = Math.sign(event.deltaY);
-        this.doUIAction(this.lastFrame,()=>{       
-          if(dir > 0){
-            this.currentZoomLevel--;
-          }else{
-            this.currentZoomLevel++;
-          }
-          this.currentZoomLevel = Math.max(0,Math.min(this.gameViewMapScene.zoomLevels.length-1,this.currentZoomLevel));   //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
-        });
+      this.doUIAction(this.lastFrame, () => {
+        if (dir > 0) {
+          this.currentZoomLevel--;
+        } else {
+          this.currentZoomLevel++;
+        }
+        this.currentZoomLevel = Math.max(
+          0,
+          Math.min(
+            this.gameViewMapScene.zoomLevels.length - 1,
+            this.currentZoomLevel
+          )
+        ); //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
+      });
     });
     window.addEventListener("keydown", (e) => this.keyPressed(e));
     window.addEventListener("keyup", (e) => this.keyReleased(e));
@@ -261,10 +303,14 @@ export class GameMapScene extends GameScene {
       let isMovingVertical = this.isMovingUp || this.isMovingDown;
       let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
       let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
-      let speedModifier = .9;
+      let speedModifier = 0.9;
       const newCallBack = (newVal, valid) => {
-        this.playerControl.location.x = valid ? newVal.x : this.playerControl.location.x;
-        this.playerControl.location.y = valid ? newVal.y : this.playerControl.location.y;
+        this.playerControl.location.x = valid
+          ? newVal.x
+          : this.playerControl.location.x;
+        this.playerControl.location.y = valid
+          ? newVal.y
+          : this.playerControl.location.y;
         this.playerControl.setDidMove(true);
       };
       if (isMovingDiagonal) speedModifier = 0.45;
@@ -274,7 +320,10 @@ export class GameMapScene extends GameScene {
       if (this.playerControl.getMoveState().isMovingLeft) tmpx -= moveDist;
       if (this.playerControl.getMoveState().isMovingRight) tmpx += moveDist;
 
-      if (tmpx !== this.playerControl.location.x || tmpy !== this.playerControl.location.y)
+      if (
+        tmpx !== this.playerControl.location.x ||
+        tmpy !== this.playerControl.location.y
+      )
         this.checkNextPosititionCollision(
           this.playerControl.location.x,
           this.playerControl.location.y,
@@ -287,7 +336,9 @@ export class GameMapScene extends GameScene {
 
   keyPressed(e) {
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
-      this.playerControl.getMoveState()[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = true;
+      this.playerControl.getMoveState()[
+        IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
+      ] = true;
     this.playerControl.setLastMoveState(0);
     e.stopPropagation(); // Don't bubble/capture the event any further
   } // end keyPressed fn
@@ -295,7 +346,9 @@ export class GameMapScene extends GameScene {
   keyReleased(e) {
     e.preventDefault(); // Cancel the native event
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]) {
-      this.playerControl.getMoveState()[IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]] = false;
+      this.playerControl.getMoveState()[
+        IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
+      ] = false;
       this.playerControl.setLastMoveState(this.determineLastMoveState(e.code));
     }
     e.stopPropagation(); // Don't bubble/capture the event any further
@@ -309,27 +362,44 @@ export class GameMapScene extends GameScene {
     if (p5.mouseIsPressed) {
       this.isMouseReleased = false;
       this.lastFrameMousePressed = true;
-    }else if(this.lastFrameMousePressed){      
+    } else if (this.lastFrameMousePressed) {
       this.isMouseReleased = true;
       this.lastFrameMousePressed = false;
-      if (this.playerInventory.getItemCount(ItemsEnum['crabtrap']) > 0) {
-        let offsetLocal = this.getOffsetLocal(p5, this.gameViewMapScene.getCameraOffset(), this.gameViewMapScene.getCameraZoom());
-        this.doUIAction(p5.frameCount, ()=>{
-          this.CrabTraps.push(new CrabTrapEntity("CTE" + p5.frameCounter, offsetLocal.x, offsetLocal.y, simTime.getDate() + "|" + simTime.getTime(), p5.frameCount, (i)=>{this.playerInventory.addItem(i)}));
-          this.playerInventory.removeItem(ItemsEnum['crabtrap']);
-        })
+      if (this.playerInventory.getItemCount(ItemsEnum["crabtrap"]) > 0) {
+        let offsetLocal = this.getOffsetLocal(
+          p5,
+          this.gameViewMapScene.getCameraOffset(),
+          this.gameViewMapScene.getCameraZoom()
+        );
+        this.doUIAction(p5.frameCount, () => {
+          this.CrabTraps.push(
+            new CrabTrapEntity(
+              "CTE" + p5.frameCounter,
+              offsetLocal.x,
+              offsetLocal.y,
+              simTime.getDate() + "|" + simTime.getTime(),
+              p5.frameCount,
+              (i) => {
+                this.playerInventory.addItem(i);
+              }
+            )
+          );
+          this.playerInventory.removeItem(ItemsEnum["crabtrap"]);
+        });
       }
       this.isMouseReleased = false;
     }
   }
 
   getOffsetLocal(p5, offset, zoom) {
-    offset = offset || p5.createVector(0,0);
+    offset = offset || p5.createVector(0, 0);
     zoom = zoom || 3;
-    return p5.createVector(offset.x * -1 + (p5.mouseX / zoom),offset.y * -1  + (p5.mouseY / zoom));;
+    return p5.createVector(
+      offset.x * -1 + p5.mouseX / zoom,
+      offset.y * -1 + p5.mouseY / zoom
+    );
   }
   /** ---------- END INPUT FNs */
-
 
   checkNextPosititionCollision(
     oldPosX,
