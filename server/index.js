@@ -99,7 +99,7 @@ const {
   deleteCharacterDetails,
   createCharacterDetails,
   createSavedGame,
-  getSavedGamesById,
+  getSavedGameById,
   getSavedGames,
   updateSavedGame,
   deleteSavedGame
@@ -235,7 +235,7 @@ app.delete("/api/characterrelationships/:id", deleteCharacterRelationship);
 // REST API endpoints for SaveGame
 app.post("/api/savedgame", createSavedGame);
 app.get("/api/savedgame", getSavedGames);
-app.get("/api/savedgame/:id", getSavedGamesById);
+app.get("/api/savedgame/:id", getSavedGameById);
 app.put("/api/savedgame/:id", updateSavedGame);
 app.delete("/api/savedgame/:id", deleteSavedGame);
 
@@ -298,9 +298,9 @@ const io = socket(server, {
 
 const storeSavedGame = async (userid,name,usrLoc,simTimeData) => {
   const {SavedGame} = require("./models/models");
-  return await SavedGame.create({
-    savedUser
-  });
+  //return await SavedGame.create({
+  //  savedUser
+  //});
 };
 
 const storeMessage = async (msg, to, from, selfSent) => {
