@@ -20,8 +20,6 @@ export class GUIElementManager {
     this.BGKey = 'BGDocks';
 
     this.initializeGUIElements();
-    this.chatInput = undefined;
-    this.chatSubmit = undefined;
   }
 
   toggleMainPanelViewType(){
@@ -195,10 +193,11 @@ export class GUIElementManager {
       this.chatInput.size(p5.width/2);
       this.chatSubmit.position(p5.width, p5.height*.95);
       this.chatInput.position(p5.width/2+p5.width/6, p5.height*.92);
-      this.chatSubmit.mousePressed(()=>{
-        this.parent.chatData.addChat({text:this.chatInput.value()},1);
-        this.chatInput.value("");
-      });
+      
+
+      window.addEventListener("keyup", (e)=>this.keyReleased(e,()=>this.chatInput.value(),()=>this.submitMsg(this)));
+  
+      this.chatSubmit.mousePressed(()=>{this.submitMsg(this);});
     }
   }
 
@@ -239,5 +238,18 @@ export class GUIElementManager {
     if(this.LotDetails.actionOptions.length>0){
       // render act options
     }
+  }
+  
+  submitMsg(that) {
+    that.parent.chatData.addChat({ text: that.chatInput.value() }, 1);
+    that.chatInput.value("");
+  }
+
+  keyReleased(e,val,callback) {
+    e.preventDefault(); // Cancel the native event
+    if (val().length > 0 && e.code === "Enter") {
+      callback();
+    }
+    e.stopPropagation(); // Don't bubble/capture the event any further
   }
 }
