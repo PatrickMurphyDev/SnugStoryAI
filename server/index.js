@@ -243,6 +243,7 @@ app.delete("/api/savedgame/:id", deleteSavedGame);
 let isDBConnected = false;
 let isAIConnected = false;
 let isAIProcessing = false;
+let lastToChar = -1;
 let promptCount = 0;
 
 // SETUP AI Instances
@@ -317,13 +318,18 @@ const broadcastMsg = (sockets, msg, params) => {
   sockets[1].to(sockets[3]).emit(msg, params);
 };
 
-function buildAIPromptTXT(data,dataPrefix) {
-  let sendMsg = "#using the following character data: ";
+function buildAIPromptTXT(data,dataPrefix,convoHistory) {
+  let sendMsg = "";
   if (dataPrefix.length > 0) {
+    sendMsg += "#You are required to roleplay as the character " + dataPrefix[0].name
+    sendMsg += ", do not announce who you are role playing as.";
+    sendMsg += "using the following character data: ";
     sendMsg += JSON.stringify(dataPrefix);
+    sendMsg += "# It is "+data.timeOfDay+". ";
   }
-  sendMsg += " #Limit your response to 2 sentences or less. role play as a character talking to the main character ellie. do not announce who you are role playing as.# ";
-  sendMsg += "Ellie Says:" + data.msg;
+  sendMsg += " #Limit your response to 2 sentences or less.# ";
+  sendMsg += "Ellie: " + data.msg;
+  
   return sendMsg;
 };
 
@@ -331,6 +337,10 @@ function buildAIPromptTXT(data,dataPrefix) {
 const promptAI = async (data, socketList, convoHistory) => { 
   console.log("Send AI");
   let dataPrefix = [];
+  if(lastToChar !== data.to) {
+    lastToChar = data.to;
+    promptCount = 0;
+  }
   if (promptCount <= 0) {
     dataPrefix = getPresentCharactersData([data.to,data.from]); // initial setting
   }
