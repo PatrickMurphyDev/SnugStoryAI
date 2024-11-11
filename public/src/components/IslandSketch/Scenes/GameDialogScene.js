@@ -7,6 +7,7 @@ class GameDialogScene extends GameSlideScene {
   }
 
   draw(p5) {
+    let that = this;
     drawDialogBackground();
     drawPlayer();           // Draw Player Back of Head
     drawNPC();              // Draw Other Player Profile Image
@@ -17,6 +18,7 @@ class GameDialogScene extends GameSlideScene {
     if (this.parent.chatData.isProcessing) {
       drawIsAIProcessing();
     }
+    
 
     //this display action buttons
     //    this display action button sub menus
@@ -25,8 +27,8 @@ class GameDialogScene extends GameSlideScene {
     function drawChatBubbles() {
       p5.push();
       p5.textSize(18);
-      this.parent.chatData.forEach((v) => {
-        this.drawDialogBubble(p5, v.text, v.seq, v.sender, v.sentTime);
+      that.parent.chatData.forEach((v) => {
+        that.drawDialogBubble(p5, v.text, v.seq, v.sender, v.sentTime);
       });
       p5.pop();
     }
@@ -34,20 +36,20 @@ class GameDialogScene extends GameSlideScene {
     function drawNPCNameBanner() {
       p5.push();
       p5.fill("#aaaaffaa");
-      p5.rect(this.otherPlayerPos.x - 5, this.otherPlayerPos.y + 350, 360, 24);
+      p5.rect(that.otherPlayerPos.x - 5, that.otherPlayerPos.y + 350, 360, 24);
       p5.fill('#ffffff');
       p5.stroke('#000000aa');
       p5.textSize(26);
-      p5.text(this.parent.GUI.AlertWindowNPCKey, this.otherPlayerPos.x + 350 / 2, this.otherPlayerPos.y + 350 + 10);
+      p5.text(that.parent.GUI.AlertWindowNPCKey, that.otherPlayerPos.x + 350 / 2, that.otherPlayerPos.y + 350 + 10);
       p5.pop();
     }
 
     function drawNPC() {
-      if (this.parent.characterProfileImages[this.parent.GUI.AlertWindowNPCKey]) {
+      if (that.parent.characterProfileImages[that.parent.GUI.AlertWindowNPCKey]) {
         p5.image(
-          this.parent.characterProfileImages[this.parent.GUI.AlertWindowNPCKey],
-          this.otherPlayerPos.x,
-          this.otherPlayerPos.y,
+          that.parent.characterProfileImages[that.parent.GUI.AlertWindowNPCKey],
+          that.otherPlayerPos.x,
+          that.otherPlayerPos.y,
           350,
           350
         );
@@ -56,7 +58,7 @@ class GameDialogScene extends GameSlideScene {
 
     function drawPlayer() {
       p5.image(
-        this.parent.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
+        that.parent.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
         50,
         200,
         450,
@@ -66,9 +68,9 @@ class GameDialogScene extends GameSlideScene {
 
     function drawDialogBackground() {
       p5.background(0);
-      if (this.parent.parentAssets["GameMapScene"][this.parent.GUI.BGKey]) {
+      if (that.parent.parentAssets["GameMapScene"][that.parent.GUI.BGKey]) {
         p5.image(
-          this.parent.parentAssets["GameMapScene"][this.parent.GUI.BGKey],
+          that.parent.parentAssets["GameMapScene"][that.parent.GUI.BGKey],
           -12,
           -250
         );
