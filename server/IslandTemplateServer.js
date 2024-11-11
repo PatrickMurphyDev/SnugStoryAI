@@ -66,7 +66,8 @@ const IslandTemplate = {
         descr: res.details.description,
         occupation: res.details.occupation,
         goal: res.details.goals[0].goalDescription,
-        appearance: res.appearance
+        appearance: res.appearance,
+        CharacterPersonality: res.CharacterPersonality || ["calm"],
       };
     },
     Residents: [
@@ -307,6 +308,7 @@ const IslandTemplate = {
               goalDescription: "Expand the Northern Marina",
             },
           ],
+          CharacterPersonality: ["Sassy","witty","silly"],
           traits: "672e893418728437820b717d",
         },
       },
