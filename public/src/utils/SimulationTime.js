@@ -22,8 +22,8 @@ class SimulationTime extends EventEmitter {
     this._rateOfTime = params.rateOfTime || 1; // 1x, 2x, 3x
     this._currentTimeOfDay = params.currentTimeOfDay || 1; // in minutes (0-1440)
     this._currentDayOfWeek = params.currentDayOfWeek || 1; // 1: Sunday, 2: Monday, ..., 7: Saturday
-    this._dayOfMonth = params.dayOfMonth || 4;
-    this._month = params.month || 7; // 1: January, ..., 12: December
+    this._dayOfMonth = params.dayOfMonth || 11;
+    this._month = params.month || 11; // 1: January, ..., 12: December
     this._year = params.year || 2024;
 
     SimulationTime.instance = this;
@@ -123,6 +123,41 @@ class SimulationTime extends EventEmitter {
     return {month: this.month, day: this.dayOfMonth, year: this.year};
   }
 
+  advanceDay(newTime){
+    this._currentTimeOfDay = newTime;
+    this._currentDayOfWeek = this._currentDayOfWeek % 7 + 1;
+    this._dayOfMonth++;
+
+    // Simplified month end handling
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if (this._dayOfMonth > daysInMonth[this._month - 1]) {
+      this.advanceMonth();
+    }
+  }
+
+  advanceMonth() {
+    this._dayOfMonth = 1;
+    this._month++;
+    if (this._month > 12) {
+      this.advanceYear();
+    }
+  }
+
+  advanceYear() {
+    this._month = 1;
+    this._year++;
+  }
+
+  sleep(time){
+    this.pause();
+    this.advanceDay(time);
+    this.wake();
+  }
+
+  wake(){
+    this.start();
+  }
+
   // Function to update the time
   updateTime(minElapsed) {
     if (this._isPaused) return;
@@ -132,20 +167,7 @@ class SimulationTime extends EventEmitter {
 
     // logic for moving to next day, after midnight
     if (this._currentTimeOfDay >= 1440) {
-      this._currentTimeOfDay %= 1440;
-      this._currentDayOfWeek = this._currentDayOfWeek % 7 + 1;
-      this._dayOfMonth++;
-
-      // Simplified month end handling
-      const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-      if (this._dayOfMonth > daysInMonth[this._month - 1]) {
-        this._dayOfMonth = 1;
-        this._month++;
-        if (this._month > 12) {
-          this._month = 1;
-          this._year++;
-        }
-      }
+      this.advanceDay(0);
     }
 
     // Emit an event to notify subscribers

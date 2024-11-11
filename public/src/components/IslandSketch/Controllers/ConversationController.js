@@ -70,11 +70,13 @@ class ConversationController {
     }
 
     closeConversation(){
-        SIMTIME.start();
+        // SAVE
         this.setConversation(this.currentNPC, this.chatData);
+        // RESET
         this.chatData = [];
         this.currentNPC = '';
         this.maxDialogSeq = 0;
+        SIMTIME.start();
     }
 
     getConversation(NPC,historyOffset){

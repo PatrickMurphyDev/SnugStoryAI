@@ -1,5 +1,7 @@
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
+import SimulationTime from "../../utils/SimulationTime";
 
+const simTime = SimulationTime.getInstance();
 class PlayerController {
     constructor(parent,loc,sp) {
         this.parent = parent;
@@ -45,6 +47,7 @@ class PlayerController {
 
     setAsleep(bool){
         this._isAsleep = bool;
+        simTime.sleep();
     }
 
     isAsleep(){

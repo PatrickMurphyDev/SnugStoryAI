@@ -52,7 +52,7 @@ export class GameMapScene extends GameScene {
     this.GUI_Time = "";
     this.GUI_Date = "";
 
-    this.sleepTimeOfDay = 1400; // time of day that force sleep
+    this.sleepTimeOfDay = 1300; // time of day that force sleep
 
     var tiles = [];
     this.AnimatedSprites = [];
@@ -110,7 +110,7 @@ export class GameMapScene extends GameScene {
       this.GUI_Date = data.date;
       this.GUI.setSimulationDateTime({ time: data.time12, date: data.date });
     });
-    simTime.pause();
+    simTime.start();
     //simTime.setRateOfTime(3);
   } // end constructor
 
@@ -407,16 +407,17 @@ export class GameMapScene extends GameScene {
     returnNewValueCallback
   ) {
     const oldPos = { x: oldPosX, y: oldPosY };
-    const newPos = { x: newPosX, y: newPosY };
-
     let returnPos = oldPos; //default to current/old position
-    let newPosValidity = true; // is the new position a valid pixel?
+    
+    const newPos = { x: newPosX, y: newPosY };
+    const testPosition = { x: newPos.x + 16, y: newPos.y + 30 };
+    let newPosValidity = true; // is new pos valid pixel? assume true  
 
+    // check each collider
     this.CollideEntities.forEach((collider) => {
-      if (collider.contains({ x: newPos.x + 16, y: newPos.y + 30 })) {
+      if (collider.contains(testPosition)) {
         newPosValidity = false;
-        collider.onCollide({ x: newPos.x + 16, y: newPos.y + 30 }, collider, {
-          x: this.playerControl.location.x,
+        collider.onCollide(testPosition, collider, {          x: this.playerControl.location.x,
           y: this.playerControl.location.y,
         });
       }
