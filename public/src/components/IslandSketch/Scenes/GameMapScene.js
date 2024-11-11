@@ -6,7 +6,7 @@ import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import SimulationTime from "../../../utils/SimulationTime";
-import { GUIElementManager } from "../GUIElementManager";
+import { GUIElementManager } from "../Controllers/GUIElementManager";
 import { GameTileMapManager } from "../GameTileMapManager";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
@@ -47,7 +47,7 @@ export class GameMapScene extends GameScene {
       sizeVector,
       parentAssetsByScene
     );
-
+    this.parentAssets = parentAssetsByScene;
     this.initMapSettings();
     this.GUI_Time = "";
     this.GUI_Date = "";
@@ -119,8 +119,7 @@ export class GameMapScene extends GameScene {
     onPropertySelect,
     charList,
     setCharList,
-    sizeVector,
-    parentAssetsByScene
+    sizeVector
   ) {
     this.onCharacterSelect = onCharacterSelect;
     this.onPropertySelect = onPropertySelect;
@@ -130,7 +129,6 @@ export class GameMapScene extends GameScene {
       this.charList = cList;
     };
     this.sizeVector = IslandTemplate.Image.size || sizeVector;
-    this.parentAssets = parentAssetsByScene;
   }
 
   initMapSettings() {
