@@ -163,13 +163,13 @@ class SimulationTime extends EventEmitter {
 
   // Function to start the simulation time
   start() {
-    this._isPaused = false;
+    this.isPaused = false;
     this.intervalId = setInterval(() => this.updateTime(), 1000); // Update every second
   }
 
   // Function to pause the simulation time
   pause() {
-    this._isPaused = true;
+    this.isPaused = true;
     clearInterval(this.intervalId);
   }
 

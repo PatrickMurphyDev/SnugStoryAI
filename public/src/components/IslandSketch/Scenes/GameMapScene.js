@@ -233,7 +233,7 @@ export class GameMapScene extends GameScene {
   update(p5) {
     this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
-    if (simTime.isPaused) simTime.start();
+    //if (simTime.isPaused) simTime.start();
     if (this.GUI.getDisplayMode() === 0) {
       this.handleKeyboardUserInputUpdate();
       this.gameViewMapScene.update(p5);

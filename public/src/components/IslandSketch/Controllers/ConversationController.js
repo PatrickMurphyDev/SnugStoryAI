@@ -2,7 +2,9 @@
 import { io } from "socket.io-client";
 import { host } from "../../../utils/APIRoutes";
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
+import SimulationTime from "../../../utils/SimulationTime";
 
+const SIMTIME = SimulationTime.getInstance();
 class ConversationController {
     constructor(parent,data) {
         this.parent = parent;
@@ -56,6 +58,7 @@ class ConversationController {
     }
 
     openConversation(NPC){
+        SIMTIME.pause();
         console.log("open convo ", NPC);
         NPC = this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
         this.currentNPC = NPC;
@@ -67,6 +70,7 @@ class ConversationController {
     }
 
     closeConversation(){
+        SIMTIME.start();
         this.setConversation(this.currentNPC, this.chatData);
         this.chatData = [];
         this.currentNPC = '';
@@ -117,7 +121,8 @@ class ConversationController {
                 from: cm.from,
                 llmodel: 1,
                 senderIsAI: 0,
-                msg: cm.text
+                msg: cm.text,
+                timeOfDay: SIMTIME.getTime12Hr()
             },[this.chatData]]);
         }
         this.chatData.push(cm);
