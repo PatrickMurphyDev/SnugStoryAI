@@ -251,7 +251,7 @@ const ollama = new Ollama.Ollama();
 ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
 
 const getPresentCharactersData = function(NPCIDs){
-  return [IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[0])-1]), IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[1])-1])];
+  return [IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[0])]), IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[1])])];
 }
 
 // SETUP DB Instances
