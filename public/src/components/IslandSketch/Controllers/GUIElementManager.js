@@ -193,10 +193,8 @@ export class GUIElementManager {
       this.chatInput.size(p5.width/2);
       this.chatSubmit.position(p5.width, p5.height*.95);
       this.chatInput.position(p5.width/2+p5.width/6, p5.height*.92);
-      
 
       window.addEventListener("keyup", (e)=>this.keyReleased(e,()=>this.chatInput.value(),()=>this.submitMsg(this)));
-  
       this.chatSubmit.mousePressed(()=>{this.submitMsg(this);});
     }
   }
@@ -210,7 +208,7 @@ export class GUIElementManager {
 
   renderInventorySlot(p5, el, index, padding, spacing, size) {
     const x = el.x + padding + (size + spacing) * index;
-    const y = el.y + padding;
+    const y = el.y + padding + 15;
     p5.rect(x, y, size, size);
     p5.push();
     p5.fill(index === 0 ? "#999999" : "white");
@@ -228,9 +226,14 @@ export class GUIElementManager {
   }
 
   renderPanelText(p5, el, location = { x: el.x, y: el.y }, dimensions = { width: el.w, height: el.h }) {
+    p5.push();
     p5.fill(255);
     p5.textStyle("Bold");
-    p5.text(el.text || "Panel", location.x, location.y, dimensions.width, dimensions.height);
+    p5.textAlign("CENTER", "TOP");
+    p5.textStyle("BOLD");
+    p5.textSize(21);
+    p5.text(el.text || "Panel", location.x + dimensions.width/2, location.y + 18, dimensions.width, dimensions.height);
+    p5.pop();
   }
 
   renderDialogActions(){
