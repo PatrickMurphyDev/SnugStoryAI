@@ -335,7 +335,6 @@ function buildAIPromptTXT(data,dataPrefix,convoHistory) {
 
 // TODO: Implement the PromptAI function
 const promptAI = async (data, socketList, convoHistory) => { 
-  console.log("Send AI");
   let dataPrefix = [];
   if(lastToChar !== data.to) {
     lastToChar = data.to;
@@ -351,6 +350,8 @@ const promptAI = async (data, socketList, convoHistory) => {
   isAIProcessing = true;
 
   let sendMsg = buildAIPromptTXT(data, dataPrefix, convoHistory);
+  
+  console.log("Send AI Prompt: " + sendMsg);
   const response = await ollama.generate(sendMsg);
 
   broadcastMsg(socketList, "msg-recieve-ai", response.output);
