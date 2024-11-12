@@ -3,7 +3,17 @@ class GameDialogScene extends GameSlideScene {
   constructor(parent) {
     super("GameDialogueScene");
     this.parent = parent;
+    this.dialogDisplayModes = ["Chat","Shop","Conversation History"];
+    this.dialogDisplayMode = 0;
     this.otherPlayerPos = { x: 1000 - 175 - 200, y: 250 - 200 };
+  }
+
+  getDisplayMode(){
+    return this.dialogDisplayMode;
+  }
+
+  setDisplayMode(dm){
+    this.dialogDisplayMode = dm;
   }
 
   draw(p5) {
@@ -12,18 +22,39 @@ class GameDialogScene extends GameSlideScene {
     drawPlayer();           // Draw Player Back of Head
     drawNPC();              // Draw Other Player Profile Image
     drawNPCNameBanner();
-    drawChatBubbles();
-    this.drawEndChatButton(p5);
-    this.drawShopButton(p5);
-    if (this.parent.chatData.isProcessing) {
-      drawIsAIProcessing();
+
+    if(this.getDisplayMode() === 0){
+      drawChatBubbles();
+      this.drawShopButton(p5);
+      this.drawConversationHistoryButton(p5);
+      if (this.parent.chatData.isProcessing) {
+        drawIsAIProcessing();
+      }
+    }else{
+      this.drawBackButton(p5);
+      p5.push();
+      p5.textSize(36);
+      p5.text(this.dialogDisplayModes[this.dialogDisplayMode],250+p5.textWidth(this.dialogDisplayModes[this.dialogDisplayMode])/2,60);
+      p5.pop();
     }
-    
+
+    if(this.getDisplayMode() === 2){
+      drawConvoBubbles()
+    }
+    this.drawEndChatButton(p5);
 
     //this display action buttons
     //    this display action button sub menus
     //    this display chat sub panels
 
+    function drawConvoBubbles() {
+      p5.push();
+      p5.textSize(18);
+      that.parent.chatData.forEachNPC(that.parent.GUI.AlertWindowNPCKey, (v) => {
+        alert("Work");
+      });
+      p5.pop();
+    }
     function drawChatBubbles() {
       p5.push();
       p5.textSize(18);
@@ -146,6 +177,7 @@ class GameDialogScene extends GameSlideScene {
     p5.text("End Chat", pos.x, pos.y, dim.x, dim.y);
     this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
       this.parent.GUI.setDisplayMode(0);
+      this.setDisplayMode(0);
     });
   }
 
@@ -159,7 +191,35 @@ class GameDialogScene extends GameSlideScene {
     p5.fill("#ffffff");
     p5.text("Shop", pos.x, pos.y, dim.x, dim.y);
     this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
-      this.parent.GUI.setDisplayMode(0);
+      this.setDisplayMode(1);
+    });
+  }
+
+  drawBackButton(p5) {
+    const pos = p5.createVector(35, this.otherPlayerPos.y + 80 - 30);
+    const dim = p5.createVector(150, 70);
+    p5.fill("#222222ee");
+    p5.stroke("#666666ee");
+    p5.rect(pos.x, pos.y, dim.x, dim.y);
+    p5.noStroke();
+    p5.fill("#ffffff");
+    p5.text("< Back", pos.x, pos.y, dim.x, dim.y);
+    this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
+      this.setDisplayMode(0);
+    });
+  }
+  
+  drawConversationHistoryButton(p5) {
+    const pos = p5.createVector(35, this.otherPlayerPos.y + 80*2 - 30);
+    const dim = p5.createVector(150, 70);
+    p5.fill("#222222ee");
+    p5.stroke("#666666ee");
+    p5.rect(pos.x, pos.y, dim.x, dim.y);
+    p5.noStroke();
+    p5.fill("#ffffff");
+    p5.text("Chat History", pos.x, pos.y, dim.x, dim.y);
+    this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
+      this.setDisplayMode(2);
     });
   }
 }
