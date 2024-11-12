@@ -7,10 +7,10 @@ import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import SimulationTime from "../../../utils/SimulationTime";
 import { GUIElementManager } from "../Controllers/GUIElementManager";
-import { GameTileMapManager } from "../GameTileMapManager";
+import { GameTileMapManager } from "../Controllers/GameTileMapManager";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
-import PlayerController from "../PlayerController";
+import PlayerController from "../Controllers/PlayerController";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";

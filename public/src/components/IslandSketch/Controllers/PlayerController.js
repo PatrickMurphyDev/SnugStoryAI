@@ -1,5 +1,5 @@
-import { IslandTemplate } from "../../utils/IslandTemplateTile";
-import SimulationTime from "../../utils/SimulationTime";
+import { IslandTemplate } from "../../../utils/IslandTemplateTile";
+import SimulationTime from "../../../utils/SimulationTime";
 
 const simTime = SimulationTime.getInstance();
 class PlayerController {
