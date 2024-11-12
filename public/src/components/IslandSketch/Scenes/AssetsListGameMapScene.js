@@ -36,7 +36,7 @@ const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,
         that.AnimatedSprites.push(
             new AnimatedSpriteEntity(
                 "as2323",
-                parentAssetsDict["GameMapScene"]["OtherCharSheet"],
+                parentAssetsDict["GameMapScene"]["OtherCharSheet2"],
                 charPos.x+3*32,
                 charPos.y-8,
                 { width: 24, height: 32 },
