@@ -18,12 +18,27 @@ const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,
                 1
             )
         );
+        // TEMP NPC OTHER CHARS
         that.AnimatedSprites.push(
             new AnimatedSpriteEntity(
                 "as2323",
                 parentAssetsDict["GameMapScene"]["OtherCharSheet"],
                 charPos.x,
                 charPos.y,
+                { width: 24, height: 32 },
+                { columns: 3, rows: 4 },
+                1, // frame offset
+                -1, // speed
+                2 // row
+            )
+        );
+        
+        that.AnimatedSprites.push(
+            new AnimatedSpriteEntity(
+                "as2323",
+                parentAssetsDict["GameMapScene"]["OtherCharSheet"],
+                charPos.x+3*32,
+                charPos.y-8,
                 { width: 24, height: 32 },
                 { columns: 3, rows: 4 },
                 1, // frame offset

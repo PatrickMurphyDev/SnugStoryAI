@@ -65,14 +65,15 @@ export class GameMapScene extends GameScene {
       tiles
     );
 
-    this.currentZoomLevel = 1;
+    this.currentZoomLevel = 3;
 
     this.gameDialogScene = new GameDialogScene(this);
     this.gameViewMapScene = new GameViewMapScene(this);
+
     //tmp char fix other char
     this.charPos = {
       x: this.playerControl.location.x + 24,
-      y: this.playerControl.location.y - 96 - 64,
+      y: this.playerControl.location.y - 5*32,
     };
 
     this.playerInventory = new CharacterInventory({ Item2: 5 });
@@ -151,7 +152,19 @@ export class GameMapScene extends GameScene {
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
           //console.log("coll char");
-          this.GUI.openAlert();
+          this.GUI.openAlert("Andi McNuttly", "Andi Wants to talk!", {"NPCKey":"AndiMcNuttly"});
+        }
+      )
+    );
+    this.CollideEntities.push(
+      new CollideRectEntity(
+        66666,
+        this.charPos.x + 8 + 32*3,
+        this.charPos.y + 12 - 8,
+        { x: 16, width: 16, y: 20, height: 20 },
+        () => {
+          //console.log("coll char");
+          this.GUI.openAlert("Brianna Clark", "Bri wants to chat!", {"NPCKey":"BriannaClark"});
         }
       )
     );

@@ -5,7 +5,7 @@ const GUIElements = [
     h: 150,
     w: 600,
     GUIType: "Panel",
-    text: "Main UI Window",
+    text: "Inventory",
   },
   {
     x: 0,
