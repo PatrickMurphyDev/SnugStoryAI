@@ -65,8 +65,9 @@ class ConversationController {
         if(!this.ConversationMapContainsNPC(NPC)){
             this.conversationMap[NPC] = [];
         }
-        this.chatData = this.getConversation(NPC);
-        return this.getConversation(NPC);
+        this.chatData = [];
+        this.pastConversations = this.getConversations(NPC);
+        return {"ChatData":this.chatData,"PastConversations": this.pastConversations};
     }
 
     ConversationMapContainsNPC(NPC) {
@@ -83,7 +84,6 @@ class ConversationController {
         SIMTIME.start();
     }
 
-    
     getConversations(NPC,limit){
         NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
         return this.conversationMap[NPC];
@@ -96,7 +96,7 @@ class ConversationController {
     }
 
     addConversation(NPC,dataArr){
-        this.conversationMap[NPC] = this.conversationMap[NPC].push(dataArr);
+        this.conversationMap[NPC] = Array.from(this.conversationMap[NPC]).push(dataArr);
     }
 
     setConversation(NPC,dataArr){
@@ -104,17 +104,17 @@ class ConversationController {
     }
 
     addChat(cm,isGUI){
-        cm = this.validateChatMessage(cm || {});
+        const cdata = this.validateChatMessage(cm);
 
         if(this.options.hideNarrative && !isGUI){
-            this._filterNarrativeText(cm);
+            this._filterNarrativeText(cdata);
         }
 
         if(isGUI){
             // if sent from gui not AI send msg socket
-            this._sendMsgSocket(cm);
+            this._sendMsgSocket(cdata);
         }
-        this.chatData.push(cm);
+        this.chatData.push(cdata);
     }
 
     _sendMsgSocket(cm) {
@@ -138,6 +138,7 @@ class ConversationController {
     }
 
     validateChatMessage(cm) {
+        cm = cm || {};
         if (!cm.to)
             cm.to = this.parent.GUI.AlertWindowNPCKey;
         if (!cm.toID)
@@ -150,9 +151,11 @@ class ConversationController {
             cm.from = "000000000000000000000001";
         }
         if (!cm.sentTime)
-            cm.sentTime = "10s";
+            cm.sentTime = SIMTIME.getTime12Hr();
         if (!cm.seq)
             cm.seq = this.getSeq() + 1;
+
+        return cm;
     }
 
     getChatData(){
@@ -164,7 +167,8 @@ class ConversationController {
     }
     
     forEachNPC(NPC,fn){
-        this.conversationMap[NPC].forEach(fn);
+        NPC = NPC.length < 23 ? this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey) : NPC;
+        Array.from(this.conversationMap[NPC]).forEach(fn);
     }
     
     forEachConversationHistory(NPC,histOffset, fn){
