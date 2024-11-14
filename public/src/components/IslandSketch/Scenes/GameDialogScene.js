@@ -49,7 +49,7 @@ class GameDialogScene extends GameSlideScene {
     function drawConvoBubbles() {
       p5.push();
       p5.textSize(18);
-      that.parent.chatData.forEachNPC(that.parent.GUI.AlertWindowNPCKey, (v) => {
+      that.parent.chatData.forEachNPC(that.parent.GUI.AlertWindow.getNPCKey(), (v) => {
         alert("Work");
       });
       p5.pop();
@@ -70,14 +70,14 @@ class GameDialogScene extends GameSlideScene {
       p5.fill('#ffffff');
       p5.stroke('#000000aa');
       p5.textSize(26);
-      p5.text(that.parent.GUI.AlertWindowNPCKey, that.otherPlayerPos.x + 350 / 2, that.otherPlayerPos.y + 350 + 10);
+      p5.text(that.parent.GUI.AlertWindow.getNPCKey(), that.otherPlayerPos.x + 350 / 2, that.otherPlayerPos.y + 350 + 10);
       p5.pop();
     }
 
     function drawNPC() {
-      if (that.parent.characterProfileImages[that.parent.GUI.AlertWindowNPCKey]) {
+      if (that.parent.characterProfileImages[that.parent.GUI.AlertWindow.getNPCKey()]) {
         p5.image(
-          that.parent.characterProfileImages[that.parent.GUI.AlertWindowNPCKey],
+          that.parent.characterProfileImages[that.parent.GUI.AlertWindow.getNPCKey()],
           that.otherPlayerPos.x,
           that.otherPlayerPos.y,
           350,

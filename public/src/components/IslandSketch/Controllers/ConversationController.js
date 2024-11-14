@@ -31,7 +31,7 @@ class ConversationController {
             this.isProcessing = false;
             let msg2 = {text:msg}; 
             msg2.to = "000000000000000000000001";
-            msg2.sender = this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+            msg2.sender = this.convertNPCKeyToID(this.parent.GUI.getNPCKey());
             this.socket.current.emit("add-user", msg2.sender);
             this.addChat(msg2);
           };
@@ -60,7 +60,7 @@ class ConversationController {
     openConversation(NPC){
         SIMTIME.pause();
         console.log("open convo ", NPC);
-        NPC = this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+        NPC = this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
         this.currentNPC = NPC;
         if(!this.ConversationMapContainsNPC(NPC)){
             this.conversationMap[NPC] = [];
@@ -85,12 +85,12 @@ class ConversationController {
     }
 
     getConversations(NPC,limit){
-        NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+        NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
         return this.conversationMap[NPC];
     }
 
     getConversation(NPC, conversationHistoryOffset = 0){
-        NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+        NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
         if(this.conversationMap[NPC])
         return this.conversationMap[NPC][this.conversationMap[NPC].length-1-conversationHistoryOffset];
     }
@@ -140,9 +140,9 @@ class ConversationController {
     validateChatMessage(cm) {
         cm = cm || {};
         if (!cm.to)
-            cm.to = this.parent.GUI.AlertWindowNPCKey;
+            cm.to = this.parent.GUI.AlertWindow.getNPCKey();
         if (!cm.toID)
-            cm.toID = this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey);
+            cm.toID = this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
         if (!cm.text)
             cm.text = "Chat.......";
         if (!cm.sender)
@@ -167,7 +167,7 @@ class ConversationController {
     }
     
     forEachNPC(NPC,fn){
-        NPC = NPC.length < 23 ? this.convertNPCKeyToID(this.parent.GUI.AlertWindowNPCKey) : NPC;
+        NPC = NPC.length < 23 ? this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey()) : NPC;
         Array.from(this.conversationMap[NPC]).forEach(fn);
     }
     

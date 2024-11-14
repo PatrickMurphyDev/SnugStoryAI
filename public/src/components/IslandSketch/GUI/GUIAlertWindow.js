@@ -1,12 +1,45 @@
+import GUIButton from "./GUIButton";
+
 class GUIAlertWindow {
   constructor(parent) {
     this.parent = parent;
+    this.AlertWindowText = { title: "alert", text: "Message" };
+    this.AlertWindowNPCKey = "AndiMcNuttly";
+    this.alertWindowIsOpen = false;
+    this.buttonElement = new GUIButton(this.parent);
+  }
+
+  getAlertWindowText(){
+    return this.AlertWindowText;
+  }
+
+  setAlertWindowText(title,text){
+    this.AlertWindowText = { title: title, text: text };
+  }
+
+  setText(title,text){
+    this.AlertWindowText = { title: title, text: text };
+  }
+
+  getNPCKey(){
+    return this.AlertWindowNPCKey;
+  }
+
+  setNPCKey(key){
+    this.AlertWindowNPCKey = key;
+  }
+
+  isOpen(){
+    return this.alertWindowIsOpen;
+  }
+
+  setIsOpen(openStatus){
+    this.alertWindowIsOpen = openStatus;
   }
 
   draw(p5,el){
     this.renderAlertWindow(p5,el);
   }
-
 
   renderAlertWindow(p5, el) {
     p5.rect(el.x || 0, el.y || 0, el.w || 0, el.h || 0);
@@ -46,7 +79,7 @@ class GUIAlertWindow {
     el.actions.forEach((action, i) => {
       const buttonX = el.x + el.w - 175 * (i + 1);
       const buttonY = el.y + el.h - 12;
-      this.renderButton(p5, action, buttonX, buttonY, 150, 24);
+      this.buttonElement.draw(p5, action, buttonX, buttonY, 150, 24);
     });
   }
 }

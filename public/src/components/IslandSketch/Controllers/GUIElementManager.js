@@ -1,5 +1,6 @@
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
+import GUIAlertWindow from "../GUI/GUIAlertWindow";
 
 export class GUIElementManager {
   constructor(parent, imgAssets) {
@@ -7,9 +8,9 @@ export class GUIElementManager {
     this.imageAssets = imgAssets || { imgKey: null };
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = []; 
-    this.AlertWindowText = { title: "alert", text: "Message" };
-    this.AlertWindowNPCKey = "AndiMcNuttly";
-    this.alertWindowIsOpen = false;
+
+    this.AlertWindow = new GUIAlertWindow(this.parent);
+
     this.allowMoveInputKeys = true;
     this.displayMode = 0;
 
@@ -20,6 +21,10 @@ export class GUIElementManager {
     this.BGKey = 'BGDocks';
 
     this.initializeGUIElements();
+  }
+
+  getNPCKey(){
+    return this.AlertWindow.getNPCKey();
   }
 
   toggleMainPanelViewType(){
@@ -34,19 +39,20 @@ export class GUIElementManager {
 
   openAlert(title, text, details = {}) {
     this.setAlertWindow(true);
-    this.AlertWindowText = { title: title || "alert", text: text || "Message" };
+    this.AlertWindow.setText(title || "alert", text || "Message");
     this.LotDetails = details;
-    if (details.NPCKey) this.AlertWindowNPCKey = details.NPCKey;
+
+    if (details.NPCKey) this.AlertWindow.setNPCKey(details.NPCKey);
     if (details.BGKey) this.BGKey = details.BGKey;
   }
 
   closeAlert() {
     this.setAlertWindow(false);
-    this.AlertWindowText = { title: "alert", text: "Message" };
+    this.AlertWindow.setText("alert","Message");
   }
 
   setAlertWindow(isOpen) {
-    this.alertWindowIsOpen = isOpen;
+    this.AlertWindow.setIsOpen(isOpen);
     if(isOpen){
       this.allowMoveInputKeys = false;
     }else{ 
@@ -74,7 +80,7 @@ export class GUIElementManager {
     }
 
     if(dm !== 0){
-      this.parent.chatData.openConversation(this.parent.chatData.convertNPCKeyToID(this.AlertWindowNPCKey));
+      this.parent.chatData.openConversation(this.parent.chatData.convertNPCKeyToID(this.AlertWindow.getNPCKey()));
     }
 
     this.displayMode = dm;
@@ -100,7 +106,7 @@ export class GUIElementManager {
   renderElement(p5, el) {
     switch (el.GUIType) {
       case "AlertWindow":
-        if (this.alertWindowIsOpen) this.renderAlertWindow(p5, el);
+        if (this.AlertWindow.isOpen()) this.AlertWindow.draw(p5, el);
         break;
       case "PlayerProfileImageCirclePanel":
         this.renderPlayerProfilePanel(p5, el);
@@ -108,52 +114,6 @@ export class GUIElementManager {
       default:
         this.renderDefaultPanel(p5, el);
     }
-  }
-
-  renderAlertWindow(p5, el) {
-    p5.rect(el.x || 0, el.y || 0, el.w || 0, el.h || 0);
-    p5.fill(100);
-    p5.rect(el.x, el.y, el.w, 24);
-    p5.fill(200);
-    p5.text(this.AlertWindowText.title || "Panel", el.x, el.y, el.w, 24);
-    this.renderAlertWindowBody(p5, el);
-    this.renderAlertWindowButtons(p5, el);
-  }
-
-  renderAlertWindowBody(p5, el) {
-    const { x, y, w, h } = el;
-    p5.push();
-    p5.fill(0);
-    p5.textAlign("LEFT", "TOP");
-    p5.text(this.AlertWindowText.text || "Msg", x + p5.textWidth(this.AlertWindowText.text) / 2 + 10, y + 39, w, h);
-    p5.pop();
-
-    const npcImage = this.parent.characterProfileImages[this.AlertWindowNPCKey];
-    if (npcImage) {
-      p5.image(npcImage, 570, 350, 125, 125);
-    } else {
-      this.parent.characterProfileImages[this.AlertWindowNPCKey] = p5.loadImage(
-        `images/CharacterProfileImages/${this.AlertWindowNPCKey}.png`
-      );
-    }
-  }
-
-  renderAlertWindowButtons(p5, el) {
-    el.actions.forEach((action, i) => {
-      const buttonX = el.x + el.w - 175 * (i + 1);
-      const buttonY = el.y + el.h - 12;
-      this.renderButton(p5, action, buttonX, buttonY, 150, 24);
-    });
-  }
-
-  renderButton(p5, action, x, y, w, h) {
-    p5.push();
-    p5.fill(action.fill || 65);
-    p5.rect(x, y, w, h);
-    p5.fill(225);
-    p5.text(action.text, x, y, w, h);
-    this.parent.handleTargetClick(p5, x, y, w, h, action.onClickHandle);
-    p5.pop();
   }
 
   renderPlayerProfilePanel(p5, el) {
@@ -243,6 +203,7 @@ export class GUIElementManager {
     }
   }
   
+  // on submit chat data
   submitMsg(that) {
     that.parent.chatData.addChat({ text: that.chatInput.value() }, 1);
     that.chatInput.value("");
