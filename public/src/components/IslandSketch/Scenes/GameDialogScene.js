@@ -18,12 +18,10 @@ class GameDialogScene extends GameSlideScene {
 
   draw(p5) {
     let that = this;
-    drawDialogBackground();
-    drawPlayer();           // Draw Player Back of Head
-    drawNPC();              // Draw Other Player Profile Image
-    drawNPCNameBanner();
-
-    if(this.getDisplayMode() === 0){
+    drawDialogBackground(); // draw bg img, player back of head, NPC, NPC Title
+  
+    // draw convo 
+    if(this.getDisplayMode() === 0) {
       drawChatBubbles();
       this.drawShopButton(p5);
       this.drawConversationHistoryButton(p5);
@@ -31,6 +29,7 @@ class GameDialogScene extends GameSlideScene {
         drawIsAIProcessing();
       }
     }else{
+      // mode not current convo
       this.drawBackButton(p5);
       p5.push();
       p5.textSize(36);
@@ -106,6 +105,11 @@ class GameDialogScene extends GameSlideScene {
           -250
         );
       }
+
+      // draw backdrop
+      drawPlayer();           // Draw Player Back of Head
+      drawNPC();              // Draw Other Player Profile Image
+      drawNPCNameBanner();
     }
 
     function drawIsAIProcessing() {
