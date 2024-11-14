@@ -58,15 +58,9 @@ const IslandSketch = ({
       "images/UIBanner.png"
     );
 
-    assetsByScene[mapSceneId]["PlayerImage"] = p5.loadImage(
-      "images/playerStanding.png"
-    );
-    assetsByScene[mapSceneId]["PlayerImageLeft"] = p5.loadImage(
-      "images/char_walk_left.gif"
-    );
-    assetsByScene[mapSceneId]["PlayerImageRight"] = p5.loadImage(
-      "images/char_walk_right.gif"
-    );
+    assetsByScene[mapSceneId]["PlayerImage"] = p5.loadImage("images/playerStanding.png");
+    assetsByScene[mapSceneId]["PlayerImageLeft"] = p5.loadImage("images/char_walk_left.gif");
+    assetsByScene[mapSceneId]["PlayerImageRight"] = p5.loadImage("images/char_walk_right.gif");
     assetsByScene[mapSceneId]["PlayerProfileImage"] = p5.loadImage("images/Maureen256.png");
     assetsByScene[mapSceneId]["PlayerBackHeadImage"] = p5.loadImage("images/BackHeadMainChar.png");
     assetsByScene[mapSceneId]["OtherPlayerImage"] = p5.loadImage("images/playerStandingChar.png");

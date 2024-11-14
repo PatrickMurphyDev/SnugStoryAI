@@ -5,7 +5,7 @@ import CharacterAttributes from "../CharacterFeatures/CharacterAttributes";
 import CharacterNeeds from "../CharacterFeatures/CharacterNeeds";
 import CharacterTasks from "../CharacterFeatures/CharacterTasks";
 import { FiniteStateMachine } from "../FiniteStateMachine";
-import { stateDetails, states } from "../states";
+import { stateDetails, states } from "../ConfigurationData/states";
 import SimulationTime from "../../../utils/SimulationTime";
 
 const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am

@@ -17,7 +17,7 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json"; // Static Data: Wall Positions
 import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
-import { ItemsEnum } from "../ItemsEnum"; // Static Data: Possible Items
+import { ItemsEnum } from "../ConfigurationData/ItemsEnum"; // Static Data: Possible Items
 import ConversationController from "../Controllers/ConversationController";
 import GameDialogScene from "./GameDialogScene";
 import GameViewMapScene from "./GameViewMapScene";

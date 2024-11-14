@@ -1,6 +1,6 @@
-// ConditionalTransitionStrategy.js
+// ConditionalTranssitionStrategy.js
 import IStateTransitionStrategy from './IStateTransitionStrategy';
-import { states, stateDetails } from './states';
+import { states, stateDetails } from '../ConfigurationData/states';
 
 export default class ConditionalTransitionStrategy extends IStateTransitionStrategy {
   transition(currentState, fsmContext) {

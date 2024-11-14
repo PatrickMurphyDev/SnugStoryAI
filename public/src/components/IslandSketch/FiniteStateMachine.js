@@ -1,6 +1,6 @@
 // FiniteStateMachine.js
 import EventEmitter from "events";
-import { stateDetails, states } from "./states";
+import { stateDetails, states } from "./ConfigurationData/states";
 
 export class FiniteStateMachine extends EventEmitter {
   constructor(initialState, name = "noname") {

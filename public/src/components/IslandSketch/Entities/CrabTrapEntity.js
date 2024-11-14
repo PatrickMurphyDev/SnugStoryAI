@@ -1,4 +1,4 @@
-import { ItemsEnum } from '../ItemsEnum';
+import { ItemsEnum } from '../ConfigurationData/ItemsEnum';
 import Entity from './Entity';
 
 class CrabTrapEntity extends Entity {

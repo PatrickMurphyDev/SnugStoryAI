@@ -1,5 +1,5 @@
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
-import { ItemsEnum } from "../ItemsEnum";
+import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
 
 export class GUIElementManager {
   constructor(parent, imgAssets) {
