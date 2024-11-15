@@ -1,4 +1,3 @@
-import { resLotPos } from "../../../utils/MapPositions";
 class CharacterInfo {
     constructor(name, age, gender, bio, resLot) {
       this.name = name;
@@ -6,7 +5,7 @@ class CharacterInfo {
       this.gender = gender;
       this.bio = bio;
       this.birthdate = { year: 1994, month: 10, day: 4 };
-      this.lotResidence = resLot || resLotPos[Math.floor(Math.random()*resLotPos.length)];
+      this.lotResidence = resLot || {x:0,y:0};
     }
   
     getAge() {

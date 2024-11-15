@@ -66,7 +66,7 @@ const IslandSketch = ({
     assetsByScene[mapSceneId]["OtherPlayerImage"] = p5.loadImage("images/playerStandingChar.png");
     assetsByScene[mapSceneId]["OtherPlayerProfileImage"] = p5.loadImage("images/CharacterProfileImages/LukasMallard.png");
   
-    let newLots = [...IslandTemplate.newLots];
+    let newLots = [...IslandTemplate.Buildings];
     newLots.forEach((v)=>{
       assetsByScene[mapSceneId][v.id] = p5.loadImage("images/lots/"+v.lotDetails.imgFileSrc);
     });

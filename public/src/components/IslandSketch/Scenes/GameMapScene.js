@@ -1,11 +1,11 @@
 // GameMapScene.js
 
 // import dependents
+import SimulationTime from "../../../utils/SimulationTime";
 import { GameScene } from "./GameScene";
 import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
-import SimulationTime from "../../../utils/SimulationTime";
 import { GUIElementManager } from "../Controllers/GUIElementManager";
 import { GameTileMapManager } from "../Controllers/GameTileMapManager";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
@@ -14,7 +14,6 @@ import PlayerController from "../Controllers/PlayerController";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
-import IslandTemplateJSON from "../../../utils/IslandTemplateTiled.json";
 import WallData from "../../../utils/WallData.json"; // Static Data: Wall Positions
 import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum"; // Static Data: Possible Items
@@ -112,7 +111,6 @@ export class GameMapScene extends GameScene {
       this.GUI.setSimulationDateTime({ time: data.time12, date: data.date });
     });
     simTime.start();
-    //simTime.setRateOfTime(3);
   } // end constructor
 
   setupParams(
@@ -182,20 +180,8 @@ export class GameMapScene extends GameScene {
   }
 
   initializeLots() {
-    // todo replace hard coded folder layer access with this.getLayerIndexByFolderAndName("Folder","Name")
-    const lotEntities = IslandTemplateJSON.layers[7].layers[0]["objects"].map(
-      (pos, index) =>
-        new LotEntity(
-          index + 1,
-          pos.name || `Lot ${index + 1}`,
-          pos.x * 2,
-          pos.y * 2,
-          pos.properties || IslandTemplate.DEFAULTLOTPROPERTIES,
-          []
-        )
-    );
-    this.lots = [...lotEntities];
-    let newLots = [...IslandTemplate.newLots];
+    this.lots = [];
+    let newLots = [...IslandTemplate.Buildings];
     newLots.forEach((v, i) => {
       this.lots.push(
         new LotEntity(
@@ -211,6 +197,7 @@ export class GameMapScene extends GameScene {
           []
         )
       );
+
       this.CollideEntities.push(
         new CollideRectEntity(
           66666 + v.id,
@@ -232,9 +219,7 @@ export class GameMapScene extends GameScene {
 
   initializeCharacters() {
     this.setCharList([]);
-    const characterTempList = IslandTemplateJSON.layers[
-      this.getLayerIndexByName("Residents")
-    ].objects.map((v) => this.createCharacterEntity(v));
+    const characterTempList = IslandTemplate.Residents.map((v) => this.createCharacterEntity(v));
     //console.log(characterTempList);
     this.setCharList(characterTempList);
   }
@@ -246,7 +231,6 @@ export class GameMapScene extends GameScene {
   update(p5) {
     this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
-    //if (simTime.isPaused) simTime.start();
     if (this.GUI.getDisplayMode() === 0) {
       this.handleKeyboardUserInputUpdate();
       this.gameViewMapScene.update(p5);
@@ -402,6 +386,7 @@ export class GameMapScene extends GameScene {
     }
   }
 
+  // get mouse position in world
   getOffsetLocal(p5, offset, zoom) {
     offset = offset || p5.createVector(0, 0);
     zoom = zoom || 3;
@@ -441,52 +426,29 @@ export class GameMapScene extends GameScene {
     returnNewValueCallback(returnPos, newPosValidity);
   } // end checkNextPositionCollision FN
 
-  getLayerIndexByName(name) {
+  /*getLayerIndexByName(name) {
     return IslandTemplateJSON.layers
       .map((v, i) => (v.name === name ? i : -1))
       .filter((i) => i !== -1)[0];
-  }
+  }*/
 
   /* Called by InitializeCharacters for each char
     Parameters: Resident
     Returns: new CharacterEntity object 
   */
   createCharacterEntity(resident) {
-    const residenceLot = this.findRandomResidentialLot();
-    const employmentLot = this.findRandomCommercialLot();
-
-    if (residenceLot) residenceLot.occupied = true;
-    if (employmentLot) employmentLot.occupied = true;
-
     return new CharacterEntity(
-      { x: resident.x, y: resident.y },
-      resident.name,
-      resident.age,
-      resident.gender,
-      resident.skills,
-      resident.bio,
-      resident.attributes,
-      residenceLot,
-      employmentLot,
-      "", //this.charImages[resident.name] ||
-      resident.img
-    );
-  }
-
-  findRandomResidentialLot() {
-    return this.lots.find(
-      (lot) =>
-        lot.lotDetails.zoneType === "Residential" &&
-        Math.random() > 0.2 + (lot.occupied ? 0.3 : 0.0)
-    );
-  }
-
-  findRandomCommercialLot() {
-    return this.lots.find(
-      (lot) =>
-        lot.lotDetails.zoneType !== "Residential" &&
-        !lot.occupied &&
-        Math.random() > 0.6
+      { x: resident.x || 0, y: resident.y || 0 },
+      resident.name || "Char 1",
+      resident.age || 25,
+      resident.gender || "Female",
+      resident.skills || [],
+      resident.bio || "",
+      resident.attributes || [],
+      resident.residenceLot || {location:{x:0,y:0}},
+      resident.employmentLot || {location:{x:0,y:0}},
+      resident.pImage || "", //this.charImages[resident.name] ||
+      resident.img || "AndiMcNuttley.png"
     );
   }
 }
