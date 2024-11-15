@@ -44,20 +44,13 @@ const IslandSketch = ({
     assetsByScene[mapSceneId]["OtherCharSheet"] = p5.loadImage("images/otherchar.png");
     assetsByScene[mapSceneId]["OtherCharSheet2"] = p5.loadImage("images/otherchar2.png");
     assetsByScene[mapSceneId]["NewCharSheet"] = p5.loadImage("images/EllieSpriteNew.png");
-    assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(
-      IslandTemplate.Image.source
-    );
+    assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(IslandTemplate.Image.source);
     assetsByScene[mapSceneId]["BGDocks"] = p5.loadImage("images/SettingBGImages/DocksBlur4.png");
     assetsByScene[mapSceneId]["BGGym"] = p5.loadImage("images/SettingBGImages/Gym.png");
     assetsByScene[mapSceneId]["BGFoodTown"] = p5.loadImage("images/SettingBGImages/BGFoodTownBlur4.png");
     assetsByScene[mapSceneId]["BGBar"] = p5.loadImage("images/SettingBGImages/TheBethelBlur4.png");
-    assetsByScene[mapSceneId]["GameMapSceneUI"] = p5.loadImage(
-      "images/GameMapSceneUINoBanner.png"
-    );
-    assetsByScene[mapSceneId]["GameMapSceneUIBanner"] = p5.loadImage(
-      "images/UIBanner.png"
-    );
-
+    assetsByScene[mapSceneId]["GameMapSceneUI"] = p5.loadImage("images/GameMapSceneUINoBanner.png");
+    assetsByScene[mapSceneId]["GameMapSceneUIBanner"] = p5.loadImage("images/UIBanner.png");
     assetsByScene[mapSceneId]["PlayerImage"] = p5.loadImage("images/playerStanding.png");
     assetsByScene[mapSceneId]["PlayerImageLeft"] = p5.loadImage("images/char_walk_left.gif");
     assetsByScene[mapSceneId]["PlayerImageRight"] = p5.loadImage("images/char_walk_right.gif");
