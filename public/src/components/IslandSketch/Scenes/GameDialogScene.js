@@ -49,9 +49,11 @@ class GameDialogScene extends GameSlideScene {
     function drawConvoBubbles() {
       p5.push();
       p5.textSize(18);
-      that.parent.chatData.forEachNPC(that.parent.GUI.AlertWindow.getNPCKey(), (v) => {
-        alert("Work");
-      });
+      const varData = that.parent.chatData.getConversations(that.parent.GUI.AlertWindow.getNPCKey())
+
+      for(var i = 0; i<varData.length; i++){
+        that.drawDialogBubble(p5, varData[i].name || "convo", i);
+      }
       p5.pop();
     }
     function drawChatBubbles() {
@@ -126,7 +128,7 @@ class GameDialogScene extends GameSlideScene {
   drawDialogBubble(p5, text, seq, senderName, sentTime) {
     this.parent.chatData.setSeq(seq);
     seq = seq - this.parent.chatData.getSeq();
-    const offset = senderName === "PLAYER" ? -250 : 0;
+    const offset = senderName === "EllieTupee" ? -250 : 0;
     const rectDimensions = {
       x: p5.width * 0.35 + offset,
       y: p5.height * 0.6 + 100 * seq,
@@ -149,7 +151,7 @@ class GameDialogScene extends GameSlideScene {
     function drawBubbleText() {
       p5.noStroke();
       p5.fill("#333333");
-      //p5.text(senderName === "PLAYER" ? "You" : this.convertNPCIDToNPCKey(senderName), rectDimensions.x + rectDimensions.getWidth(.0355), rectDimensions.y + textNameVertOffset);
+      //p5.text(senderName === "EllieTupeeupee" ? "You" : this.convertNPCIDToNPCKey(senderName), rectDimensions.x + rectDimensions.getWidth(.0355), rectDimensions.y + textNameVertOffset);
       p5.text(
         text,
         rectDimensions.x,
@@ -160,8 +162,8 @@ class GameDialogScene extends GameSlideScene {
     }
 
     function drawBubbleBG() {
-      p5.fill(senderName === "PLAYER" ? "#aaffFF" + trans : "#aaaaff" + trans);
-      p5.stroke(senderName === "PLAYER" ? "#44aaaaee" : "#4444aaee");
+      p5.fill(senderName === "EllieTupee" ? "#aaffFF" + trans : "#aaaaff" + trans);
+      p5.stroke(senderName === "EllieTupee" ? "#44aaaaee" : "#4444aaee");
       p5.rect(
         rectDimensions.x,
         rectDimensions.y,

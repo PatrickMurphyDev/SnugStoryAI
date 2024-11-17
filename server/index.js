@@ -251,7 +251,7 @@ const ollama = new Ollama.Ollama();
 ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
 
 const getPresentCharactersData = function(NPCIDs){
-  return [IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[0])]), IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[1])])];
+  return [IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[0])]), IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[1])-1])];
 }
 
 // SETUP DB Instances
@@ -321,7 +321,7 @@ const broadcastMsg = (sockets, msg, params) => {
 function buildAIPromptTXT(data,dataPrefix,convoHistory) {
   let sendMsg = "";
   if (dataPrefix.length > 0) {
-    sendMsg += "#You are required to roleplay as the character " + dataPrefix[0].name
+    sendMsg += "#You are required to roleplay as the character " + dataPrefix[0].firstName + " " + dataPrefix[0].lastName
     sendMsg += ", do not announce who you are role playing as.";
     sendMsg += "using the following character data: ";
     sendMsg += JSON.stringify(dataPrefix);

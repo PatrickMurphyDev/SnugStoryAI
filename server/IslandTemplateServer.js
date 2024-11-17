@@ -1,6 +1,6 @@
 const IslandTemplate = {
   NPCKEYS: [
-    "PLAYER",
+    "EllieTupee",
     "AddisonClark",
     "AndiMcNuttly",
     "BettyLast",
