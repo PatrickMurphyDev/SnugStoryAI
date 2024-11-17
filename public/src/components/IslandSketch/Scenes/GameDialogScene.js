@@ -134,10 +134,11 @@ class GameDialogScene extends GameSlideScene {
       getWidth: (pct) => p5.width * (pct || 0.45),
       h: Math.max(65, (text.length / 150) * 50 + 30),
     };
+    const isMouseOver = p5.mouseX > rectDimensions.x && p5.mouseX <rectDimensions.x+rectDimensions.w && p5.mouseY > rectDimensions.y && p5.mouseY < rectDimensions.y+rectDimensions.h;
     // 0123456789abcdef
     const opacityMap = ["dd", "bb", "99", "77", "55", "33"];
     const trans =
-      opacityMap[Math.min(opacityMap.length - 1, Math.abs(seq))] || "cc";
+      isMouseOver ? 'ff' : opacityMap[Math.min(opacityMap.length - 1, Math.abs(seq))] || "cc";
 
     p5.push();
     drawBubbleBG();

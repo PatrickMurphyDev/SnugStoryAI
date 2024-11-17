@@ -63,7 +63,7 @@ const apiInterface = () => {
           id: "townhalltabernacle",
           name: "The Tabernacle",
           location: { x: 775, y: 1080 },
-          lotDetails: { imgFileSrc: "TownHall2x.png", BGKey: "BGCafe" },
+          lotDetails: { imgFileSrc: "TownHall2x.png", BGKey: "BGTabernacle", imgSize: { x: 160*1.15, y: 171*1.15 }, },
         },
         {
           id: "RedRoofHouse10",
@@ -92,6 +92,19 @@ const apiInterface = () => {
           },
         },
         {
+          id: "BaitShop",
+          name: "Early Bird Gets the Worm Bait Shop",
+          location: { x: 807, y: 1970 },
+          lotDetails: {
+            imgFileSrc: "baitshopHalf.png",
+            BGKey: "BGBaitshop",
+            NPCKey: "LukasMallard",
+            actionOptions: [
+              { title: "Shop", action: () => {} },
+            ],
+          },
+        },
+        {
           id: "Marina",
           name: "Harbor Master",
           location: { x: 740, y: 1630 },
@@ -114,7 +127,7 @@ const apiInterface = () => {
             imgFileSrc: "ClothingStore2x.png",
             BGKey: "BGClothes",
             imgSize: { x: 922 / 8, y: 1039 / 8 },
-            NPCKey: "JoeRomano",
+            NPCKey: "MateoRomano",
             actionOptions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
@@ -157,7 +170,7 @@ const apiInterface = () => {
           location: { x: 510, y: 1150 },
           lotDetails: {
             imgFileSrc: "Bakery2x.png",
-            BGKey: "BGCafe",
+            BGKey: "BGBakery",
             imgSize: { x: 977 / 8, y: 1181 / 8 },
             NPCKey: "BettyLast",
             actionOptions: [
@@ -187,7 +200,7 @@ const apiInterface = () => {
           location: { x: 1666, y: 1225 },
           lotDetails: {
             imgFileSrc: "Resturant12x.png",
-            BGKey: "BGCafe",
+            BGKey: "BGCafe", // Update
             imgSize: { x: 899 / 5, y: 470 / 5 },
             NPCKey: "ScottAnkor",
             actionOptions: [
@@ -202,7 +215,7 @@ const apiInterface = () => {
           location: { x: 1164, y: 1615 },
           lotDetails: {
             imgFileSrc: "Lighthouse2x.png",
-            //BGKey: "BGLighthouse",
+            BGKey: "BGHotel", // Lighthouse
             imgSize: { x: 1024 / 5, y: 1076 / 5 },
             NPCKey: "AddisonClark",
             actionOptions: [
