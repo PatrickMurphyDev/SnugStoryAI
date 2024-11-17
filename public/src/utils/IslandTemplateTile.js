@@ -2,7 +2,7 @@ const apiInterface = () => {
   return {
     getNPCKeyList: () => {
       return [
-        "PLAYER",
+        "EllieTupee",
         "AddisonClark",
         "AndiMcNuttly",
         "BettyLast",
@@ -1692,9 +1692,6 @@ const apiInterface = () => {
     },
     getBackgroundImages: () => {
       return ["BGDocks", "BGMarina", "BGGym", "BGFoodTown", "BGMedical", "BGSchool", "BGCafe", "BGClothes","BGPolice"];
-    },
-    getJobPositions: () => {
-      return [];
     }
   };
 };
