@@ -75,6 +75,7 @@ class ConversationController {
     }
 
     closeConversation(){
+        this._sendMsgSocket(this.validateChatMessage({text:"#### End Chat Conversation with NPC ###"}))
         // SAVE
         this.setConversation(this.currentNPC, this.chatData);
         // RESET
@@ -86,7 +87,10 @@ class ConversationController {
 
     getConversations(NPC,limit){
         NPC = NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
-        return this.conversationMap[NPC];
+        if(Object.keys(this.conversationMap).indexOf(NPC)>-1)
+            return this.conversationMap[NPC];
+        else
+            return [];
     }
 
     getConversation(NPC, conversationHistoryOffset = 0){
@@ -146,7 +150,7 @@ class ConversationController {
         if (!cm.text)
             cm.text = "Chat.......";
         if (!cm.sender)
-            cm.sender = "PLAYER";
+            cm.sender = "EllieTupee";
         if (!cm.from) {
             cm.from = "000000000000000000000001";
         }
