@@ -98,14 +98,6 @@ const IslandSketch = ({
       scenes[currentSceneIndex].draw(p5);
   };
 
-  const nextScene = () => {
-    goToScene((currentSceneIndex + 1) % scenes.length);
-  };
-
-  const prevScene = () => {
-    goToScene((currentSceneIndex - 1 + scenes.length) % scenes.length);
-  };
-
   return <Sketch preload={preload} setup={setup} draw={draw} />;
 };
 
