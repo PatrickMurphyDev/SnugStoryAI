@@ -117,10 +117,10 @@ class GameDialogScene extends GameSlideScene {
     function drawIsAIProcessing() {
       p5.push();
       p5.fill("#00ffff77");
-      p5.rect(p5.width * 0.4, p5.height * 0.7, p5.width * 0.2, 22);
+      p5.rect(p5.width * 0.3, p5.height * 0.75, p5.width * 0.4, 60);
       p5.noStroke();
       p5.fill("#ffffffdd");
-      p5.text("Typing...", p5.width * 0.4, p5.height * 0.7, p5.width * 0.2, 22);
+      p5.text(that.parent.chatData['incomingMessage']['text'], p5.width * 0.3, p5.height * 0.75, p5.width * 0.4, 60);
       p5.pop();
     }
   }

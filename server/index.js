@@ -102,7 +102,7 @@ const {
   getSavedGameById,
   getSavedGames,
   updateSavedGame,
-  deleteSavedGame
+  deleteSavedGame,
 } = require("./controllers/crud");
 
 app.use(cors());
@@ -231,7 +231,6 @@ app.get("/api/characterrelationships/:id", getCharacterRelationshipById);
 app.put("/api/characterrelationships/:id", updateCharacterRelationship);
 app.delete("/api/characterrelationships/:id", deleteCharacterRelationship);
 
-
 // REST API endpoints for SaveGame
 app.post("/api/savedgame", createSavedGame);
 app.get("/api/savedgame", getSavedGames);
@@ -250,9 +249,16 @@ let promptCount = 0;
 const ollama = new Ollama.Ollama();
 ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
 
-const getPresentCharactersData = function(NPCIDs){
-  return [IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[0])]), IslandTemplate.summarizeResident(IslandTemplate.Residents[parseInt(NPCIDs[1])-1])];
-}
+const getPresentCharactersData = function (NPCIDs) {
+  return [
+    IslandTemplate.summarizeResident(
+      IslandTemplate.Residents[parseInt(NPCIDs[0])]
+    ),
+    IslandTemplate.summarizeResident(
+      IslandTemplate.Residents[parseInt(NPCIDs[1]) - 1]
+    ),
+  ];
+};
 
 // SETUP DB Instances
 mongoose
@@ -285,9 +291,7 @@ app.get("/ping", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-const server = app.listen(5006, () =>
-  console.log(`Server started on 5006`)
-);
+const server = app.listen(5006, () => console.log(`Server started on 5006`));
 
 // initialize socket server
 const io = socket(server, {
@@ -297,8 +301,8 @@ const io = socket(server, {
   },
 });
 
-const storeSavedGame = async (userid,name,usrLoc,simTimeData) => {
-  const {SavedGame} = require("./models/models");
+const storeSavedGame = async (userid, name, usrLoc, simTimeData) => {
+  const { SavedGame } = require("./models/models");
   //return await SavedGame.create({
   //  savedUser
   //});
@@ -313,58 +317,73 @@ const storeMessage = async (msg, to, from, selfSent) => {
   });
 };
 
-const broadcastMsg = (sockets, msg, params) => {
-  sockets[0].to(sockets[2]).emit(msg, params);
-  sockets[1].to(sockets[3]).emit(msg, params);
+const broadcastMsg = (sockets, msg, params, doBroadcast) => {
+  if(doBroadcast){
+    sockets[0].to(sockets[2]).emit(msg, params);
+    sockets[1].to(sockets[3]).emit(msg, params);
+  }
 };
 
-function buildAIPromptTXT(data,dataPrefix,convoHistory) {
+function buildAIPromptTXT(data, dataPrefix) {
   let sendMsg = "";
   if (dataPrefix.length > 0) {
-    sendMsg += "#You are required to roleplay as the character " + dataPrefix[0].firstName + " " + dataPrefix[0].lastName
+    sendMsg +=
+      "#You are required to roleplay as the character " +
+      dataPrefix[0].firstName +
+      " " +
+      dataPrefix[0].lastName;
     sendMsg += ", do not announce who you are role playing as.";
-    sendMsg += "using the following character data: ";
+    sendMsg += "use the following character data: ";
     sendMsg += JSON.stringify(dataPrefix);
-    sendMsg += "# It is "+data.timeOfDay+". ";
+    sendMsg += "# It is " + data.timeOfDay + ". ";
   }
-  sendMsg += " #Limit your response to 2 sentences or less.# ";
+  sendMsg += " #Limit response less than 2 sentences, 300 characters max.# ";
   sendMsg += "Ellie: " + data.msg;
-  
+
   return sendMsg;
-};
+}
 
 // TODO: Implement the PromptAI function
-const promptAI = async (data, socketList, convoHistory) => { 
+const promptAI = async (data, socketList, doBroadcast = true) => {
   let dataPrefix = [];
-  if(lastToChar !== data.to) {
+  if (lastToChar !== data.to) {
     lastToChar = data.to;
     promptCount = 0;
   }
   if (promptCount <= 0) {
-    dataPrefix = getPresentCharactersData([data.to,data.from]); // initial setting
+    dataPrefix = getPresentCharactersData([data.to, data.from]); // initial setting
   }
-  
+
   promptCount++;
   // start ai processing
-  broadcastMsg(socketList, "msg-start-ai", data.msg);
+  broadcastMsg(socketList, "msg-start-ai", data.msg, doBroadcast);
   isAIProcessing = true;
 
-  let sendMsg = buildAIPromptTXT(data, dataPrefix, convoHistory);
-  
+  let sendMsg = buildAIPromptTXT(data, dataPrefix);
+
   console.log("Send AI Prompt: " + sendMsg);
-  const response = await ollama.generate(sendMsg);
 
-  broadcastMsg(socketList, "msg-recieve-ai", response.output);
-  isAIProcessing = false;
+  const streamWord =(word)=>{
+    broadcastMsg(
+      socketList,
+      "msg-recieve-ai-part",
+      { sender: data.to, text: word },
+      doBroadcast
+    );
+  }
 
-  console.log("Store Data:  " + response.output);
-  const newMsg = await storeMessage(
-    response.output,
-    data.to,
-    data.from,
-    false
-  );
-  return newMsg;
+  const streamResponseFull = (response)=>{
+    const resp = JSON.parse(response);
+    broadcastMsg(
+      socketList,
+      "msg-recieve-ai-part",
+      { sender: data.to, text: resp },
+      doBroadcast
+    );
+    isAIProcessing = false;
+  }
+
+  return ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
 };
 
 const socketAddUser = (userId, socketID) => {
@@ -373,18 +392,29 @@ const socketAddUser = (userId, socketID) => {
 
 io.on("connection", async (socket) => {
   global.chatSocket = socket;
-  socket.on("add-user", (userID)=>{return socketAddUser(userID, socket.id);});
+  socket.on("add-user", (userID) => {
+    return socketAddUser(userID, socket.id);
+  });
+  socket.on("start-conversation", async (data) => {
+    console.log(data);
+    const sendUserSocket = global.onlineUsers.get(data.NPC);
+    const fromUserSocket = global.onlineUsers.get(data.Player);
+    const socketList = [socket, io, sendUserSocket, fromUserSocket];
 
+    const newPrompt = await promptAI(data, socketList, false);
+    return newPrompt;
+  });
   socket.on("send-msg", async (data) => {
     console.log(data);
-    const convoHistory = data[1] || [];
     data = data[0];
     const sendUserSocket = global.onlineUsers.get(data.to);
     const fromUserSocket = global.onlineUsers.get(data.from);
     const socketList = [socket, io, sendUserSocket, fromUserSocket];
 
     if (sendUserSocket) {
-      console.log("sendUseSocket msg-recieve conditional - if send to user is online");
+      console.log(
+        "sendUseSocket msg-recieve conditional - if send to user is online"
+      );
       socket.to(sendUserSocket).emit("msg-recieve", data.msg);
     }
 
@@ -393,7 +423,7 @@ io.on("connection", async (socket) => {
 
     // if AI requested
     if (data.llmodel !== 0) {
-      const newPrompt = await promptAI(data, socketList, convoHistory);
+      const newPrompt = await promptAI(data, socketList, true);
       return newPrompt;
     }
   });
