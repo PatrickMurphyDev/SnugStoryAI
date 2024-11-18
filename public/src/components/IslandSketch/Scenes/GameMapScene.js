@@ -206,11 +206,20 @@ export class GameMapScene extends GameScene {
           { x: 16, width: 16, y: 20, height: 20 },
           () => {
             //console.log("coll char");
-            this.GUI.openAlert(
-              v.name,
-              "Enter the " + v.name + " building?",
-              v.lotDetails
-            );
+            this.GUI.AlertWindow.setDetails(v.lotDetails);
+            if(v.id==="PlayerCabin"){
+              this.GUI.openAlert(
+                "Player Cabin",
+                "Sleep?",
+                v.lotDetails
+              );
+            }else{
+              this.GUI.openAlert(
+                v.name,
+                "Enter the " + v.name + " building?",
+                v.lotDetails
+              );
+            }
           }
         )
       );

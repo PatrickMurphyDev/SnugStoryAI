@@ -15,6 +15,8 @@ class ConversationController {
     this.maxDialogSeq = 0;
     this.currentNPC = "";
     this.incomingMessage = { sender: -1, text: "" };
+    this.currentNarrativeLevel = "intro";
+    this.overallNarrative = {intro:["NPC Should hint at Ellie's Dad's Death not being an accident", "NPC should warn Ellie of the mysterious cult on the island without using the word cult.","Hint at shady families that control the island"],action:[],climax:[]}
 
     this.socket = {};
     this.socket.current = io(host);

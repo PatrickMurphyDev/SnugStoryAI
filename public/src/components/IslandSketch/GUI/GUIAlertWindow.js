@@ -3,11 +3,21 @@ import GUIButton from "./GUIButton";
 class GUIAlertWindow {
   constructor(parent) {
     this.parent = parent;
+    this.details = {};
     this.AlertWindowText = { title: "alert", text: "Message" };
-    this.AlertWindowNPCKey = "AndiMcNuttly";
+    this.AlertWindowNPCKey = "Andi McNuttly";
     this.alertWindowIsOpen = false;
     this.buttonElement = new GUIButton(this.parent);
   }
+  
+  setDetails(d){
+    this.details = d;
+  }
+
+  getDetails(){
+    return this.details;
+  }
+
 
   getAlertWindowText(){
     return this.AlertWindowText;

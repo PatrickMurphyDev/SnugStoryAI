@@ -58,13 +58,10 @@ const IslandTemplate = {
     return {
       firstName: res.nameObj.first,
       lastName: res.nameObj.last,
-      age: res.age,
-      gender: res.gender,
-      raceEthnicity: res.details.raceEthnicity,
+      ageGender: res.age + "/"+ res.gender,
       descr: res.details.description,
-      occupation: res.details.occupation,
+      job: res.details.occupation,
       goal: res.details.goals !== "" ? res.details.goals[0].goalDescription : "",
-      appearance: res.appearance,
       CharacterPersonality: res.details.personalityTraits || ["calm"],
     };
   },

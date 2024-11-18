@@ -78,6 +78,13 @@ const apiInterface = () => {
           lotDetails: { imgFileSrc: "MayorsHouse2x.png", BGKey: "BGBar", NPCKey: "ChristianLumley" },
         },
         {
+          id: "Gym",
+          name: "Buff Gym",
+          location: { x: 560, y: 1280 },
+          lotDetails: { 
+            imgSize: { x: 460 * .21, y: 509 *.21 }, imgFileSrc: "gymHalf.png", BGKey: "BGGym", NPCKey: "ChadEllington" },
+        },
+        {
           id: "Hospital",
           name: "Medical Center",
           location: { x: 240, y: 1200 },
@@ -110,7 +117,7 @@ const apiInterface = () => {
           location: { x: 740, y: 1630 },
           lotDetails: {
             imgFileSrc: "Marina2x.png",
-            BGKey: "BGDocks",
+            BGKey: "BGMarina",
             NPCKey: "AndiMcNuttly",
             imgSize: { x: 869 / 5.8, y: 795 / 5.8 },
             actionOptions: [

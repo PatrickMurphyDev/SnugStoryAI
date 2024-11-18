@@ -238,28 +238,6 @@ app.get("/api/savedgame/:id", getSavedGameById);
 app.put("/api/savedgame/:id", updateSavedGame);
 app.delete("/api/savedgame/:id", deleteSavedGame);
 
-// SERVER STATE - Displayed on /ping
-let isDBConnected = false;
-let isAIConnected = false;
-let isAIProcessing = false;
-let lastToChar = -1;
-let promptCount = 0;
-
-// SETUP AI Instances
-const ollama = new Ollama.Ollama();
-ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
-
-const getPresentCharactersData = function (NPCIDs) {
-  return [
-    IslandTemplate.summarizeResident(
-      IslandTemplate.Residents[parseInt(NPCIDs[0])]
-    ),
-    IslandTemplate.summarizeResident(
-      IslandTemplate.Residents[parseInt(NPCIDs[1]) - 1]
-    ),
-  ];
-};
-
 // SETUP DB Instances
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -273,6 +251,32 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
+// SERVER STATE - Displayed on /ping
+let isDBConnected = false;
+let isAIConnected = false;
+let isAIProcessing = false;
+let lastToChar = -1;
+let promptCount = 0;
+let currentNarrativeLevel = "intro";
+let overallNarrative = {intro:["Ellie's Dad's Death was not an accident","tourists have gone missing","town is dangerous get out now", "warning of the mysterious cult on the island without using the word cult.", "shady families control the island"],action:[],climax:[]}
+
+
+// SETUP AI Instances
+const ollama = new Ollama.Ollama();
+ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
+ollama.setSystemPrompt("You are roleplaying as different characters, the character card will be supplied for each interaction. Never break character and speak as the character you are assigned and only that character. All Interactions take place on Asbury's Reef a Pacific Northwest ocean island with 60 residents. Advance the story slowly reveal the main mystery, the mysterious cult like group that controls the island.");
+
+const getPresentCharactersData = function (NPCIDs) {
+  return [
+    IslandTemplate.summarizeResident(
+      IslandTemplate.Residents[parseInt(NPCIDs[0])]
+    ),
+    IslandTemplate.summarizeResident(
+      IslandTemplate.Residents[parseInt(NPCIDs[1]) - 1]
+    ),
+  ];
+};
 
 // Ping Page Route
 // == Display Server State
@@ -328,16 +332,14 @@ function buildAIPromptTXT(data, dataPrefix) {
   let sendMsg = "";
   if (dataPrefix.length > 0) {
     sendMsg +=
-      "#You are required to roleplay as the character " +
-      dataPrefix[0].firstName +
-      " " +
-      dataPrefix[0].lastName;
-    sendMsg += ", do not announce who you are role playing as.";
-    sendMsg += "use the following character data: ";
+      "#Roleplay as the character " +
+      dataPrefix[0].firstName;
+    sendMsg += "It is " + data.timeOfDay + ".";
+    sendMsg += " subtly include at some point in conversation: " + overallNarrative.intro[Math.floor(overallNarrative.intro.length*Math.random())]
+    sendMsg += " use the following character data: ";
     sendMsg += JSON.stringify(dataPrefix);
-    sendMsg += "# It is " + data.timeOfDay + ". ";
   }
-  sendMsg += " #Limit response less than 2 sentences, 300 characters max.# ";
+  sendMsg += " Limit response less than 2 sentences.# ";
   sendMsg += "Ellie: " + data.msg;
 
   return sendMsg;
