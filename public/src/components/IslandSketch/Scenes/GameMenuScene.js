@@ -1,13 +1,15 @@
 // GameMenuScene.js
 import { GameScene } from './GameScene';
+import  GUIButton from '../GUI/GUIButton';
 
 export class GameMenuScene extends GameScene {
   constructor(bgImagePath, buttons = []) {
     super('GameMenuScene');
+    this.GUIButton = new GUIButton(this);
     this.bgImagePath = bgImagePath; // Path to the background image
     this.bgImage = null; // Placeholder for the preloaded background image
     this.buttons = buttons; // Array of buttons with properties: { x, y, width, height, text, onClick, color }
-    this.options = {drawButtonText: false, drawButtons: false}
+    this.options = {drawButtonText: true, drawButtons: true}
   }
 
   /**
@@ -26,7 +28,7 @@ export class GameMenuScene extends GameScene {
    * @param {Object} canvasParentRef - The reference to the canvas parent container.
    */
   setup(p5, canvasParentRef) {
-    p5.createCanvas(1000, 800).parent(canvasParentRef);
+    //p5.createCanvas(1000, 800).parent(canvasParentRef);
   }
 
   /**
@@ -37,6 +39,7 @@ export class GameMenuScene extends GameScene {
   draw(p5) {
     // Draw the background image
     if (this.bgImage) {
+      //p5.image(this.bgImage, (p5.width-p5.height)/2, 0, p5.height, p5.height);
       p5.image(this.bgImage, 0, 0, p5.width, p5.height);
     }else{
       this.bgImage = p5.loadImage(this.bgImagePath);
@@ -45,29 +48,7 @@ export class GameMenuScene extends GameScene {
     // Draw buttons
     this.buttons.forEach((button) => {
       // Draw button background
-      if(this.options.drawButtons){
-        p5.fill('#007BFF'); // Use button color or default to blue // button.color || 
-        p5.rect(button.x, button.y, button.width, button.height);
-      }
-
-      // Draw button text 
-      if(this.options.drawButtonText){
-        p5.fill(255); // Set text color to white
-        p5.textSize(16);
-        p5.textAlign(p5.CENTER, p5.CENTER);
-        p5.text(button.text, button.x + button.width / 2, button.y + button.height / 2);
-      }
-      // Handle button click
-      if (
-        p5.mouseIsPressed &&
-        p5.mouseX >= button.x &&
-        p5.mouseX <= button.x + button.width &&
-        p5.mouseY >= button.y &&
-        p5.mouseY <= button.y + button.height
-      ) {
-        console.log("clicked");
-        button.onClick(); // Call the click handler for this button
-      }
+      this.GUIButton.draw(p5, {fill: '#007BFF', text: button.text, onClickHandle:button.onClick}, button.x, button.y, button.width, button.height)
     });
   }
 }

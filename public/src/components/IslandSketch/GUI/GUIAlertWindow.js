@@ -1,13 +1,14 @@
 import GUIButton from "./GUIButton";
 
 class GUIAlertWindow {
-  constructor(parent) {
-    this.parent = parent;
+  constructor(parentScene, guiManager) {
+    this.parentSceneRef = parentScene;
+    this.GUIManager = guiManager;
     this.details = {};
     this.AlertWindowText = { title: "alert", text: "Message" };
     this.AlertWindowNPCKey = "Andi McNuttly";
     this.alertWindowIsOpen = false;
-    this.buttonElement = new GUIButton(this.parent);
+    this.buttonElement = new GUIButton(this.parentSceneRef,this.GUIManager); // pass scene ref to button
   }
   
   setDetails(d){
@@ -75,11 +76,11 @@ class GUIAlertWindow {
     );
     p5.pop();
 
-    const npcImage = this.parent.characterProfileImages[this.AlertWindowNPCKey];
+    const npcImage = this.parentSceneRef.characterProfileImages[this.AlertWindowNPCKey];
     if (npcImage) {
-      p5.image(npcImage, 570, 350, 125, 125);
+      p5.image(npcImage, x + w - 125 - 15, y + 25, 125, 125);
     } else {
-      this.parent.characterProfileImages[this.AlertWindowNPCKey] = p5.loadImage(
+      this.parentSceneRef.characterProfileImages[this.AlertWindowNPCKey] = p5.loadImage(
         `images/CharacterProfileImages/${this.AlertWindowNPCKey}.png`
       );
     }

@@ -4,12 +4,13 @@ import GUIAlertWindow from "../GUI/GUIAlertWindow";
 
 export class GUIElementManager {
   constructor(parent, imgAssets) {
-    this.parent = parent;
+    this.parent = parent; // Ref to Scene Parent (Game Map Scene)
+    this.RenderOffset = {x:(this.parent.sizeVector.x-1000)/4,y:50};
     this.imageAssets = imgAssets || { imgKey: null };
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = []; 
 
-    this.AlertWindow = new GUIAlertWindow(this.parent);
+    this.AlertWindow = new GUIAlertWindow(this.parent); // Pass Ref to Scene Parent (Game Map Scene)
 
     this.allowMoveInputKeys = true;
     this.displayMode = 0;
@@ -67,6 +68,11 @@ export class GUIElementManager {
       { text: "Continue", fill: "#63aff3", onClickHandle: this.transitionToDialogView.bind(this) },
       { text: "Cancel", fill: "#666", onClickHandle: this.closeAlert.bind(this) }
     ];
+
+    this.GUIElements.forEach((v,i,a)=>{
+      this.GUIElements[i].x += this.RenderOffset.x;
+      this.GUIElements[i].y += this.RenderOffset.y;
+    });
   }
 
   setDisplayMode(dm){
@@ -97,8 +103,8 @@ export class GUIElementManager {
 
   renderGUI(p5) {
     p5.push();
-    p5.translate((this.parent.sizeVector.x-1000) / 4,50);
-    p5.image(this.parent.GameMapSceneUI, 0, 576);
+    //p5.translate(this.RenderOffset.x, this.RenderOffset.y);
+    p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, 576+this.RenderOffset.y);
     this.GUIElements.forEach((el) => {
       p5.fill(el.fill || 200);
       this.renderElement(p5, el);
@@ -122,8 +128,8 @@ export class GUIElementManager {
   renderPlayerProfilePanel(p5, el) {
     const textLocation = { x: el.x, y: el.y + el.h * 0.75 };
     const textDimensions = { width: el.w, height: el.h * 0.25 };
-    p5.image(this.parent.PlayerProfileImage, el.x + el.w * 0.1, el.y + el.h * 0.05, el.w * 0.8, el.h * 0.8);
-    p5.image(this.parent.GameMapSceneUIBanner, 4, 753);
+    p5.image(this.parent.PlayerProfileImage, el.x + el.w * 0.1, el.y + el.h * 0.05 - 18, el.w * 0.8, el.h * 0.8);
+    p5.image(this.parent.GameMapSceneUIBanner, el.x + 4, el.y + el.h - 40 - 10); // 40 is height of img // 10 is offset
     this.renderPanelText(p5, el, textLocation, textDimensions);
   }
 
