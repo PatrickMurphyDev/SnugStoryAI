@@ -47,7 +47,7 @@ class PlayerController {
 
   setAsleep(bool) {
     this._isAsleep = bool;
-    simTime.sleep();
+    simTime.sleep(60*7);
   }
 
   isAsleep() {
