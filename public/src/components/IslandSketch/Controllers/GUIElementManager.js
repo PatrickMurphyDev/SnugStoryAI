@@ -1,12 +1,14 @@
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
 import GUIAlertWindow from "../GUI/GUIAlertWindow";
+import GUIButton from "../GUI/GUIButton";
 
 export class GUIElementManager {
   constructor(parent, imgAssets) {
     this.parent = parent; // Ref to Scene Parent (Game Map Scene)
     this.RenderOffset = {x:(this.parent.sizeVector.x-1000)/4,y:50};
     this.imageAssets = imgAssets || { imgKey: null };
+    this.GUIButton = new GUIButton(this.parent);
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = []; 
 
@@ -36,6 +38,10 @@ export class GUIElementManager {
   setSimulationDateTime({ time, date }) {
     if (time) this.SimulationDateTime.time = time;
     if (date) this.SimulationDateTime.date = date;
+  }
+
+  setTimeMode(val){
+    //val
   }
 
   openAlert(title, text, details = {}) {
@@ -103,7 +109,6 @@ export class GUIElementManager {
 
   renderGUI(p5) {
     p5.push();
-    //p5.translate(this.RenderOffset.x, this.RenderOffset.y);
     p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, 576+this.RenderOffset.y);
     this.GUIElements.forEach((el) => {
       p5.fill(el.fill || 200);
@@ -137,6 +142,7 @@ export class GUIElementManager {
     const padding = 25, spacing = 13, size = 32, cols = 12;
     if (el.PanelType === "Detail") {
       this.renderSimulationDate(p5, el);
+      p5.text("$"+this.getInventory().getCash(),el.x+ 60,el.y+75);
     } else {
       if(this.getDisplayMode()===0){
         this.renderInventoryView(p5, el, cols, padding, spacing, size);
@@ -173,6 +179,11 @@ export class GUIElementManager {
     const textY = el.y + el.h - 65;
     p5.text(time, el.x, textY, el.w, 55);
     p5.text(date, el.x, textY - 25, el.w, 55);
+    this.GUIButton.draw(p5, { text: "||", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 5 + 10, el.y +160, 15, 15);
+    this.GUIButton.draw(p5, { text: "1x", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 10 + 5*2 + 15*1, el.y+160, 15, 15);
+    this.GUIButton.draw(p5, { text: "2x", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 10 + 5*3 + 15*2, el.y+160, 15, 15);
+    this.GUIButton.draw(p5, { text: "3x", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 10 + 5*4 + 15*3, el.y+160, 15, 15);
+  
   }
 
   renderInventorySlot(p5, el, index, padding, spacing, size) {
@@ -189,9 +200,13 @@ export class GUIElementManager {
     p5.pop();
   }
 
+  getInventory(){
+    return this.parent.playerInventory;
+  }
+
   renderInventoryIcon(p5, icon, x, y, itemKey) {
     p5.text(icon, x + 16, y + 16);
-    p5.text(this.parent.playerInventory.getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
+    p5.text(this.getInventory().getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
   }
 
   renderPanelText(p5, el, location = { x: el.x, y: el.y }, dimensions = { width: el.w, height: el.h }) {

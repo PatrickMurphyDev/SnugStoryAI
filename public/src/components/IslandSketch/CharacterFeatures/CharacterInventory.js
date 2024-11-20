@@ -1,6 +1,15 @@
 class CharacterInventory {
     constructor(items) {
       this.items = items || {};
+      this._cashValue = 1300;
+    }
+
+    getCash(){
+      return this._cashValue;
+    }
+
+    setCash(c){
+      this._cashValue = c;
     }
   
     addItem(i) {
