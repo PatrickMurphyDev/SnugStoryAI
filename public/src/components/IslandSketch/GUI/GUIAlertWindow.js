@@ -19,7 +19,6 @@ class GUIAlertWindow {
     return this.details;
   }
 
-
   getAlertWindowText(){
     return this.AlertWindowText;
   }
@@ -87,11 +86,23 @@ class GUIAlertWindow {
   }
 
   renderAlertWindowButtons(p5, el) {
-    el.actions.forEach((action, i) => {
-      const buttonX = el.x + el.w - 175 * (i + 1);
-      const buttonY = el.y + el.h - 12;
-      this.buttonElement.draw(p5, action, buttonX, buttonY, 150, 24);
-    });
+    if(this.getDetails().hasOwnProperty("actions")){
+      for(var jID = 0; jID < this.getDetails()["actions"].length; jID ++){
+        const buttonX = el.x + el.w - 175 * (jID + 1);
+        const buttonY = el.y + el.h - 12;
+        let detailObj = this.getDetails()["actions"][jID];
+        if(detailObj.hasOwnProperty('text') && detailObj.text === "Sleep"){
+          detailObj.onClickHandle = ()=>{this.parentSceneRef.playerControl.setAsleep(true); this.setIsOpen(false);}
+        }
+        this.buttonElement.draw(p5, detailObj, buttonX, buttonY, 150, 24);
+      }
+    }else{
+      el.actions.forEach((action, i) => {
+        const buttonX = el.x + el.w - 175 * (i + 1);
+        const buttonY = el.y + el.h - 12;
+        this.buttonElement.draw(p5, action, buttonX, buttonY, 150, 24);
+      });
+    }
   }
 }
 

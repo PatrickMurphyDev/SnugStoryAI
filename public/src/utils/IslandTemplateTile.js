@@ -92,7 +92,7 @@ const apiInterface = () => {
             imgFileSrc: "Hospital2x.png",
             BGKey: "BGMedical",
             NPCKey: "BriannaClark",
-            actionOptions: [
+            actions: [
               { title: "Heal", action: () => {} },
               { title: "Shop", action: () => {} },
             ],
@@ -106,7 +106,7 @@ const apiInterface = () => {
             imgFileSrc: "baitshopHalf.png",
             BGKey: "BGBaitshop",
             NPCKey: "LukasMallard",
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
             ],
           },
@@ -120,7 +120,7 @@ const apiInterface = () => {
             BGKey: "BGMarina",
             NPCKey: "AndiMcNuttly",
             imgSize: { x: 869 / 5.8, y: 795 / 5.8 },
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
             ],
@@ -135,7 +135,7 @@ const apiInterface = () => {
             BGKey: "BGClothes",
             imgSize: { x: 922 / 8, y: 1039 / 8 },
             NPCKey: "MateoRomano",
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
             ],
@@ -150,7 +150,7 @@ const apiInterface = () => {
             BGKey: "BGSchool",
             imgSize: { x: 927 / 8, y: 1085 / 8 },
             NPCKey: "HenryTurner",
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
             ],
@@ -165,7 +165,7 @@ const apiInterface = () => {
             BGKey: "BGFoodTown",
             imgSize: { x: 964 / 8, y: 1013 / 8 },
             NPCKey: "MarkDickson",
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
             ],
@@ -180,7 +180,7 @@ const apiInterface = () => {
             BGKey: "BGBakery",
             imgSize: { x: 977 / 8, y: 1181 / 8 },
             NPCKey: "BettyLast",
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
             ],
@@ -195,7 +195,7 @@ const apiInterface = () => {
             BGKey: "BGPolice",
             imgSize: { x: 975 / 8.25, y: 1012 / 8.25 },
             NPCKey: "CharlieMallard",
-            actionOptions: [
+            actions: [
               { title: "Shop", action: () => {} },
               { title: "Information", action: () => {} },
             ],
@@ -210,7 +210,7 @@ const apiInterface = () => {
             BGKey: "BGCafe", // Update
             imgSize: { x: 899 / 5, y: 470 / 5 },
             NPCKey: "ScottAnkor",
-            actionOptions: [
+            actions: [
               { title: "Invite Date", action: () => {} },
               { title: "Order Takeout", action: () => {} },
             ],
@@ -225,9 +225,10 @@ const apiInterface = () => {
             BGKey: "BGHotel", // Lighthouse
             imgSize: { x: 1024 / 5, y: 1076 / 5 },
             NPCKey: "AddisonClark",
-            actionOptions: [
-              { title: "Invite Date", action: () => {} },
-              { title: "Order Takeout", action: () => {} },
+            actions: [
+              { text: "Invite Date", action: () => {} },
+              { text: "Order Takeout", action: () => {} },
+              { text: "Chat w/ Bri", action: () => {} },
             ],
           },
         },
@@ -239,9 +240,9 @@ const apiInterface = () => {
             imgFileSrc: "pnwHouse2x.png",
             //BGKey: "BGCabin0"
             imgSize: { x: 1024 / 9.2, y: 949 / 9.2 },
-            actionOptions: [
-              { title: "Sleep", action: () => {} },
-              { title: "Storage", action: () => {} },
+            actions: [
+              { text: "Sleep"},
+              { text: "Storage", onClickHandle: () => {} },
             ],
           },
         },

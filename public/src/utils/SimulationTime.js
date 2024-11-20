@@ -6,6 +6,7 @@ class SimulationTime extends EventEmitter {
     if (SimulationTime.instance) {
         return SimulationTime.instance;
     }
+    this.setMaxListeners(75);
 
     if(!params){
       params = {};
@@ -22,7 +23,7 @@ class SimulationTime extends EventEmitter {
     this._rateOfTime = params.rateOfTime || 1; // 1x, 2x, 3x
     this._currentTimeOfDay = params.currentTimeOfDay || 1; // in minutes (0-1440)
     this._currentDayOfWeek = params.currentDayOfWeek || 1; // 1: Sunday, 2: Monday, ..., 7: Saturday
-    this._dayOfMonth = params.dayOfMonth || 11;
+    this._dayOfMonth = params.dayOfMonth || 19;
     this._month = params.month || 11; // 1: January, ..., 12: December
     this._year = params.year || 2024;
 
@@ -197,7 +198,7 @@ class SimulationTime extends EventEmitter {
 
   // Function to set the rate of time
   setRateOfTime(rate) {
-    this._rateOfTime = rate;
+    this.rateOfTime = rate;
   }
 
   // Function to subscribe to time updates

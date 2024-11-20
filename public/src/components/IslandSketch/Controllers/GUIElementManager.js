@@ -58,7 +58,8 @@ export class GUIElementManager {
     this.setAlertWindow(true);
     this.AlertWindow.setText(title || "alert", text || "Message");
     this.LotDetails = details;
-
+    this.AlertWindow.setDetails(details);
+    
     if (details.NPCKey) this.AlertWindow.setNPCKey(details.NPCKey);
     if (details.BGKey) this.BGKey = details.BGKey;
   }
