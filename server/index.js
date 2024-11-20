@@ -259,22 +259,30 @@ let isAIProcessing = false;
 let lastToChar = -1;
 let promptCount = 0;
 let currentNarrativeLevel = "intro";
-let overallNarrative = {intro:["Ellie's Dad's Death was not an accident","tourists have gone missing","town is dangerous get out now", "warning of the mysterious cult on the island without using the word cult.", "shady families control the island"],action:[],climax:[]}
+let overallNarrative = {intro:["Ellie should Go to the bait shop to get some crab traps!","Ellie's Dad's Death was not an accident","tourists have gone missing","town is dangerous get out now", "warning of the mysterious cult on the island without using the word cult.", "shady families control the island"],action:[],climax:[]}
 
 
 // SETUP AI Instances
 const ollama = new Ollama.Ollama();
 ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
-ollama.setSystemPrompt("You are roleplaying as different characters, the character card will be supplied for each interaction. Never break character and speak as the character you are assigned and only that character. All Interactions take place on Asbury's Reef a Pacific Northwest ocean island with 60 residents. Advance the story slowly reveal the main mystery, the mysterious cult like group that controls the island.");
+ollama.setSystemPrompt("#Your task is to roleplay as the supplied NPC character, "
+  + "character attributes will be supplied as JSON object with this structure {firstName, lastName, ageGender, descr, job, goal, CharacterPersonality}. " 
+  + "IT IS VERY IMPORTANT that you only speak as the character you are assigned until told to change. Limit all responses to 3 sentances.#");
+
+  const GetCharacterData = function(id){
+    return IslandTemplate.Residents[parseInt(id)];
+  }
+
+  const GetCharacterDataSummary = function(id){
+    return IslandTemplate.summarizeResident(
+      GetCharacterData(id)
+    );
+  }
 
 const getPresentCharactersData = function (NPCIDs) {
   return [
-    IslandTemplate.summarizeResident(
-      IslandTemplate.Residents[parseInt(NPCIDs[0])]
-    ),
-    IslandTemplate.summarizeResident(
-      IslandTemplate.Residents[parseInt(NPCIDs[1]) - 1]
-    ),
+    GetCharacterDataSummary(NPCIDs[0]),
+    GetCharacterDataSummary(parseInt(NPCIDs[1]-1))
   ];
 };
 
@@ -330,17 +338,16 @@ const broadcastMsg = (sockets, msg, params, doBroadcast) => {
 
 function buildAIPromptTXT(data, dataPrefix) {
   let sendMsg = "";
+  sendMsg += "# Respond as the character " +
+    GetCharacterData(data.to).name; + ".";
   if (dataPrefix.length > 0) {
-    sendMsg +=
-      "#Roleplay as the character " +
-      dataPrefix[0].firstName;
-    sendMsg += "It is " + data.timeOfDay + ".";
-    sendMsg += " subtly include at some point in conversation: " + overallNarrative.intro[Math.floor(overallNarrative.intro.length*Math.random())]
     sendMsg += " use the following character data: ";
     sendMsg += JSON.stringify(dataPrefix);
+    sendMsg += " The setting for the conversation is " + data.timeOfDay + ".";
+    sendMsg += " subtly include: " + overallNarrative.intro[Math.floor(overallNarrative.intro.length*Math.random())] +". "
   }
-  sendMsg += " Limit response less than 2 sentences.# ";
-  sendMsg += "Ellie: " + data.msg;
+  //sendMsg += "Limit response around 2-3 sentences.# ";
+  sendMsg += " In 3 sentances or less respond to the following from Ellie: " + data.msg;
 
   return sendMsg;
 }
