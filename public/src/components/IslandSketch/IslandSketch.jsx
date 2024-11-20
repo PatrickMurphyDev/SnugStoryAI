@@ -15,7 +15,7 @@ const IslandSketch = ({
   onPropertySelect,
   charList,
   setCharList,
-  sizeVector = { x: 1000, y: 800 },
+  sizeVector = { x: window.innerWidth, y: window.innerHeight },
 }) => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   let assetsByScene = {};

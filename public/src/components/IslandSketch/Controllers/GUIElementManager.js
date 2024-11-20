@@ -96,11 +96,14 @@ export class GUIElementManager {
   }
 
   renderGUI(p5) {
+    p5.push();
+    p5.translate((this.parent.sizeVector.x-1000) / 4,50);
     p5.image(this.parent.GameMapSceneUI, 0, 576);
     this.GUIElements.forEach((el) => {
       p5.fill(el.fill || 200);
       this.renderElement(p5, el);
     });
+    p5.pop();
   }
 
   renderElement(p5, el) {
