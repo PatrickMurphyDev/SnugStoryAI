@@ -155,7 +155,7 @@ class SimulationTime extends EventEmitter {
   }
 
   wake(){
-    this.start();
+    this.setRateOfTime(1);
   }
 
   // Function to update the time

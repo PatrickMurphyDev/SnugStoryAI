@@ -2,6 +2,9 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
 import GUIAlertWindow from "../GUI/GUIAlertWindow";
 import GUIButton from "../GUI/GUIButton";
+import SimulationTime from "../../../utils/SimulationTime";
+
+const SIMTIME = SimulationTime.getInstance();
 
 export class GUIElementManager {
   constructor(parent, imgAssets) {
@@ -41,7 +44,14 @@ export class GUIElementManager {
   }
 
   setTimeMode(val){
-    //val
+    if(val === 0){
+      this.allowMoveInputKeys = false;
+    }else if(val >= 1){
+      if(!this.AlertWindow.isOpen()){
+        this.allowMoveInputKeys = true;
+      }
+    }
+    SIMTIME.rateOfTime = val;
   }
 
   openAlert(title, text, details = {}) {
@@ -177,12 +187,12 @@ export class GUIElementManager {
   renderSimulationDate(p5, el) {
     const { time, date } = this.SimulationDateTime;
     const textY = el.y + el.h - 65;
-    p5.text(time, el.x, textY, el.w, 55);
-    p5.text(date, el.x, textY - 25, el.w, 55);
-    this.GUIButton.draw(p5, { text: "||", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 5 + 10, el.y +160, 15, 15);
-    this.GUIButton.draw(p5, { text: "1x", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 10 + 5*2 + 15*1, el.y+160, 15, 15);
-    this.GUIButton.draw(p5, { text: "2x", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 10 + 5*3 + 15*2, el.y+160, 15, 15);
-    this.GUIButton.draw(p5, { text: "3x", fill: "#63aff3", onClickHandle: this.setTimeMode.bind(this)}, el.x + 10 + 5*4 + 15*3, el.y+160, 15, 15);
+    p5.text(time, el.x, textY - 13, el.w, 55);
+    p5.text(date, el.x, textY - 30, el.w, 55);
+    this.GUIButton.draw(p5, { text: "||", fill: SIMTIME.rateOfTime === 0 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(0)}}, el.x + 5 + 60, el.y +160, 15, 15);
+    this.GUIButton.draw(p5, { text: "1x", fill: SIMTIME.rateOfTime === 1 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(1)}}, el.x + 60 + 5*2 + 15*1, el.y+160, 15, 15);
+    this.GUIButton.draw(p5, { text: "2x", fill: SIMTIME.rateOfTime === 2 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(2)}}, el.x + 60 + 5*3 + 15*2, el.y+160, 15, 15);
+    this.GUIButton.draw(p5, { text: "3x", fill: SIMTIME.rateOfTime === 3 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(3)}}, el.x + 60 + 5*4 + 15*3, el.y+160, 15, 15);
   
   }
 

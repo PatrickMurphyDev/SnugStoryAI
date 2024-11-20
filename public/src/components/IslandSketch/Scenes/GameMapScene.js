@@ -308,6 +308,15 @@ export class GameMapScene extends GameScene {
       let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
       let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
       let speedModifier = 0.9;
+      if(simTime.rateOfTime === 1){
+        speedModifier = 0.9;
+      }
+      if(simTime.rateOfTime === 2){
+        speedModifier = 0.9*1.3;
+      }
+      if(simTime.rateOfTime === 3){
+        speedModifier = 0.9*1.8;
+      }
       const newCallBack = (newVal, valid) => {
         this.playerControl.location.x = valid
           ? newVal.x
