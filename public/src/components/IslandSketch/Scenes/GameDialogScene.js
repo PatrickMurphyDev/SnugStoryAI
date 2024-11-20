@@ -1,11 +1,12 @@
 import { GameSlideScene } from "./GameSlideScene";
 class GameDialogScene extends GameSlideScene {
   constructor(parent) {
-    super("GameDialogueScene");
+    super("GameDialogScene");
     this.parent = parent;
     this.dialogDisplayModes = ["Chat","Shop","Conversation History"];
     this.dialogDisplayMode = 0;
     this.otherPlayerPos = { x: 1000 - 175 - 200, y: 250 - 200 };
+    this.RenderOffset = {x:0,y:0};
   }
 
   getDisplayMode(){
@@ -19,7 +20,7 @@ class GameDialogScene extends GameSlideScene {
   draw(p5) {
     let that = this;
     drawDialogBackground(); // draw bg img, player back of head, NPC, NPC Title
-  
+    this.RenderOffset.x =(p5.width-1000)/2;
     // draw convo 
     if(this.getDisplayMode() === 0) {
       drawChatBubbles();
@@ -68,11 +69,11 @@ class GameDialogScene extends GameSlideScene {
     function drawNPCNameBanner() {
       p5.push();
       p5.fill("#aaaaffaa");
-      p5.rect(that.otherPlayerPos.x - 5, that.otherPlayerPos.y + 350, 360, 24);
+      p5.rect(that.RenderOffset.x + that.otherPlayerPos.x - 5, that.otherPlayerPos.y + 350, 360, 24);
       p5.fill('#ffffff');
       p5.stroke('#000000aa');
       p5.textSize(26);
-      p5.text(that.parent.GUI.AlertWindow.getNPCKey(), that.otherPlayerPos.x + 350 / 2, that.otherPlayerPos.y + 350 + 10);
+      p5.text(that.parent.GUI.AlertWindow.getNPCKey(), that.RenderOffset.x + that.otherPlayerPos.x + 350 / 2, that.otherPlayerPos.y + 350 + 10);
       p5.pop();
     }
 
@@ -80,7 +81,7 @@ class GameDialogScene extends GameSlideScene {
       if (that.parent.characterProfileImages[that.parent.GUI.AlertWindow.getNPCKey()]) {
         p5.image(
           that.parent.characterProfileImages[that.parent.GUI.AlertWindow.getNPCKey()],
-          that.otherPlayerPos.x,
+          that.otherPlayerPos.x + that.RenderOffset.x,
           that.otherPlayerPos.y,
           350,
           350
@@ -91,7 +92,7 @@ class GameDialogScene extends GameSlideScene {
     function drawPlayer() {
       p5.image(
         that.parent.parentAssets["GameMapScene"]["PlayerBackHeadImage"],
-        50,
+        that.RenderOffset.x + 50,
         200,
         450,
         450
@@ -103,7 +104,7 @@ class GameDialogScene extends GameSlideScene {
       if (that.parent.parentAssets["GameMapScene"][that.parent.GUI.BGKey]) {
         p5.image(
           that.parent.parentAssets["GameMapScene"][that.parent.GUI.BGKey],
-          -12,
+          that.RenderOffset.x - 12,
           -250
         );
       }

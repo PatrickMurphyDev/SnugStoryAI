@@ -1,4 +1,3 @@
-// GameDialogueScene.js
 import { GameScene } from './GameScene';
 
 export class GameSlideScene extends GameScene {

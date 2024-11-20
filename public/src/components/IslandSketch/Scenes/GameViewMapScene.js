@@ -6,7 +6,7 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 const simTime = SimulationTime.getInstance(); // start 10 am
 class GameViewMapScene extends GameSlideScene {
   constructor(parent) {
-    super("GameDialogueScene");
+    super("GameViewMapScene");
     this.parent = parent;
     this.initCamera(); // setup offset and zoom and control mode
   }

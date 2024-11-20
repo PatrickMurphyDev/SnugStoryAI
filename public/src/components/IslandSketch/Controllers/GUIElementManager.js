@@ -159,9 +159,9 @@ export class GUIElementManager {
       this.chatSubmit = p5.createButton("Send");
       this.chatInput.attribute('placeholder', 'Chat here.....');
       this.chatSubmit.size(p5.width/6);
-      this.chatInput.size(p5.width/2);
-      this.chatSubmit.position(p5.width, p5.height*.95);
-      this.chatInput.position(p5.width/2+p5.width/6, p5.height*.92);
+      this.chatInput.size(p5.width/3);
+      this.chatSubmit.position(p5.width/2, p5.height*.92);
+      this.chatInput.position(p5.width/3, p5.height*.89);
 
       window.addEventListener("keyup", (e)=>this.keyReleased(e,()=>this.chatInput.value(),()=>this.submitMsg(this)));
       this.chatSubmit.mousePressed(()=>{this.submitMsg(this);});
