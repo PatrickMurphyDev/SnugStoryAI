@@ -204,9 +204,9 @@ export class GUIElementManager {
     p5.push();
     p5.fill(index === 0 ? "#999999" : "white");
     if(index < this.getInventory().getItemsArray().length){
-      let dataTmp = this.getInventory().get;
+      let dataTmp = this.getInventory().getItemsArray()[index];
       console.log(dataTmp);
-      this.renderInventoryIcon(p5, dataTmp, x, y, dataTmp.name);
+      this.renderInventoryIcon(p5, dataTmp, x, y, dataTmp.data.name);
     }
     p5.pop();
   }
@@ -216,7 +216,7 @@ export class GUIElementManager {
   }
 
   renderInventoryIcon(p5, data, x, y, itemKey) {
-    let icon = data.icon || [];
+    let icon = data.data.icon || [];
     console.log(icon);
     p5.text((icon[0] || icon), x + 16, y + 16);
     p5.text((icon[1] || ""), x + 19, y + 19);

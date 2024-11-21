@@ -1,8 +1,8 @@
 class CharacterInventory {
-    constructor(cashV) {
-      this.items = {};
-      this.itemDetails = {};
-      this._cashValue = cashV;
+    constructor(cashV, items,itemsDets) {
+      this.items = items || {};
+      this.itemDetails = itemsDets || {};
+      this._cashValue = cashV || 1000;
     }
 
     getCash(){
@@ -32,9 +32,13 @@ class CharacterInventory {
     }
 
     getItemCount(i){
-      return this.items["Item"+i.id];
+      if(i && i.id){
+        return this.items["Item"+i.id];
+      }else{
+        return 0;
+      }
     }
-    
+
     getItemsCount(){
       return Object.keys(this.items).length;
     }
