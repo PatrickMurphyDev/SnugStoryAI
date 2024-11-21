@@ -203,10 +203,10 @@ export class GUIElementManager {
     p5.rect(x, y, size, size);
     p5.push();
     p5.fill(index === 0 ? "#999999" : "white");
-    if (index === 0) {
-      this.renderInventoryIcon(p5, "🥅", x, y, "crabtrap");
-    } else if (index === 1) {
-      this.renderInventoryIcon(p5, "🥪", x, y, "hermitcrab");
+    if(index < this.getInventory().ray().size){
+      let dataTmp = this.getInventory().getItems()["Item"+(index+1)];
+      console.log(dataTmp);
+      this.renderInventoryIcon(p5, dataTmp, x, y, dataTmp.name);
     }
     p5.pop();
   }
@@ -215,8 +215,10 @@ export class GUIElementManager {
     return this.parent.playerInventory;
   }
 
-  renderInventoryIcon(p5, icon, x, y, itemKey) {
-    p5.text(icon, x + 16, y + 16);
+  renderInventoryIcon(p5, data, x, y, itemKey) {
+    let icon = data.icon || [];
+    p5.text((icon[0] || icon), x + 16, y + 16);
+    p5.text((icon[1] || ""), x + 19, y + 19);
     p5.text(this.getInventory().getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
   }
 

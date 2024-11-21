@@ -53,7 +53,22 @@ class CrabTrapEntity extends Entity {
     this.fillColor = "#00ff00";
     this.trapState = 2;
     //this.frameAge;
-    this.harvestCallback(ItemsEnum['hermitcrab']);
+    const randSelect = Math.random();
+    if(randSelect<.1){
+      this.harvestCallback(ItemsEnum['kingcrab']);
+    }
+    if(randSelect < .4 && randSelect >= .1){
+      this.harvestCallback(ItemsEnum['dungenesscrab']);
+    }
+    if(randSelect<.7 && randSelect >= .4){
+      this.harvestCallback(ItemsEnum['snowcrab']);
+    }
+    if(randSelect>.9 && randSelect>=.7){
+      this.harvestCallback(ItemsEnum['redrockcrab']);
+    }
+    if(randSelect>=.9){
+      this.harvestCallback(ItemsEnum['hermitcrab']);
+    }
     this.harvestCallback(ItemsEnum['crabtrap']);
     //this.remove();
   }
