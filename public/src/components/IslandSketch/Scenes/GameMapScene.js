@@ -253,7 +253,7 @@ export class GameMapScene extends GameScene {
       !this.playerControl.isAsleep()
     ) {
       this.playerControl.setAsleep(true);
-      this.playerControl.setLocation({x:500, y:500}); // TODO SET HOSPITAL LOC
+      this.playerControl.setLocation({x:500, y:800}); // TODO SET HOSPITAL LOC
       // TODO: WIP: penalize player for not sleeping
       console.log("not in bed in time.... set sleep");
     }

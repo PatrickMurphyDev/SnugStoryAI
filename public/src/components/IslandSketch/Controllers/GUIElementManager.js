@@ -105,7 +105,6 @@ export class GUIElementManager {
     if(dm !== 0){
       this.parent.chatData.openConversation(this.parent.chatData.convertNPCKeyToID(this.AlertWindow.getNPCKey()));
     }
-
     this.displayMode = dm;
   }
 
@@ -217,9 +216,8 @@ export class GUIElementManager {
 
   renderInventoryIcon(p5, data, x, y, itemKey) {
     let icon = data.data.icon || [];
-    console.log(icon);
     p5.text((icon[0] || icon), x + 16, y + 16);
-    p5.text((icon[1] || ""), x + 19, y + 19);
+    p5.text((icon[1] || ""), x + 20, y + 20);
     p5.text(this.getInventory().getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
   }
 

@@ -150,7 +150,6 @@ class SimulationTime extends EventEmitter {
   }
 
   sleep(time){
-    this.pause();
     this.advanceDay(time);
     this.wake();
   }
