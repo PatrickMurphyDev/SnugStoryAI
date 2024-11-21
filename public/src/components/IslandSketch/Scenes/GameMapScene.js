@@ -75,7 +75,7 @@ export class GameMapScene extends GameScene {
       y: this.playerControl.location.y - 5*32,
     };
 
-    this.playerInventory = new CharacterInventory({ Item2: 5 });
+    this.playerInventory = new CharacterInventory(1300);
     this.isLoaded = false;
 
     this.npcKeyIndex = 0;

@@ -203,8 +203,8 @@ export class GUIElementManager {
     p5.rect(x, y, size, size);
     p5.push();
     p5.fill(index === 0 ? "#999999" : "white");
-    if(index < this.getInventory().ray().size){
-      let dataTmp = this.getInventory().getItems()["Item"+(index+1)];
+    if(index < this.getInventory().getItemsArray().length){
+      let dataTmp = this.getInventory().get;
       console.log(dataTmp);
       this.renderInventoryIcon(p5, dataTmp, x, y, dataTmp.name);
     }
@@ -217,6 +217,7 @@ export class GUIElementManager {
 
   renderInventoryIcon(p5, data, x, y, itemKey) {
     let icon = data.icon || [];
+    console.log(icon);
     p5.text((icon[0] || icon), x + 16, y + 16);
     p5.text((icon[1] || ""), x + 19, y + 19);
     p5.text(this.getInventory().getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
