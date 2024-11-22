@@ -59,7 +59,7 @@ export class GUIElementManager {
     this.AlertWindow.setText(title || "alert", text || "Message");
     this.LotDetails = details;
     this.AlertWindow.setDetails(details);
-    
+    this.parent.chatData.addChat({"text": (details.msg || "")}, false);
     if (details.NPCKey) this.AlertWindow.setNPCKey(details.NPCKey);
     if (details.BGKey) this.BGKey = details.BGKey;
   }
@@ -163,12 +163,6 @@ export class GUIElementManager {
     this.renderPanelText(p5, el);
   }
 
-  renderInventoryView(p5, el, cols, padding, spacing, size){
-    for (let i = 0; i < cols; i++) {
-      this.renderInventorySlot(p5, el, i, padding, spacing, size);
-    }
-  }
-
   renderChatInputView(p5){
     if(!this.chatInput || !this.chatSubmit){
       this.chatInput = p5.createInput();
@@ -193,7 +187,6 @@ export class GUIElementManager {
     this.GUIButton.draw(p5, { text: "1x", fill: SIMTIME.rateOfTime === 1 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(1)}}, el.x + 60 + 5*2 + 15*1, el.y+160, 15, 15);
     this.GUIButton.draw(p5, { text: "2x", fill: SIMTIME.rateOfTime === 2 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(2)}}, el.x + 60 + 5*3 + 15*2, el.y+160, 15, 15);
     this.GUIButton.draw(p5, { text: "3x", fill: SIMTIME.rateOfTime === 3 ? "red" : "#63aff3", onClickHandle: ()=>{return this.setTimeMode(3)}}, el.x + 60 + 5*4 + 15*3, el.y+160, 15, 15);
-  
   }
 
   renderInventorySlot(p5, el, index, padding, spacing, size) {
@@ -204,8 +197,8 @@ export class GUIElementManager {
     p5.fill(index === 0 ? "#999999" : "white");
     if(index < this.getInventory().getItemsArray().length){
       let dataTmp = this.getInventory().getItemsArray()[index];
-      console.log(dataTmp);
-      this.renderInventoryIcon(p5, dataTmp, x, y, dataTmp.data.name);
+      //console.log(dataTmp);
+      this.renderInventoryIcon(p5, dataTmp, x, y);
     }
     p5.pop();
   }
@@ -214,11 +207,20 @@ export class GUIElementManager {
     return this.parent.playerInventory;
   }
 
-  renderInventoryIcon(p5, data, x, y, itemKey) {
+  renderInventoryView(p5, el, cols, padding, spacing, size){
+    for (let i = 0; i < cols; i++) {
+      this.renderInventorySlot(p5, el, i, padding, spacing, size);
+    }
+  }
+
+  renderInventoryIcon(p5, data, x, y) {
     let icon = data.data.icon || [];
-    p5.text((icon[0] || icon), x + 16, y + 16);
-    p5.text((icon[1] || ""), x + 20, y + 20);
-    p5.text(this.getInventory().getItemCount(ItemsEnum[itemKey]), x + 32, y + 32);
+    p5.push();
+    p5.textSize(24);
+    p5.text((icon[0] || icon), x + 15, y + 15);
+    p5.text((icon[1] || ""), x + 20, y + 24);
+    p5.text(this.getInventory().getItemCount(ItemsEnum[data.data.key]), x + 32, y + 32);
+    p5.pop();
   }
 
   renderPanelText(p5, el, location = { x: el.x, y: el.y }, dimensions = { width: el.w, height: el.h }) {

@@ -46,6 +46,7 @@ export class GameMapScene extends GameScene {
       sizeVector,
       parentAssetsByScene
     );
+    this.OPTIONS = {"enable_socket-load-world":false};
     this.parentAssets = parentAssetsByScene;
     this.initMapSettings();
     this.GUI_Time = "";
@@ -150,7 +151,7 @@ export class GameMapScene extends GameScene {
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
           //console.log("coll char");
-          this.GUI.openAlert("Andi McNuttly", "Andi Wants to talk!", {"NPCKey":"AndiMcNuttly"});
+          this.GUI.openAlert("Andi McNuttly", "Andi wants to welcome you to te island!", {"NPCKey":"AndiMcNuttly", "msg":"Hey Ellie! So excited you finally arrived on the island! I'll help show you to your property!"});
         }
       )
     );
@@ -231,6 +232,9 @@ export class GameMapScene extends GameScene {
     const characterTempList = IslandTemplate.Residents.map((v) => this.createCharacterEntity(v));
     //console.log(characterTempList);
     this.setCharList(characterTempList);
+    if(this.OPTIONS['enable_socket-load-world']){
+      this.chatData.loadWorld();
+    }
   }
 
   loadAssets() {
@@ -339,10 +343,8 @@ export class GameMapScene extends GameScene {
         tmpy !== this.playerControl.location.y
       )
         this.checkNextPosititionCollision(
-          this.playerControl.location.x,
-          this.playerControl.location.y,
-          tmpx,
-          tmpy,
+          this.playerControl.location,
+          {x: tmpx, y: tmpy},
           newCallBack
         );
     }
@@ -380,29 +382,37 @@ export class GameMapScene extends GameScene {
       this.isMouseReleased = true;
       this.lastFrameMousePressed = false;
       if (this.playerInventory.getItemCount(ItemsEnum["crabtrap"]) > 0) {
-        let offsetLocal = this.getOffsetLocal(
-          p5,
-          this.gameViewMapScene.getCameraOffset(),
-          this.gameViewMapScene.getCameraZoom()
-        );
-        this.doUIAction(p5.frameCount, () => {
-          this.CrabTraps.push(
-            new CrabTrapEntity(
-              "CTE" + p5.frameCounter,
-              offsetLocal.x,
-              offsetLocal.y,
-              simTime.getDate() + "|" + simTime.getTime(),
-              p5.frameCount,
-              (i) => {
-                this.playerInventory.addItem(i);
-              }
-            )
-          );
-          this.playerInventory.removeItem(ItemsEnum["crabtrap"]);
-        });
+        this.placeCrabTrap(p5);
       }
       this.isMouseReleased = false;
     }
+  }
+
+  placeCrabTrap(p5) {
+    let offsetLocal = this.getOffsetLocal(
+      p5,
+      this.gameViewMapScene.getCameraOffset(),
+      this.gameViewMapScene.getCameraZoom()
+    );
+    this.doUIAction(p5.frameCount, () => {
+      this.CrabTraps.push(
+        new CrabTrapEntity(
+          this,
+          "CTE" + p5.frameCounter,
+          offsetLocal.x,
+          offsetLocal.y,
+          simTime.getDate() + "|" + simTime.getTime(),
+          p5.frameCount,
+          (i) => {
+            this.doUIAction(p5.frameCount, () => {
+              this.playerInventory.addItem(ItemsEnum['crabtrap']);
+              this.playerInventory.addItem(i);
+            });
+          }
+        )
+      );
+      this.playerInventory.removeItem(ItemsEnum["crabtrap"]);
+    });
   }
 
   // get mouse position in world
@@ -417,16 +427,11 @@ export class GameMapScene extends GameScene {
   /** ---------- END INPUT FNs */
 
   checkNextPosititionCollision(
-    oldPosX,
-    oldPosY,
-    newPosX,
-    newPosY,
+    oldPos,
+    newPos,
     returnNewValueCallback
   ) {
-    const oldPos = { x: oldPosX, y: oldPosY };
     let returnPos = oldPos; //default to current/old position
-    
-    const newPos = { x: newPosX, y: newPosY };
     const testPosition = { x: newPos.x + 16, y: newPos.y + 30 };
     let newPosValidity = true; // is new pos valid pixel? assume true  
 
@@ -434,7 +439,7 @@ export class GameMapScene extends GameScene {
     this.CollideEntities.forEach((collider) => {
       if (collider.contains(testPosition)) {
         newPosValidity = false;
-        collider.onCollide(testPosition, collider, {          x: this.playerControl.location.x,
+        collider.onCollide(testPosition, collider, {x: this.playerControl.location.x,
           y: this.playerControl.location.y,
         });
       }
@@ -444,12 +449,6 @@ export class GameMapScene extends GameScene {
     if (newPosValidity) returnPos = newPos;
     returnNewValueCallback(returnPos, newPosValidity);
   } // end checkNextPositionCollision FN
-
-  /*getLayerIndexByName(name) {
-    return IslandTemplateJSON.layers
-      .map((v, i) => (v.name === name ? i : -1))
-      .filter((i) => i !== -1)[0];
-  }*/
 
   /* Called by InitializeCharacters for each char
     Parameters: Resident
