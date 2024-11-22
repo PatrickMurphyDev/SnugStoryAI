@@ -28,7 +28,16 @@ class CharacterInventory {
     }
 
     removeItem(i){
-      this.items["Item"+i.id] = this.items["Item"+i.id] - 1;
+      const newVal = this.items["Item"+i.id] - 1;
+      if(newVal > 0){
+        this.items["Item"+i.id] = newVal;
+      }else{
+        this.deleteItem(i);
+      }
+    }
+
+    deleteItem(i){
+      delete this.items["Item"+i.id];
     }
 
     getItemCount(i){

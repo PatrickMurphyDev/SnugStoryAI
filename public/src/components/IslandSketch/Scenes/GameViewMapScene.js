@@ -112,7 +112,7 @@ class GameViewMapScene extends GameSlideScene {
       lot.draw(p5);
     });
     this.parent.CrabTraps.forEach((ctrap) => {
-      ctrap.update(p5);
+      ctrap.update(p5,this.getCameraOffset(),this.getCameraZoom());
       ctrap.draw(p5, 255, this.getCameraOffset(), this.getCameraZoom());
     });
     this.parent.AnimatedSprites.forEach((sprite) => {
