@@ -10,7 +10,7 @@ class CharacterInventory {
     }
 
     setCash(c){
-      this._cashValue = c;
+      this._cashValue = Math.max(c,0);
     }
 
     getItem(i){

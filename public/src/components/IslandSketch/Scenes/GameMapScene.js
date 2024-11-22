@@ -258,7 +258,7 @@ export class GameMapScene extends GameScene {
     ) {
       this.playerControl.setAsleep(true);
       this.playerControl.setLocation({x:500, y:800}); // TODO SET HOSPITAL LOC
-      // TODO: WIP: penalize player for not sleeping
+      this.playerInventory.setCash(this.playerInventory.getCash()-200); // TODO: WIP: penalize player for not sleeping
       console.log("not in bed in time.... set sleep");
     }
   }
