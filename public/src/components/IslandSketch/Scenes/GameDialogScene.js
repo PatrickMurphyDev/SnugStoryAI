@@ -31,14 +31,15 @@ class GameDialogScene extends GameSlideScene {
       if (this.parent.chatData.isProcessing) {
         drawIsAIProcessing();
       }
-    }else{
-      // mode not current convo
-      const titleTxt = this.dialogDisplayModesList[this.dialogDisplayMode];
+    }else if(this.getDisplayMode() === this.dialogDisplayModes.Shop){
       this.drawBackButton(p5);
-      p5.push();
-      p5.textSize(36);
-      p5.text(titleTxt, 250 + p5.textWidth(titleTxt)/2, 60);
-      p5.pop();
+      this.renderViewTitle(p5);
+      p5.fill("#aaaaaaaa");
+      p5.rect(100, 100, p5.width-100*2, p5.height-100*2);
+    }else{
+      // mode not current convo or shop
+      this.drawBackButton(p5);
+      this.renderViewTitle(p5);
     }
 
     if(this.getDisplayMode() === this.dialogDisplayModes.ConversationHistory){
@@ -129,6 +130,18 @@ class GameDialogScene extends GameSlideScene {
       p5.text(that.parent.chatData['incomingMessage']['text'], p5.width * 0.3, p5.height * 0.75, p5.width * 0.4, 60);
       p5.pop();
     }
+  }
+
+  renderViewTitle(p5) {
+    const titleTxt = this.dialogDisplayModesList[this.dialogDisplayMode];
+    const txtX = 250 + p5.textWidth(titleTxt) / 2;
+    p5.push();
+    p5.fill("#aaaaff88");
+    p5.rect(txtX,60-18-3,(txtX-250)*6,45);
+    p5.textSize(36);
+    p5.fill("#ffffff");
+    p5.text(titleTxt, txtX+(txtX-250)*3, 60);
+    p5.pop();
   }
 
   drawDialogBubble(p5, text, seq, senderName, sentTime) {
