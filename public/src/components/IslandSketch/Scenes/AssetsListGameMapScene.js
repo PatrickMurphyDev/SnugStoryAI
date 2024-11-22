@@ -24,7 +24,7 @@ const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,
                 "as2323",
                 parentAssetsDict["GameMapScene"]["OtherCharSheet2"],
                 charPos.x+3*32,
-                charPos.y-8,
+                charPos.y-8-32*4,
                 { width: 24, height: 32 },
                 { columns: 3, rows: 4 },
                 1, // frame offset

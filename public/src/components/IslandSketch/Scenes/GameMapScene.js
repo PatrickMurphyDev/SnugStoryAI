@@ -72,8 +72,8 @@ export class GameMapScene extends GameScene {
 
     //tmp char fix other char
     this.charPos = {
-      x: this.playerControl.location.x + 24,
-      y: this.playerControl.location.y - 5*32,
+      x: this.playerControl.location.x + 24+2,
+      y: this.playerControl.location.y - 1*32,
     };
 
     this.playerInventory = new CharacterInventory(1300,{"Item2":5},{"Item2":ItemsEnum.crabtrap});
@@ -159,7 +159,7 @@ export class GameMapScene extends GameScene {
       new CollideRectEntity(
         66666,
         this.charPos.x + 8 + 32*3,
-        this.charPos.y + 12 - 8,
+        this.charPos.y + 12 - 32*4,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
           //console.log("coll char");
@@ -375,16 +375,22 @@ export class GameMapScene extends GameScene {
   }
 
   handleMouseInteraction(p5) {
+    this.isMouseReleased = false;
     if (p5.mouseIsPressed) {
+      //pressed track
       this.isMouseReleased = false;
       this.lastFrameMousePressed = true;
     } else if (this.lastFrameMousePressed) {
+      //released
       this.isMouseReleased = true;
       this.lastFrameMousePressed = false;
-      if (this.playerInventory.getItemCount(ItemsEnum["crabtrap"]) > 0) {
-        this.placeCrabTrap(p5);
-      }
-      this.isMouseReleased = false;
+      this.onPlaceCrabTrap(p5);
+    }
+  }
+
+  onPlaceCrabTrap(p5) {
+    if (this.playerInventory.getItemCount(ItemsEnum["crabtrap"]) > 0) {
+      this.placeCrabTrap(p5);
     }
   }
 
