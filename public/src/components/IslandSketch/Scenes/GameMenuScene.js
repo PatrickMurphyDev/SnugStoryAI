@@ -8,6 +8,7 @@ export class GameMenuScene extends GameScene {
     this.GUIButton = new GUIButton(this);
     this.bgImagePath = bgImagePath; // Path to the background image
     this.bgImage = null; // Placeholder for the preloaded background image
+    this.titleImage = null; // Placeholder for the preloaded background image
     this.buttons = buttons; // Array of buttons with properties: { x, y, width, height, text, onClick, color }
     this.options = {drawButtonText: true, drawButtons: true}
   }
@@ -18,7 +19,7 @@ export class GameMenuScene extends GameScene {
    * @param {Object} p5 - The p5 instance used for loading assets.
    */
   preload(p5) {
-    this.bgImage = p5.loadImage("images/mainMenu.png");//this.bgImagePath); // Preload the background image
+    //this.bgImage = p5.loadImage("images/mainMenu.png");//this.bgImagePath); // Preload the background image
   }
 
   /**
@@ -38,11 +39,12 @@ export class GameMenuScene extends GameScene {
    */
   draw(p5) {
     // Draw the background image
-    if (this.bgImage) {
-      //p5.image(this.bgImage, (p5.width-p5.height)/2, 0, p5.height, p5.height);
-      p5.image(this.bgImage, 0, 0, p5.width, p5.height);
+    if (this.bgImage && this.titleImage) {
+      p5.image(this.bgImage, 0, -((p5.width-p5.height)/2), p5.width, p5.width);
+      p5.image(this.titleImage, (p5.width - 949)/2, 100);
     }else{
       this.bgImage = p5.loadImage(this.bgImagePath);
+      this.titleImage = p5.loadImage("images/logo.png");
     }
 
     // Draw buttons
