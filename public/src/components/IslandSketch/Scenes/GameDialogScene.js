@@ -7,11 +7,12 @@ class GameDialogScene extends GameSlideScene {
     super("GameDialogScene");
     this.parent = parent;
     this.npcInventory = new CharacterInventory(300);
-    this.npcInventory.addItem({id:3});
-    this.npcInventory.addItem({id:4});
-    this.npcInventory.addItem({id:5});
-    this.npcInventory.addItem({id:6});
-    this.npcInventory.addItem({id:7});
+    this.npcInventory.addItem(ItemsEnum.hermitcrab);
+    this.npcInventory.addItem(ItemsEnum.redrockcrab);
+    this.npcInventory.addItem(ItemsEnum.snowcrab);
+    this.npcInventory.addItem(ItemsEnum.dungenesscrab);
+    this.npcInventory.addItem(ItemsEnum.kingcrab);
+    this.npcInventory.addItem(ItemsEnum.crabbait,50);
 
     this.dialogDisplayModes = {
       Chat: 0,
@@ -209,9 +210,10 @@ class GameDialogScene extends GameSlideScene {
       "snowcrab",
       "dungenesscrab",
       "kingcrab",
+      "crabbait"
     ];
     this.renderTradeItemRow(p5, ["Item", "You", "Them"], 0, pos, rowHeight, -1);
-    for (let index = 1; index < 6; index++) {
+    for (let index = 1; index < 7; index++) {
       const itemName =
         ItemsEnum[crabList[index - 1]].icon.join() +
         " " +

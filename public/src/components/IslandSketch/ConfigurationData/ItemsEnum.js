@@ -113,4 +113,21 @@ export const ItemsEnum = {
       img: "CrabItem2"
     },
   },
+  crabbait: {
+    id: 8,
+    key: "crabbait",
+    type: 2,
+    name: "Crab Bait",
+    description: "Crab can't resist chicken liver.",
+    icon: ["🦀", "B"],
+    details: {
+      props: {
+        soldBy: "weight",
+        weight: 1,
+        buyPrice: 2,
+        salePrice: 1,
+      },
+      img: "CrabItem2"
+    },
+  },
 };

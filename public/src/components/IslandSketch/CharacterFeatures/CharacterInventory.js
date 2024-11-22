@@ -17,12 +17,13 @@ class CharacterInventory {
       return this.items["Item"+i.id];
     }
   
-    addItem(i) {
-      console.log("add item " + i.id);
+    addItem(i,cnt) {
+      cnt = cnt || 1;
+      console.log("add item " + i.id + " " + cnt);
       if(this.items["Item"+i.id]){
-        this.items["Item"+i.id] = this.items["Item"+i.id] + 1;
+        this.items["Item"+i.id] = this.items["Item"+i.id] + cnt;
       }else{
-        this.items["Item"+i.id] = 1;
+        this.items["Item"+i.id] = cnt;
         this.itemDetails["Item"+i.id] = i;
       }
     }
