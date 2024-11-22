@@ -3,10 +3,12 @@ class GameDialogScene extends GameSlideScene {
   constructor(parent) {
     super("GameDialogScene");
     this.parent = parent;
-    this.dialogDisplayModes = ["Chat","Shop","Conversation History"];
+    
+    this.dialogDisplayModes = {"Chat":0, "Shop":1, "ConversationHistory":2, "Sell":3};
+    this.dialogDisplayModesList = ["Chat", "Shop", "Conversation History", "Sell"];
     this.dialogDisplayMode = 0;
     this.otherPlayerPos = { x: 1000 - 175 - 200, y: 250 - 200 };
-    this.RenderOffset = {x:0,y:0};
+    this.RenderOffset = {x:0, y:0};
   }
 
   getDisplayMode(){
@@ -22,7 +24,7 @@ class GameDialogScene extends GameSlideScene {
     drawDialogBackground(); // draw bg img, player back of head, NPC, NPC Title
     this.RenderOffset.x =(p5.width-1000)/2;
     // draw convo 
-    if(this.getDisplayMode() === 0) {
+    if(this.getDisplayMode() === this.dialogDisplayModes.Chat) {
       drawChatBubbles();
       this.drawShopButton(p5);
       this.drawConversationHistoryButton(p5);
@@ -31,15 +33,16 @@ class GameDialogScene extends GameSlideScene {
       }
     }else{
       // mode not current convo
+      const titleTxt = this.dialogDisplayModesList[this.dialogDisplayMode];
       this.drawBackButton(p5);
       p5.push();
       p5.textSize(36);
-      p5.text(this.dialogDisplayModes[this.dialogDisplayMode],250+p5.textWidth(this.dialogDisplayModes[this.dialogDisplayMode])/2,60);
+      p5.text(titleTxt, 250 + p5.textWidth(titleTxt)/2, 60);
       p5.pop();
     }
 
-    if(this.getDisplayMode() === 2){
-      drawConvoBubbles()
+    if(this.getDisplayMode() === this.dialogDisplayModes.ConversationHistory){
+      drawConvoBubbles();
     }
     this.drawEndChatButton(p5);
 
@@ -50,13 +53,15 @@ class GameDialogScene extends GameSlideScene {
     function drawConvoBubbles() {
       p5.push();
       p5.textSize(18);
-      const varData = that.parent.chatData.getConversations(that.parent.GUI.AlertWindow.getNPCKey())
+      const varData = that.parent.chatData.getConversations();
+      console.log(varData);
 
       for(var i = 0; i<varData.length; i++){
         that.drawDialogBubble(p5, varData[i].name || "convo", i);
       }
       p5.pop();
     }
+
     function drawChatBubbles() {
       p5.push();
       p5.textSize(18);

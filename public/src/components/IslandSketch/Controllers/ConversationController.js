@@ -117,7 +117,7 @@ class ConversationController {
     //this._sendEndConvoSocket({NPC: this.currentNPC, Player:"000000000000000000000001"});
     //this._sendMsgSocket(this.validateChatMessage({text:"#### End Chat Conversation with NPC ###"}))
     // SAVE
-    this.setConversation(this.currentNPC, this.chatData);
+    this.addConversation(this.currentNPC, this.chatData);
     // RESET
     this.chatData = [];
     this.currentNPC = "";
@@ -130,22 +130,20 @@ class ConversationController {
       NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
     if (Object.keys(this.conversationMap).indexOf(NPC) > -1)
       return this.conversationMap[NPC];
-    else return [];
+    else{ 
+      return {};
+    }
   }
 
   getConversation(NPC, conversationHistoryOffset = 0) {
     NPC =
       NPC || this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey());
     if (this.conversationMap[NPC])
-      return this.conversationMap[NPC][
-        this.conversationMap[NPC].length - 1 - conversationHistoryOffset
-      ];
+      return this.conversationMap[NPC]; //[this.conversationMap[NPC].length - 1 - conversationHistoryOffset]
   }
 
   addConversation(NPC, dataArr) {
-    this.conversationMap[NPC] = Array.from(this.conversationMap[NPC]).push(
-      dataArr
-    );
+    this.conversationMap[NPC]["Convo"+0] = (dataArr);
   }
 
   setConversation(NPC, dataArr) {
@@ -243,7 +241,7 @@ class ConversationController {
       NPC.length < 23
         ? this.convertNPCKeyToID(this.parent.GUI.AlertWindow.getNPCKey())
         : NPC;
-    Array.from(this.conversationMap[NPC]).forEach(fn);
+    //this.conversationMap[NPC].forEach(fn);
   }
 
   forEachConversationHistory(NPC, histOffset, fn) {
