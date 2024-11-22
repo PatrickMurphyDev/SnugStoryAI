@@ -9,6 +9,7 @@ const SIMTIME = SimulationTime.getInstance();
 export class GUIElementManager {
   constructor(parent, imgAssets) {
     this.parent = parent; // Ref to Scene Parent (Game Map Scene)
+    this.OPTIONS = {"InputFontSize":20};
     this.RenderOffset = {x:(this.parent.sizeVector.x-1000)/4,y:50};
     this.imageAssets = imgAssets || { imgKey: null };
     this.GUIButton = new GUIButton(this.parent);
@@ -28,14 +29,64 @@ export class GUIElementManager {
 
     this.initializeGUIElements();
   }
+  
+  initializeGUIElements() {
+    this.GUIElements = IslandTemplate.GUIElements;
+    this.GUIElements[1].img = this.parent.PlayerProfileImage;
+    this.GUIElements[3].actions = [
+      { text: "Continue", fill: "#63aff3", onClickHandle: this.transitionToDialogView.bind(this) },
+      { text: "Cancel", fill: "#666", onClickHandle: this.closeAlert.bind(this) }
+    ];
 
-  getNPCKey(){
-    return this.AlertWindow.getNPCKey();
+    this.GUIElements.forEach((v,i,a)=>{
+      this.GUIElements[i].x += this.RenderOffset.x;
+      this.GUIElements[i].y += this.RenderOffset.y;
+    });
+  }
+  
+  /* =================== ACTION METHODS & INPUT HANDLERS ===================*/
+  openAlert(title, text, details = {}) {
+    this.setAlertWindow(true);
+    this.AlertWindow.setText(title || "alert", text || "Message");
+    this.LotDetails = details;
+    this.AlertWindow.setDetails(details);
+    this.parent.chatData.addChat({"text": (details.msg || "")}, false);
+    if (details.NPCKey) this.AlertWindow.setNPCKey(details.NPCKey);
+    if (details.BGKey) this.BGKey = details.BGKey;
+  }
+
+  closeAlert() {
+    this.setAlertWindow(false);
+    this.AlertWindow.setText("alert","Message");
+  }
+  
+  // on submit chat data
+  submitMsg(that) {
+    that.parent.chatData.addChat({ text: that.chatInput.value() }, 1);
+    that.chatInput.value("");
+  }
+
+  keyReleased(e,val,callback) {
+    e.preventDefault(); // Cancel the native event
+    if (val().length > 0 && e.code === "Enter") {
+      callback();
+    }
+    e.stopPropagation(); // Don't bubble/capture the event any further
   }
 
   toggleMainPanelViewType(){
     this.mainPanelViewTypeID = this.mainPanelViewTypeID++ % this.mainPanelViewTypes.length;
     this.mainPanelViewType = this.mainPanelViewTypes[this.mainPanelViewTypeID];
+  }
+  
+  transitionToDialogView() {
+    this.closeAlert();
+    this.setDisplayMode(1);
+  }
+  /* =---------------= END ACTION METHODS & INPUT HANDLERS =---------------=*/
+
+  getNPCKey(){
+    return this.AlertWindow.getNPCKey();
   }
 
   setSimulationDateTime({ time, date }) {
@@ -54,21 +105,6 @@ export class GUIElementManager {
     SIMTIME.rateOfTime = val;
   }
 
-  openAlert(title, text, details = {}) {
-    this.setAlertWindow(true);
-    this.AlertWindow.setText(title || "alert", text || "Message");
-    this.LotDetails = details;
-    this.AlertWindow.setDetails(details);
-    this.parent.chatData.addChat({"text": (details.msg || "")}, false);
-    if (details.NPCKey) this.AlertWindow.setNPCKey(details.NPCKey);
-    if (details.BGKey) this.BGKey = details.BGKey;
-  }
-
-  closeAlert() {
-    this.setAlertWindow(false);
-    this.AlertWindow.setText("alert","Message");
-  }
-
   setAlertWindow(isOpen) {
     this.AlertWindow.setIsOpen(isOpen);
     if(isOpen){
@@ -76,20 +112,6 @@ export class GUIElementManager {
     }else{ 
       this.allowMoveInputKeys = true;
     }
-  }
-
-  initializeGUIElements() {
-    this.GUIElements = IslandTemplate.GUIElements;
-    this.GUIElements[1].img = this.parent.PlayerProfileImage;
-    this.GUIElements[3].actions = [
-      { text: "Continue", fill: "#63aff3", onClickHandle: this.transitionToDialogView.bind(this) },
-      { text: "Cancel", fill: "#666", onClickHandle: this.closeAlert.bind(this) }
-    ];
-
-    this.GUIElements.forEach((v,i,a)=>{
-      this.GUIElements[i].x += this.RenderOffset.x;
-      this.GUIElements[i].y += this.RenderOffset.y;
-    });
   }
 
   setDisplayMode(dm){
@@ -112,11 +134,11 @@ export class GUIElementManager {
     return this.displayMode;
   }
 
-  transitionToDialogView() {
-    this.closeAlert();
-    this.setDisplayMode(1);
+  getInventory(){
+    return this.parent.playerInventory;
   }
 
+  /* =================== RENDER & DRAW ===================*/
   renderGUI(p5) {
     p5.push();
     p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, 576+this.RenderOffset.y);
@@ -152,9 +174,9 @@ export class GUIElementManager {
     const padding = 25, spacing = 13, size = 32, cols = 12;
     if (el.PanelType === "Detail") {
       this.renderSimulationDate(p5, el);
-      p5.text("$"+this.getInventory().getCash(),el.x+ 60,el.y+75);
+      p5.text("$"+this.getInventory().getCash(),el.x+ 60, el.y+75);
     } else {
-      if(this.getDisplayMode()===0){
+      if(this.getDisplayMode() === 0){
         this.renderInventoryView(p5, el, cols, padding, spacing, size);
       }else{
         this.renderChatInputView(p5);
@@ -164,16 +186,17 @@ export class GUIElementManager {
   }
 
   renderChatInputView(p5){
-    if(!this.chatInput || !this.chatSubmit){
+    if(!this.chatInput && !this.chatSubmit){
       this.chatInput = p5.createInput();
-      this.chatSubmit = p5.createButton("Send");
       this.chatInput.attribute('placeholder', 'Chat here.....');
-      this.chatSubmit.size(p5.width/6);
       this.chatInput.size(p5.width/3);
-      this.chatSubmit.position(p5.width/2, p5.height*.92);
+      this.chatInput.style("font-size", this.OPTIONS["InputFontSize"] + "px");
       this.chatInput.position(p5.width/3, p5.height*.89);
-
       window.addEventListener("keyup", (e)=>this.keyReleased(e,()=>this.chatInput.value(),()=>this.submitMsg(this)));
+
+      this.chatSubmit = p5.createButton("Send");
+      this.chatSubmit.size(p5.width/6);
+      this.chatSubmit.position(p5.width/2, p5.height*.92);
       this.chatSubmit.mousePressed(()=>{this.submitMsg(this);});
     }
   }
@@ -197,14 +220,9 @@ export class GUIElementManager {
     p5.fill(index === 0 ? "#999999" : "white");
     if(index < this.getInventory().getItemsArray().length){
       let dataTmp = this.getInventory().getItemsArray()[index];
-      //console.log(dataTmp);
       this.renderInventoryIcon(p5, dataTmp, x, y);
     }
     p5.pop();
-  }
-
-  getInventory(){
-    return this.parent.playerInventory;
   }
 
   renderInventoryView(p5, el, cols, padding, spacing, size){
@@ -240,18 +258,5 @@ export class GUIElementManager {
       // render act options
     }
   }
-  
-  // on submit chat data
-  submitMsg(that) {
-    that.parent.chatData.addChat({ text: that.chatInput.value() }, 1);
-    that.chatInput.value("");
-  }
-
-  keyReleased(e,val,callback) {
-    e.preventDefault(); // Cancel the native event
-    if (val().length > 0 && e.code === "Enter") {
-      callback();
-    }
-    e.stopPropagation(); // Don't bubble/capture the event any further
-  }
+  /* =-------------------= End Render / Draw =-------------------= */
 }
