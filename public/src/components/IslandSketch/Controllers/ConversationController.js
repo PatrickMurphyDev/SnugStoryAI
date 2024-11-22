@@ -87,6 +87,10 @@ class ConversationController {
     ).substring((IslandTemplate.NPCKEYS.indexOf(npcKey) + "").length);
   }
 
+  loadWorld(){
+    this.socket.current.emit("load-world", "{WorldData:{time:"+SIMTIME.getTime12Hr()+"}}");
+  }
+
   openConversation(NPC) {
     SIMTIME.pause();
     console.log("open convo ", NPC);

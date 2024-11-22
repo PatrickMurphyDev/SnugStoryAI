@@ -404,6 +404,12 @@ io.on("connection", async (socket) => {
   socket.on("add-user", (userID) => {
     return socketAddUser(userID, socket.id);
   });
+  socket.on("load-world", async (WorldData) => {
+    const newPrompt = ollama.streamingGenerate("#Buildings: " + JSON.stringify(IslandTemplate.Buildings), null, null, (msg)=>{console.log(msg)});
+    const newPrompt2 = ollama.streamingGenerate("#Characters: " + JSON.stringify(IslandTemplate.Residents), null, null, (msg)=>{console.log(msg)});
+    
+    return [newPrompt,newPrompt2];
+  });
   socket.on("start-conversation", async (data) => {
     console.log(data);
     const sendUserSocket = global.onlineUsers.get(data.NPC);

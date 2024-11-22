@@ -65,6 +65,195 @@ const IslandTemplate = {
       CharacterPersonality: res.details.personalityTraits || ["calm"],
     };
   },
+  Buildings: [
+    {
+      id: "townhalltabernacle",
+      name: "The Tabernacle",
+      location: { x: 775, y: 1080 },
+      lotDetails: { imgFileSrc: "TownHall2x.png", BGKey: "BGTabernacle", imgSize: { x: 160*1.15, y: 171*1.15 }, },
+    },
+    {
+      id: "RedRoofHouse10",
+      name: "House",
+      location: { x: 1200, y: 1100 },
+      lotDetails: { imgFileSrc: "houseRedRoof12x.png", BGKey: "BGBar" },
+    },
+    {
+      id: "MayorsHouse10",
+      name: "Mayors House",
+      location: { x: 895, y: 960 },
+      lotDetails: { imgFileSrc: "MayorsHouse2x.png", BGKey: "BGBar", NPCKey: "ChristianLumley" },
+    },
+    {
+      id: "Gym",
+      name: "Buff Gym",
+      location: { x: 560, y: 1280 },
+      lotDetails: { 
+        imgSize: { x: 460 * .21, y: 509 *.21 }, imgFileSrc: "gymHalf.png", BGKey: "BGGym", NPCKey: "ChadEllington" },
+    },
+    {
+      id: "Hospital",
+      name: "Medical Center",
+      location: { x: 240, y: 1200 },
+      lotDetails: {
+        imgFileSrc: "Hospital2x.png",
+        BGKey: "BGMedical",
+        NPCKey: "BriannaClark",
+        actions: [
+          { title: "Heal", action: () => {} },
+          { title: "Shop", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "BaitShop",
+      name: "Early Bird Gets the Worm Bait Shop",
+      location: { x: 807, y: 1970 },
+      lotDetails: {
+        imgFileSrc: "baitshopHalf.png",
+        BGKey: "BGBaitshop",
+        NPCKey: "LukasMallard",
+        actions: [
+          { title: "Shop", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Marina",
+      name: "Harbor Master",
+      location: { x: 740, y: 1630 },
+      lotDetails: {
+        imgFileSrc: "Marina2x.png",
+        BGKey: "BGMarina",
+        NPCKey: "AndiMcNuttly",
+        imgSize: { x: 869 / 5.8, y: 795 / 5.8 },
+        actions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "ClothingStore",
+      name: "Sister's Closet",
+      location: { x: 424, y: 1550 },
+      lotDetails: {
+        imgFileSrc: "ClothingStore2x.png",
+        BGKey: "BGClothes",
+        imgSize: { x: 922 / 8, y: 1039 / 8 },
+        NPCKey: "MateoRomano",
+        actions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "School",
+      name: "School",
+      location: { x: 425, y: 1275 },
+      lotDetails: {
+        imgFileSrc: "School2x.png",
+        BGKey: "BGSchool",
+        imgSize: { x: 927 / 8, y: 1085 / 8 },
+        NPCKey: "HenryTurner",
+        actions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "GeneralStore",
+      name: "FoodTown",
+      location: { x: 296, y: 1405 },
+      lotDetails: {
+        imgFileSrc: "GeneralStore2x.png",
+        BGKey: "BGFoodTown",
+        imgSize: { x: 964 / 8, y: 1013 / 8 },
+        NPCKey: "MarkDickson",
+        actions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Bakery",
+      name: "Batter's Up Bakery",
+      location: { x: 510, y: 1150 },
+      lotDetails: {
+        imgFileSrc: "Bakery2x.png",
+        BGKey: "BGBakery",
+        imgSize: { x: 977 / 8, y: 1181 / 8 },
+        NPCKey: "BettyLast",
+        actions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Police",
+      name: "Police",
+      location: { x: 427, y: 1405 },
+      lotDetails: {
+        imgFileSrc: "Police2x.png",
+        BGKey: "BGPolice",
+        imgSize: { x: 975 / 8.25, y: 1012 / 8.25 },
+        NPCKey: "CharlieMallard",
+        actions: [
+          { title: "Shop", action: () => {} },
+          { title: "Information", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Resturant1",
+      name: "Off The Hook",
+      location: { x: 1666, y: 1225 },
+      lotDetails: {
+        imgFileSrc: "Resturant12x.png",
+        BGKey: "BGCafe", // Update
+        imgSize: { x: 899 / 5, y: 470 / 5 },
+        NPCKey: "ScottAnkor",
+        actions: [
+          { title: "Invite Date", action: () => {} },
+          { title: "Order Takeout", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "Lighthouse",
+      name: "Lighthouse B&B",
+      location: { x: 1164, y: 1615 },
+      lotDetails: {
+        imgFileSrc: "Lighthouse2x.png",
+        BGKey: "BGHotel", // Lighthouse
+        imgSize: { x: 1024 / 5, y: 1076 / 5 },
+        NPCKey: "AddisonClark",
+        actions: [
+          { text: "Invite Date", action: () => {} },
+          { text: "Order Takeout", action: () => {} },
+          { text: "Chat w/ Bri", action: () => {} },
+        ],
+      },
+    },
+    {
+      id: "PlayerCabin",
+      name: "Homestead",
+      location: { x: 1100, y: 1230 },
+      lotDetails: {
+        imgFileSrc: "pnwHouse2x.png",
+        //BGKey: "BGCabin0"
+        imgSize: { x: 1024 / 9.2, y: 949 / 9.2 },
+        actions: [
+          { text: "Sleep"},
+          { text: "Storage", onClickHandle: () => {} },
+        ],
+      },
+    },
+  ],
   Residents: [
     {
       id: "000000000000000000000001",
