@@ -33,6 +33,7 @@ class CrabTrapEntity extends Entity {
     const ps = p5.createVector(this.location.x, this.location.y);
     let fillColor = this.fillColor || '#000000';
     p5.fill(fillColor);
+    p5.stroke("#fffff");
     if(this.trapState < 2){
       const yOffsetAnimation = (50-(p5.frameCount+this.randomOffset)%100)/30;
       p5.ellipse(ps.x, ps.y+yOffsetAnimation, 10, 6);
