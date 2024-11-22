@@ -31,6 +31,7 @@ class PlayerController {
 
   setLocation(vec2) {
     this.location = vec2;
+    this.setDidMove(true);
   }
 
   getLocation() {

@@ -257,9 +257,8 @@ export class GameMapScene extends GameScene {
       !this.playerControl.isAsleep()
     ) {
       this.playerControl.setAsleep(true);
-      this.playerControl.setLocation({x:500, y:800}); // TODO SET HOSPITAL LOC
-      this.playerInventory.setCash(this.playerInventory.getCash()-200); // TODO: WIP: penalize player for not sleeping
-      console.log("not in bed in time.... set sleep");
+      this.playerControl.setLocation({x:500, y:800});
+      this.playerInventory.setCash(this.playerInventory.getCash()-200); // penalize player for not sleeping
     }
   }
 
@@ -299,6 +298,7 @@ export class GameMapScene extends GameScene {
             this.currentZoomLevel
           )
         ); //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
+        this.playerControl.setDidMove(true);
       });
     });
     window.addEventListener("keydown", (e) => this.keyPressed(e));
