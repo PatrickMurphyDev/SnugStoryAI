@@ -93,6 +93,9 @@ class GUIAlertWindow {
         let detailObj = this.getDetails()["actions"][jID];
         if(detailObj.hasOwnProperty('text') && detailObj.text === "Sleep"){
           detailObj.onClickHandle = ()=>{this.parentSceneRef.playerControl.setAsleep(true); this.setIsOpen(false);}
+        }else{
+          //detailObj.text = el.text;
+          detailObj.onClickHandle = ()=>{this.setIsOpen(false);}
         }
         this.buttonElement.draw(p5, detailObj, buttonX, buttonY, 150, 24);
       }
