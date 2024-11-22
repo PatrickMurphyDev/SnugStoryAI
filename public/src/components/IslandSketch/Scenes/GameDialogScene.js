@@ -1,3 +1,5 @@
+import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
+import GUIButton from "../GUI/GUIButton";
 import { GameSlideScene } from "./GameSlideScene";
 class GameDialogScene extends GameSlideScene {
   constructor(parent) {
@@ -5,10 +7,20 @@ class GameDialogScene extends GameSlideScene {
     this.parent = parent;
     
     this.dialogDisplayModes = {"Chat":0, "Shop":1, "ConversationHistory":2, "Sell":3};
-    this.dialogDisplayModesList = ["Chat", "Shop", "Conversation History", "Sell"];
-    this.dialogDisplayMode = 0;
+    this.dialogDisplayModesList = ["Chat", "Trade", "Conversation History", "Sell"];
+    this.dialogDisplayMode = 0; 
     this.otherPlayerPos = { x: 1000 - 175 - 200, y: 250 - 200 };
     this.RenderOffset = {x:0, y:0};
+    this.tradeItemSelected = 1;
+    this.GUIButton = new GUIButton(this);
+  }
+
+  getItemSelected(){
+    return this.tradeItemSelected;
+  }
+
+  setItemSelected(s){
+    this.tradeItemSelected = s;
   }
 
   getDisplayMode(){
@@ -34,8 +46,7 @@ class GameDialogScene extends GameSlideScene {
     }else if(this.getDisplayMode() === this.dialogDisplayModes.Shop){
       this.drawBackButton(p5);
       this.renderViewTitle(p5);
-      p5.fill("#aaaaaaaa");
-      p5.rect(100, 100, p5.width-100*2, p5.height-100*2);
+      this.renderTradeGUI(p5);
     }else{
       // mode not current convo or shop
       this.drawBackButton(p5);
@@ -132,6 +143,58 @@ class GameDialogScene extends GameSlideScene {
     }
   }
 
+  renderTradeGUI(p5) {
+    const pos = {x:300, y:100, w:p5.width - 300 * 2, h:p5.height - 150 * 2};
+    // bg
+    p5.fill("#aaaaaaaa");
+    p5.rect(pos.x,pos.y,pos.w,pos.h);
+
+    const rowHeight = 60;
+    p5.fill("#ffffff");
+    p5.textSize(34);
+    //p5.text("Items",pos.x+30*2,pos.y+rowHeight-10);
+    p5.text("Item Detail", pos.x+30*3+pos.w/2+15,pos.y+rowHeight-10);
+    
+    p5.textSize(24);
+    const crabList =["hermitcrab","redrockcrab","snowcrab","dungenesscrab","kingcrab"];
+    this.renderTradeItemRow(p5, ["Item","You","Them"], 0, pos, rowHeight, -1);
+    for (let index = 1; index < 6; index++) {
+      const itemName = ItemsEnum[crabList[index-1]].icon.join() + " " + ItemsEnum[crabList[index-1]].name;
+      // todo load real items
+      this.renderTradeItemRow(p5, [itemName,this.parent.playerInventory.getItemCount({id:index+2})||0,5], index, pos, rowHeight, 1);
+    }
+
+    // right side details
+    p5.fill("#aaaaaaaa");
+    p5.rect(pos.x+pos.w/2,pos.y,pos.w/2,pos.h);
+    
+    const tryBuyFN = ()=>{this.parent.playerInventory.setCash(this.parent.playerInventory.getCash()-ItemsEnum[crabList[this.tradeItemSelected-1]].details.props.buyPrice)};
+    const trySellFN = ()=>{this.parent.playerInventory.setCash(this.parent.playerInventory.getCash()+ItemsEnum[crabList[this.tradeItemSelected-1]].details.props.salePrice)};
+    p5.fill("#ffffff");
+    let padding = 125;
+    p5.image(this.parent.parentAssets["GameMapScene"]["CrabItem"],pos.x+pos.w/2+padding/2,pos.y+padding/2,pos.w/2-padding,pos.w/2-padding)
+    p5.text(ItemsEnum[crabList[this.tradeItemSelected-1]].icon.join() + ItemsEnum[crabList[this.tradeItemSelected-1]].name,pos.x+pos.w/2+padding/2+50,pos.y+padding/2 + pos.w/2-padding + 15);
+    p5.text(ItemsEnum[crabList[this.tradeItemSelected-1]].description,pos.x+pos.w/2+pos.w/4,pos.y+padding/2 + pos.w/2-padding + 55);
+    this.GUIButton.draw(p5, {text:"Buy ($"+ItemsEnum[crabList[this.tradeItemSelected-1]].details.props.buyPrice+")",onClickHandle:tryBuyFN}, pos.x+pos.w/2, pos.y+pos.h-30, pos.w/4-10, 30);
+    this.GUIButton.draw(p5, {text:"Sell ($"+ItemsEnum[crabList[this.tradeItemSelected-1]].details.props.salePrice+")",onClickHandle:trySellFN}, pos.x+pos.w/2+pos.w/4+20, pos.y+pos.h-30, pos.w/4-10, 30);
+  }
+
+  renderTradeItemRow(p5, values, row, pos, rowHeight, isBtn) {
+    isBtn = isBtn > 0;
+    p5.push();
+    p5.fill("#44444455");
+    if(this.getItemSelected()===row){
+      p5.fill("#444444ff");
+    }
+    p5.rect(pos.x + 30, pos.y + rowHeight * row +10,pos.w/2-50,34);
+    p5.fill("#ffffff");
+    p5.text(values[0], pos.x + 30 * 5, pos.y + 27 + rowHeight * row);
+    p5.text(values[1], pos.x + 30 * 11, pos.y + 27 + rowHeight * row);
+    p5.text(values[2], pos.x + 30 * 14, pos.y + 27 + rowHeight * row);
+    if(row>0) this.GUIButton.draw(p5, {text:"hey",fill:"#00000000", textfill:"#00000000", onClickHandle:()=>{this.setItemSelected(row);}}, pos.x, pos.y + 15 + rowHeight * row, pos.w/1.9, 30);
+    p5.pop();
+  }
+
   renderViewTitle(p5) {
     const titleTxt = this.dialogDisplayModesList[this.dialogDisplayMode];
     const txtX = 250 + p5.textWidth(titleTxt) / 2;
@@ -215,7 +278,7 @@ class GameDialogScene extends GameSlideScene {
     p5.rect(pos.x, pos.y, dim.x, dim.y);
     p5.noStroke();
     p5.fill("#ffffff");
-    p5.text("Shop", pos.x, pos.y, dim.x, dim.y);
+    p5.text("Trade", pos.x, pos.y, dim.x, dim.y);
     this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
       this.setDisplayMode(1);
     });

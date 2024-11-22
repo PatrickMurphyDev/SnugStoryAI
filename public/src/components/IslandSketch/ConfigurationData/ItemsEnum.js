@@ -5,6 +5,7 @@ export const ItemsEnum = {
     type: 1,
     name: "Item",
     icon: ["🥅", ""],
+    description: "Default Item",
     details: {
       props: {
         weight: 1,
@@ -16,6 +17,7 @@ export const ItemsEnum = {
     key: "crabtrap",
     type: 1,
     name: "Crab Trap",
+    description: "A basic trap for catching small crabs.",
     icon: ["🥅", ""],
     details: {
       props: {
@@ -31,6 +33,7 @@ export const ItemsEnum = {
     key: "hermitcrab",
     type: 2,
     name: "Hermit Crab",
+    description: "Small Crab sold as pets.",
     icon: ["🦀", "🐚"],
     details: {
       props: {
@@ -46,6 +49,7 @@ export const ItemsEnum = {
     key: "redrockcrab",
     type: 2,
     name: "Red Rock Crab",
+    description: "Crab with a large claww.",
     icon: ["🦀", "🟥"],
     details: {
       props: {
@@ -61,6 +65,7 @@ export const ItemsEnum = {
     key: "snowcrab",
     type: 2,
     name: "Snow Crab",
+    description: "Long sweet tasting legs on this crab.",
     icon: ["🦀", "❄️"],
     details: {
       props: {
@@ -76,6 +81,7 @@ export const ItemsEnum = {
     key: "dungenesscrab",
     type: 2,
     name: "Dungeness Crab",
+    description: "The bread and butter of the crabbing industry.",
     icon: ["🦀", ""],
     details: {
       props: {
@@ -91,6 +97,7 @@ export const ItemsEnum = {
     key: "kingcrab",
     type: 2,
     name: "King Crab",
+    description: "The crab to rule them all.",
     icon: ["🦀", "👑"],
     details: {
       props: {
