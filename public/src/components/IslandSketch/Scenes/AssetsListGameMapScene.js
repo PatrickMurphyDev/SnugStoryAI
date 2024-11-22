@@ -4,20 +4,6 @@ const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,
         
         that.bgImage = parentAssetsDict["GameMapScene"]["BGImage"];
         that.WaveSpriteSheet = parentAssetsDict["GameMapScene"]["WaveSpriteSheet"];
-
-        that.AnimatedSprites.push(
-            new AnimatedSpriteEntity(
-                "as2323",
-                parentAssetsDict["GameMapScene"]["WaveSpriteSheet"],
-                640,
-                1728,
-                { width: 32, height: 32 },
-                { columns: 4, rows: 1 },
-                0,
-                30, 
-                1
-            )
-        );
         // TEMP NPC OTHER CHARS
         that.AnimatedSprites.push(
             new AnimatedSpriteEntity(
