@@ -42,6 +42,7 @@ export const ItemsEnum = {
         buyPrice: 7,
         salePrice: 4,
       },
+      img: "CrabItem2"
     },
   },
   redrockcrab: {
@@ -58,6 +59,7 @@ export const ItemsEnum = {
         buyPrice: 11,
         salePrice: 8,
       },
+      img: "CrabItem"
     },
   },
   snowcrab: {
@@ -71,9 +73,10 @@ export const ItemsEnum = {
       props: {
         soldBy: "weight",
         weight: 2.8,
-        buyPrice: 16.54,
+        buyPrice: 16,
         salePrice: 12,
       },
+      img: "CrabItem"
     },
   },
   dungenesscrab: {
@@ -87,9 +90,10 @@ export const ItemsEnum = {
       props: {
         soldBy: "weight",
         weight: 3.5,
-        buyPrice: 19.99,
-        salePrice: 15.25,
+        buyPrice: 20,
+        salePrice: 15,
       },
+      img: "CrabItem"
     },
   },
   kingcrab: {
@@ -103,9 +107,10 @@ export const ItemsEnum = {
       props: {
         soldBy: "weight",
         weight: 13,
-        buyPrice: 54.99,
+        buyPrice: 55,
         salePrice: 32,
       },
+      img: "CrabItem2"
     },
   },
 };

@@ -270,7 +270,7 @@ class GameDialogScene extends GameSlideScene {
     p5.fill("#ffffff");
     let padding = 125;
     p5.image(
-      this.parent.parentAssets["GameMapScene"]["CrabItem"],
+      this.parent.parentAssets["GameMapScene"][ItemsEnum[crabList[this.tradeItemSelected - 1]].details.img],
       pos.x + pos.w / 2 + padding / 2,
       pos.y + padding / 2,
       pos.w / 2 - padding,
