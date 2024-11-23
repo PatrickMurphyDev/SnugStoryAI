@@ -133,10 +133,6 @@ const apiInterface = () => {
             BGKey: "BGMarina",
             NPCKey: "AndiMcNuttly",
             imgSize: { x: 869 / 5.8, y: 795 / 5.8 },
-            actions: [
-              { text: "Shop"},
-              { text: "Information"},
-            ],
           },
         },
         {
@@ -1796,6 +1792,7 @@ export const IslandTemplate = {
     price: 100000,
     fillColor: "#000000",
   },
+  VIEW_ZOOM_SETTINGS: [.15, .3, .4, .6, .8, .9, 1.2],
   VIEW_ZOOM_SETTING: 5,
   VIEW_ZOOM_MULTIPLIER: 7.5,
   GUIElements: GUIElements,
