@@ -249,7 +249,7 @@ class GameDialogScene extends GameSlideScene {
             ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
               .buyPrice
         );
-        this.parent.playerInventory.addItem({id:this.tradeItemSelected + 2});
+        this.parent.playerInventory.addItem(ItemsEnum[crabList[this.tradeItemSelected - 1]]);
         this.npcInventory.removeItem({id:this.tradeItemSelected + 2});
       }
     };
@@ -337,7 +337,7 @@ class GameDialogScene extends GameSlideScene {
       this.GUIButton.draw(
         p5,
         {
-          text: "hey",
+          text: values[0],
           fill: "#00000000",
           textfill: "#00000000",
           onClickHandle: () => {
