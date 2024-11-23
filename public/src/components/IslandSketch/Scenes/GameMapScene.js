@@ -145,12 +145,23 @@ export class GameMapScene extends GameScene {
   AddSceneCollideEntities() {
     this.CollideEntities.push(
       new CollideRectEntity(
+        6666556,
+        this.charPos.x + 8 + 13*32,
+        this.charPos.y + 12 - 15*32,
+        { x: 16, width: 16, y: 20, height: 20 },
+        (p,o,o2) => {
+          o.setEnabled(false);
+          this.playerInventory.addItem(ItemsEnum.crabtrap,5);
+        }
+      )
+    );
+    this.CollideEntities.push(
+      new CollideRectEntity(
         66666,
         this.charPos.x + 8,
         this.charPos.y + 12,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
-          //console.log("coll char");
           this.GUI.openAlert("Andi McNuttly", "Andi wants to welcome you to te island!", {"NPCKey":"AndiMcNuttly", "msg":"Hey Ellie! So excited you finally arrived on the island! I'll help show you to your property!"});
         }
       )
@@ -162,7 +173,6 @@ export class GameMapScene extends GameScene {
         this.charPos.y + 12 - 32*4,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
-          //console.log("coll char");
           this.GUI.openAlert("Brianna Clark", "Bri wants to chat!", {"NPCKey":"BriannaClark"});
         }
       )
@@ -356,7 +366,7 @@ export class GameMapScene extends GameScene {
         IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
       ] = true;
     this.playerControl.setLastMoveState(0);
-    e.stopPropagation(); // Don't bubble/capture the event any further
+    e.stopPropagation();
   } // end keyPressed fn
 
   keyReleased(e) {
@@ -367,7 +377,7 @@ export class GameMapScene extends GameScene {
       ] = false;
       this.playerControl.setLastMoveState(this.determineLastMoveState(e.code));
     }
-    e.stopPropagation(); // Don't bubble/capture the event any further
+    e.stopPropagation();
   }
 
   determineLastMoveState(code) {

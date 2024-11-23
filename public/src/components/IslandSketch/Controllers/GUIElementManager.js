@@ -10,7 +10,7 @@ export class GUIElementManager {
   constructor(parent, imgAssets) {
     this.parent = parent; // Ref to Scene Parent (Game Map Scene)
     this.OPTIONS = {"InputFontSize":20};
-    this.RenderOffset = {x:(this.parent.sizeVector.x-1000)/4,y:50};
+    this.RenderOffset = {x:(this.parent.sizeVector.x-1000)/4,y:0};
     this.imageAssets = imgAssets || { imgKey: null };
     this.GUIButton = new GUIButton(this.parent);
     this.SimulationDateTime = { time: "", date: "" };
@@ -141,7 +141,7 @@ export class GUIElementManager {
   /* =================== RENDER & DRAW ===================*/
   renderGUI(p5) {
     p5.push();
-    p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, 576+this.RenderOffset.y);
+    p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, p5.height-224);
     this.GUIElements.forEach((el) => {
       p5.fill(el.fill || 200);
       this.renderElement(p5, el);

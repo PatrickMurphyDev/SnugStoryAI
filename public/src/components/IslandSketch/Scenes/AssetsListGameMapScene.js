@@ -49,17 +49,28 @@ const AssetsListGameMapScene = function LoadAssetsGameMapScene(parentAssetsDict,
         that.GameMapSceneUIBanner =
             parentAssetsDict["GameMapScene"]["GameMapSceneUIBanner"];
 
-        that.AnimatedSprites.push(
-            new AnimatedSpriteEntity(
-                "as2324",
-                parentAssetsDict["GameMapScene"]["WaveSpriteSheet"],
-                640 + 32,
-                1728,
-                { width: 32, height: 32 },
-                { columns: 4, rows: 1 },
-                1
-            )
-        );
+            that.AnimatedSprites.push(
+                new AnimatedSpriteEntity(
+                    "as2324",
+                    parentAssetsDict["GameMapScene"]["WaveSpriteSheet"],
+                    640 + 32,
+                    1728,
+                    { width: 32, height: 32 },
+                    { columns: 4, rows: 1 },
+                    1
+                )
+            );
+            that.AnimatedSprites.push(
+                new AnimatedSpriteEntity(
+                    "as2325554",
+                    parentAssetsDict["GameMapScene"]["WaveSpriteSheet"],
+                    charPos.x + 8 + 13*32,
+                    charPos.y + 12 - 15*32,
+                    { width: 32, height: 32 },
+                    { columns: 4, rows: 1 },
+                    1
+                )
+            );
         that.CharRunUp = new AnimatedSpriteEntity(
             "as2326",
             parentAssetsDict["GameMapScene"]["NewCharSheet"],
