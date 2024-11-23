@@ -40,7 +40,6 @@ export class GUIElementManager {
 
     this.GUIElements.forEach((v,i,a)=>{
       this.GUIElements[i].x += this.RenderOffset.x;
-      this.GUIElements[i].y += this.RenderOffset.y;
     });
   }
   
@@ -144,7 +143,10 @@ export class GUIElementManager {
     p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, p5.height-224);
     this.GUIElements.forEach((el) => {
       p5.fill(el.fill || 200);
-      this.renderElement(p5, el);
+      const tempEl = el;
+      if(tempEl.y < 0)
+        tempEl.y += p5.height;
+      this.renderElement(p5, tempEl);
     });
     p5.pop();
   }

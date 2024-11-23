@@ -1715,7 +1715,7 @@ const apiInterface = () => {
 const GUIElements = [
   {
     x: 200,
-    y: 650,
+    y: -150,
     h: 150,
     w: 600,
     GUIType: "Panel",
@@ -1723,7 +1723,7 @@ const GUIElements = [
   },
   {
     x: 0,
-    y: 600,
+    y: -200,
     h: 200,
     w: 200,
     GUIType: "PlayerProfileImageCirclePanel",
@@ -1732,13 +1732,12 @@ const GUIElements = [
   },
   {
     x: 800,
-    y: 600,
+    y: -200,
     h: 200,
     w: 200,
     GUIType: "Panel",
     PanelType: "Detail",
     text: "UI Details Options",
-    //content: []
   },
   {
     x: 300,
