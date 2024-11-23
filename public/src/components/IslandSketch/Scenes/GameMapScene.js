@@ -442,7 +442,7 @@ export class GameMapScene extends GameScene {
           (i) => {
             this.doUIAction(p5.frameCount, () => {
               this.playerInventory.addItem(ItemsEnum["crabtrap"]);
-              this.player.addItem(i);
+              this.playerInventory.addItem(i);
             });
           }
         )
