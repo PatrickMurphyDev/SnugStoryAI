@@ -94,13 +94,12 @@ class GameViewMapScene extends GameSlideScene {
 
   renderBackground(p5) {
     p5.tint(this.convertTimeOfDayToAlpha(simTime.currentTimeOfDay));
-    p5.background("#111");//"#20D6C7");
+    p5.background("#111");
     p5.scale(this.getCameraZoom());
     p5.translate(this.getCameraOffset().x, this.getCameraOffset().y);
     if (this.parent.useBGImage) {
       // TODO: WIP: Image Chunks
       p5.image(this.parent.bgImage, 0, 0, this.parent.sizeVector.x, this.parent.sizeVector.y); 
-      //this.parent.getAssets('GameMapScene')['BGImage']
     }
   }
 

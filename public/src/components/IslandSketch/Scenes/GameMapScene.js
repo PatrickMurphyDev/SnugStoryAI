@@ -7,7 +7,6 @@ import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import { GUIElementManager } from "../Controllers/GUIElementManager";
-import { GameTileMapManager } from "../Controllers/GameTileMapManager";
 import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
 import PlayerController from "../Controllers/PlayerController";
@@ -46,7 +45,7 @@ export class GameMapScene extends GameScene {
       sizeVector,
       parentAssetsByScene
     );
-    this.OPTIONS = {"enable_socket-load-world":false};
+    this.OPTIONS = { "enable_socket-load-world": false };
     this.parentAssets = parentAssetsByScene;
     this.initMapSettings();
     this.GUI_Time = "";
@@ -54,16 +53,15 @@ export class GameMapScene extends GameScene {
 
     this.sleepTimeOfDay = 1300; // time of day that force sleep
 
-    var tiles = [];
     this.AnimatedSprites = [];
     this.CollideEntities = [];
     this.CrabTraps = [];
     this.preloadedImages = [];
-    this.GameMap = new GameTileMapManager(
+    /* this.GameMap = new GameTileMapManager(
       this,
       { width: 64, height: 64 },
       tiles
-    );
+    ); */
 
     this.currentZoomLevel = 3;
 
@@ -72,11 +70,15 @@ export class GameMapScene extends GameScene {
 
     //tmp char fix other char
     this.charPos = {
-      x: this.playerControl.location.x + 24+2,
-      y: this.playerControl.location.y - 1*32,
+      x: this.playerControl.location.x + 24 + 2,
+      y: this.playerControl.location.y - 1 * 32,
     };
 
-    this.playerInventory = new CharacterInventory(1300,{"Item2":5},{"Item2":ItemsEnum.crabtrap});
+    this.playerInventory = new CharacterInventory(
+      1300,
+      { Item2: 5 },
+      { Item2: ItemsEnum.crabtrap }
+    );
     this.isLoaded = false;
 
     this.npcKeyIndex = 0;
@@ -146,12 +148,12 @@ export class GameMapScene extends GameScene {
     this.CollideEntities.push(
       new CollideRectEntity(
         6666556,
-        this.charPos.x + 8 + 13*32,
-        this.charPos.y + 12 - 15*32,
+        this.charPos.x + 8 + 13 * 32,
+        this.charPos.y + 12 - 15 * 32,
         { x: 16, width: 16, y: 20, height: 20 },
-        (p,o,o2) => {
+        (p, o, o2) => {
           o.setEnabled(false);
-          this.playerInventory.addItem(ItemsEnum.crabtrap,5);
+          this.playerInventory.addItem(ItemsEnum.crabtrap, 5);
         }
       )
     );
@@ -162,18 +164,27 @@ export class GameMapScene extends GameScene {
         this.charPos.y + 12,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
-          this.GUI.openAlert("Andi McNuttly", "Andi wants to welcome you to te island!", {"NPCKey":"AndiMcNuttly", "msg":"Hey Ellie! So excited you finally arrived on the island! I'll help show you to your property!"});
+          this.GUI.openAlert(
+            "Andi McNuttly",
+            "Andi wants to welcome you to te island!",
+            {
+              NPCKey: "AndiMcNuttly",
+              msg: "Hey Ellie! So excited you finally arrived on the island! I'll help show you to your property!",
+            }
+          );
         }
       )
     );
     this.CollideEntities.push(
       new CollideRectEntity(
         66666,
-        this.charPos.x + 8 + 32*3,
-        this.charPos.y + 12 - 32*4,
+        this.charPos.x + 8 + 32 * 3,
+        this.charPos.y + 12 - 32 * 4,
         { x: 16, width: 16, y: 20, height: 20 },
         () => {
-          this.GUI.openAlert("Brianna Clark", "Bri wants to chat!", {"NPCKey":"BriannaClark"});
+          this.GUI.openAlert("Brianna Clark", "Bri wants to chat!", {
+            NPCKey: "BriannaClark",
+          });
         }
       )
     );
@@ -218,13 +229,9 @@ export class GameMapScene extends GameScene {
           () => {
             //console.log("coll char");
             this.GUI.AlertWindow.setDetails(v.lotDetails);
-            if(v.id==="PlayerCabin"){
-              this.GUI.openAlert(
-                "Player Cabin",
-                "Sleep?",
-                v.lotDetails
-              );
-            }else{
+            if (v.id === "PlayerCabin") {
+              this.GUI.openAlert("Player Cabin", "Sleep?", v.lotDetails);
+            } else {
               this.GUI.openAlert(
                 v.name,
                 "Enter the " + v.name + " building?",
@@ -239,10 +246,12 @@ export class GameMapScene extends GameScene {
 
   initializeCharacters() {
     this.setCharList([]);
-    const characterTempList = IslandTemplate.Residents.map((v) => this.createCharacterEntity(v));
+    const characterTempList = IslandTemplate.Residents.map((v) =>
+      this.createCharacterEntity(v)
+    );
     //console.log(characterTempList);
     this.setCharList(characterTempList);
-    if(this.OPTIONS['enable_socket-load-world']){
+    if (this.OPTIONS["enable_socket-load-world"]) {
       this.chatData.loadWorld();
     }
   }
@@ -267,8 +276,8 @@ export class GameMapScene extends GameScene {
       !this.playerControl.isAsleep()
     ) {
       this.playerControl.setAsleep(true);
-      this.playerControl.setLocation({x:500, y:800});
-      this.playerInventory.setCash(this.playerInventory.getCash()-200); // penalize player for not sleeping
+      this.playerControl.setLocation({ x: 500, y: 800 });
+      this.playerInventory.setCash(this.playerInventory.getCash() - 200); // penalize player for not sleeping
     }
   }
 
@@ -323,14 +332,14 @@ export class GameMapScene extends GameScene {
       let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
       let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
       let speedModifier = 0.9;
-      if(simTime.rateOfTime === 1){
+      if (simTime.rateOfTime === 1) {
         speedModifier = 0.9;
       }
-      if(simTime.rateOfTime === 2){
-        speedModifier = 0.9*1.3;
+      if (simTime.rateOfTime === 2) {
+        speedModifier = 0.9 * 1.3;
       }
-      if(simTime.rateOfTime === 3){
-        speedModifier = 0.9*1.8;
+      if (simTime.rateOfTime === 3) {
+        speedModifier = 0.9 * 1.8;
       }
       const newCallBack = (newVal, valid) => {
         this.playerControl.location.x = valid
@@ -354,7 +363,7 @@ export class GameMapScene extends GameScene {
       )
         this.checkNextPosititionCollision(
           this.playerControl.location,
-          {x: tmpx, y: tmpy},
+          { x: tmpx, y: tmpy },
           newCallBack
         );
     }
@@ -421,7 +430,7 @@ export class GameMapScene extends GameScene {
           p5.frameCount,
           (i) => {
             this.doUIAction(p5.frameCount, () => {
-              this.playerInventory.addItem(ItemsEnum['crabtrap']);
+              this.playerInventory.addItem(ItemsEnum["crabtrap"]);
               this.playerInventory.addItem(i);
             });
           }
@@ -442,20 +451,17 @@ export class GameMapScene extends GameScene {
   }
   /** ---------- END INPUT FNs */
 
-  checkNextPosititionCollision(
-    oldPos,
-    newPos,
-    returnNewValueCallback
-  ) {
+  checkNextPosititionCollision(oldPos, newPos, returnNewValueCallback) {
     let returnPos = oldPos; //default to current/old position
     const testPosition = { x: newPos.x + 16, y: newPos.y + 30 };
-    let newPosValidity = true; // is new pos valid pixel? assume true  
+    let newPosValidity = true; // is new pos valid pixel? assume true
 
     // check each collider
     this.CollideEntities.forEach((collider) => {
       if (collider.contains(testPosition)) {
         newPosValidity = false;
-        collider.onCollide(testPosition, collider, {x: this.playerControl.location.x,
+        collider.onCollide(testPosition, collider, {
+          x: this.playerControl.location.x,
           y: this.playerControl.location.y,
         });
       }
@@ -479,8 +485,8 @@ export class GameMapScene extends GameScene {
       resident.skills || [],
       resident.bio || "",
       resident.attributes || [],
-      resident.residenceLot || {location:{x:0,y:0}},
-      resident.employmentLot || {location:{x:0,y:0}},
+      resident.residenceLot || { location: { x: 0, y: 0 } },
+      resident.employmentLot || { location: { x: 0, y: 0 } },
       resident.pImage || "", //this.charImages[resident.name] ||
       resident.img || "AndiMcNuttley.png"
     );
