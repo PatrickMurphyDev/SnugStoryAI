@@ -14,7 +14,7 @@ class GameViewMapScene extends GameSlideScene {
   initCamera() {
     this.scal = 1;
     this.cameraOffset = undefined;
-    this.zoomLevels = [.4,.6,.8,.9];
+    this.zoomLevels = IslandTemplate.VIEW_ZOOM_SETTINGS;
     this.cameraControlMode = "player";
   }
 
@@ -47,6 +47,17 @@ class GameViewMapScene extends GameSlideScene {
     }
 
     // update correct sprite
+    this.updatePlayerSprite(p5);
+
+    // WIP TODO: temp: set ellie to player x y
+    this.parent.charList[this.parent.charList.length - 1].setLocation({
+      x: this.parent.playerControl.location.x,
+      y: this.parent.playerControl.location.y,
+    });
+    this.parent.charList[this.parent.charList.length - 1].setHidden(true);
+  }
+
+  updatePlayerSprite(p5) {
     if (this.parent.playerControl.getMoveState().isMovingLeft) {
       this.parent.CharRunLeft.update(p5);
     } else if (this.parent.playerControl.getMoveState().isMovingRight) {
@@ -58,13 +69,6 @@ class GameViewMapScene extends GameSlideScene {
         this.parent.CharRunDown.update(p5);
       }
     }
-
-    // WIP TODO: temp: set ellie to player x y
-    this.parent.charList[this.parent.charList.length - 1].setLocation({
-      x: this.parent.playerControl.location.x,
-      y: this.parent.playerControl.location.y,
-    });
-    this.parent.charList[this.parent.charList.length - 1].setHidden(true);
   }
 
   draw(p5) {
