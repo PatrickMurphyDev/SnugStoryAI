@@ -7,6 +7,8 @@ import CharacterTasks from "../CharacterFeatures/CharacterTasks";
 import { FiniteStateMachine } from "../FiniteStateMachine";
 import { stateDetails, states } from "../ConfigurationData/states";
 import SimulationTime from "../../../utils/SimulationTime";
+import CharacterInventory from '../CharacterFeatures/CharacterInventory';
+import { ItemsEnum } from '../ConfigurationData/ItemsEnum';
 
 const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
 
@@ -14,6 +16,7 @@ class CharacterEntity extends PathingEntity {
   constructor(
     location,
     name,
+    nameObj,
     age,
     gender,
     skills,
@@ -25,7 +28,8 @@ class CharacterEntity extends PathingEntity {
     imgSrc = ""
   ) {
     super("character", Math.floor(Math.random() * 1000), { x: location.x, y: location.y }, { width: 32, height: 32 }, "map", 1, []);
-
+    this.nameObj = nameObj || {first:"First",last:"Last"};
+    this.setKey(this.nameObj.first+this.nameObj.last);
     this.initCharacterInfo(name, age, gender, bio, skills, attributes, residenceLot, employmentLot, pImg, imgSrc);
     this.setupTimeUpdateHandler();
   }
@@ -34,6 +38,13 @@ class CharacterEntity extends PathingEntity {
   initCharacterInfo(name, age, gender, bio, skills, attributes, residenceLot, employmentLot, pImg, imgSrc) {
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
+    this.inventory = new CharacterInventory(Math.floor(Math.random()*2000));
+    this.inventory.addItem(ItemsEnum.hermitcrab);
+    this.inventory.addItem(ItemsEnum.redrockcrab);
+    this.inventory.addItem(ItemsEnum.snowcrab);
+    this.inventory.addItem(ItemsEnum.dungenesscrab);
+    this.inventory.addItem(ItemsEnum.kingcrab);
+    this.inventory.addItem(ItemsEnum.crabbait,50);
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING, name);
@@ -62,6 +73,18 @@ class CharacterEntity extends PathingEntity {
   // Initiates movement to a goal
   moveTo(goal) {
     this.setPath(goal);
+  }
+
+  setKey(k){
+    this.key = k;
+  }
+
+  getKey(){
+    return this.key;
+  }
+
+  getInventory(){
+    return this.inventory;
   }
 
   // Retrieves the character's current state

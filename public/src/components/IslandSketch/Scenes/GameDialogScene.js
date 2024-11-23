@@ -7,11 +7,6 @@ class GameDialogScene extends GameSlideScene {
     super("GameDialogScene");
     this.parent = parent;
     this.npcInventory = new CharacterInventory(300);
-    this.npcInventory.addItem(ItemsEnum.hermitcrab);
-    this.npcInventory.addItem(ItemsEnum.redrockcrab);
-    this.npcInventory.addItem(ItemsEnum.snowcrab);
-    this.npcInventory.addItem(ItemsEnum.dungenesscrab);
-    this.npcInventory.addItem(ItemsEnum.kingcrab);
     this.npcInventory.addItem(ItemsEnum.crabbait,50);
 
     this.dialogDisplayModes = {
@@ -47,6 +42,7 @@ class GameDialogScene extends GameSlideScene {
 
   setDisplayMode(dm) {
     this.dialogDisplayMode = dm;
+    this.npcInventory = this.parent.findCharByNPCKey(this.parent.GUI.AlertWindow.getNPCKey()).getInventory();
   }
 
   draw(p5) {

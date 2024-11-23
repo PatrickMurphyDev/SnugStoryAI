@@ -7,7 +7,7 @@
  }
  if(typeof module === 'object' && module && module.exports) {
   module.exports = data;
- }})("IslandTemplateTileNew",
+ }})("TileNew",
 { "compressionlevel":-1,
  "height":64,
  "infinite":false,

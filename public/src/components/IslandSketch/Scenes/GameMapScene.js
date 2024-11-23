@@ -190,6 +190,17 @@ export class GameMapScene extends GameScene {
     );
   }
 
+  findCharByNPCKey(npcKeyParam){
+    let retVal = {};
+    this.charList.forEach((v,i,a)=>{
+      //console.log(v.getKey() + " " + npcKeyParam + " " + (v.getKey() === npcKeyParam));
+      if(v.getKey() === npcKeyParam){
+        retVal = v;
+      }
+    });
+    return retVal;
+  }
+
   loadWallData() {
     WallData.forEach((wall) => {
       this.CollideEntities.push(
@@ -431,7 +442,7 @@ export class GameMapScene extends GameScene {
           (i) => {
             this.doUIAction(p5.frameCount, () => {
               this.playerInventory.addItem(ItemsEnum["crabtrap"]);
-              this.playerInventory.addItem(i);
+              this.player.addItem(i);
             });
           }
         )
@@ -480,13 +491,14 @@ export class GameMapScene extends GameScene {
     return new CharacterEntity(
       { x: resident.x || 0, y: resident.y || 0 },
       resident.name || "Char 1",
+      resident.nameObj || {first: "First",last:"Last"},
       resident.age || 25,
       resident.gender || "Female",
       resident.skills || [],
-      resident.bio || "",
+      resident.bio || resident.details.description || "",
       resident.attributes || [],
-      resident.residenceLot || { location: { x: 0, y: 0 } },
-      resident.employmentLot || { location: { x: 0, y: 0 } },
+      resident.residenceLot || { location: { x: 800, y: 800 } },
+      resident.employmentLot || { location: { x: 900, y: 900 } },
       resident.pImage || "", //this.charImages[resident.name] ||
       resident.img || "AndiMcNuttley.png"
     );
