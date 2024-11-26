@@ -206,7 +206,7 @@ class GameDialogScene extends GameSlideScene {
 
     p5.textSize(24);
     //let combinedInventoryList = [...this.parent.playerInventory.getItemsList(), ...this.npcInventory.getItemsList()];
-    let combinedInventoryList = Object.keys(absorb(this.parent.playerInventory.getItems, this.npcInventory.getItems()));
+    let combinedInventoryList = Object.keys(absorb(this.parent.playerInventory.getItems(), this.npcInventory.getItems()));
     this.renderTradeItemRow(p5, ["Item", "You", "Them"], 0, pos, rowHeight, -1);
     this.drawEachTradeItemRow(combinedInventoryList, p5, pos, rowHeight);
 
