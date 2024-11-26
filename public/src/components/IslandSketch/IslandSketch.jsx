@@ -22,14 +22,6 @@ const IslandSketch = ({
 
   const [scenes, setScenes] = useState([]);
 
-  const goToScene = (index) => {
-    if (index >= 0 && index < scenes.length) {
-      setCurrentSceneIndex(index);
-    } else {
-      console.error("Non-valid scene index " + index);
-    }
-  };
-
   const preload = (p5) => {
     console.log('run sketchpreload');
     const mapSceneId = "GameMapScene";
@@ -81,7 +73,6 @@ const IslandSketch = ({
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
     if (scenes.length === 0) {
-      console.log('set scenes');
       setScenes([
         new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
         new Intro_GameCutScene(setCurrentSceneIndex, 4),
@@ -98,6 +89,7 @@ const IslandSketch = ({
       ]);
     }
   };
+
   const draw = (p5) => {
       scenes[currentSceneIndex].draw(p5);
   };
