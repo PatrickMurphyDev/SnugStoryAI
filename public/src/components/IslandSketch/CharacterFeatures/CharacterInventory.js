@@ -1,70 +1,96 @@
 class CharacterInventory {
-    constructor(cashV, items,itemsDets) {
+    constructor(cashV, items, itemsDets) {
       this.items = items || {};
       this.itemDetails = itemsDets || {};
       this._cashValue = cashV || 1000;
     }
 
-    getCash(){
+    getCash() {
       return this._cashValue;
     }
 
-    setCash(c){
-      this._cashValue = Math.max(c,0);
+    setCash(c) {
+      this._cashValue = Math.max(c, 0);
     }
 
-    getItem(i){
-      return this.items["Item"+i.id];
+    getItem(i) {
+      if (!i || typeof i.key !== 'string') {
+        console.error("Invalid item or item key");
+        return null;
+      }
+      return this.items[i.key];
     }
   
-    addItem(i,cnt) {
+    addItem(i, cnt) {
+      if (!i || typeof i.key !== 'string') {
+        console.error("Invalid item or item key");
+        return;
+      }
       cnt = cnt || 1;
-      //console.log("add item " + i.id + " " + cnt);
-      if(this.items["Item"+i.id]){
-        this.items["Item"+i.id] = this.items["Item"+i.id] + cnt;
-      }else{
-        this.items["Item"+i.id] = cnt;
-        this.itemDetails["Item"+i.id] = i;
+      if (this.items[i.key]) {
+        this.items[i.key] += cnt;
+      } else {
+        this.items[i.key] = cnt;
+        this.itemDetails[i.key] = i;
       }
     }
 
-    removeItem(i){
-      const newVal = this.items["Item"+i.id] - 1;
-      if(newVal > 0){
-        this.items["Item"+i.id] = newVal;
-      }else{
+    removeItem(i) {
+      if (!i || typeof i.key !== 'string') {
+        console.error("Invalid item or item key");
+        return;
+      }
+      const newVal = this.items[i.key] - 1;
+      if (newVal > 0) {
+        this.items[i.key] = newVal;
+      } else {
         this.deleteItem(i);
       }
     }
 
-    deleteItem(i){
-      delete this.items["Item"+i.id];
+    deleteItem(i) {
+      if (!i || typeof i.key !== 'string') {
+        console.error("Invalid item or item key");
+        return false;
+      }
+    
+      if (!(i.key in this.items)) {
+        console.warn(`Item ${i.key} not found in inventory`);
+        return false;
+      }
+    
+      delete this.items[i.key];
+      delete this.itemDetails[i.key];
+      
+      return true;
     }
 
-    getItemCount(i){
-      if(i && i.id){
-        return this.items["Item"+i.id];
-      }else{
+    getItemCount(i) {
+      if (!i || typeof i.key !== 'string') {
+        console.error("Invalid item or item key");
         return 0;
       }
+      return this.items[i.key] || 0;
     }
 
-    getItemsCount(){
+    getItemsCount() {
       return Object.keys(this.items).length;
     }
 
-    getItems(){
+    getItems() {
       return this.items;
-  }
+    }
 
-  getItemsList(){
+    getItemsList() {
       return Object.keys(this.items);
-  }
+    }
 
-    getItemsArray(){
+    getItemsArray() {
       let retArr = [];
-      for(let j = 0; j < this.getItemsCount(); j++){
-        retArr.push({data:this.itemDetails[(Object.keys(this.items))[j]], count: this.items[(Object.keys(this.items))[j]]});
+      const keys = Object.keys(this.items);
+      for (let j = 0; j < keys.length; j++) {
+        const key = keys[j];
+        retArr.push({data: this.itemDetails[key], count: this.items[key]});
       }
       return retArr;
     }

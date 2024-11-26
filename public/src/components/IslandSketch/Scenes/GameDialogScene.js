@@ -2,12 +2,14 @@ import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
 import GUIButton from "../GUI/GUIButton";
 import { GameSlideScene } from "./GameSlideScene";
+import absorb from 'absorb';
+
 class GameDialogScene extends GameSlideScene {
   constructor(parent) {
     super("GameDialogScene");
     this.parent = parent;
     this.npcInventory = new CharacterInventory(300);
-    this.npcInventory.addItem(ItemsEnum.crabbait,50);
+    this.npcInventory.addItem(ItemsEnum.Item8,50);
 
     this.dialogDisplayModes = {
       Chat: 0,
@@ -179,6 +181,10 @@ class GameDialogScene extends GameSlideScene {
   }
 
   renderTradeGUI(p5) {
+    const textSize = 34;
+    const rowBottomPadding = 13;
+    const rowHeight = textSize+rowBottomPadding;
+    const colWidth = 30;
     const pos = {
       x: 300,
       y: 100,
@@ -189,146 +195,155 @@ class GameDialogScene extends GameSlideScene {
     p5.fill("#aaaaaaaa");
     p5.rect(pos.x, pos.y, pos.w, pos.h);
 
-    const rowHeight = 60;
     p5.fill("#ffffff");
-    p5.textSize(34);
+    p5.textSize(textSize);
     //p5.text("Items",pos.x+30*2,pos.y+rowHeight-10);
     p5.text(
       "Item Detail",
-      pos.x + 30 * 3 + pos.w / 2 + 15,
+      pos.x + colWidth * 3 + pos.w / 2 + 15,
       pos.y + rowHeight - 10
     );
 
     p5.textSize(24);
-    const crabList = [
-      "hermitcrab",
-      "redrockcrab",
-      "snowcrab",
-      "dungenesscrab",
-      "kingcrab",
-      "crabbait"
-    ];
+    //let combinedInventoryList = [...this.parent.playerInventory.getItemsList(), ...this.npcInventory.getItemsList()];
+    let combinedInventoryList = Object.keys(absorb(this.parent.playerInventory.getItems, this.npcInventory.getItems()));
     this.renderTradeItemRow(p5, ["Item", "You", "Them"], 0, pos, rowHeight, -1);
-    for (let index = 1; index < 7; index++) {
-      const itemName =
-        ItemsEnum[crabList[index - 1]].icon.join() +
-        " " +
-        ItemsEnum[crabList[index - 1]].name;
-      // todo load real items
-      this.renderTradeItemRow(
-        p5,
-        [
-          itemName,
-          this.parent.playerInventory.getItemCount({ id: index + 2 }) || 0,
-          this.npcInventory.getItemCount({ id: index + 2 }) || 0,
-        ],
-        index,
-        pos,
-        rowHeight,
-        1
-      );
-    }
+    this.drawEachTradeItemRow(combinedInventoryList, p5, pos, rowHeight);
 
     // right side details
     p5.fill("#aaaaaaaa");
     p5.rect(pos.x + pos.w / 2, pos.y, pos.w / 2, pos.h);
 
-    const tryBuyFN = () => {
-      if(this.npcInventory.getItemCount({ id: this.tradeItemSelected + 2 }) > 0){
-        this.parent.playerInventory.setCash(
-          this.parent.playerInventory.getCash() -
-            ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
-              .buyPrice
-        );
-        this.npcInventory.setCash(
-          this.npcInventory.getCash() +
-            ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
-              .buyPrice
-        );
-        this.parent.playerInventory.addItem(ItemsEnum[crabList[this.tradeItemSelected - 1]]);
-        this.npcInventory.removeItem({id:this.tradeItemSelected + 2});
-      }
-    };
-    const trySellFN = () => {
-      if(this.parent.playerInventory.getItemCount({ id: this.tradeItemSelected + 2 }) >0){
-        this.parent.playerInventory.setCash(
-          this.parent.playerInventory.getCash() +
-            ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
-              .salePrice
-        );
-        this.npcInventory.setCash(
-          this.npcInventory.getCash() -
-            ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
-              .sellPrice
-        );
-        this.parent.playerInventory.removeItem({id:this.tradeItemSelected + 2});
-        this.npcInventory.addItem({id:this.tradeItemSelected + 2});
-      }
-    };
     p5.fill("#ffffff");
     let padding = 125;
     p5.image(
-      this.parent.parentAssets["GameMapScene"][ItemsEnum[crabList[this.tradeItemSelected - 1]].details.img],
+      this.parent.parentAssets["GameMapScene"][ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]].details.img],
       pos.x + pos.w / 2 + padding / 2,
       pos.y + padding / 2,
       pos.w / 2 - padding,
       pos.w / 2 - padding
     );
     p5.text(
-      ItemsEnum[crabList[this.tradeItemSelected - 1]].icon.join() +
-        ItemsEnum[crabList[this.tradeItemSelected - 1]].name,
+      ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]].icon.join() +
+        ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]].name,
       pos.x + pos.w / 2 + padding / 2 + 50,
       pos.y + padding / 2 + pos.w / 2 - padding + 15
     );
+    //description
     p5.text(
-      ItemsEnum[crabList[this.tradeItemSelected - 1]].description,
+      ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]].description,
       pos.x + pos.w / 2 + pos.w / 4,
       pos.y + padding / 2 + pos.w / 2 - padding + 55
     );
+    
+    this.renderTradeGUIRightPanelActionRow(p5, combinedInventoryList, pos);
+  }
+
+  getSelectedItem(combinedInventoryList) {
+    return ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]];
+  }
+
+  renderTradeGUIRightPanelActionRow(p5, combinedInventoryList, pos) {
+    const selectedItem = this.getSelectedItem(combinedInventoryList);
+
+    const tryBuyFN = () => {
+      if (this.npcInventory.getItemCount(selectedItem) > 0) {
+        this.performTransaction(
+          this.parent.playerInventory,
+          this.npcInventory,
+          selectedItem,
+          selectedItem.details.props.buyPrice
+        );
+      }
+    };
+
+    const trySellFN = () => {
+      if (this.parent.playerInventory.getItemCount(selectedItem) > 0) {
+        this.performTransaction(
+          this.npcInventory,
+          this.parent.playerInventory,
+          selectedItem,
+          selectedItem.details.props.salePrice
+        );
+      }
+    };
+
+    this.drawTradeButton(p5, pos, "Buy", selectedItem.details.props.buyPrice, tryBuyFN, 0);
+    this.drawTradeButton(p5, pos, "Sell", selectedItem.details.props.salePrice, trySellFN, 1);
+  }
+
+  performTransaction(buyer, seller, item, price) {
+    buyer.setCash(buyer.getCash() - price);
+    seller.setCash(seller.getCash() + price);
+    buyer.addItem(item);
+    seller.removeItem(item);
+  }
+
+  drawTradeButton(p5, pos, action, price, onClickHandle, offset) {
+    const buttonWidth = pos.w / 4 - 10;
+    const buttonX = pos.x + pos.w / 2 + (offset * (buttonWidth + 20));
+    const buttonY = pos.y + pos.h - 30;
+
     this.GUIButton.draw(
       p5,
       {
-        text:
-          "Buy ($" +
-          ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
-            .buyPrice +
-          ")",
-        onClickHandle: tryBuyFN,
+        text: `${action} ($${price})`,
+        onClickHandle: onClickHandle,
       },
-      pos.x + pos.w / 2,
-      pos.y + pos.h - 30,
-      pos.w / 4 - 10,
+      buttonX,
+      buttonY,
+      buttonWidth,
       30
     );
-    this.GUIButton.draw(
-      p5,
-      {
-        text:
-          "Sell ($" +
-          ItemsEnum[crabList[this.tradeItemSelected - 1]].details.props
-            .salePrice +
-          ")",
-        onClickHandle: trySellFN,
-      },
-      pos.x + pos.w / 2 + pos.w / 4 + 20,
-      pos.y + pos.h - 30,
-      pos.w / 4 - 10,
-      30
-    );
+  }
+
+  drawEachTradeItemRow(combinedInventoryList, p5, pos, rowHeight) {
+    for (let index = 1; index <= combinedInventoryList.length; index++) {
+      const itemName = ItemsEnum[combinedInventoryList[index - 1]].icon.join() +
+        " " +
+        ItemsEnum[combinedInventoryList[index - 1]].name;
+      // todo load real items
+      this.renderTradeItemRow(
+        p5,
+        [
+          itemName,
+          this.parent.playerInventory.getItemCount(ItemsEnum[combinedInventoryList[index - 1]]) || 0,
+          this.npcInventory.getItemCount(ItemsEnum[combinedInventoryList[index - 1]]) || 0,
+        ],
+        index,
+        {x:pos.x+30,y:pos.y,w:pos.w, h:pos.h},
+        rowHeight,
+        1
+      );
+    }
   }
 
   renderTradeItemRow(p5, values, row, pos, rowHeight, isBtn) {
     isBtn = isBtn > 0;
     p5.push();
-    p5.fill("#44444455");
+
+    // set fill
+    p5.fill(row === 0 ? "#ffffff00" : "#44444455");
     if (this.getItemSelected() === row) {
       p5.fill("#444444ff");
     }
+
+    // row background
     p5.rect(pos.x + 30, pos.y + rowHeight * row + 10, pos.w / 2 - 50, 34);
+ 
     p5.fill("#ffffff");
-    p5.text(values[0], pos.x + 30 * 5, pos.y + 27 + rowHeight * row);
-    p5.text(values[1], pos.x + 30 * 11, pos.y + 27 + rowHeight * row);
-    p5.text(values[2], pos.x + 30 * 14, pos.y + 27 + rowHeight * row);
+    p5.textSize(row === 0 ? 20 : 16);
+    // row cells
+    p5.textAlign("LEFT","BOTTOM");
+    p5.text(values[0], pos.x + 30 * 1, pos.y + 34 + rowHeight * row);
+    p5.textSize(row === 0 ? 16 : 13);
+    
+    p5.textAlign("CENTER","BOTTOM");
+    p5.text(values[1], pos.x + 30 * 9, pos.y + 34 + rowHeight * row);
+    p5.text(values[2], pos.x + 30 * 11, pos.y + 34 + rowHeight * row);
+    
+    // if not header row, create button
+    // button is invis via fill/textColor opacity to handle clicks but not display
     if (row > 0)
       this.GUIButton.draw(
         p5,
