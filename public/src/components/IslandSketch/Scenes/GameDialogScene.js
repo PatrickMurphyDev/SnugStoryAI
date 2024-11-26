@@ -232,11 +232,11 @@ class GameDialogScene extends GameSlideScene {
     //description
     p5.text(
       ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]].description,
-      pos.x + pos.w / 2 + pos.w / 64,
-      pos.y + padding / 2 + pos.h / 2 - padding + 55,
+      pos.x + pos.w / 2 + padding / 2 + 30,
+      pos.y + padding / 2 + pos.w / 2 - padding + 30,
 
       pos.w / 2 - padding,
-      pos.h / 2 - padding,
+      pos.h *.25,
     );
     
     this.renderTradeGUIRightPanelActionRow(p5, combinedInventoryList, pos);
