@@ -1,4 +1,5 @@
-import Task from '../Entities/Task';
+import Task from '../Objects/Task';
+
 
 class CharacterTasks {
   constructor() {

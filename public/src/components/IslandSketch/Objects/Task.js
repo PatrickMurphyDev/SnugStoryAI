@@ -1,7 +1,7 @@
 class Task {
     constructor(name, execute, mins = 60, taskType = "personal") {
       this.name = name;
-      this.execute = execute;
+      this.executeFN = execute;
       this.isComplete = false;
       this.isStarted = false;
       this.isPaused = false;
@@ -36,6 +36,7 @@ class Task {
     complete() {
       if (this.isStarted && !this.isPaused && this.workMinutesRemaining === 0) {
         this.isComplete = true;
+        this.executeFN();
       }
     }
   }
