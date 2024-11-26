@@ -336,49 +336,59 @@ export class GameMapScene extends GameScene {
   }
 
   handleKeyboardUserInputUpdate() {
-    if (this.GUI.allowMoveInputKeys) {
-      let tmpy = this.playerControl.location.y;
-      let tmpx = this.playerControl.location.x;
-      let isMovingVertical = this.isMovingUp || this.isMovingDown;
-      let isMovingHorizontal = this.isMovingLeft || this.isMovingRight;
-      let isMovingDiagonal = isMovingHorizontal && isMovingVertical;
-      let speedModifier = 0.9;
-      if (simTime.rateOfTime === 1) {
-        speedModifier = 0.9;
-      }
-      if (simTime.rateOfTime === 2) {
-        speedModifier = 0.9 * 1.3;
-      }
-      if (simTime.rateOfTime === 3) {
-        speedModifier = 0.9 * 1.8;
-      }
-      const newCallBack = (newVal, valid) => {
-        this.playerControl.location.x = valid
-          ? newVal.x
-          : this.playerControl.location.x;
-        this.playerControl.location.y = valid
-          ? newVal.y
-          : this.playerControl.location.y;
-        this.playerControl.setDidMove(true);
-      };
-      if (isMovingDiagonal) speedModifier = 0.45;
-      const moveDist = this.speed * speedModifier;
-      if (this.playerControl.getMoveState().isMovingUp) tmpy -= moveDist;
-      if (this.playerControl.getMoveState().isMovingDown) tmpy += moveDist;
-      if (this.playerControl.getMoveState().isMovingLeft) tmpx -= moveDist;
-      if (this.playerControl.getMoveState().isMovingRight) tmpx += moveDist;
+    if (!this.GUI.allowMoveInputKeys) return;
 
-      if (
-        tmpx !== this.playerControl.location.x ||
-        tmpy !== this.playerControl.location.y
-      )
-        this.checkNextPosititionCollision(
-          this.playerControl.location,
-          { x: tmpx, y: tmpy },
-          newCallBack
-        );
+    const currentLocation = this.playerControl.location;
+    const moveState = this.playerControl.getMoveState();
+    const newPosition = this.calculateNewPosition(currentLocation, moveState);
+
+    if (this.hasPositionChanged(currentLocation, newPosition)) {
+      this.checkNextPosititionCollision(
+        currentLocation,
+        newPosition,
+        this.updatePlayerPosition.bind(this)
+      );
     }
-  } // end handleKeys FN
+  }
+
+  calculateNewPosition(currentLocation, moveState) {
+    const speedModifier = this.getSpeedModifier(moveState);
+    const moveDist = this.speed * speedModifier;
+
+    let { x, y } = currentLocation;
+    if (moveState.isMovingUp) y -= moveDist;
+    if (moveState.isMovingDown) y += moveDist;
+    if (moveState.isMovingLeft) x -= moveDist;
+    if (moveState.isMovingRight) x += moveDist;
+
+    return { x, y };
+  }
+
+  getSpeedModifier(moveState) {
+    const isMovingDiagonal = 
+      (moveState.isMovingUp || moveState.isMovingDown) && 
+      (moveState.isMovingLeft || moveState.isMovingRight);
+
+    if (isMovingDiagonal) return 0.45;
+
+    switch (simTime.rateOfTime) {
+      case 1: return 0.9;
+      case 2: return 0.9 * 1.3;
+      case 3: return 0.9 * 1.8;
+      default: return 0.9;
+    }
+  }
+
+  hasPositionChanged(oldPos, newPos) {
+    return oldPos.x !== newPos.x || oldPos.y !== newPos.y;
+  }
+
+  updatePlayerPosition(newPosition, isValid) {
+    if (isValid) {
+      this.playerControl.location = newPosition;
+      this.playerControl.setDidMove(true);
+    }
+  }
 
   keyPressed(e) {
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
