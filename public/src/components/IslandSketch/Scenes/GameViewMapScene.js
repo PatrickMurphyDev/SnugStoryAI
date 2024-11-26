@@ -77,7 +77,7 @@ class GameViewMapScene extends GameSlideScene {
       this.renderBackground(p5);
       this.renderEntities(p5);
       this.parent.playerControl.render(p5);
-      this.parent.handleMouseInteraction(p5);
+      this.parent.inputHandler.handleMouseInteraction(p5);
       if (this.parent.DEBUG_LEVEL >= 2) {
         this.renderWalls(p5);
       }

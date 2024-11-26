@@ -58,11 +58,6 @@ export class GameMapScene extends GameScene {
     this.CollideEntities = [];
     this.CrabTraps = [];
     this.preloadedImages = [];
-    /* this.GameMap = new GameTileMapManager(
-      this,
-      { width: 64, height: 64 },
-      tiles
-    ); */
 
     this.currentZoomLevel = 3;
 
@@ -141,8 +136,6 @@ export class GameMapScene extends GameScene {
     if (this.DEBUG_LEVEL > 2) this.speed += 5;
     this.playerx = 570;
     this.playery = 1820;
-    this.lastFrameMousePressed = false;
-    this.isMouseReleased = false;
   }
 
   AddSceneCollideEntities() {
@@ -194,7 +187,6 @@ export class GameMapScene extends GameScene {
   findCharByNPCKey(npcKeyParam){
     let retVal = {};
     this.charList.forEach((v,i,a)=>{
-      //console.log(v.getKey() + " " + npcKeyParam + " " + (v.getKey() === npcKeyParam));
       if(v.getKey() === npcKeyParam){
         retVal = v;
       }
@@ -239,7 +231,6 @@ export class GameMapScene extends GameScene {
           v.location.y - 25,
           { x: 16, width: 16, y: 20, height: 20 },
           () => {
-            //console.log("coll char");
             this.GUI.AlertWindow.setDetails(v.lotDetails);
             if (v.id === "PlayerCabin") {
               this.GUI.openAlert("Player Cabin", "Sleep?", v.lotDetails);
@@ -261,7 +252,6 @@ export class GameMapScene extends GameScene {
     const characterTempList = IslandTemplate.Residents.map((v) =>
       this.createCharacterEntity(v)
     );
-    //console.log(characterTempList);
     this.setCharList(characterTempList);
     if (this.OPTIONS["enable_socket-load-world"]) {
       this.chatData.loadWorld();
@@ -277,6 +267,7 @@ export class GameMapScene extends GameScene {
     this.lastFrame = p5.frameCount;
     if (this.GUI.getDisplayMode() === 0) {
       this.inputHandler.handleKeyboardUserInput();
+      this.inputHandler.handleMouseInteraction(p5);
       this.gameViewMapScene.update(p5);
     }
     this.playerControl.setDidMove(false);
@@ -318,21 +309,6 @@ export class GameMapScene extends GameScene {
       this.playerControl.setDidMove(true);
     }
   }
-
-  handleMouseInteraction(p5) {
-    this.isMouseReleased = false;
-    if (p5.mouseIsPressed) {
-      //pressed track
-      this.isMouseReleased = false;
-      this.lastFrameMousePressed = true;
-    } else if (this.lastFrameMousePressed) {
-      //released
-      this.isMouseReleased = true;
-      this.lastFrameMousePressed = false;
-      this.onPlaceCrabTrap(p5);
-    }
-  }
-
   onPlaceCrabTrap(p5) {
     if (this.playerInventory.getItemCount(ItemsEnum["Item2"]) > 0) {
       this.placeCrabTrap(p5);
@@ -340,7 +316,7 @@ export class GameMapScene extends GameScene {
   }
 
   placeCrabTrap(p5) {
-    let offsetLocal = this.getOffsetLocal(
+    let offsetLocal = this.inputHandler.getOffsetLocal(
       p5,
       this.gameViewMapScene.getCameraOffset(),
       this.gameViewMapScene.getCameraZoom()
@@ -366,17 +342,6 @@ export class GameMapScene extends GameScene {
     });
   }
 
-  // get mouse position in world
-  getOffsetLocal(p5, offset, zoom) {
-    offset = offset || p5.createVector(0, 0);
-    zoom = zoom || 3;
-    return p5.createVector(
-      offset.x * -1 + p5.mouseX / zoom,
-      offset.y * -1 + p5.mouseY / zoom
-    );
-  }
-  /** ---------- END INPUT FNs */
-
   checkNextPosititionCollision(oldPos, newPos, returnNewValueCallback) {
     let returnPos = oldPos; //default to current/old position
     const testPosition = { x: newPos.x + 16, y: newPos.y + 30 };
@@ -398,10 +363,6 @@ export class GameMapScene extends GameScene {
     returnNewValueCallback(returnPos, newPosValidity);
   } // end checkNextPositionCollision FN
 
-  /* Called by InitializeCharacters for each char
-    Parameters: Resident
-    Returns: new CharacterEntity object 
-  */
   createCharacterEntity(resident) {
     return new CharacterEntity(
       { x: resident.x || 0, y: resident.y || 0 },

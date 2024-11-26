@@ -7,6 +7,8 @@ export class UserInputController {
   constructor(gameMapScene) {
     this.gameMapScene = gameMapScene;
     this.playerControl = gameMapScene.playerControl;
+    this.lastFrameMousePressed = false;
+    this.isMouseReleased = false;
     this.initializeEventListeners();
   }
 
@@ -25,7 +27,9 @@ export class UserInputController {
   initializeEventListeners() {
     window.addEventListener("wheel", this.handleWheel.bind(this));
     window.addEventListener("keydown", this.keyPressed.bind(this));
-    window.addEventListener("keyup", this.keyReleased.bind(this));
+    window.addEventListener("keyup", this.keyReleased.bind(this)); 
+    //indow.addEventListener("mousedown", this.mousePressed.bind(this));
+    //window.addEventListener("mouseup", this.mouseReleased.bind(this));
   }
   handleWheel(event) {
     const dir = Math.sign(event.deltaY);
@@ -119,14 +123,23 @@ export class UserInputController {
   }
 
   handleMouseInteraction(p5) {
-    this.gameMapScene.isMouseReleased = false;
+    this.isMouseReleased = false;
     if (p5.mouseIsPressed) {
-      this.gameMapScene.isMouseReleased = false;
-      this.gameMapScene.lastFrameMousePressed = true;
-    } else if (this.gameMapScene.lastFrameMousePressed) {
-      this.gameMapScene.isMouseReleased = true;
-      this.gameMapScene.lastFrameMousePressed = false;
+      this.isMouseReleased = false;
+      this.lastFrameMousePressed = true;
+    } else if (this.lastFrameMousePressed) {
+      this.isMouseReleased = true;
+      this.lastFrameMousePressed = false;
       this.gameMapScene.onPlaceCrabTrap(p5);
     }
+  }
+  
+  getOffsetLocal(p5, offset, zoom) {
+    offset = offset || p5.createVector(0, 0);
+    zoom = zoom || 3;
+    return p5.createVector(
+      offset.x * -1 + p5.mouseX / zoom,
+      offset.y * -1 + p5.mouseY / zoom
+    );
   }
 }
