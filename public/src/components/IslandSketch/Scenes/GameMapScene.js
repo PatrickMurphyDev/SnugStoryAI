@@ -13,7 +13,7 @@ import PlayerController from "../Controllers/PlayerController";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
-import WallData from "../../../utils/WallData.json"; // Static Data: Wall Positions
+import WallData from "../ConfigurationData/WallData.json"; // Static Data: Wall Positions
 import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum"; // Static Data: Possible Items
 import ConversationController from "../Controllers/ConversationController";
