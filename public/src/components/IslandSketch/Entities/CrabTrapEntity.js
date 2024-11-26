@@ -56,19 +56,19 @@ class CrabTrapEntity extends Entity {
     //this.frameAge;
     const randSelect = Math.random();
     if(randSelect<.1){
-      this.harvestCallback(ItemsEnum['kingcrab']);
+      this.harvestCallback(ItemsEnum["Item7"]);
     }
     if(randSelect < .4 && randSelect >= .1){
-      this.harvestCallback(ItemsEnum['dungenesscrab']);
+      this.harvestCallback(ItemsEnum["Item6"]);
     }
     if(randSelect<.7 && randSelect >= .4){
-      this.harvestCallback(ItemsEnum['snowcrab']);
+      this.harvestCallback(ItemsEnum['Item5']);
     }
     if(randSelect>.9 && randSelect>=.7){
-      this.harvestCallback(ItemsEnum['redrockcrab']);
+      this.harvestCallback(ItemsEnum['Item4']);
     }
     if(randSelect>=.9){
-      this.harvestCallback(ItemsEnum['hermitcrab']);
+      this.harvestCallback(ItemsEnum['Item3']);
     }
   }
 }

@@ -38,18 +38,22 @@ class CharacterEntity extends PathingEntity {
   initCharacterInfo(name, age, gender, bio, skills, attributes, residenceLot, employmentLot, pImg, imgSrc) {
     this.info = new CharacterInfo(name, age, gender, bio);
     this.attributes = new CharacterAttributes(skills, attributes);
+    let itemsKeys = Object.keys(ItemsEnum);
     this.inventory = new CharacterInventory(Math.floor(Math.random()*2000));
-    this.inventory.addItem(ItemsEnum.hermitcrab);
-    this.inventory.addItem(ItemsEnum.redrockcrab);
-    this.inventory.addItem(ItemsEnum.snowcrab);
-    this.inventory.addItem(ItemsEnum.dungenesscrab);
-    this.inventory.addItem(ItemsEnum.kingcrab);
-    this.inventory.addItem(ItemsEnum.crabbait,50);
+    this.inventory.addItem(ItemsEnum[itemsKeys[Math.floor(Math.random()*itemsKeys.length)]]);
+    this.inventory.addItem(ItemsEnum[itemsKeys[Math.floor(Math.random()*itemsKeys.length)]]);
+    this.inventory.addItem(ItemsEnum[itemsKeys[Math.floor(Math.random()*itemsKeys.length)]]);
+    this.inventory.addItem(ItemsEnum[itemsKeys[Math.floor(Math.random()*itemsKeys.length)]]);
+    this.inventory.addItem(ItemsEnum[itemsKeys[Math.floor(Math.random()*itemsKeys.length)]]);
+    this.inventory.addItem(ItemsEnum[itemsKeys[Math.floor(Math.random()*itemsKeys.length)]]);
+    this.inventory.addItem(ItemsEnum.Item8,50);
+
     this.needs = new CharacterNeeds();
     this.tasks = new CharacterTasks();
     this.dailyRoutine = new FiniteStateMachine(states.SLEEPING, name);
     this.residenceLot = residenceLot;
     this.employmentLot = employmentLot;
+
     this.profileImage = pImg;
     this.img = `/images/${imgSrc}`;
   }
@@ -75,6 +79,11 @@ class CharacterEntity extends PathingEntity {
     this.setPath(goal);
   }
 
+   // Removes the time update handler
+   remove() {
+    simTime.clearTimeUpdate(this.onTimeUpdateHandlerFn);
+  }
+
   setKey(k){
     this.key = k;
   }
@@ -91,10 +100,31 @@ class CharacterEntity extends PathingEntity {
   getCurrentState() {
     return this.dailyRoutine.currentState;
   }
+  
+  // Returns the color based on the character's state
+  getCurrentColor() {
+    return this.dailyRoutine.currentState === states.SLEEPING ? "#aa33aa" : "#ff0000";
+  }
 
-  // Removes the time update handler
-  remove() {
-    simTime.clearTimeUpdate(this.onTimeUpdateHandlerFn);
+  // Updates the character's location
+  updateLocation(newLocation) {
+    this.location = { ...newLocation.location };
+  }
+
+  // Checks if character needs to move
+  needsToMove() {
+    return stateDetails[this.dailyRoutine.currentState.toUpperCase()].moveDetails.requiresMove;
+  }
+
+  // Gets target lot based on character's current state
+  getTargetLot() {
+    const targetLotMap = {
+      [states.LEAVING_FOR_WORK]: this.employmentLot,
+      [states.WALKING_TO_WORK]: this.employmentLot,
+      [states.SLEEPING]: this.residenceLot,
+      [states.GOING_HOME]: this.residenceLot,
+    };
+    return targetLotMap[this.dailyRoutine.currentState] || this.residenceLot;
   }
 
   // Updates character's state and needs
@@ -126,32 +156,6 @@ class CharacterEntity extends PathingEntity {
   drawName(p5) {
     const ps = p5.createVector(this.location.x, this.location.y);
     p5.text(this.info.name, ps.x + 11, ps.y + 30);
-  }
-
-  // Returns the color based on the character's state
-  getCurrentColor() {
-    return this.dailyRoutine.currentState === states.SLEEPING ? "#aa33aa" : "#ff0000";
-  }
-
-  // Updates the character's location
-  updateLocation(newLocation) {
-    this.location = { ...newLocation.location };
-  }
-
-  // Checks if character needs to move
-  needsToMove() {
-    return stateDetails[this.dailyRoutine.currentState.toUpperCase()].moveDetails.requiresMove;
-  }
-
-  // Gets target lot based on character's current state
-  getTargetLot() {
-    const targetLotMap = {
-      [states.LEAVING_FOR_WORK]: this.employmentLot,
-      [states.WALKING_TO_WORK]: this.employmentLot,
-      [states.SLEEPING]: this.residenceLot,
-      [states.GOING_HOME]: this.residenceLot,
-    };
-    return targetLotMap[this.dailyRoutine.currentState] || this.residenceLot;
   }
 }
 

@@ -77,7 +77,7 @@ export class GameMapScene extends GameScene {
     this.playerInventory = new CharacterInventory(
       1300,
       { Item2: 5 },
-      { Item2: ItemsEnum.crabtrap }
+      { Item2: ItemsEnum.Item2 }
     );
     this.isLoaded = false;
 
@@ -153,7 +153,7 @@ export class GameMapScene extends GameScene {
         { x: 16, width: 16, y: 20, height: 20 },
         (p, o, o2) => {
           o.setEnabled(false);
-          this.playerInventory.addItem(ItemsEnum.crabtrap, 5);
+          this.playerInventory.addItem(ItemsEnum.Item2, 5);
         }
       )
     );
@@ -419,7 +419,7 @@ export class GameMapScene extends GameScene {
   }
 
   onPlaceCrabTrap(p5) {
-    if (this.playerInventory.getItemCount(ItemsEnum["crabtrap"]) > 0) {
+    if (this.playerInventory.getItemCount(ItemsEnum["Item2"]) > 0) {
       this.placeCrabTrap(p5);
     }
   }
@@ -441,13 +441,13 @@ export class GameMapScene extends GameScene {
           p5.frameCount,
           (i) => {
             this.doUIAction(p5.frameCount, () => {
-              this.playerInventory.addItem(ItemsEnum["crabtrap"]);
+              this.playerInventory.addItem(ItemsEnum["Item2"]);
               this.playerInventory.addItem(i);
             });
           }
         )
       );
-      this.playerInventory.removeItem(ItemsEnum["crabtrap"]);
+      this.playerInventory.removeItem(ItemsEnum["Item2"]);
     });
   }
 

@@ -219,7 +219,7 @@ export class GUIElementManager {
     const y = el.y + padding + 15;
     p5.rect(x, y, size, size);
     p5.push();
-    p5.fill(index === 0 ? "#999999" : "white");
+    p5.fill(index === 0 ? "red" : "white");
     if(index < this.getInventory().getItemsArray().length){
       let dataTmp = this.getInventory().getItemsArray()[index];
       this.renderInventoryIcon(p5, dataTmp, x, y);

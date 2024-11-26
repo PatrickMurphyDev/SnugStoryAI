@@ -19,7 +19,7 @@ class CharacterInventory {
   
     addItem(i,cnt) {
       cnt = cnt || 1;
-      console.log("add item " + i.id + " " + cnt);
+      //console.log("add item " + i.id + " " + cnt);
       if(this.items["Item"+i.id]){
         this.items["Item"+i.id] = this.items["Item"+i.id] + cnt;
       }else{
@@ -54,8 +54,12 @@ class CharacterInventory {
     }
 
     getItems(){
-        return this.items;
-    }
+      return this.items;
+  }
+
+  getItemsList(){
+      return Object.keys(this.items);
+  }
 
     getItemsArray(){
       let retArr = [];
