@@ -53,22 +53,26 @@ class CrabTrapEntity extends Entity {
   harvest(){
     this.fillColor = "#00ff00";
     this.trapState = 2;
+    const pctCatchChance = .3;
     //this.frameAge;
-    const randSelect = Math.random();
-    if(randSelect<.1){
-      this.harvestCallback(ItemsEnum["Item7"]);
-    }
-    if(randSelect < .4 && randSelect >= .1){
-      this.harvestCallback(ItemsEnum["Item6"]);
-    }
-    if(randSelect<.7 && randSelect >= .4){
-      this.harvestCallback(ItemsEnum['Item5']);
-    }
-    if(randSelect>.9 && randSelect>=.7){
-      this.harvestCallback(ItemsEnum['Item4']);
-    }
-    if(randSelect>=.9){
-      this.harvestCallback(ItemsEnum['Item3']);
+    const randDidCatch = Math.random();
+    if(randDidCatch>pctCatchChance){
+      const randSelect = Math.random();
+      if(randSelect<.1){
+        this.harvestCallback(ItemsEnum["Item7"]);
+      }
+      if(randSelect < .4 && randSelect >= .1){
+        this.harvestCallback(ItemsEnum["Item6"]);
+      }
+      if(randSelect<.7 && randSelect >= .4){
+        this.harvestCallback(ItemsEnum['Item5']);
+      }
+      if(randSelect>.9 && randSelect>=.7){
+        this.harvestCallback(ItemsEnum['Item4']);
+      }
+      if(randSelect>=.9){
+        this.harvestCallback(ItemsEnum['Item3']);
+      }
     }
   }
 }
