@@ -19,6 +19,7 @@ import { ItemsEnum } from "../ConfigurationData/ItemsEnum"; // Static Data: Poss
 import ConversationController from "../Controllers/ConversationController";
 import GameDialogScene from "./GameDialogScene";
 import GameViewMapScene from "./GameViewMapScene";
+import { UserInputController } from "../Controllers/UserInputController";
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
@@ -103,7 +104,7 @@ export class GameMapScene extends GameScene {
     this.GUI = new GUIElementManager(this);
     this.chatData = new ConversationController(this, []);
     this.loadWallData();
-    this.initializeEventListeners();
+    this.inputHandler = new UserInputController(this);
     this.initializeLots();
     this.initializeCharacters();
     this.AddSceneCollideEntities();
@@ -275,7 +276,7 @@ export class GameMapScene extends GameScene {
     this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
     if (this.GUI.getDisplayMode() === 0) {
-      this.handleKeyboardUserInputUpdate();
+      this.inputHandler.handleKeyboardUserInput();
       this.gameViewMapScene.update(p5);
     }
     this.playerControl.setDidMove(false);
@@ -311,107 +312,11 @@ export class GameMapScene extends GameScene {
     return this.gameViewMapScene.scal;
   }
 
-  /* INPUT FN */
-  initializeEventListeners() {
-    window.addEventListener("wheel", (event) => {
-      var dir = Math.sign(event.deltaY);
-      this.doUIAction(this.lastFrame, () => {
-        if (dir > 0) {
-          this.currentZoomLevel--;
-        } else {
-          this.currentZoomLevel++;
-        }
-        this.currentZoomLevel = Math.max(
-          0,
-          Math.min(
-            this.gameViewMapScene.zoomLevels.length - 1,
-            this.currentZoomLevel
-          )
-        ); //Math.min(this.zoomLevels.length-1, Math.max(0, this.currentZoomLevel));
-        this.playerControl.setDidMove(true);
-      });
-    });
-    window.addEventListener("keydown", (e) => this.keyPressed(e));
-    window.addEventListener("keyup", (e) => this.keyReleased(e));
-  }
-
-  handleKeyboardUserInputUpdate() {
-    if (!this.GUI.allowMoveInputKeys) return;
-
-    const currentLocation = this.playerControl.location;
-    const moveState = this.playerControl.getMoveState();
-    const newPosition = this.calculateNewPosition(currentLocation, moveState);
-
-    if (this.hasPositionChanged(currentLocation, newPosition)) {
-      this.checkNextPosititionCollision(
-        currentLocation,
-        newPosition,
-        this.updatePlayerPosition.bind(this)
-      );
-    }
-  }
-
-  calculateNewPosition(currentLocation, moveState) {
-    const speedModifier = this.getSpeedModifier(moveState);
-    const moveDist = this.speed * speedModifier;
-
-    let { x, y } = currentLocation;
-    if (moveState.isMovingUp) y -= moveDist;
-    if (moveState.isMovingDown) y += moveDist;
-    if (moveState.isMovingLeft) x -= moveDist;
-    if (moveState.isMovingRight) x += moveDist;
-
-    return { x, y };
-  }
-
-  getSpeedModifier(moveState) {
-    const isMovingDiagonal = 
-      (moveState.isMovingUp || moveState.isMovingDown) && 
-      (moveState.isMovingLeft || moveState.isMovingRight);
-
-    if (isMovingDiagonal) return 0.45;
-
-    switch (simTime.rateOfTime) {
-      case 1: return 0.9;
-      case 2: return 0.9 * 1.3;
-      case 3: return 0.9 * 1.8;
-      default: return 0.9;
-    }
-  }
-
-  hasPositionChanged(oldPos, newPos) {
-    return oldPos.x !== newPos.x || oldPos.y !== newPos.y;
-  }
-
   updatePlayerPosition(newPosition, isValid) {
     if (isValid) {
       this.playerControl.location = newPosition;
       this.playerControl.setDidMove(true);
     }
-  }
-
-  keyPressed(e) {
-    if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
-      this.playerControl.getMoveState()[
-        IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
-      ] = true;
-    this.playerControl.setLastMoveState(0);
-    e.stopPropagation();
-  } // end keyPressed fn
-
-  keyReleased(e) {
-    e.preventDefault(); // Cancel the native event
-    if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]) {
-      this.playerControl.getMoveState()[
-        IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
-      ] = false;
-      this.playerControl.setLastMoveState(this.determineLastMoveState(e.code));
-    }
-    e.stopPropagation();
-  }
-
-  determineLastMoveState(code) {
-    return IslandTemplate.KEYCODEMAP[code] || 0;
   }
 
   handleMouseInteraction(p5) {
