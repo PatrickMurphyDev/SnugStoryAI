@@ -232,8 +232,11 @@ class GameDialogScene extends GameSlideScene {
     //description
     p5.text(
       ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]].description,
-      pos.x + pos.w / 2 + pos.w / 4,
-      pos.y + padding / 2 + pos.w / 2 - padding + 55
+      pos.x + pos.w / 2 + pos.w / 64,
+      pos.y + padding / 2 + pos.h / 2 - padding + 55,
+
+      pos.w / 2 - padding,
+      pos.h / 2 - padding,
     );
     
     this.renderTradeGUIRightPanelActionRow(p5, combinedInventoryList, pos);
@@ -242,6 +245,7 @@ class GameDialogScene extends GameSlideScene {
   getSelectedItem(combinedInventoryList) {
     return ItemsEnum[combinedInventoryList[this.tradeItemSelected - 1]];
   }
+
 
   renderTradeGUIRightPanelActionRow(p5, combinedInventoryList, pos) {
     const selectedItem = this.getSelectedItem(combinedInventoryList);
@@ -329,18 +333,18 @@ class GameDialogScene extends GameSlideScene {
     }
 
     // row background
-    p5.rect(pos.x + 30, pos.y + rowHeight * row + 10, pos.w / 2 - 50, 34);
+    p5.rect(pos.x + 10, pos.y + rowHeight * row + 10, pos.w / 2 - 70, 34);
  
     p5.fill("#ffffff");
     p5.textSize(row === 0 ? 20 : 16);
     // row cells
     p5.textAlign("LEFT","BOTTOM");
-    p5.text(values[0], pos.x + 30 * 1, pos.y + 34 + rowHeight * row);
+    p5.text(values[0], pos.x + 30 * 4, pos.y + 34 + rowHeight * row);
     p5.textSize(row === 0 ? 16 : 13);
     
     p5.textAlign("CENTER","BOTTOM");
-    p5.text(values[1], pos.x + 30 * 9, pos.y + 34 + rowHeight * row);
-    p5.text(values[2], pos.x + 30 * 11, pos.y + 34 + rowHeight * row);
+    p5.text(values[1], pos.x + 30 * 10, pos.y + 34 + rowHeight * row);
+    p5.text(values[2], pos.x + 30 * 12, pos.y + 34 + rowHeight * row);
     
     // if not header row, create button
     // button is invis via fill/textColor opacity to handle clicks but not display
