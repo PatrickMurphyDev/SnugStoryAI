@@ -1,5 +1,5 @@
 import CharacterDecorator from "../CharacterDecorator";
-import CharacterEntity from "../CharacterEntity";
+import CharacterEntity from "../../Entities/CharacterEntity";
 class AdultCharacter extends CharacterDecorator {
     getDescription() {
       return `Adult ${super.getDescription()}`;

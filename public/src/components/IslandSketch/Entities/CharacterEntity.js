@@ -4,7 +4,7 @@ import CharacterInfo from "../CharacterFeatures/CharacterInfo";
 import CharacterAttributes from "../CharacterFeatures/CharacterAttributes";
 import CharacterNeeds from "../CharacterFeatures/CharacterNeeds";
 import CharacterTasks from "../CharacterFeatures/CharacterTasks";
-import { FiniteStateMachine } from "../FiniteStateMachine";
+import { FiniteStateMachine } from "../Controllers/FiniteStateMachine";
 import { stateDetails, states } from "../ConfigurationData/states";
 import SimulationTime from "../../../utils/SimulationTime";
 import CharacterInventory from '../CharacterFeatures/CharacterInventory';
