@@ -261,11 +261,48 @@ export class GameMapScene extends GameScene {
   loadAssets() {
     AssetsListGameMapScene(this.parentAssets, this, this.charPos);
   }
+  
+  /* orientCharacterTowardsMouse() {
+    const p5 = this.p5; // Assuming you have a reference to p5 instance
+    const playerPos = this.playerControl.location;
+    const mousePos = this.getMouseWorldPosition(p5);
+
+    const angle = Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
+    
+    // Assuming you have a method to set the character's orientation
+    this.playerControl.setOrientation(angle);
+  } */
+
+  getMouseScreenPosition(p5) {
+    return {
+      x: p5.mouseX,
+      y: p5.mouseY
+    };
+  }
+  
+  getMouseWorldPosition(p5) {
+    return this.convertScreenPositionToWorldPosition({x: p5.mouseX, y:p5.mouseY});
+  }
+
+  convertScreenPositionToWorldPosition(screenPos) {
+    return {
+      x: screenPos.x / this.gameViewMapScene.getCameraZoom() - this.gameViewMapScene.getCameraOffset().x,
+      y: screenPos.y / this.gameViewMapScene.getCameraZoom() - this.gameViewMapScene.getCameraOffset().y
+    };
+  }
+
+  convertWorldPositionToScreenPosition(worldPos) {
+    return {
+      x: worldPos.x * this.gameViewMapScene.getCameraZoom() + this.gameViewMapScene.getCameraOffset().x,
+      y: worldPos.y * this.gameViewMapScene.getCameraZoom() + this.gameViewMapScene.getCameraOffset().y
+    };
+  }
 
   update(p5) {
     this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
     if (this.GUI.getDisplayMode() === 0) {
+      this.inputHandler.update(p5);
       this.inputHandler.handleKeyboardUserInput();
       this.inputHandler.handleMouseInteraction(p5);
       this.gameViewMapScene.update(p5);
@@ -291,6 +328,7 @@ export class GameMapScene extends GameScene {
     } else {
       this.gameDialogScene.draw(p5);
     }
+
     p5.ellipseMode("CENTER");
     this.GUI.renderGUI(p5);
   }
@@ -309,13 +347,14 @@ export class GameMapScene extends GameScene {
       this.playerControl.setDidMove(true);
     }
   }
+
   onPlaceCrabTrap(p5) {
     if (this.playerInventory.getItemCount(ItemsEnum["Item2"]) > 0) {
       this.placeCrabTrap(p5);
     }
   }
 
-  placeCrabTrap(p5) {
+  placeCrabTrap(p5, throwDisance) {
     let offsetLocal = this.inputHandler.getOffsetLocal(
       p5,
       this.gameViewMapScene.getCameraOffset(),
@@ -325,7 +364,7 @@ export class GameMapScene extends GameScene {
       this.CrabTraps.push(
         new CrabTrapEntity(
           this,
-          "CTE" + p5.frameCounter,
+          "CTE" + p5.frameCount,
           offsetLocal.x,
           offsetLocal.y,
           simTime.getDate() + "|" + simTime.getTime(),

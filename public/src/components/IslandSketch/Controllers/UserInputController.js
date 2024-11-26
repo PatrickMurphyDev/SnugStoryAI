@@ -5,11 +5,27 @@ const SIMTIME = SimulationTime.getInstance();
 
 export class UserInputController {
   constructor(gameMapScene) {
-    this.gameMapScene = gameMapScene;
+    this.gameMapScene = gameMapScene; //parent class that holds game map scene and player control
     this.playerControl = gameMapScene.playerControl;
+    // variables to track mouse pressed length before release
+    this.keyPressStartTime = 0;
+    this.isTKeyPressed = false;
+    this.minPressTime = 500; // j = 0.5 seconds
+    this.maxPressTime = 1500; // k = 1.5 seconds
+    
+    // mouse control variables
     this.lastFrameMousePressed = false;
     this.isMouseReleased = false;
+
+    // Event listeners are added here to handle user input.
     this.initializeEventListeners();
+  }
+
+  update(p5) {
+    if (this.isTKeyPressed) {
+      //this.gameMapScene.orientCharacterTowardsMouse();
+      // draw arc
+    }
   }
 
   /*
@@ -31,6 +47,11 @@ export class UserInputController {
     //indow.addEventListener("mousedown", this.mousePressed.bind(this));
     //window.addEventListener("mouseup", this.mouseReleased.bind(this));
   }
+  /*
+   * Handles mouse wheel event.
+   * This method is triggered when the user scrolls the mouse wheel.
+   * It adjusts the zoom level of the game map based on the scroll direction.
+   */
   handleWheel(event) {
     const dir = Math.sign(event.deltaY);
     this.gameMapScene.doUIAction(this.gameMapScene.lastFrame, () => {
@@ -51,16 +72,30 @@ export class UserInputController {
   }
 
   keyPressed(e) {
-    if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code])
+    e.preventDefault();
+    if (e.key === 't' && !this.isTKeyPressed) {
+      // if t key pressed and wasn't pressed previously
+      // record time when t key was pressed
+      this.isTKeyPressed = true;
+      this.keyPressStartTime = Date.now();
+    }else if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]){
       this.playerControl.getMoveState()[
         IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
       ] = true;
-    this.playerControl.setLastMoveState(0);
+    }
     e.stopPropagation();
   }
 
   keyReleased(e) {
     e.preventDefault();
+    if (e.key === 't') {
+      this.isTKeyPressed = false;
+      const pressDuration = this.getPressDuration(this.keyPressStartTime);
+      if (pressDuration >= this.minPressTime && pressDuration <= this.maxPressTime) {
+        const throwDistance = this.calculateThrowDistance(pressDuration);
+        this.gameMapScene.placeCrabTrap(throwDistance);
+      }
+    }
     if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]) {
       this.playerControl.getMoveState()[
         IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
@@ -90,6 +125,7 @@ export class UserInputController {
     }
   }
 
+
   calculateNewPosition(currentLocation, moveState) {
     const speedModifier = this.getSpeedModifier(moveState);
     const moveDist = this.gameMapScene.speed * speedModifier;
@@ -101,6 +137,16 @@ export class UserInputController {
     if (moveState.isMovingRight) x += moveDist;
 
     return { x, y };
+  }
+
+  getPressDuration(startTime) {
+    startTime = startTime || this.keyPressStartTime;
+    return Date.now() - startTime;
+  }
+
+  getPressDurationPowerPct(startTime) {
+    startTime = startTime || this.keyPressStartTime;
+    return Math.min(Math.max((this.getPressDuration() - this.minPressTime),0),(this.maxPressTime - this.minPressTime)*.35) / (this.maxPressTime - this.minPressTime);
   }
 
   getSpeedModifier(moveState) {
@@ -122,6 +168,13 @@ export class UserInputController {
     return oldPos.x !== newPos.x || oldPos.y !== newPos.y;
   }
 
+  calculateThrowDistance(pressDuration) {
+    const minDistance = 50; // Minimum throw distance
+    const maxDistance = 200; // Maximum throw distance
+    const normalizedDuration = (pressDuration - this.minPressTime) / (this.maxPressTime - this.minPressTime);
+    return minDistance + normalizedDuration * (maxDistance - minDistance);
+  }
+
   handleMouseInteraction(p5) {
     this.isMouseReleased = false;
     if (p5.mouseIsPressed) {
@@ -130,8 +183,13 @@ export class UserInputController {
     } else if (this.lastFrameMousePressed) {
       this.isMouseReleased = true;
       this.lastFrameMousePressed = false;
-      this.gameMapScene.onPlaceCrabTrap(p5);
+      this.onMouseReleased(p5);
     }
+  }
+
+  onMouseReleased(p5) {
+    // orient player normal
+    //this.gameMapScene.onPlaceCrabTrap(p5)
   }
   
   getOffsetLocal(p5, offset, zoom) {

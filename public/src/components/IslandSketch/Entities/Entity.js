@@ -11,6 +11,7 @@ class Entity {
     this._isHidden = false;
     this.lastUIActionFrame = -1;
     this.UIActionCooldownFrames = 15;
+    this.orientation = 0;
   }
 
   doUIAction(currFrame, action){
@@ -61,8 +62,6 @@ class Entity {
     );
   }
 
-
-
   setHover(h) {
     this.isHovered = h;
   }
@@ -75,6 +74,20 @@ class Entity {
     this.location.x = l.x || this.location.x;
     this.location.y = l.y || this.location.y;
   }
+
+  getLocation() {
+    return this.location;
+  }
+  
+  setOrientation(angle) { 
+    // Implement logic to set the orientation based on the angle 
+    this.orientation = angle;  // Implement logic to set the orientation based on the angle 
+  }
+
+  getOrientation() {
+    return this.orientation;
+  }
+
   // Base update method, can be overridden by subclasses
   update() {
     // Handle hover and click states

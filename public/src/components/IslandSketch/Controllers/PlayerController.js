@@ -63,10 +63,6 @@ class PlayerController {
     return this.lastMoveState;
   }
 
-  determineLastMoveState(code) {
-    return IslandTemplate.KEYCODEMAP[code] || 0;
-  }
-
   setDidMove(dm) {
     this.didMove = dm;
   }
@@ -75,37 +71,39 @@ class PlayerController {
     return this.didMove;
   }
 
+  determineLastMoveState(code) {
+    return IslandTemplate.KEYCODEMAP[code] || 0;
+  }
+
   update(p5) {}
 
-  render(p5) {
+  render(p5) { 
+    const moveStateIsMoving = this.moveState.isMovingLeft || this.moveState.isMovingRight || this.moveState.isMovingUp || this.moveState.isMovingDown;
     let renderCharIdle = () => {
       if (this.lastMoveState <= 2) {
         p5.push();
         p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
-        this.parent.CharIdle.draw(p5, -this.location.x - 24, this.location.y); //p5.image(this.playerImage, -this.playerx - this.tileWidth, this.playery); // Because the x-axis is reversed, we need to draw at different x position. negative x
+        this.parent.CharIdle.draw(p5, -this.location.x - 24, this.location.y);
         p5.pop();
       } else {
         // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
         this.parent.CharIdle.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImage, this.playerx, this.playery);
       }
     };
-
-    if (
+    // if player is moving, draw the running sprite
+   if (
       this.parent.useCharImage &&
-      (this.moveState.isMovingDown ||
-        this.moveState.isMovingUp ||
-        this.moveState.isMovingLeft ||
-        this.moveState.isMovingRight)
+      (moveStateIsMoving)
     ) {
       if (this.moveState.isMovingLeft) {
-        this.parent.CharRunLeft.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImageLeft, this.playerx, this.playery); //parent.getAssets('GameMapScene')['PlayerImageLeft']
+        this.parent.CharRunLeft.draw(p5, this.location.x, this.location.y);
       } else if (this.moveState.isMovingRight) {
-        this.parent.CharRunRight.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImageRight, this.playerx, this.playery);
+        this.parent.CharRunRight.draw(p5, this.location.x, this.location.y);
       } else {
         if (this.moveState.isMovingUp) {
-          this.parent.CharRunUp.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImage, this.playerx, this.playery);
+          this.parent.CharRunUp.draw(p5, this.location.x, this.location.y);
         } else if (this.moveState.isMovingDown) {
-          this.parent.CharRunDown.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImage, this.playerx, this.playery);
+          this.parent.CharRunDown.draw(p5, this.location.x, this.location.y);
         }
       }
     } else if (this.parent.useCharImage) {
@@ -114,6 +112,32 @@ class PlayerController {
       // no char image def box
       p5.rect(this.location.x, this.location.y, 24, 32);
     }
+
+    if(this.parent.inputHandler.isTKeyPressed) {
+      const characterIconOffset = {x: 12, y: 22};
+      const playerhandsPosition = {x:this.location.x+characterIconOffset.x, y: this.location.y+characterIconOffset.y};
+
+      const line = (p5,v1,v2) => {
+        const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
+        let dx = v2.x - v1.x;
+        let dy = v2.y - v1.y;
+        let v3 = p5.createVector(
+          v1.x + dx * powerPct,
+          v1.y + dy * powerPct
+        );
+        p5.curve(v1.x-60, v1.y + powerPct*(25*10), v1.x, v1.y, v3.x, v3.y, v3.x+dx*(1-powerPct), v3.y+dy*(1-powerPct));
+        p5.stroke("#000000");
+        p5.strokeWeight(1);
+        p5.line(v1.x, v1.y, v3.x, v3.y);
+      };
+
+      p5.push();
+      p5.stroke("#ff0000");
+      p5.strokeWeight(2);
+      line(p5, playerhandsPosition, this.parent.getMouseWorldPosition(p5));
+      p5.pop();
+    }
+
   }
 }
 
