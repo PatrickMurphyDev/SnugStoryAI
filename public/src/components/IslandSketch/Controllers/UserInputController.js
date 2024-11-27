@@ -9,7 +9,9 @@ export class UserInputController {
     this.playerControl = gameMapScene.playerControl;
     // variables to track mouse pressed length before release
     this.keyPressStartTime = 0;
+    this.lastFrameKeyPressed = false;
     this.isTKeyPressed = false;
+    this.isTKeyReleased = false;
     this.minPressTime = 500; // j = 0.5 seconds
     this.maxPressTime = 1500; // k = 1.5 seconds
     
@@ -22,9 +24,11 @@ export class UserInputController {
   }
 
   update(p5) {
-    if (this.isTKeyPressed) {
-      //this.gameMapScene.orientCharacterTowardsMouse();
-      // draw arc
+    if(this.isTKeyPressed){
+      this.lastFrameKeyPressed = true;
+    }else if(this.lastFrameKeyPressed){
+      this.isTKeyReleased = true;
+      this.lastFrameKeyPressed = false;
     }
   }
 
@@ -104,7 +108,7 @@ export class UserInputController {
     }
     e.stopPropagation();
   }
-
+  
   determineLastMoveState(code) {
     return IslandTemplate.KEYCODEMAP[code] || 0;
   }

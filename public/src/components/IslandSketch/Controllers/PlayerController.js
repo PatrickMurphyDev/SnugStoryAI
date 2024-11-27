@@ -111,12 +111,12 @@ class PlayerController {
     } else {
       // no char image def box
       p5.rect(this.location.x, this.location.y, 24, 32);
-    }
+    } 
+
+    const characterIconOffset = {x: 12, y: 22};
+    const playerhandsPosition = {x:this.location.x+characterIconOffset.x, y: this.location.y+characterIconOffset.y};
 
     if(this.parent.inputHandler.isTKeyPressed) {
-      const characterIconOffset = {x: 12, y: 22};
-      const playerhandsPosition = {x:this.location.x+characterIconOffset.x, y: this.location.y+characterIconOffset.y};
-
       const line = (p5,v1,v2) => {
         const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
         let dx = v2.x - v1.x;
@@ -136,6 +136,21 @@ class PlayerController {
       p5.strokeWeight(2);
       line(p5, playerhandsPosition, this.parent.getMouseWorldPosition(p5));
       p5.pop();
+
+        
+      // check if player is holding an item
+      if (this.parent.playerInventory.isItemHeld()) {
+        const heldItem = this.parent.playerInventory.getItemHeld();
+        const heldItemIconPosition = {x: playerhandsPosition.x+8, y: playerhandsPosition.y};
+        //heldItem.icon.draw(p5, heldItemIconPosition.x, heldItemIconPosition.y);
+
+        let icon = heldItem.icon || ["🥅","🥅"];
+        p5.push();
+        p5.textSize(13);
+        p5.text((icon[0] || icon), heldItemIconPosition.x, heldItemIconPosition.y);
+        p5.text((icon[1] || ""), heldItemIconPosition.x + 5, heldItemIconPosition.y + 5);
+        p5.pop();
+      }
     }
 
   }

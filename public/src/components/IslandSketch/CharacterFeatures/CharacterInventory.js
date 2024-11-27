@@ -3,6 +3,7 @@ class CharacterInventory {
       this.items = items || {};
       this.itemDetails = itemsDets || {};
       this._cashValue = cashV || 1000;
+      this._currentItemIndex = 0;
     }
 
     getCash() {
@@ -19,6 +20,14 @@ class CharacterInventory {
         return null;
       }
       return this.items[i.key];
+    }
+
+    getItemObject(i) {
+      if (!i || typeof i.key !== 'string') {
+        console.error("Invalid item or item key");
+        return null;
+      }
+      return this.itemDetails[i.key];
     }
   
     addItem(i, cnt) {
@@ -94,6 +103,24 @@ class CharacterInventory {
       }
       return retArr;
     }
+
+    isItemHeld() {
+      if(this._currentItemIndex >= 0) {
+        return this.getItemCount(this.getItemHeld()) > 0;
+      }else {
+        return false;
+      }
+    }
+
+    getItemHeld(){
+      if(this._currentItemIndex >= 0) {
+        return this.getItemObject({key:this.getItemsList()[this._currentItemIndex]});
+
+      }else {
+        return false; 
+      }
+    }
+
   }
   
   export default CharacterInventory;
