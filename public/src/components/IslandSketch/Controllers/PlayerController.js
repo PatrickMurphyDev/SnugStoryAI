@@ -2,6 +2,7 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import SimulationTime from "../../../utils/SimulationTime";
 
 const simTime = SimulationTime.getInstance();
+
 class PlayerController {
   constructor(parent, loc, sp) {
     this.parent = parent;
@@ -11,6 +12,8 @@ class PlayerController {
     this.lastMoveState = 0;
     this.location = { x: 570, y: 1820 };
     this.didMove = true;
+
+    this.animationFrameCountSpeed = 300;
   }
 
   playerx() {
@@ -48,7 +51,7 @@ class PlayerController {
 
   setAsleep(bool) {
     this._isAsleep = bool;
-    simTime.sleep(60*7);
+    simTime.sleep(60 * 7);
   }
 
   isAsleep() {
@@ -75,132 +78,190 @@ class PlayerController {
     return IslandTemplate.KEYCODEMAP[code] || 0;
   }
 
-  update(p5) {}
+  update(p5) {
+    this.handleItemThrow(p5);
+  }
 
-  render(p5) { 
-    const moveStateIsMoving = this.moveState.isMovingLeft || this.moveState.isMovingRight || this.moveState.isMovingUp || this.moveState.isMovingDown;
-    let renderCharIdle = () => {
-      if (this.lastMoveState <= 2) {
-        p5.push();
-        p5.scale(-1, 1); // Scale -1, 1 means reverse the x axis, keep y the same.
-        this.parent.CharIdle.draw(p5, -this.location.x - 24, this.location.y);
-        p5.pop();
-      } else {
-        // if last move state was 3 down or 4 left, and not moving then draw the standing to the left sprite
-        this.parent.CharIdle.draw(p5, this.location.x, this.location.y); //p5.image(this.playerImage, this.playerx, this.playery);
-      }
-    };
-    // if player is moving, draw the running sprite
-   if (
-      this.parent.useCharImage &&
-      (moveStateIsMoving)
-    ) {
-      if (this.moveState.isMovingLeft) {
-        this.parent.CharRunLeft.draw(p5, this.location.x, this.location.y);
-      } else if (this.moveState.isMovingRight) {
-        this.parent.CharRunRight.draw(p5, this.location.x, this.location.y);
-      } else {
-        if (this.moveState.isMovingUp) {
-          this.parent.CharRunUp.draw(p5, this.location.x, this.location.y);
-        } else if (this.moveState.isMovingDown) {
-          this.parent.CharRunDown.draw(p5, this.location.x, this.location.y);
-        }
-      }
+  render(p5) {
+    this.renderCharacter(p5);
+    this.renderHeldItem(p5);
+    this.renderThrowingLine(p5);
+  }
+
+  renderCharacter(p5) {
+    const moveStateIsMoving = this.isMoveStateMoving();
+
+    if (this.parent.useCharImage && moveStateIsMoving) {
+      this.renderMovingCharacter(p5);
     } else if (this.parent.useCharImage) {
-      renderCharIdle();
+      this.renderIdleCharacter(p5);
     } else {
-      // no char image def box
-      p5.rect(this.location.x, this.location.y, 24, 32);
-    } 
-
-    const characterIconOffset = {x: 12, y: 22};
-    const playerhandsPosition = {x:this.location.x+characterIconOffset.x, y: this.location.y+characterIconOffset.y};
-
-    // check if player is holding an item and t pressed or released
-    if(this.parent.inputHandler.isTKeyPressed || this.parent.inputHandler.isTkeyReleased) {
-      if (this.parent.playerInventory.isItemHeld()) {
-        const heldItem = this.parent.playerInventory.getItemHeld();
-        const heldItemIconPosition = {x: playerhandsPosition.x+8, y: playerhandsPosition.y};
-
-        this.drawIcon(p5, heldItem, heldItemIconPosition);
-      }
-    }
-
-    if (this.parent.inputHandler.isTKeyPressed) {
-      const line = (p5, v1, v2) => {
-        const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
-        let dx = v2.x - v1.x;
-        let dy = v2.y - v1.y;
-        let v3 = p5.createVector(
-          v1.x + dx * powerPct,
-          v1.y + dy * powerPct
-        );
-        p5.curve(v1.x-60, v1.y + powerPct*(25*10), v1.x, v1.y, v3.x, v3.y, v3.x+dx*(1-powerPct), v3.y+dy*(1-powerPct));
-        p5.stroke("#000000");
-        p5.strokeWeight(1);
-        p5.line(v1.x, v1.y, v3.x, v3.y);
-      };
-
-      p5.push();
-      p5.stroke("#ff0000");
-      p5.strokeWeight(2);
-      line(p5, playerhandsPosition, this.parent.getMouseWorldPosition(p5));
-      p5.pop();
-    } else if (this.parent.inputHandler.isTKeyReleased) {
-      const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
-      const startPos = playerhandsPosition;
-      const endPos = this.parent.getMouseWorldPosition(p5);
-      const dx = endPos.x - startPos.x;
-      const dy = endPos.y - startPos.y;
-      const midPos = p5.createVector(
-        startPos.x + dx * powerPct,
-        startPos.y + dy * powerPct
-      );
-      const controlPoint = p5.createVector(startPos.x-60, startPos.y + powerPct*(25*10));
-
-      const newEntity = {
-        pos: p5.createVector(startPos.x, startPos.y),
-        frame: 0,
-        item: this.parent.playerInventory.getItemHeld(),        
-        update: function () {
-          this.frame++;
-          if (this.frame <= 1000) {
-            const t = this.frame / 1000;
-            this.pos = {
-              x: p5.curvePoint(
-                startPos.x,
-                controlPoint.x,
-                midPos.x,
-                endPos.x,
-                t
-              ),
-              y: p5.curvePoint(
-                startPos.y,
-                controlPoint.y,
-                midPos.y,
-                endPos.y,
-                t
-              ),
-            };
-          }
-        },
-        draw: function () {
-          p5.ellipse(this.pos.x, this.pos.y, 10, 10);
-        },
-      };
-
-      // Add the new entity to the parent's entity list
-      this.parent.addEntity(newEntity);
+      this.renderDefaultBox(p5);
     }
   }
 
-  drawIcon(p5, heldItem, heldItemIconPosition) {
+  isMoveStateMoving() {
+    return (
+      this.moveState.isMovingLeft ||
+      this.moveState.isMovingRight ||
+      this.moveState.isMovingUp ||
+      this.moveState.isMovingDown
+    );
+  }
+
+  renderMovingCharacter(p5) {
+    if (this.moveState.isMovingLeft) {
+      this.parent.CharRunLeft.draw(p5, this.location.x, this.location.y);
+    } else if (this.moveState.isMovingRight) {
+      this.parent.CharRunRight.draw(p5, this.location.x, this.location.y);
+    } else if (this.moveState.isMovingUp) {
+      this.parent.CharRunUp.draw(p5, this.location.x, this.location.y);
+    } else if (this.moveState.isMovingDown) {
+      this.parent.CharRunDown.draw(p5, this.location.x, this.location.y);
+    }
+  }
+
+  renderIdleCharacter(p5) {
+    if (this.lastMoveState <= 2) {
+      p5.push();
+      p5.scale(-1, 1);
+      this.parent.CharIdle.draw(p5, -this.location.x - 24, this.location.y);
+      p5.pop();
+    } else {
+      this.parent.CharIdle.draw(p5, this.location.x, this.location.y);
+    }
+  }
+
+  renderDefaultBox(p5) {
+    p5.rect(this.location.x, this.location.y, 24, 32);
+  }
+
+  renderHeldItem(p5) {
+    if (this.isItemInteractionActive()) {
+      const heldItem = this.parent.playerInventory.getItemHeld();
+      if (heldItem) {
+        const playerHandsPosition = this.getPlayerHandsPosition();
+        const heldItemIconPosition = {
+          x: playerHandsPosition.x + 8,
+          y: playerHandsPosition.y,
+        };
+        this.drawIcon(p5, heldItem, heldItemIconPosition);
+      }
+    }
+  }
+
+  renderThrowingLine(p5) {
+    if (this.parent.inputHandler.isTKeyPressed) {
+      const playerHandsPosition = this.getPlayerHandsPosition();
+      const mouseWorldPosition = this.parent.getMouseWorldPosition(p5);
+      this.drawThrowingLine(p5, playerHandsPosition, mouseWorldPosition);
+    }
+  }
+
+  handleItemThrow(p5) {
+    if (this.parent.inputHandler.isTKeyReleased) {
+      this.parent.inputHandler.isTKeyReleased = false;
+      const playerHandsPosition = this.getPlayerHandsPosition();
+      const mouseWorldPosition = this.parent.getMouseWorldPosition(p5);
+      this.createThrownItemEntity(p5, playerHandsPosition, mouseWorldPosition);
+    }
+  }
+
+  isItemInteractionActive() {
+    return (
+      this.parent.inputHandler.isTKeyPressed ||
+      this.parent.inputHandler.isTkeyReleased
+    );
+  }
+
+  getPlayerHandsPosition() {
+    const characterIconOffset = { x: 12, y: 22 };
+    return {
+      x: this.location.x + characterIconOffset.x,
+      y: this.location.y + characterIconOffset.y,
+    };
+  }
+
+  drawIcon(p5, heldItem, position) {
     let icon = heldItem.icon || ["🥅", "🥅"];
     p5.push();
     p5.textSize(13);
-    p5.text((icon[0] || icon), heldItemIconPosition.x, heldItemIconPosition.y);
-    p5.text((icon[1] || ""), heldItemIconPosition.x + 5, heldItemIconPosition.y + 5);
+    p5.text(icon[0] || icon, position.x, position.y);
+    p5.text(icon[1] || "", position.x + 5, position.y + 5);
     p5.pop();
+  }
+
+  drawThrowingLine(p5, start, end) {
+    const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
+    let dx = end.x - start.x;
+    let dy = end.y - start.y;
+    let v3 = p5.createVector(start.x + dx * powerPct, start.y + dy * powerPct);
+    let controlPoint = p5.createVector(start.x - 60,
+      start.y + powerPct * (25 * 10));
+    let endControlPoint = p5.createVector(
+      v3.x + dx * (1 - powerPct),
+      v3.y + dy * (1 - powerPct));
+
+    p5.push();
+    p5.stroke("#ff0000");
+    p5.strokeWeight(2);
+    p5.curve(
+      controlPoint.x,
+      controlPoint.y,
+      start.x,
+      start.y,
+      v3.x,
+      v3.y,
+      endControlPoint.x,
+      endControlPoint.y);
+    p5.stroke("#000000");
+    p5.strokeWeight(1);
+    p5.text("🥅", 
+      p5.curvePoint(controlPoint.x, start.x, v3.x, endControlPoint.x, 0.5),
+      p5.curvePoint(controlPoint.y, start.y, v3.y, endControlPoint.y, 0.5));
+    p5.line(start.x, start.y, v3.x, v3.y);
+    p5.pop();
+  }
+
+  createThrownItemEntity(p5, start, end) {
+    const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const controlPoint = p5.createVector(
+      start.x - 60,
+      start.y + powerPct * (25 * 10)
+    );
+    let v3 = p5.createVector(start.x + dx * powerPct, start.y + dy * powerPct);
+    let endControlPoint = p5.createVector(
+      v3.x + dx * (1 - powerPct),
+      v3.y + dy * (1 - powerPct));
+
+    let that = this;
+    const newEntity = {
+      pos: p5.createVector(start.x, start.y),
+      id:"trap01",
+      frame: 0,
+      item: that.parent.playerInventory.getItemHeld(),
+      update: function () {
+        this.frame++;
+        if (this.frame <= that.animationFrameCountSpeed) {
+          const t = this.frame / that.animationFrameCountSpeed;
+          this.pos = {
+            x: p5.curvePoint(controlPoint.x, start.x, v3.x, endControlPoint.x, t),
+            y: p5.curvePoint(controlPoint.y, start.y, v3.y, endControlPoint.y, t),
+          };
+        } else {
+          that.parent.placeCrabTrap(v3);
+          that.parent.gameViewMapScene.removeEntity(this);
+          console.log("remove trap throw entity")
+        }
+      },
+      draw: function () {
+        p5.ellipse(this.pos.x, this.pos.y, 10, 10);
+      },
+    };
+
+    this.parent.gameViewMapScene.addEntity(newEntity);
   }
 }
 

@@ -8,7 +8,9 @@ class GameViewMapScene extends GameSlideScene {
   constructor(parent) {
     super("GameViewMapScene");
     this.parent = parent;
+    this.frameCount = 0;
     this.initCamera(); // setup offset and zoom and control mode
+    this.entities = [];
   }
 
   initCamera() {
@@ -35,7 +37,17 @@ class GameViewMapScene extends GameSlideScene {
     this.cameraOffset = positionP5Vec;
   }
 
+  addEntity(entity) {
+    this.entities.push(entity);
+  }
+
+  removeEntity(entity) {
+    this.entities = this.entities.filter((e) => e.id !== entity.id);
+  }
+
   update(p5){
+    this.frameCount = p5.frameCount;
+    this.parent.playerControl.update(p5);
     this.setCameraZoom(IslandTemplate.VIEW_ZOOM_SETTING, this.zoomLevels[this.parent.currentZoomLevel]);
     if (this.parent.playerControl.getDidMove()) {
       // determine offset based on playerPosition and CameraZoom
@@ -113,6 +125,10 @@ class GameViewMapScene extends GameSlideScene {
     this.parent.lots.forEach((lot) => {
       lot.update(p5, this.parent);
       lot.draw(p5);
+    });
+    this.entities.forEach((ent) => {
+      ent.update(p5, this.parent);
+      ent.draw(p5);
     });
     this.parent.CrabTraps.forEach((ctrap) => {
       ctrap.update(p5,this.getCameraOffset(),this.getCameraZoom());

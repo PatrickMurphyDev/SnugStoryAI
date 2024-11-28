@@ -57,7 +57,6 @@ export class GameMapScene extends GameScene {
 
     this.AnimatedSprites = [];
     this.CollideEntities = [];
-    this.entities = [];
     this.CrabTraps = [];
     this.preloadedImages = [];
 
@@ -138,10 +137,6 @@ export class GameMapScene extends GameScene {
     if (this.DEBUG_LEVEL > 2) this.speed += 5;
     this.playerx = 570;
     this.playery = 1820;
-  }
-  
-  addEnitity(entity) {
-    this.entities.push(entity);
   }
 
   AddSceneCollideEntities() {
@@ -357,16 +352,16 @@ export class GameMapScene extends GameScene {
 
   onPlaceCrabTrap(p5) {
     if (this.playerInventory.getItemCount(ItemsEnum["Item2"]) > 0) {
-      this.placeCrabTrap(p5);
+      let mousePosition = this.inputHandler.getOffsetLocal(
+        this.p5,
+        this.gameViewMapScene.getCameraOffset(),
+        this.gameViewMapScene.getCameraZoom()
+      );
+      this.placeCrabTrap(mousePosition);
     }
   }
 
-  placeCrabTrap(throwDisance) {
-    let offsetLocal = this.inputHandler.getOffsetLocal(
-      this.p5,
-      this.gameViewMapScene.getCameraOffset(),
-      this.gameViewMapScene.getCameraZoom()
-    );
+  placeCrabTrap(offsetLocal) {
     this.doUIAction(this.p5.frameCount, () => {
       this.CrabTraps.push(
         new CrabTrapEntity(
