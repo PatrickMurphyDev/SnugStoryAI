@@ -13,7 +13,7 @@ class PlayerController {
     this.location = { x: 570, y: 1820 };
     this.didMove = true;
 
-    this.animationFrameCountSpeed = 300;
+    this.animationFrameCountSpeed = 50;
   }
 
   playerx() {
@@ -216,9 +216,9 @@ class PlayerController {
       endControlPoint.y);
     p5.stroke("#000000");
     p5.strokeWeight(1);
-    p5.text("🥅", 
+    /* p5.text("🥅", 
       p5.curvePoint(controlPoint.x, start.x, v3.x, endControlPoint.x, 0.5),
-      p5.curvePoint(controlPoint.y, start.y, v3.y, endControlPoint.y, 0.5));
+      p5.curvePoint(controlPoint.y, start.y, v3.y, endControlPoint.y, 0.5)); */
     p5.line(start.x, start.y, v3.x, v3.y);
     p5.pop();
   }
@@ -252,12 +252,35 @@ class PlayerController {
           };
         } else {
           that.parent.placeCrabTrap(v3);
+          that.createSplashEntity(p5, v3);
           that.parent.gameViewMapScene.removeEntity(this);
           console.log("remove trap throw entity")
         }
       },
       draw: function () {
-        p5.ellipse(this.pos.x, this.pos.y, 10, 10);
+        p5.text("🥅",this.pos.x, this.pos.y);
+      },
+    };
+
+    this.parent.gameViewMapScene.addEntity(newEntity);
+  }
+
+  createSplashEntity(p5, pos, ent) {
+    let that = this;
+    const newEntity = {
+      pos: pos,
+      id:"splash0111",
+      frame: 0,
+      item: that.parent.playerInventory.getItemHeld(),
+      update: function () {
+        this.frame++;
+        if (this.frame >= that.animationFrameCountSpeed) {
+          that.parent.gameViewMapScene.removeEntity(this);
+        }
+      },
+      draw: function () {
+        p5.fill("blue");
+        p5.ellipse(this.pos.x, this.pos.y,20,20);
       },
     };
 

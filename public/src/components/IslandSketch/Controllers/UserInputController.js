@@ -150,7 +150,7 @@ export class UserInputController {
 
   getPressDurationPowerPct(startTime) {
     startTime = startTime || this.keyPressStartTime;
-    return Math.min(Math.max((this.getPressDuration() - this.minPressTime),0),(this.maxPressTime - this.minPressTime)*.35) / (this.maxPressTime - this.minPressTime);
+    return Math.min(Math.max((this.getPressDuration() - this.minPressTime),0),(this.maxPressTime - this.minPressTime)*.45) / (this.maxPressTime - this.minPressTime);
   }
 
   getSpeedModifier(moveState) {
