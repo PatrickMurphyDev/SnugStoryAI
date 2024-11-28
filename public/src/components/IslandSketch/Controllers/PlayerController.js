@@ -116,8 +116,18 @@ class PlayerController {
     const characterIconOffset = {x: 12, y: 22};
     const playerhandsPosition = {x:this.location.x+characterIconOffset.x, y: this.location.y+characterIconOffset.y};
 
-    if(this.parent.inputHandler.isTKeyPressed) {
-      const line = (p5,v1,v2) => {
+    // check if player is holding an item and t pressed or released
+    if(this.parent.inputHandler.isTKeyPressed || this.parent.inputHandler.isTkeyReleased) {
+      if (this.parent.playerInventory.isItemHeld()) {
+        const heldItem = this.parent.playerInventory.getItemHeld();
+        const heldItemIconPosition = {x: playerhandsPosition.x+8, y: playerhandsPosition.y};
+
+        this.drawIcon(p5, heldItem, heldItemIconPosition);
+      }
+    }
+
+    if (this.parent.inputHandler.isTKeyPressed) {
+      const line = (p5, v1, v2) => {
         const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
         let dx = v2.x - v1.x;
         let dy = v2.y - v1.y;
@@ -136,23 +146,61 @@ class PlayerController {
       p5.strokeWeight(2);
       line(p5, playerhandsPosition, this.parent.getMouseWorldPosition(p5));
       p5.pop();
+    } else if (this.parent.inputHandler.isTKeyReleased) {
+      const powerPct = this.parent.inputHandler.getPressDurationPowerPct();
+      const startPos = playerhandsPosition;
+      const endPos = this.parent.getMouseWorldPosition(p5);
+      const dx = endPos.x - startPos.x;
+      const dy = endPos.y - startPos.y;
+      const midPos = p5.createVector(
+        startPos.x + dx * powerPct,
+        startPos.y + dy * powerPct
+      );
+      const controlPoint = p5.createVector(startPos.x-60, startPos.y + powerPct*(25*10));
 
-        
-      // check if player is holding an item
-      if (this.parent.playerInventory.isItemHeld()) {
-        const heldItem = this.parent.playerInventory.getItemHeld();
-        const heldItemIconPosition = {x: playerhandsPosition.x+8, y: playerhandsPosition.y};
-        //heldItem.icon.draw(p5, heldItemIconPosition.x, heldItemIconPosition.y);
+      const newEntity = {
+        pos: p5.createVector(startPos.x, startPos.y),
+        frame: 0,
+        item: this.parent.playerInventory.getItemHeld(),        
+        update: function () {
+          this.frame++;
+          if (this.frame <= 1000) {
+            const t = this.frame / 1000;
+            this.pos = {
+              x: p5.curvePoint(
+                startPos.x,
+                controlPoint.x,
+                midPos.x,
+                endPos.x,
+                t
+              ),
+              y: p5.curvePoint(
+                startPos.y,
+                controlPoint.y,
+                midPos.y,
+                endPos.y,
+                t
+              ),
+            };
+          }
+        },
+        draw: function () {
+          p5.ellipse(this.pos.x, this.pos.y, 10, 10);
+        },
+      };
 
-        let icon = heldItem.icon || ["🥅","🥅"];
-        p5.push();
-        p5.textSize(13);
-        p5.text((icon[0] || icon), heldItemIconPosition.x, heldItemIconPosition.y);
-        p5.text((icon[1] || ""), heldItemIconPosition.x + 5, heldItemIconPosition.y + 5);
-        p5.pop();
-      }
+      // Add the new entity to the parent's entity list
+      this.parent.addEntity(newEntity);
     }
+  }
 
+  drawIcon(p5, heldItem, heldItemIconPosition) {
+    let icon = heldItem.icon || ["🥅", "🥅"];
+    p5.push();
+    p5.textSize(13);
+    p5.text((icon[0] || icon), heldItemIconPosition.x, heldItemIconPosition.y);
+    p5.text((icon[1] || ""), heldItemIconPosition.x + 5, heldItemIconPosition.y + 5);
+    p5.pop();
   }
 }
 

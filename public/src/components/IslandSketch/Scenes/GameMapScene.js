@@ -51,11 +51,13 @@ export class GameMapScene extends GameScene {
     this.initMapSettings();
     this.GUI_Time = "";
     this.GUI_Date = "";
+    this.p5 = undefined;
 
     this.sleepTimeOfDay = 1300; // time of day that force sleep
 
     this.AnimatedSprites = [];
     this.CollideEntities = [];
+    this.entities = [];
     this.CrabTraps = [];
     this.preloadedImages = [];
 
@@ -136,6 +138,10 @@ export class GameMapScene extends GameScene {
     if (this.DEBUG_LEVEL > 2) this.speed += 5;
     this.playerx = 570;
     this.playery = 1820;
+  }
+  
+  addEnitity(entity) {
+    this.entities.push(entity);
   }
 
   AddSceneCollideEntities() {
@@ -299,6 +305,7 @@ export class GameMapScene extends GameScene {
   }
 
   update(p5) {
+    if(!this.p5) this.p5 = p5;
     this.checkSleepConditionUpdate();
     this.lastFrame = p5.frameCount;
     if (this.GUI.getDisplayMode() === 0) {
@@ -354,23 +361,23 @@ export class GameMapScene extends GameScene {
     }
   }
 
-  placeCrabTrap(p5, throwDisance) {
+  placeCrabTrap(throwDisance) {
     let offsetLocal = this.inputHandler.getOffsetLocal(
-      p5,
+      this.p5,
       this.gameViewMapScene.getCameraOffset(),
       this.gameViewMapScene.getCameraZoom()
     );
-    this.doUIAction(p5.frameCount, () => {
+    this.doUIAction(this.p5.frameCount, () => {
       this.CrabTraps.push(
         new CrabTrapEntity(
           this,
-          "CTE" + p5.frameCount,
+          "CTE" + this.p5.frameCount,
           offsetLocal.x,
           offsetLocal.y,
           simTime.getDate() + "|" + simTime.getTime(),
-          p5.frameCount,
+          this.p5.frameCount,
           (i) => {
-            this.doUIAction(p5.frameCount, () => {
+            this.doUIAction(this.p5.frameCount, () => {
               this.playerInventory.addItem(ItemsEnum["Item2"]);
               this.playerInventory.addItem(i);
             });
