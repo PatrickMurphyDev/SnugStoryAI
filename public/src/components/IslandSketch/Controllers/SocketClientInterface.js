@@ -128,17 +128,6 @@ class SocketClientInterface {
       callback(msg, this.incomingMessage);
     });
   }
-  
-  /*
-   * Sets up a listener for receiving complete AI messages from the socket server.
-   * 
-   * This function registers a callback to be executed when a 'msg-recieve-ai' event
-   * is received from the server. It marks the processing as complete and passes
-   * the received message to the provided callback function.
-   * @param {Function} callback - The function to be called when an AI message is received.
-   *                              This function will be passed the received message as its argument.
-   * @returns {void} This function does not return a value.
-   */
   onMessageReceiveAI(callback) {
     this.socket.on("msg-recieve-ai", (msg) => {
       this.isProcessing = false;
