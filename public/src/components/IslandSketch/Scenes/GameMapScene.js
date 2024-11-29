@@ -1,4 +1,49 @@
 // GameMapScene.js
+/*
+1. **Class: GameMapScene**
+   - Extends the `GameScene` class
+   - Manages the main game map, including characters, lots, and user interactions
+
+2. **Key Properties:**
+   - `playerControl`: Manages player movement and position
+   - `charList`: List of characters in the game
+   - `lots`: Array of game lots (buildings)
+   - `CollideEntities`: Array of collidable objects
+   - `playerInventory`: Manages player's inventory
+   - `GUI`: Handles GUI elements
+   - `chatData`: Manages conversation data
+   - `inputHandler`: Handles user input
+
+3. **Initialization Methods:**
+   - `constructor`: Sets up initial game state, loads assets, and initializes game components
+   - `setupParams`: Configures parameters passed to the scene
+   - `initMapSettings`: Initializes map-related settings
+   - `AddSceneCollideEntities`: Adds collision entities to the scene
+   - `loadWallData`: Loads wall data for collision detection
+   - `initializeLots`: Sets up game lots (buildings)
+   - `initializeCharacters`: Initializes game characters
+   - `loadAssets`: Loads game assets
+
+4. **Utility Methods:**
+   - `findCharByNPCKey`: Finds a character by their NPC key
+   - `getMouseScreenPosition`: Gets the mouse position in screen coordinates
+   - `getMouseWorldPosition`: Gets the mouse position in world coordinates
+   - `convertScreenPositionToWorldPosition`: Converts screen coordinates to world coordinates
+   - `convertWorldPositionToScreenPosition`: Converts world coordinates to screen coordinates
+
+5. **Update Method:**
+   - `update`: Main update loop for the game scene
+
+6. **Time Management:**
+   - Uses `SimulationTime` to manage in-game time and date
+
+7. **Subcomponents:**
+   - `GameDialogScene`: Manages dialog interactions
+   - `GameViewMapScene`: Handles map viewing functionality
+
+This class serves as the core of the game's map scene, managing various aspects such as character movement, interactions, GUI elements, and game state. It integrates multiple components to create a cohesive game environment.
+*/
+
 
 // import dependents
 import SimulationTime from "../../../utils/SimulationTime";
