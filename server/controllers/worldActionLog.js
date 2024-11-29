@@ -17,4 +17,4 @@ class WorldActionLog {
   }
 }
 
-export default WorldActionLog;
+module.exports = WorldActionLog;

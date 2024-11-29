@@ -2,38 +2,45 @@ import { io } from "socket.io-client";
 import { host } from "../../../utils/APIRoutes";
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import SimulationTime from "../../../utils/SimulationTime";
+import SocketClientInterface from "./SocketClientInterface";
 
 const SIMTIME = SimulationTime.getInstance();
 class ConversationController {
   constructor(parent, data) {
     this.parent = parent;
-    this.options = {};
-    this.options["hideNarrative"] = false;
-    this.options["syntaxKey"] = '"';
-    this.users = [];
     this.isProcessing = false;
+    this.options = {
+      hideNarrative: false,
+      syntaxKey: '"',
+    };
+    this.users = [];
     this.maxDialogSeq = 0;
     this.currentNPC = "";
     this.incomingMessage = { sender: -1, text: "" };
     this.currentNarrativeLevel = "intro";
-    this.overallNarrative = {intro:["NPC Should hint at Ellie's Dad's Death not being an accident", "NPC should warn Ellie of the mysterious cult on the island without using the word cult.","Hint at shady families that control the island"],action:[],climax:[]}
-
-    this.socket = {};
-    this.socket.current = io(host);
+    this.overallNarrative = {
+        intro: [
+          "NPC Should hint at Ellie's Dad's Death not being an accident",
+          "NPC should warn Ellie of the mysterious cult on the island without using the word cult.",
+          "Hint at shady families that control the island"
+        ],
+        action: [],
+        climax: []
+      };
+      
+      this.socketController = new SocketClientInterface();
+      this.setupSocketListeners();
 
     // add user ellie
-    this.socket.current.emit("add-user", "000000000000000000000001");
+    this.socketController.connectUser("000000000000000000000001");
 
-    let getDataEl = (data) => {
-      return data || [];
-    };
     this.conversationMap = {};
-    this.chatData = getDataEl(data);
+    this.chatData = data || [];
+  }
 
-    const handleMsgReceiveAI = (msg) => {
+  setupSocketListeners() {
+    this.socketController.onMessageReceiveAI((msg) => {
       console.log("msg-recieve-ai: ", msg);
-
-      this.isProcessing = false;
       let msg2 = { ...msg };
       if (!msg.to) msg2.to = "0000000000000000000000001";
       if (!msg.sender)
@@ -42,30 +49,20 @@ class ConversationController {
         if (this.users.indexOf(msg2.sender) === -1) {
           this.addUser(msg2.sender);
         }
-        this.addChat(msg2); // recieve full msg
+        this.addChat(msg2);
       }
-    };
-    const handleMsgReceiveAIPart = (msg) => {
+    });
+
+    this.socketController.onMessageReceiveAIPart((msg, incomingMessage) => {
       console.log("msg-recieve-ai-part: ", msg);
       if (msg.text.done) {
-        //resp done
-        this.isProcessing = false;
-        this.addChat({ sender: msg.sender, text: this.incomingMessage.text });
-        this.incomingMessage = { sender: -1, text: "" };
-      } else {
-        this.incomingMessage["sender"] = msg.sender;
-        this.appendChat(msg.text.response);
+        this.addChat({ sender: msg.sender, text: incomingMessage.text });
       }
-    };
+    });
 
-    const handleMsgStartAI = (msg) => {
+    this.socketController.onMessageStartAI((msg) => {
       console.log("msg-start-ai: ", msg);
-      this.isProcessing = true;
-    };
-
-    this.socket.current.on("msg-recieve-ai", handleMsgReceiveAI);
-    this.socket.current.on("msg-recieve-ai-part", handleMsgReceiveAIPart);
-    this.socket.current.on("msg-start-ai", handleMsgStartAI);
+    });
   }
 
   setSeq(seq) {
@@ -77,7 +74,7 @@ class ConversationController {
   }
 
   addUser(user) {
-    this.socket.current.emit("add-user", user);
+    this.socket.current.emit("connect-user", user);
     this.users.push(user);
   }
 
@@ -169,7 +166,7 @@ class ConversationController {
   }
 
   _sendMsgSocket(cm) {
-    this.socket.current.emit("send-msg", [
+    this.socketController.sendMessage([
       {
         to: cm.toID,
         from: cm.from,
@@ -183,16 +180,17 @@ class ConversationController {
   }
 
   _sendStartConvoSocket(cm) {
-    this.socket.current.emit("start-conversation", {
-      NPC: cm.NPC, // npc ***00000x
-      Player: cm.Player, // me ***0001
+    this.socketController.startConversation({
+      NPC: cm.NPC,
+      Player: cm.Player,
       timeOfDay: SIMTIME.getTime12Hr(),
     });
   }
+
   _sendEndConvoSocket(cm) {
-    this.socket.current.emit("end-conversation", {
-      NPC: cm.NPC, // npc ***00000x
-      Player: cm.Player, // me ***0001
+    this.socketController.endConversation({
+      NPC: cm.NPC,
+      Player: cm.Player,
       timeOfDay: SIMTIME.getTime12Hr(),
     });
   }

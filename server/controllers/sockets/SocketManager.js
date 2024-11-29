@@ -1,6 +1,6 @@
 const Ollama = require("ollama-node");
 const IslandTemplate = require("../../IslandTemplateServer");
-const WorldActionLog = require("../../controllers/worldActionLog");
+const WorldActionLog = require("../WorldActionLog");
 
 class SocketManager {
   constructor(io) {
@@ -30,15 +30,28 @@ class SocketManager {
   }
 
   handleConnection(socket) {
-    socket.on("add-user", (userID) => this.addUser(userID, socket.id));
+    socket.on("connect-user", (userID) => this.addUser(userID, socket.id));
     socket.on("load-world", (WorldData) => this.loadWorld(socket));
+    socket.on("save-world", (WorldData) => this.saveWorld(socket, WorldData));
     socket.on("start-conversation", (data) => this.startConversation(socket, data));
     socket.on("send-msg", (data) => this.sendMessage(socket, data));
-
+    socket.on("world-log-action", (data) => this.saveWorldLogAction(socket, data));
+    socket.on("disconnect-user", () => this.removeUser(userID, socket.id));
   } 
 
   addUser(userId, socketID) {
     this.onlineUsers.set(userId, socketID);
+  }
+  
+  removeUser(userId, socketID) {
+    this.onlineUsers.delete(userId);
+  }
+
+  async saveWorld(socket, WorldData) {
+    console.log("Save World", WorldData);
+    const newPrompt = this.ollama.streamingGenerate("#Buildings: " + JSON.stringify(IslandTemplate.Buildings), null, null, (msg) => { console.log(msg) });
+    const newPrompt2 = this.ollama.streamingGenerate("#Characters: " + JSON.stringify(IslandTemplate.Residents), null, null, (msg) => { console.log(msg) });
+    return [newPrompt, newPrompt2];
   }
 
   async loadWorld(socket) {
@@ -58,6 +71,28 @@ class SocketManager {
   }
 
   sendMessage = async (socket, data) => {
+    console.log(data);
+    data = data[0];
+    const sendUserSocket = this.onlineUsers.get(data.to);
+    const fromUserSocket = this.onlineUsers.get(data.from);
+    const socketList = [socket, this.io, sendUserSocket, fromUserSocket];
+
+    if (sendUserSocket) {
+      console.log("sendUseSocket msg-recieve conditional - if send to user is online");
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    }
+
+    // save persistent store msg sent by user
+    const newMsg = await this.storeMessage(data.msg, data.to, data.from, true);
+
+    // if AI requested
+    if (data.llmodel !== 0) {
+      const newPrompt = await this.promptAI(data, socketList, true);
+      return newPrompt;
+    }
+  }
+
+  saveWorldLogAction = async (socket, data) => {
     console.log(data);
     data = data[0];
     const sendUserSocket = this.onlineUsers.get(data.to);
