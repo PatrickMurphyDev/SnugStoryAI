@@ -6,7 +6,7 @@ const messageRoutes = require("./routes/messages");
 const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
-const Ollama = require("ollama-node");
+const SocketManager = require("./Controllers/Sockets/SocketManager") 
 const IslandTemplate = require("./IslandTemplateServer");
 const global = {};
 global.onlineUsers = new Map();
@@ -251,40 +251,11 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
-
+  app.use("/api/auth", authRoutes);
+  app.use("/api/messages", messageRoutes);
+  
 // SERVER STATE - Displayed on /ping
 let isDBConnected = false;
-let isAIConnected = false;
-let isAIProcessing = false;
-let lastToChar = -1;
-let promptCount = 0;
-let currentNarrativeLevel = "intro";
-let overallNarrative = {intro:["Ellie should Go to the bait shop to get some crab traps!","Ellie's Dad's Death was not an accident","tourists have gone missing","town is dangerous get out now", "warning of the mysterious cult on the island without using the word cult.", "shady families control the island"],action:[],climax:[]}
-
-
-// SETUP AI Instances
-const ollama = new Ollama.Ollama();
-ollama.setModel("llama3"); //"phi3:mini" "rp");"llama3"
-ollama.setSystemPrompt("#Your task is to roleplay as the supplied NPC character, "
-  + "character attributes will be supplied as JSON object with this structure {firstName, lastName, ageGender, descr, job, goal, CharacterPersonality}. " 
-  + "IT IS VERY IMPORTANT that you only speak as the character you are assigned until told to change. Limit all responses to 3 sentances.#");
-
-  const GetCharacterData = function(id){
-    return IslandTemplate.Residents[parseInt(id)];
-  }
-
-  const GetCharacterDataSummary = function(id){
-    return IslandTemplate.summarizeResident(
-      GetCharacterData(id)
-    );
-  }
-
-const getPresentCharactersData = function (NPCIDs) {
-  return [
-    GetCharacterDataSummary(NPCIDs[0]),
-    GetCharacterDataSummary(parseInt(NPCIDs[1]-1))
-  ];
-};
 
 // Ping Page Route
 // == Display Server State
@@ -294,14 +265,11 @@ app.get("/ping", (_req, res) => {
       "Ping Successful ||  DB Connected: " +
       isDBConnected +
       " ||  AI Connected: " +
-      isAIConnected +
+      socketManager.isAIConnected +
       " ||  AI Status: " +
-      (isAIProcessing ? "Processing..." : "Ready."),
+      (socketManager.isAIProcessing ? "Processing..." : "Ready."),
   });
 });
-
-app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes);
 
 const server = app.listen(5006, () => console.log(`Server started on 5006`));
 
@@ -313,133 +281,6 @@ const io = socket(server, {
   },
 });
 
-const storeSavedGame = async (userid, name, usrLoc, simTimeData) => {
-  const { SavedGame } = require("./models/models");
-  //return await SavedGame.create({
-  //  savedUser
-  //});
-};
-
-const storeMessage = async (msg, to, from, selfSent) => {
-  const Messages = require("./models/messageModel");
-  return await Messages.create({
-    message: { text: msg },
-    users: [from, to],
-    sender: from,
-  });
-};
-
-const broadcastMsg = (sockets, msg, params, doBroadcast) => {
-  if(doBroadcast){
-    sockets[0].to(sockets[2]).emit(msg, params);
-    sockets[1].to(sockets[3]).emit(msg, params);
-  }
-};
-
-function buildAIPromptTXT(data, dataPrefix) {
-  let sendMsg = "";
-  sendMsg += "# Respond as the character " +
-    GetCharacterData(data.to).name; + ".";
-  if (dataPrefix.length > 0) {
-    sendMsg += " use the following character data: ";
-    sendMsg += JSON.stringify(dataPrefix);
-    sendMsg += " The setting for the conversation is " + data.timeOfDay + ".";
-    sendMsg += " subtly include: " + overallNarrative.intro[Math.floor(overallNarrative.intro.length*Math.random())] +". "
-  }
-  //sendMsg += "Limit response around 2-3 sentences.# ";
-  sendMsg += " In 3 sentances or less respond to the following from Ellie: " + data.msg;
-
-  return sendMsg;
-}
-
-// TODO: Implement the PromptAI function
-const promptAI = async (data, socketList, doBroadcast = true) => {
-  let dataPrefix = [];
-  if (lastToChar !== data.to) {
-    lastToChar = data.to;
-    promptCount = 0;
-  }
-  if (promptCount <= 0) {
-    dataPrefix = getPresentCharactersData([data.to, data.from]); // initial setting
-  }
-
-  promptCount++;
-  // start ai processing
-  broadcastMsg(socketList, "msg-start-ai", data.msg, doBroadcast);
-  isAIProcessing = true;
-
-  let sendMsg = buildAIPromptTXT(data, dataPrefix);
-
-  console.log("Send AI Prompt: " + sendMsg);
-
-  const streamWord =(word)=>{
-    broadcastMsg(
-      socketList,
-      "msg-recieve-ai-part",
-      { sender: data.to, text: word },
-      doBroadcast
-    );
-  }
-
-  const streamResponseFull = (response)=>{
-    const resp = JSON.parse(response);
-    broadcastMsg(
-      socketList,
-      "msg-recieve-ai-part",
-      { sender: data.to, text: resp },
-      doBroadcast
-    );
-    isAIProcessing = false;
-  }
-
-  return ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
-};
-
-const socketAddUser = (userId, socketID) => {
-  global.onlineUsers.set(userId, socketID);
-};
-
-io.on("connection", async (socket) => {
-  global.chatSocket = socket;
-  socket.on("add-user", (userID) => {
-    return socketAddUser(userID, socket.id);
-  });
-  socket.on("load-world", async (WorldData) => {
-    const newPrompt = ollama.streamingGenerate("#Buildings: " + JSON.stringify(IslandTemplate.Buildings), null, null, (msg)=>{console.log(msg)});
-    const newPrompt2 = ollama.streamingGenerate("#Characters: " + JSON.stringify(IslandTemplate.Residents), null, null, (msg)=>{console.log(msg)});
-    
-    return [newPrompt,newPrompt2];
-  });
-  socket.on("start-conversation", async (data) => {
-    console.log(data);
-    const sendUserSocket = global.onlineUsers.get(data.NPC);
-    const fromUserSocket = global.onlineUsers.get(data.Player);
-    const socketList = [socket, io, sendUserSocket, fromUserSocket];
-
-    const newPrompt = await promptAI(data, socketList, false);
-    return newPrompt;
-  });
-  socket.on("send-msg", async (data) => {
-    console.log(data);
-    data = data[0];
-    const sendUserSocket = global.onlineUsers.get(data.to);
-    const fromUserSocket = global.onlineUsers.get(data.from);
-    const socketList = [socket, io, sendUserSocket, fromUserSocket];
-
-    if (sendUserSocket) {
-      console.log(
-        "sendUseSocket msg-recieve conditional - if send to user is online"
-      );
-      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-    }
-
-    // save persistant store msg sent by user
-    const newMsg = await storeMessage(data.msg, data.to, data.from, true);
-
-    // if AI requested
-    if (data.llmodel !== 0) {
-      const newPrompt = await promptAI(data, socketList, true);
-      return newPrompt;
-    }
-  });
-});
+// Initialize SocketManager
+const socketManager = new SocketManager(io);
+socketManager.init();
