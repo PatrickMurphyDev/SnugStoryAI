@@ -57,6 +57,7 @@ export class UserInputController {
    * It adjusts the zoom level of the game map based on the scroll direction.
    */
   handleWheel(event) {
+    if (!this.gameMapScene.GUI.allowMoveInputKeys) return;
     const dir = Math.sign(event.deltaY);
     this.gameMapScene.doUIAction(this.gameMapScene.lastFrame, () => {
       if (dir > 0) {
