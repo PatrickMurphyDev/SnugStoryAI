@@ -135,8 +135,6 @@ export class GameMapScene extends GameScene {
     this.tileWidth = 32;
     this.speed = 1.9;
     if (this.DEBUG_LEVEL > 2) this.speed += 5;
-    this.playerx = 570;
-    this.playery = 1820;
   }
 
   AddSceneCollideEntities() {

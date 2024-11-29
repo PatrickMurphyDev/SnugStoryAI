@@ -16,14 +16,6 @@ class PlayerController {
     this.animationFrameCountSpeed = 50;
   }
 
-  playerx() {
-    return this.location.x;
-  }
-
-  playery() {
-    return this.location.y;
-  }
-
   setMoveState(ms) {
     this.moveState = ms;
   }
