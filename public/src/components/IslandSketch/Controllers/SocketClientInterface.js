@@ -22,6 +22,25 @@ class SocketClientInterface {
   }
 
   /**
+   * Logs an action in the world to the socket server.
+   *
+   * This function emits a 'world-log-action' event to the socket server with the provided action data,
+   * allowing the client to record various world events or player actions in the game.
+   *
+   * @param {Object} actionData - The data of the action to be logged.
+   * @param {string|number} actionData.from - The identifier of the entity performing the action (e.g., player ID).
+   * @param {string} actionData.action - A description of the action being performed.
+   * @param {Object} [actionData.location] - The location where the action occurred, if applicable.
+   * @param {number} [actionData.location.x] - The x-coordinate of the action location.
+   * @param {number} [actionData.location.y] - The y-coordinate of the action location.
+   * @param {Object} [actionData.additionalInfo] - Any additional information relevant to the action.
+   * @returns {void} This function does not return a value.
+   */
+  worldLogAction(actionData) {
+    this.socket.emit("world-log-action", actionData);
+  }
+
+  /**
    * Sends a message to the socket server.
    *
    * This function emits a 'send-msg' event to the socket server with the provided message data,
@@ -37,6 +56,14 @@ class SocketClientInterface {
     this.socket.emit("send-msg", messageData);
   }
 
+  /**
+   * Loads a world state from the socket server.
+   *
+   * This function emits a 'load-world' event to the socket server with the provided world data,
+   * allowing the client to submit a specific world state for the game.
+   *
+   * not used
+   */
   loadWorld(worldData) {
     this.socket.emit("load-world", worldData);
   }
@@ -56,10 +83,18 @@ class SocketClientInterface {
     this.socket.emit("start-conversation", conversationData);
   }
 
+  /**
+   * Ends a conversation by emitting an 'end-conversation' event to the socket server.
+   *
+   * This function sends the provided conversation data to the server, signaling the end of a conversation.
+   */
   endConversation(conversationData) {
     this.socket.emit("end-conversation", conversationData);
   }
 
+  /*
+   * Handles the start of incoming messages from the AI server.
+   */
   onMessageStartAI(callback) {
     this.socket.on("msg-start-ai", (msg) => {
       this.isProcessing = true;
@@ -79,7 +114,16 @@ class SocketClientInterface {
       callback(msg, this.incomingMessage);
     });
   }
-
+  /*
+   * Sets up a listener for receiving complete AI messages from the socket server.
+   * 
+   * This function registers a callback to be executed when a 'msg-recieve-ai' event
+   * is received from the server. It marks the processing as complete and passes
+   * the received message to the provided callback function.
+   * @param {Function} callback - The function to be called when an AI message is received.
+   *                              This function will be passed the received message as its argument.
+   * @returns {void} This function does not return a value.
+   */
   onMessageReceiveAI(callback) {
     this.socket.on("msg-recieve-ai", (msg) => {
       this.isProcessing = false;
