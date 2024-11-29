@@ -305,17 +305,6 @@ export class GameMapScene extends GameScene {
   loadAssets() {
     AssetsListGameMapScene(this.parentAssets, this, this.charPos);
   }
-  
-  /* orientCharacterTowardsMouse() {
-    const p5 = this.p5; // Assuming you have a reference to p5 instance
-    const playerPos = this.playerControl.location;
-    const mousePos = this.getMouseWorldPosition(p5);
-
-    const angle = Math.atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x);
-    
-    // Assuming you have a method to set the character's orientation
-    this.playerControl.setOrientation(angle);
-  } */
 
   getMouseScreenPosition(p5) {
     return {
