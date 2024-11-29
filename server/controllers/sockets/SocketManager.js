@@ -1,5 +1,6 @@
 const Ollama = require("ollama-node");
 const IslandTemplate = require("../../IslandTemplateServer");
+const WorldActionLog = require("../../controllers/worldActionLog");
 
 class SocketManager {
   constructor(io) {
@@ -10,6 +11,7 @@ class SocketManager {
     this.ollama = new Ollama.Ollama();
     this.lastSentToCharacter = -1;
     this.promptCount = 0;
+    this.wActionLog = new WorldActionLog();
     this.overallNarrative = {intro:["Ellie should Go to the bait shop to get some crab traps!","Ellie's Dad's Death was not an accident","tourists have gone missing","town is dangerous get out now", "warning of the mysterious cult on the island without using the word cult.", "shady families control the island"],action:[],climax:[]};
   }
 
