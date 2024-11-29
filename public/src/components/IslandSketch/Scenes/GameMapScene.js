@@ -61,6 +61,7 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import WallData from "../ConfigurationData/WallData.json"; // Static Data: Wall Positions
 import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum"; // Static Data: Possible Items
+import SocketClientInterface from "../Controllers/SocketClientInterface";
 import ConversationController from "../Controllers/ConversationController";
 import GameDialogScene from "./GameDialogScene";
 import GameViewMapScene from "./GameViewMapScene";
@@ -143,7 +144,8 @@ export class GameMapScene extends GameScene {
     };
 
     this.GUI = new GUIElementManager(this);
-    this.chatData = new ConversationController(this, []);
+    this.SocketClientInterface = new SocketClientInterface(this);
+    this.chatData = new ConversationController(this, [], this.SocketClientInterface);
     this.loadWallData();
     this.inputHandler = new UserInputController(this);
     this.initializeLots();

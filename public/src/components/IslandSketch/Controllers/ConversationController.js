@@ -1,12 +1,9 @@
-import { io } from "socket.io-client";
-import { host } from "../../../utils/APIRoutes";
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import SimulationTime from "../../../utils/SimulationTime";
-import SocketClientInterface from "./SocketClientInterface";
 
 const SIMTIME = SimulationTime.getInstance();
 class ConversationController {
-  constructor(parent, data) {
+  constructor(parent, data, socketController) {
     this.parent = parent;
     this.isProcessing = false;
     this.options = {
@@ -28,7 +25,7 @@ class ConversationController {
         climax: []
       };
       
-      this.socketController = new SocketClientInterface();
+      this.socketController = socketController;
       this.setupSocketListeners();
 
     // add user ellie
