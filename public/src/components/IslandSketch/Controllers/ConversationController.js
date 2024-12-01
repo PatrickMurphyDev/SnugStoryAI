@@ -151,9 +151,9 @@ class ConversationController {
   addChat(cm, isGUI) {
     const cdata = this.validateChatMessage(cm);
 
-    if (this.options.hideNarrative && !isGUI) {
-      this._filterNarrativeText(cdata);
-    }
+    //if (this.options.hideNarrative && !isGUI) {
+    //  this._filterNarrativeText(cdata);
+    //}
 
     if (isGUI) {
       // if sent from gui not AI send msg socket
@@ -191,7 +191,7 @@ class ConversationController {
       timeOfDay: SIMTIME.getTime12Hr(),
     });
   }
-
+/* 
   _filterNarrativeText(cm) {
     if (cm.text.indexOf(this.optioins.syntaxKey) >= 0) {
       cm.text = cm.text.substring(
@@ -206,7 +206,7 @@ class ConversationController {
       }
     }
   }
-
+ */
   validateChatMessage(cm) {
     cm = cm || {};
     if (!cm.to) cm.to = this.parent.getNPCKey();
