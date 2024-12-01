@@ -7,7 +7,7 @@ import { Load_GameMenuScene } from "./Scenes/Load_GameMenuScene";
 import { Settings_GameMenuScene } from "./Scenes/Settings_GameMenuScene";
 import { Intro_GameCutScene } from "./Scenes/Intro_GameCutScene";
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
-
+import gameMapSceneAssets from "./ConfigurationData/AssetsList";
 
 //const NPCKeys = ["AddisonClark","AndiMcNuttly","Betty","Chad","Elaine"];
 const IslandSketch = ({
@@ -26,43 +26,13 @@ const IslandSketch = ({
     console.log('run sketchpreload');
     const mapSceneId = "GameMapScene";
     assetsByScene[mapSceneId] = {};
-    /* assetsByScene[mapSceneId]["NPCImages"] = {};
-    
-    for(var k = 0; k<NPCKeys.length; k++){
-      assetsByScene[mapSceneId]["NPCImages"][NPCKeys[k]] = p5.loadImage("images/CharacterProfileImages/"+NPCKeys[k]+".png");
-    } */
-    
-    assetsByScene[mapSceneId]["WaveSpriteSheet"] = p5.loadImage("tiles/Wave4.png");
-    assetsByScene[mapSceneId]["OtherCharSheet"] = p5.loadImage("images/otherchar.png");
-    assetsByScene[mapSceneId]["OtherCharSheet2"] = p5.loadImage("images/otherchar2.png");
-    assetsByScene[mapSceneId]["NewCharSheet"] = p5.loadImage("images/EllieSpriteNew.png");
-    assetsByScene[mapSceneId]["CrabItem"] = p5.loadImage("images/Wildlife/crab.jpeg");
-    assetsByScene[mapSceneId]["CrabItem2"] = p5.loadImage("images/Wildlife/crab2.jpeg");
+       
     assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(IslandTemplate.Image.source);
-    assetsByScene[mapSceneId]["BGBaitshop"] = p5.loadImage("images/SettingBGImages/baitshopb2.png");
-    assetsByScene[mapSceneId]["BGBakery"] = p5.loadImage("images/SettingBGImages/bakeryb4.png");
-    assetsByScene[mapSceneId]["BGHotel"] = p5.loadImage("images/SettingBGImages/lighthouselobbyB4.png");
-    assetsByScene[mapSceneId]["BGHotel2"] = p5.loadImage("images/SettingBGImages/hotelb4.png");
-    assetsByScene[mapSceneId]["BGTabernacle"] = p5.loadImage("images/SettingBGImages/tabernacleb4.png");
-    assetsByScene[mapSceneId]["BGDocks"] = p5.loadImage("images/SettingBGImages/DocksBlur4.png");
-    assetsByScene[mapSceneId]["BGMarina"] = p5.loadImage("images/SettingBGImages/marinaInsideB4.png");
-    assetsByScene[mapSceneId]["BGMedical"] = p5.loadImage("images/SettingBGImages/medical.png");
-    assetsByScene[mapSceneId]["BGCafe"] = p5.loadImage("images/SettingBGImages/cafe.png");
-    assetsByScene[mapSceneId]["BGPolice"] = p5.loadImage("images/SettingBGImages/police.png");
-    assetsByScene[mapSceneId]["BGSchool"] = p5.loadImage("images/SettingBGImages/school.png");
-    assetsByScene[mapSceneId]["BGClothes"] = p5.loadImage("images/SettingBGImages/clothes.png");
-    assetsByScene[mapSceneId]["BGGym"] = p5.loadImage("images/SettingBGImages/GymB4.png");
-    assetsByScene[mapSceneId]["BGFoodTown"] = p5.loadImage("images/SettingBGImages/BGFoodTownBlur4.png");
-    assetsByScene[mapSceneId]["BGBar"] = p5.loadImage("images/SettingBGImages/TheBethelBlur4.png");
-    assetsByScene[mapSceneId]["GameMapSceneUI"] = p5.loadImage("images/GameMapSceneUINoBanner.png");
-    assetsByScene[mapSceneId]["GameMapSceneUIBanner"] = p5.loadImage("images/UIBanner.png");
-    assetsByScene[mapSceneId]["PlayerImage"] = p5.loadImage("images/playerStanding.png");
-    assetsByScene[mapSceneId]["PlayerImageLeft"] = p5.loadImage("images/char_walk_left.gif");
-    assetsByScene[mapSceneId]["PlayerImageRight"] = p5.loadImage("images/char_walk_right.gif");
-    assetsByScene[mapSceneId]["PlayerProfileImage"] = p5.loadImage("images/Maureen256.png");
-    assetsByScene[mapSceneId]["PlayerBackHeadImage"] = p5.loadImage("images/BackHeadMainChar.png");
-    assetsByScene[mapSceneId]["OtherPlayerImage"] = p5.loadImage("images/playerStandingChar.png");
-    assetsByScene[mapSceneId]["OtherPlayerProfileImage"] = p5.loadImage("images/CharacterProfileImages/LukasMallard.png");
+    
+    // Load assets from the config
+    gameMapSceneAssets.forEach(asset => {
+      assetsByScene[mapSceneId][asset.key] = p5.loadImage(asset.path);
+    });
   
     let newLots = [...IslandTemplate.Buildings];
     newLots.forEach((v)=>{
@@ -70,13 +40,19 @@ const IslandSketch = ({
     });
   };
 
+  const setCurrentSceneIndexLoad = (id, data) => {
+    if(typeof id === 'number' && id >= 0 && id < scenes.length) { 
+      setCurrentSceneIndex(id); //scenes[4].loadSaveGame("save1"); // if is number not object set scene index
+    }
+  }
+
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
     if (scenes.length === 0) {
       setScenes([
         new Main_GameMenuScene(setCurrentSceneIndex, 1, 2, 3),
         new Intro_GameCutScene(setCurrentSceneIndex, 4),
-        new Load_GameMenuScene(setCurrentSceneIndex, 1, 1, 0),
+        new Load_GameMenuScene(setCurrentSceneIndexLoad, 1, 4, 0),
         new Settings_GameMenuScene(setCurrentSceneIndex, 3, 0),
         new GameMapScene(
           onCharacterSelect,
@@ -91,7 +67,7 @@ const IslandSketch = ({
   };
 
   const draw = (p5) => {
-      scenes[currentSceneIndex].draw(p5);
+    scenes[currentSceneIndex].draw(p5);
   };
 
   return <Sketch preload={preload} setup={setup} draw={draw} />;
