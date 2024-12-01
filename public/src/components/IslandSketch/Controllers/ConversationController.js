@@ -71,7 +71,7 @@ class ConversationController {
   }
 
   addUser(user) {
-    this.socket.current.emit("connect-user", user);
+    this.socketController.addUser(user);
     this.users.push(user);
   }
 
@@ -82,7 +82,7 @@ class ConversationController {
   }
 
   loadWorld(){
-    this.socket.current.emit("load-world", "{WorldData:{time:"+SIMTIME.getTime12Hr()+"}}");
+    this.socketController.loadWorld("{WorldData:{time:"+SIMTIME.getTime12Hr()+"}}");
   }
 
   openConversation(NPC) {
