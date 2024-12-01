@@ -31,13 +31,19 @@ class SocketManager {
 
   handleConnection(socket) {
     socket.on("connect-user", (userID) => this.addUser(userID, socket.id));
-    socket.on("load-world", (WorldData) => this.loadWorld(socket));
-    socket.on("save-world", (WorldData) => this.saveWorld(socket, WorldData));
+    socket.on("load-world", (WorldData) => this.loadWorld(socket, WorldData));
+    socket.on("save-game-state", (WorldData) => this.saveGameState(socket, WorldData));
     socket.on("start-conversation", (data) => this.startConversation(socket, data));
     socket.on("send-msg", (data) => this.sendMessage(socket, data));
     socket.on("world-log-action", (data) => this.saveWorldLogAction(socket, data));
     socket.on("disconnect-user", () => this.removeUser(userID, socket.id));
   } 
+  broadcastMsg(sockets, SocketEvent, msgParams, doBroadcast) {
+    if(doBroadcast){
+      sockets[0].to(sockets[2]).emit(SocketEvent, msgParams);
+      sockets[1].to(sockets[3]).emit(SocketEvent, msgParams);
+    }
+  };
 
   addUser(userId, socketID) {
     this.onlineUsers.set(userId, socketID);
@@ -47,11 +53,9 @@ class SocketManager {
     this.onlineUsers.delete(userId);
   }
 
-  async saveWorld(socket, WorldData) {
-    console.log("Save World", WorldData);
-    const newPrompt = this.ollama.streamingGenerate("#Buildings: " + JSON.stringify(IslandTemplate.Buildings), null, null, (msg) => { console.log(msg) });
-    const newPrompt2 = this.ollama.streamingGenerate("#Characters: " + JSON.stringify(IslandTemplate.Residents), null, null, (msg) => { console.log(msg) });
-    return [newPrompt, newPrompt2];
+  async saveGameState(socket, WorldData) {
+    console.log("Save Game State", WorldData);
+    return this.storeGameState(WorldData);
   }
 
   async loadWorld(socket) {
@@ -109,8 +113,7 @@ class SocketManager {
 
     // if AI requested
     if (data.llmodel !== 0) {
-      const newPrompt = await this.promptAI(data, socketList, true);
-      return newPrompt;
+      return await this.promptAI(data, socketList, true);
     }
   }
 
@@ -164,20 +167,22 @@ getPresentCharactersData(NPCIDs) {
 };
 
 async storeMessage(msg, to, from, selfSent) {
-    const Messages = require("../../models/messageModel");
-    return await Messages.create({
-      message: { text: msg },
-      users: [from, to],
-      sender: from,
-    });
-  };
-  
-  broadcastMsg(sockets, msg, params, doBroadcast) {
-    if(doBroadcast){
-      sockets[0].to(sockets[2]).emit(msg, params);
-      sockets[1].to(sockets[3]).emit(msg, params);
-    }
-  };
+  const Messages = require("../../models/messageModel");
+  return await Messages.create({
+    message: { text: msg },
+    users: [from, to],
+    sender: from,
+  });
+};
+
+async storeGameState(saveGameID, gameState) {
+  const gameSave = require("../../models/gameSaveStateModel");
+  return await gameSave.create({
+    message: { text: msg },
+    users: [from, to],
+    sender: from,
+  });
+};
   
   buildCharacterPromptTXT(data) {
     let sendMsg = " Use the following character data: ";
