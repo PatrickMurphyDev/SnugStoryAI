@@ -75,12 +75,12 @@ class GUIAlertWindow {
     );
     p5.pop();
 
-    const npcImage = this.parentSceneRef.characterProfileImages[this.AlertWindowNPCKey];
-    if (npcImage) {
+    const npcImage = this.parentSceneRef.characterProfileImages[this.parentSceneRef.getNPCKey() || "Andi McNuttly"];
+     if (npcImage) {
       p5.image(npcImage, x + w - 125 - 15, y + 25, 125, 125);
     } else {
-      this.parentSceneRef.characterProfileImages[this.AlertWindowNPCKey] = p5.loadImage(
-        `images/CharacterProfileImages/${this.AlertWindowNPCKey}.png`
+      this.parentSceneRef.characterProfileImages[this.parentSceneRef.getNPCKey() || "Andi McNuttly"] = p5.loadImage(
+        `images/CharacterProfileImages/${(this.parentSceneRef.getNPCKey() || "Andi McNuttly")}.png`
       );
     }
   }
@@ -91,6 +91,8 @@ class GUIAlertWindow {
         const buttonX = el.x + el.w - 175 * (jID + 1);
         const buttonY = el.y + el.h - 12;
         let detailObj = this.getDetails()["actions"][jID];
+        // TODO: code is depending on the specific action  e.g., sleep, talk, quest, etc.
+        // replace the following lines with actual code to handle each action type.
         if(detailObj.hasOwnProperty('text') && detailObj.text === "Sleep"){
           detailObj.onClickHandle = ()=>{
             this.parentSceneRef.playerControl.setAsleep(true); 
