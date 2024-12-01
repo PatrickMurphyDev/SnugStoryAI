@@ -41,6 +41,30 @@ class SocketClientInterface {
   }
 
   /**
+   * Sends Game State to the socket server to be saved using the saveID as it's identifing key.
+   *
+   * This function emits a 'world-log-action' event to the socket server with the provided action data,
+   * allowing the client to record various world events or player actions in the game.
+   *
+   * @param {string} saveID - The identifying key for the save state.
+   * @param {Object} saveData.player - player
+   * @param {Object} saveData.player.location - player world location x,y
+   * @param {Object} saveData.player.inventory - player inventory, a map of item names as keys and counts as values
+   * @param {Object} saveData.world.date - date value 
+   * @param {Object} saveData.world.time - date time value
+   * @returns {void} This function does not return a value.
+   */
+  saveGameState(saveID, saveData) {
+    if(saveID && saveData){
+      if(saveData.player && saveData.player.location && saveData.player.inventory && saveData.world && saveData.world.date && saveData.world.time){
+        this.socket.emit("save-game-state", { saveID, saveData });
+      } else {
+        console.error("Invalid save data, missing player, location, inventory, world, date, or time");
+      }
+    }
+  }
+
+  /**
    * Sends a message to the socket server.
    *
    * This function emits a 'send-msg' event to the socket server with the provided message data,
