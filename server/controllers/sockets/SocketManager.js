@@ -48,6 +48,9 @@ class SocketManager {
     socket.on("save-game-state", (WorldData) =>
       this.saveGameState(socket, WorldData)
     );
+    socket.on("load-game-state", (saveID) =>
+      this.loadGameState(socket, saveID)
+    );
     socket.on("start-conversation", (data) =>
       this.startConversation(socket, data)
     );
@@ -75,6 +78,13 @@ class SocketManager {
   async saveGameState(socket, WorldData) {
     console.log("Save Game State", WorldData);
     return this.storeGameState(WorldData["saveID"], WorldData.saveData);
+  }
+
+  async loadGameState(socket, GameStateID) {
+    console.log("Load Game State", GameStateID);
+    const data = this.readGameState(WorldData["saveID"]);
+    console.log("Loaded Game State", data);
+    return data;
   }
 
   async loadWorld(socket) {
@@ -225,6 +235,16 @@ class SocketManager {
     } else {
       // else, update existing saveGame
       await gameSave.updateOne(gameState);
+    }
+  }
+
+  async readGameState(saveGameID) {
+    const gameSave = require("../../models/gameSaveStateModel");
+    let read = await gameSave.findOne({ saveGameID });
+    if (read) {
+      return JSON.parse(read.gameState);
+    } else {
+      return null;
     }
   }
 
