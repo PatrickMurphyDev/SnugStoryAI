@@ -64,6 +64,13 @@ class SocketClientInterface {
     }
   }
 
+  loadGameState(saveID) {
+    if(saveID){
+      this.socket.emit("load-game-state", saveID);
+      //console.error("Invalid save data, missing player, location, inventory, world, date, or time");
+    }
+  }
+
   /**
    * Sends a message to the socket server.
    *
@@ -115,6 +122,16 @@ class SocketClientInterface {
   endConversation(conversationData) {
     this.socket.emit("end-conversation", conversationData);
   }
+
+  /*
+   * Handles the start of incoming messages from the AI server.
+   */
+  onLoadGameStateData(callback) {
+    this.socket.on("load-game-state-data", (gameState) => {
+      callback(JSON.parse(gameState));
+    });
+  }
+
 
   /*
    * Handles the start of incoming messages from the AI server.
