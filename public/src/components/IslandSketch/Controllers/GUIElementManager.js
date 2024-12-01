@@ -50,7 +50,7 @@ export class GUIElementManager {
     this.LotDetails = details;
     this.AlertWindow.setDetails(details);
     this.parent.chatData.addChat({"text": (details.msg || "")}, false);
-    if (details.NPCKey) this.AlertWindow.setNPCKey(details.NPCKey);
+    if (details.NPCKey) this.parent.setNPCKey(details.NPCKey);
     if (details.BGKey) this.BGKey = details.BGKey;
   }
 
@@ -85,7 +85,7 @@ export class GUIElementManager {
   /* =---------------= END ACTION METHODS & INPUT HANDLERS =---------------=*/
 
   getNPCKey(){
-    return this.AlertWindow.getNPCKey();
+    return this.parent.getNPCKey();
   }
 
   setSimulationDateTime({ time, date }) {
@@ -124,7 +124,7 @@ export class GUIElementManager {
     }
 
     if(dm !== 0){
-      this.parent.chatData.openConversation(this.parent.chatData.convertNPCKeyToID(this.AlertWindow.getNPCKey()));
+      this.parent.chatData.openConversation(this.parent.chatData.convertNPCKeyToID(this.parent.getNPCKey()));
     }
     this.displayMode = dm;
   }
@@ -136,6 +136,7 @@ export class GUIElementManager {
   getInventory(){
     return this.parent.playerInventory;
   }
+
 
   /* =================== RENDER & DRAW ===================*/
   renderGUI(p5) {

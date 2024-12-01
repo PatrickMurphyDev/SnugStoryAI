@@ -308,6 +308,14 @@ export class GameMapScene extends GameScene {
     AssetsListGameMapScene(this.parentAssets, this, this.charPos);
   }
 
+  setNPCKey(npcKey) {
+    this.currentNPCKey = npcKey;
+  }
+
+  getNPCKey() {
+    return this.currentNPCKey;
+  }
+
   getMouseScreenPosition(p5) {
     return {
       x: p5.mouseX,

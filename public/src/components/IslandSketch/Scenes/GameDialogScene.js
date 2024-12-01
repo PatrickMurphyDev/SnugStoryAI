@@ -44,7 +44,7 @@ class GameDialogScene extends GameSlideScene {
 
   setDisplayMode(dm) {
     this.dialogDisplayMode = dm;
-    this.npcInventory = this.parent.findCharByNPCKey(this.parent.GUI.AlertWindow.getNPCKey()).getInventory();
+    this.npcInventory = this.parent.findCharByNPCKey(this.parent.getNPCKey()).getInventory();
   }
 
   draw(p5) {
@@ -112,7 +112,7 @@ class GameDialogScene extends GameSlideScene {
       p5.stroke("#000000aa");
       p5.textSize(26);
       p5.text(
-        that.parent.GUI.AlertWindow.getNPCKey(),
+        that.parent.getNPCKey(),
         that.RenderOffset.x + that.otherPlayerPos.x + 350 / 2,
         that.otherPlayerPos.y + 350 + 10
       );
@@ -122,12 +122,12 @@ class GameDialogScene extends GameSlideScene {
     function drawNPC() {
       if (
         that.parent.characterProfileImages[
-          that.parent.GUI.AlertWindow.getNPCKey()
+          that.parent.getNPCKey()
         ]
       ) {
         p5.image(
           that.parent.characterProfileImages[
-            that.parent.GUI.AlertWindow.getNPCKey()
+            that.parent.getNPCKey()
           ],
           that.otherPlayerPos.x + that.RenderOffset.x,
           that.otherPlayerPos.y,
