@@ -48,9 +48,10 @@ class SocketManager {
     socket.on("save-game-state", (WorldData) =>
       this.saveGameState(socket, WorldData)
     );
-    socket.on("load-game-state", (saveID) =>
-      this.loadGameState(socket, saveID)
-    );
+    socket.on("load-game-state", async (saveID) =>{
+      var d = await this.loadGameState(socket, saveID);
+      socket.emit("load-game-state-data", d);
+    });
     socket.on("start-conversation", (data) =>
       this.startConversation(socket, data)
     );
@@ -82,9 +83,7 @@ class SocketManager {
 
   async loadGameState(socket, GameStateID) {
     console.log("Load Game State", GameStateID);
-    const data = this.readGameState(WorldData["saveID"]);
-    console.log("Loaded Game State", data);
-    return data;
+    return await this.readGameState(GameStateID);
   }
 
   async loadWorld(socket) {
@@ -239,10 +238,12 @@ class SocketManager {
   }
 
   async readGameState(saveGameID) {
+    saveGameID = saveGameID || "save1";
     const gameSave = require("../../models/gameSaveStateModel");
     let read = await gameSave.findOne({ saveGameID });
+    console.log("Read Game State: ", JSON.stringify(read));
     if (read) {
-      return JSON.parse(read.gameState);
+      return JSON.stringify(read);
     } else {
       return null;
     }
