@@ -110,6 +110,7 @@ export class GameMapScene extends GameScene {
 
     this.gameDialogScene = new GameDialogScene(this);
     this.gameViewMapScene = new GameViewMapScene(this);
+    this.nextGameStateSaveID = -1; // reset saveID after load state
 
     //tmp char fix other char
     this.charPos = {
@@ -151,6 +152,14 @@ export class GameMapScene extends GameScene {
     this.initializeLots();
     this.initializeCharacters();
     this.AddSceneCollideEntities();
+    
+    // TODO: fix this so it isnt static
+    //this.loadGameState("save1");
+
+    this.SocketClientInterface.onLoadGameStateData((data) => {
+      console.log("Load game state data:", data);
+      this.playerControl.location = data.player.location;
+    });
 
     simTime.onTimeUpdate((data) => {
       this.GUI_Time = data.time12;
@@ -238,6 +247,11 @@ export class GameMapScene extends GameScene {
       }
     });
     return retVal;
+  }
+
+  loadGameState(saveID) {
+    console.log("Load game state: ", saveID);
+    this.SocketClientInterface.loadGameState(saveID);
   }
 
   loadWallData() {
@@ -339,6 +353,10 @@ export class GameMapScene extends GameScene {
       x: worldPos.x * this.gameViewMapScene.getCameraZoom() + this.gameViewMapScene.getCameraOffset().x,
       y: worldPos.y * this.gameViewMapScene.getCameraZoom() + this.gameViewMapScene.getCameraOffset().y
     };
+  }
+
+  setNextGameStateSaveID(saveID) {
+    this.nextGameStateSaveID = saveID;
   }
 
   update(p5) {
