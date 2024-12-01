@@ -22,6 +22,7 @@ export class Main_GameMenuScene extends GameMenuScene {
         height: btnSizes.heightPct*800,
         text: "Load Game",
         onClick: () => {
+          console.log("MAIN: Load Game clicked");
           parentSetSceneFN(loadGameScene);
         },
       },
