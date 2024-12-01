@@ -16,6 +16,19 @@ class PlayerController {
     this.animationFrameCountSpeed = 50;
   }
 
+  buildGameSaveState() {
+    return {
+      player: {
+        location: this.location, 
+        inventory: this.parent.playerInventory
+      }, 
+      world:{
+        date: simTime.getDate(), 
+        time: simTime.getTime()
+      }
+    };
+  }
+
   setMoveState(ms) {
     this.moveState = ms;
   }
@@ -43,7 +56,10 @@ class PlayerController {
 
   setAsleep(bool) {
     this._isAsleep = bool;
-    simTime.sleep(60 * 7);
+    if(bool) {
+      this.parent.SocketClientInterface.saveGameState("save1", this.buildGameSaveState());
+      simTime.sleep(60 * 7);
+    }
   }
 
   isAsleep() {
@@ -260,10 +276,9 @@ class PlayerController {
   createSplashEntity(p5, pos, ent) {
     let that = this;
     const newEntity = {
-      pos: pos,
+      location: pos,
       id:"splash0111",
       frame: 0,
-      item: that.parent.playerInventory.getItemHeld(),
       update: function () {
         this.frame++;
         if (this.frame >= that.animationFrameCountSpeed) {
@@ -272,7 +287,7 @@ class PlayerController {
       },
       draw: function () {
         p5.fill("blue");
-        p5.ellipse(this.pos.x, this.pos.y,20,20);
+        p5.ellipse(this.location.x, this.location.y,20,20);
       },
     };
 
