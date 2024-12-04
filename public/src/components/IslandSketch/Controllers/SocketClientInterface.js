@@ -119,8 +119,8 @@ class SocketClientInterface {
    *
    * This function sends the provided conversation data to the server, signaling the end of a conversation.
    */
-  endConversation(conversationData) {
-    this.socket.emit("end-conversation", conversationData);
+  endConversation(conversationData, npc) {
+    this.socket.emit("end-conversation", {npc:npc, data: conversationData});
   }
 
   /*

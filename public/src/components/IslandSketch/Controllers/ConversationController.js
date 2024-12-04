@@ -108,6 +108,7 @@ class ConversationController {
   }
 
   closeConversation() {
+    //this.socketController.endConversation(this.chatData, this.currentNPC);
     //this._sendEndConvoSocket({NPC: this.currentNPC, Player:"000000000000000000000001"});
     //this._sendMsgSocket(this.validateChatMessage({text:"#### End Chat Conversation with NPC ###"}))
     // SAVE
