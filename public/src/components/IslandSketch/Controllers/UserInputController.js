@@ -77,7 +77,7 @@ export class UserInputController {
   }
 
   keyPressed(e) {
-    e.preventDefault();
+    //e.preventDefault();
     if (e.key === 't' && !this.isTKeyPressed) {
       // if t key pressed and wasn't pressed previously
       // record time when t key was pressed
