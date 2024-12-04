@@ -49,7 +49,9 @@ class Entity {
     rad = rad || 15.0;
 
     if (!(loc.x && loc.y)) {
-      throw new Error("no location x,y");
+      //throw new Error("no location x,y");
+      //console.log("no location x,y");
+      return false; 
     }
     const ps = p5.createVector(loc.x, loc.y);
     return (
