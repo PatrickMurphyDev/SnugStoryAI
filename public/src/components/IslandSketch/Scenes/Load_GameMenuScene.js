@@ -23,10 +23,8 @@ export class Load_GameMenuScene extends GameMenuScene {
         height: btnSizes.heightPct*800,
         text: "Load Game",
         onClick: () => {
-          this.doUIAction(0, () => {
             console.log("LOAD: Load Game clicked");
-            parentSetSceneFN(loadGameScene, "save1");
-          });
+            parentSetSceneFN(loadGameScene, 'save1');
         },
       },
       {

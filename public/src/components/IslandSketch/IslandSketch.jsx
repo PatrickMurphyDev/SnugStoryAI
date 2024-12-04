@@ -9,6 +9,8 @@ import { Intro_GameCutScene } from "./Scenes/Intro_GameCutScene";
 import { IslandTemplate } from "../../utils/IslandTemplateTile";
 import gameMapSceneAssets from "./ConfigurationData/AssetsList";
 
+const SCENECOUNT = 5;
+
 //const NPCKeys = ["AddisonClark","AndiMcNuttly","Betty","Chad","Elaine"];
 const IslandSketch = ({
   onCharacterSelect,
@@ -19,6 +21,9 @@ const IslandSketch = ({
 }) => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   let assetsByScene = {};
+  let currentSave = undefined; // for saving game
+  const [saveData, setSaveData] = useState(undefined);
+  const [loadData, setLoadData] = useState(undefined);
 
   const [scenes, setScenes] = useState([]);
 
@@ -41,8 +46,12 @@ const IslandSketch = ({
   };
 
   const setCurrentSceneIndexLoad = (id, data) => {
-    if(typeof id === 'number' && id >= 0 && id < scenes.length) { 
-      setCurrentSceneIndex(id); //scenes[4].loadSaveGame("save1"); // if is number not object set scene index
+    console.log('load save game ' + id + " " + scenes.length, currentSave); // if is object set save data
+    if(id >= 0 && id < SCENECOUNT) { 
+      console.log('load save game, after int check, range check ' + id, currentSave); // if is object set save data
+      currentSave = data; // if is object set save data
+      setLoadData(data);
+      setCurrentSceneIndex(id); 
     }
   }
 
@@ -64,9 +73,17 @@ const IslandSketch = ({
         ),
       ]);
     }
+  };    
+  
+  const checkForGameToLoad = () => {
+    if (currentSceneIndex === 4 && loadData) {
+      scenes[currentSceneIndex].loadGameState(loadData);
+      setLoadData(undefined);
+    }
   };
 
   const draw = (p5) => {
+    checkForGameToLoad();
     scenes[currentSceneIndex].draw(p5);
   };
 

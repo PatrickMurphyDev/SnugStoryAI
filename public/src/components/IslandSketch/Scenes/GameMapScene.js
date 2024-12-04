@@ -152,13 +152,16 @@ export class GameMapScene extends GameScene {
     this.initializeLots();
     this.initializeCharacters();
     this.AddSceneCollideEntities();
-    
-    // TODO: fix this so it isnt static
-    //this.loadGameState("save1");
 
+    // HANDLE LOAD GAME STATE
     this.SocketClientInterface.onLoadGameStateData((data) => {
       console.log("Load game state data:", data);
       this.playerControl.location = data.player.location;
+      const offsetLocal = this.p5.createVector(
+        (data.player.location.x * -1) + (this.p5.width / (this.getCameraZoom())) / 2,
+        (data.player.location.y * -1) + (this.p5.height / (this.getCameraZoom())) / 2.5
+      );
+      this.gameViewMapScene.setCameraOffset(offsetLocal); //{x: -1*(data.player.location.x - this.p5.width/2), y: -1*(data.player.location.y + (this.p5.height/2))}
     });
 
     simTime.onTimeUpdate((data) => {
