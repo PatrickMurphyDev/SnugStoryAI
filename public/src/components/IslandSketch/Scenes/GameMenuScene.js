@@ -48,9 +48,13 @@ export class GameMenuScene extends GameScene {
     }
 
     // Draw buttons
+    this.drawButtons(p5);
+  }
+
+  drawButtons(p5) {
     this.buttons.forEach((button) => {
       // Draw button background
-      this.GUIButton.draw(p5, {fill: '#007BFF', text: button.text, onClickHandle:button.onClick}, button.x, button.y, button.width, button.height)
+      this.GUIButton.draw(p5, { fill: '#007BFF', text: button.text, onClickHandle: button.onClick }, button.x, button.y, button.width, button.height);
     });
   }
 }
