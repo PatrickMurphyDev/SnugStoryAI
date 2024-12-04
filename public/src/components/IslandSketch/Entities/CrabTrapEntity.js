@@ -12,6 +12,7 @@ class CrabTrapEntity extends Entity {
     this.trapStates = ["recentlyCast","ready","invalid"];
     this.trapState = 0;
     this.harvestCallback = callback;
+    this.radius = 150;
 
     this.frameAge = -1;
   }
@@ -24,7 +25,7 @@ class CrabTrapEntity extends Entity {
       this.fillColor = '#ff0000';
     }
     if(this.trapState === 1 && p5.mouseIsPressed && this.isMouseOver(p5,offset,scal)){
-      this.doUIAction(p5.frameCount, ()=>(this.harvest()));
+      this.doUIAction(p5.frameCount, ()=>(this.harvest(p5)));
     }
   }
 
@@ -50,12 +51,19 @@ class CrabTrapEntity extends Entity {
     p5.stroke(`#ffffff${transparency}`);
   }
 
-  harvest(){
+  trapsInRange(p5) {
+    const fltrFunc = e=> {
+      return e.name === "CrabTrapEntity"
+      && p5.dist(e.location.x,e.location.y,this.location.x,this.location.y) < this.radius;
+    }
+    return this.parent.CrabTraps.filter(fltrFunc);
+  }
+
+  harvest(p5){
     this.fillColor = "#00ff00";
     this.trapState = 2;
     const pctCatchChance = .3;
-    //this.frameAge;
-    const randDidCatch = Math.random();
+    const randDidCatch = Math.random() / (((this.trapsInRange(p5)).length) || 1);
     if(randDidCatch>pctCatchChance){
       const randSelect = Math.random();
       if(randSelect<.1){
