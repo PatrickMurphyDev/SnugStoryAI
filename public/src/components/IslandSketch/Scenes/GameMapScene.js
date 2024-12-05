@@ -59,7 +59,7 @@ import PlayerController from "../Controllers/PlayerController";
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import WallData from "../ConfigurationData/WallData.json"; // Static Data: Wall Positions
-import AssetsListGameMapScene from "./AssetsListGameMapScene"; // Static Data: Image Assets imported
+import LoadAnimatedSpritesAndAssetsHelper from "../Objects/LoadAnimatedSpritesAndAssetsHelper"; // Static Data: Image Assets imported
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum"; // Static Data: Possible Items
 import SocketClientInterface from "../Controllers/SocketClientInterface";
 import ConversationController from "../Controllers/ConversationController";
@@ -322,7 +322,7 @@ export class GameMapScene extends GameScene {
   }
 
   loadAssets() {
-    AssetsListGameMapScene(this.parentAssets, this, this.charPos);
+    LoadAnimatedSpritesAndAssetsHelper(this.parentAssets, this, this.charPos);
   }
 
   setNPCKey(npcKey) {

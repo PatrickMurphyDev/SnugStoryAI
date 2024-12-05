@@ -1,4 +1,4 @@
-import {GameMenuScene} from "./GameMenuScene.js";
+import {GameMenuScene} from "../GameMenuScene.js";
 
 export class Settings_GameMenuScene extends GameMenuScene {
   constructor(parentSetSceneFN, settingsAfterSaveScene = 1, backScene = 1) {

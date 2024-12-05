@@ -1,5 +1,5 @@
 // GameCutScene.js
-import { GameCutScene } from "./GameCutScene";
+import { GameCutScene } from "../GameCutScene";
 
 const slideTypesEnum = {IMG:0,TXT:1,IMGTXT:2,SMLIMGTXT:3};
 const createSlideObjFn = (that, slideType, txt, img, choices)=>{

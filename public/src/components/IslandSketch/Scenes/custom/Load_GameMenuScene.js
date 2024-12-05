@@ -1,4 +1,4 @@
-import {GameMenuScene} from "./GameMenuScene.js";
+import {GameMenuScene} from "../GameMenuScene.js";
 
 // TODO: make btnSizes a global constant for easy modification
 const btnSizes = { widthPct: 210/800.00,"heightPct": 45/600.0,}
