@@ -36,29 +36,39 @@ class ConversationController {
   }
 
   setupSocketListeners() {
+    // Add Listener for entire message recieved from AI Model
     this.socketController.onMessageReceiveAI((msg) => {
       console.log("msg-recieve-ai: ", msg);
       let msg2 = { ...msg };
       if (!msg.to) msg2.to = "0000000000000000000000001";
-      if (!msg.sender)
+      if (!msg.sender) {
         msg2.sender = this.convertNPCKeyToID(this.parent.GUI.getNPCKey());
+      }
+
       if (msg2.sender === this.currentNPC) {
         if (this.users.indexOf(msg2.sender) === -1) {
           this.addUser(msg2.sender);
         }
         this.addChat(msg2);
+        this.isProcessing = false;
       }
     });
 
+    // Add listener for part (around the length of one word) of the message recieved from AI Model
     this.socketController.onMessageReceiveAIPart((msg, incomingMessage) => {
       console.log("msg-recieve-ai-part: ", msg);
       if (msg.text.done) {
         this.addChat({ sender: msg.sender, text: incomingMessage.text });
+      }else{
+        this.incomingMessage["sender"] = msg.sender;
+        this.appendChat(msg.text.response);
       }
     });
 
+    // Add listener for when the AI Model starts generating a response
     this.socketController.onMessageStartAI((msg) => {
       console.log("msg-start-ai: ", msg);
+      this.isProcessing = true;
     });
   }
 
