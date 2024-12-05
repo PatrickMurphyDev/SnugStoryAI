@@ -61,6 +61,8 @@ class ConversationController {
       if (msg.text.done) {
         this.appendChat(msg.text.response);
         this.addChat({ sender: msg.sender, text: this.incomingMessage.text });
+        this.incomingMessage.text = "";
+        this.incomingMessage.sender = -1;
         this.isProcessing = false;
       }else{
         this.incomingMessage["sender"] = msg.sender;
