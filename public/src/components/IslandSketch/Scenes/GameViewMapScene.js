@@ -10,7 +10,7 @@ class GameViewMapScene extends GameSlideScene {
     this.parent = parent;
     this.frameCount = 0;
     this.initCamera(); // setup offset and zoom and control mode
-    this.entities = [];
+    this.entities = []; // TODO: add game entities manager
   }
 
   initCamera() {

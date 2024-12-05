@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Sketch from "react-p5";
 import { GameMapScene } from "./Scenes/GameMapScene";
-import { Main_GameMenuScene } from "./Scenes/Main_GameMenuScene";
+import { Main_GameMenuScene } from "./Scenes/custom/Main_GameMenuScene";
 import { Load_GameMenuScene } from "./Scenes/custom/Load_GameMenuScene";
 import { Settings_GameMenuScene } from "./Scenes/custom/Settings_GameMenuScene";
 import { Intro_GameCutScene } from "./Scenes/custom/Intro_GameCutScene";

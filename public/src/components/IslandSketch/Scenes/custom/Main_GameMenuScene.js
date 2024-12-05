@@ -1,4 +1,4 @@
-import {GameMenuScene} from "./GameMenuScene.js";
+import {GameMenuScene} from "../GameMenuScene.js";
 
 const btnSizes = { widthPct: 210/800.00,"heightPct": 45/600.0,}
 
