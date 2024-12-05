@@ -143,24 +143,8 @@ class SocketManager {
   saveWorldLogAction = async (socket, data) => {
     console.log(data);
     data = data[0];
-    const sendUserSocket = this.onlineUsers.get(data.to);
-    const fromUserSocket = this.onlineUsers.get(data.from);
-    const socketList = [socket, this.io, sendUserSocket, fromUserSocket];
-
-    if (sendUserSocket) {
-      console.log(
-        "sendUseSocket msg-recieve conditional - if send to user is online"
-      );
-      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
-    }
-
     // save persistent store msg sent by user
-    const newMsg = await this.storeMessage(data.msg, data.to, data.from, true);
-
-    // if AI requested
-    if (data.llmodel !== 0) {
-      return await this.promptAI(data, socketList, true);
-    }
+    const gameActionLogItem = await this.storeGameActionLog(data);
   };
 
   async promptAI(data, socketList, doBroadcast = true) {
@@ -225,6 +209,13 @@ class SocketManager {
     });
   }
 
+  // save game state to db by saveGameID, gameState is JSON string
+  async storeGameActionLog(gameAction) {
+    const gameActionLog = require("../../models/gameActionLogModel");
+    let saveRow = await gameActionLog.create(gameAction);
+  }
+
+  
   // save game state to db by saveGameID, gameState is JSON string
   async storeGameState(saveGameID, gameState) {
     const gameSave = require("../../models/gameSaveStateModel");
