@@ -22,6 +22,13 @@ class SocketClientInterface {
   }
 
   /**
+   * gets the status of the socket connection.
+  */
+  isConnected() {
+    return this.socket.connected;
+  }
+
+  /**
    * Logs an action in the world to the socket server.
    *
    * This function emits a 'world-log-action' event to the socket server with the provided action data,
@@ -64,6 +71,7 @@ class SocketClientInterface {
     }
   }
 
+  // loads a game state from the socket server.
   loadGameState(saveID) {
     if(saveID){
       this.socket.emit("load-game-state", saveID);
@@ -169,6 +177,11 @@ class SocketClientInterface {
       callback(msg, this.incomingMessage);
     });
   }
+  
+  /**
+   * Sets up a listener for receiving complete AI messages from the socket server.
+   *
+   * This function registers a callback to be executed when a 'msg-recieve-ai' event */
   onMessageReceiveAI(callback) {
     this.socket.on("msg-recieve-ai", (msg) => {
       this.isProcessing = false;

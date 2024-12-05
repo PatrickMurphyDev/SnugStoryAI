@@ -215,6 +215,7 @@ class SocketManager {
     ];
   }
 
+  // save message to db by to, from, and selfSent boolean
   async storeMessage(msg, to, from, selfSent) {
     const Messages = require("../../models/messageModel");
     return await Messages.create({
@@ -224,6 +225,7 @@ class SocketManager {
     });
   }
 
+  // save game state to db by saveGameID, gameState is JSON string
   async storeGameState(saveGameID, gameState) {
     const gameSave = require("../../models/gameSaveStateModel");
     let save = await gameSave.findOne({ saveGameID });
@@ -237,6 +239,7 @@ class SocketManager {
     }
   }
 
+  // load game state from db by saveGameID, return JSON string
   async readGameState(saveGameID) {
     saveGameID = saveGameID || "save1";
     const gameSave = require("../../models/gameSaveStateModel");
@@ -248,7 +251,9 @@ class SocketManager {
       return null;
     }
   }
-
+/* Prompt string building functions 
+*   START of buildPromptTXT functions
+*/
   buildCharacterPromptTXT(data) {
     let sendMsg = " Use the following character data: ";
     sendMsg += JSON.stringify(data);
@@ -299,6 +304,7 @@ class SocketManager {
 
     return sendMsg;
   }
+  /* END Prompt string building functions */
 }
 
 module.exports = SocketManager;

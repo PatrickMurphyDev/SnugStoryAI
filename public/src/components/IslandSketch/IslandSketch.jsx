@@ -22,7 +22,6 @@ const IslandSketch = ({
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   let assetsByScene = {};
   let currentSave = undefined; // for saving game
-  const [saveData, setSaveData] = useState(undefined);
   const [loadData, setLoadData] = useState(undefined);
 
   const [scenes, setScenes] = useState([]);
@@ -45,10 +44,28 @@ const IslandSketch = ({
     });
   };
 
+  const getIsServerConnected = () => {
+    if(scenes.length <= 5) {
+      return scenes[4].isServerConnected();
+    }
+    return false;
+  };
+
+  // draw the server is connected indicator
+  const drawServerConnectedIndicator = (p5, serverIsConnected) => {
+    p5.push();
+    p5.fill('red');
+    if (serverIsConnected) {
+      p5.fill('green');
+    }
+    p5.ellipse(30, 30, 25, 25);
+    p5.pop();
+  }
+
   const setCurrentSceneIndexLoad = (id, data) => {
     console.log('load save game ' + id + " " + scenes.length, currentSave); // if is object set save data
     if(id >= 0 && id < SCENECOUNT) { 
-      console.log('load save game, after int check, range check ' + id, currentSave); // if is object set save data
+      //console.log('load save game, after int check, range check ' + id, currentSave); // if is object set save data
       currentSave = data; // if is object set save data
       setLoadData(data);
       setCurrentSceneIndex(id); 
@@ -85,6 +102,7 @@ const IslandSketch = ({
   const draw = (p5) => {
     checkForGameToLoad();
     scenes[currentSceneIndex].draw(p5);
+    drawServerConnectedIndicator(p5, getIsServerConnected());
   };
 
   return <Sketch preload={preload} setup={setup} draw={draw} />;

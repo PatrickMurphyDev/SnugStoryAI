@@ -467,6 +467,10 @@ export class GameMapScene extends GameScene {
     returnNewValueCallback(returnPos, newPosValidity);
   } // end checkNextPositionCollision FN
 
+  isServerConnected() {
+    return this.SocketClientInterface.isConnected();
+  }
+
   createCharacterEntity(resident) {
     return new CharacterEntity(
       { x: resident.x || 0, y: resident.y || 0 },
