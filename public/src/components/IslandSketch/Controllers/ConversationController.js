@@ -38,6 +38,7 @@ class ConversationController {
   setupSocketListeners() {
     // Add Listener for entire message recieved from AI Model
     this.socketController.onMessageReceiveAI((msg) => {
+      // NOT USED CURRENTLY ====================
       console.log("msg-recieve-ai: ", msg);
       let msg2 = { ...msg };
       if (!msg.to) msg2.to = "0000000000000000000000001";
@@ -58,7 +59,9 @@ class ConversationController {
     this.socketController.onMessageReceiveAIPart((msg, incomingMessage) => {
       console.log("msg-recieve-ai-part: ", msg);
       if (msg.text.done) {
-        this.addChat({ sender: msg.sender, text: incomingMessage.text });
+        this.appendChat(msg.text.response);
+        this.addChat({ sender: msg.sender, text: this.incomingMessage.text });
+        this.isProcessing = false;
       }else{
         this.incomingMessage["sender"] = msg.sender;
         this.appendChat(msg.text.response);
