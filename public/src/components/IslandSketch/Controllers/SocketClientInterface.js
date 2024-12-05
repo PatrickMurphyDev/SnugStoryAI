@@ -44,6 +44,7 @@ class SocketClientInterface {
    * @returns {void} This function does not return a value.
    */
   worldLogAction(actionData) {
+    // TODO: add check if valid action data before sending
     this.socket.emit("world-log-action", actionData);
   }
 
