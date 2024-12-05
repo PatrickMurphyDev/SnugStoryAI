@@ -84,6 +84,7 @@ class GameViewMapScene extends GameSlideScene {
   }
 
   draw(p5) {
+    p5.textAlign(p5.CENTER, p5.CENTER);
     p5.push();
     if (simTime.currentTimeOfDay) {
       this.renderBackground(p5);
