@@ -43,15 +43,22 @@ class SocketManager {
   }
 
   handleConnection(socket) {
-    socket.on("connect-user", (userID) => this.addUser(userID, socket.id));
+    socket.on("connect-user", (userID) =>
+      this.addOnlineUser(userID, socket.id)
+    );
+    socket.on("disconnect-user", () =>
+      this.removeOnlineUser(userID, socket.id)
+    );
+
     socket.on("load-world", (WorldData) => this.loadWorld(socket, WorldData));
     socket.on("save-game-state", (WorldData) =>
       this.saveGameState(socket, WorldData)
     );
-    socket.on("load-game-state", async (saveID) =>{
+    socket.on("load-game-state", async (saveID) => {
       var d = await this.loadGameState(socket, saveID);
       socket.emit("load-game-state-data", d);
     });
+
     socket.on("start-conversation", (data) =>
       this.startConversation(socket, data)
     );
@@ -59,7 +66,6 @@ class SocketManager {
     socket.on("world-log-action", (data) =>
       this.saveWorldLogAction(socket, data)
     );
-    socket.on("disconnect-user", () => this.removeUser(userID, socket.id));
   }
   broadcastMsg(sockets, SocketEvent, msgParams, doBroadcast) {
     if (doBroadcast) {
@@ -68,11 +74,14 @@ class SocketManager {
     }
   }
 
-  addUser(userId, socketID) {
+  /**
+   * Socket Event Handlers
+   */
+  addOnlineUser(userId, socketID) {
     this.onlineUsers.set(userId, socketID);
   }
 
-  removeUser(userId, socketID) {
+  removeOnlineUser(userId, socketID) {
     this.onlineUsers.delete(userId);
   }
 
@@ -141,11 +150,83 @@ class SocketManager {
   };
 
   saveWorldLogAction = async (socket, data) => {
-    console.log(data);
-    data = data[0];
-    // save persistent store msg sent by user
+    console.log("actionLog:" + JSON.stringify(data));
+    // save persistent store action log item
     const gameActionLogItem = await this.storeGameActionLog(data);
   };
+
+  /**
+   * end Socket Event Handlers
+   */
+
+  /*
+   * Read And Write Functions to DB
+   */
+  // save message to db by to, from, and selfSent boolean
+  async storeMessage(msg, to, from, selfSent) {
+    const Messages = require("../../models/messageModel");
+    return await Messages.create({
+      message: { text: msg },
+      users: [from, to],
+      sender: from,
+    });
+  }
+
+  // save game state to db by saveGameID, gameState is JSON string
+  async storeGameActionLog(gameAction) {
+    const gameActionLog = require("../../models/WorldActionLogModel");
+    let saveRow = await gameActionLog.create(gameAction);
+  }
+
+  // save game state to db by saveGameID, gameState is JSON string
+  async storeGameState(saveGameID, gameState) {
+    const gameSave = require("../../models/gameSaveStateModel");
+    let save = await gameSave.findOne({ saveGameID });
+    if (!save) {
+      //gameState["player"]['inventory'] = JSON.stringify(gameState["player"]['inventory']);
+      // if saveGameID does not exist, create new one
+      await gameSave.create(gameState);
+    } else {
+      // else, update existing saveGame
+      await gameSave.updateOne(gameState);
+    }
+  }
+
+  // load game state from db by saveGameID, return JSON string
+  async readGameState(saveGameID) {
+    saveGameID = saveGameID || "save1";
+    const gameSave = require("../../models/gameSaveStateModel");
+    let read = await gameSave.findOne({ saveGameID });
+    console.log("Read Game State: ", JSON.stringify(read));
+    if (read) {
+      return JSON.stringify(read);
+    } else {
+      return null;
+    }
+  }
+  /*
+   * END of Read And Write Functions to DB
+   *
+   */
+
+  /*
+   * AI Prompt Builder
+   */
+
+  GetCharacterData(id) {
+    return IslandTemplate.Residents[parseInt(id)];
+  }
+
+  GetCharacterDataSummary(id) {
+    return IslandTemplate.summarizeResident(this.GetCharacterData(id));
+  }
+
+  getPresentCharactersData(NPCIDs) {
+    return [
+      this.GetCharacterDataSummary(NPCIDs[0]),
+      this.GetCharacterDataSummary(parseInt(NPCIDs[1] - 1)),
+    ];
+  }
 
   async promptAI(data, socketList, doBroadcast = true) {
     let dataPrefix = [];
@@ -184,67 +265,9 @@ class SocketManager {
     );
   }
 
-  GetCharacterData(id) {
-    return IslandTemplate.Residents[parseInt(id)];
-  }
-
-  GetCharacterDataSummary(id) {
-    return IslandTemplate.summarizeResident(this.GetCharacterData(id));
-  }
-
-  getPresentCharactersData(NPCIDs) {
-    return [
-      this.GetCharacterDataSummary(NPCIDs[0]),
-      this.GetCharacterDataSummary(parseInt(NPCIDs[1] - 1)),
-    ];
-  }
-
-  // save message to db by to, from, and selfSent boolean
-  async storeMessage(msg, to, from, selfSent) {
-    const Messages = require("../../models/messageModel");
-    return await Messages.create({
-      message: { text: msg },
-      users: [from, to],
-      sender: from,
-    });
-  }
-
-  // save game state to db by saveGameID, gameState is JSON string
-  async storeGameActionLog(gameAction) {
-    const gameActionLog = require("../../models/gameActionLogModel");
-    let saveRow = await gameActionLog.create(gameAction);
-  }
-
-  
-  // save game state to db by saveGameID, gameState is JSON string
-  async storeGameState(saveGameID, gameState) {
-    const gameSave = require("../../models/gameSaveStateModel");
-    let save = await gameSave.findOne({ saveGameID });
-    if (!save) {
-      gameState["player"]['inventory'] = JSON.stringify(gameState["player"]['inventory']);
-      // if saveGameID does not exist, create new one
-      await gameSave.create(gameState);
-    } else {
-      // else, update existing saveGame
-      await gameSave.updateOne(gameState);
-    }
-  }
-
-  // load game state from db by saveGameID, return JSON string
-  async readGameState(saveGameID) {
-    saveGameID = saveGameID || "save1";
-    const gameSave = require("../../models/gameSaveStateModel");
-    let read = await gameSave.findOne({ saveGameID });
-    console.log("Read Game State: ", JSON.stringify(read));
-    if (read) {
-      return JSON.stringify(read);
-    } else {
-      return null;
-    }
-  }
-/* Prompt string building functions 
-*   START of buildPromptTXT functions
-*/
+  /* Prompt string building functions
+   *   START of buildPromptTXT functions
+   */
   buildCharacterPromptTXT(data) {
     let sendMsg = " Use the following character data: ";
     sendMsg += JSON.stringify(data);
