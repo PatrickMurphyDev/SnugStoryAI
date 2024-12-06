@@ -2,14 +2,12 @@ const mongoose = require("mongoose");
 
 const WorldActionLogSchema = mongoose.Schema(
   {
-    player: {
-      location: { 
-        x: { type: Number, required: true }, 
-        y: { type: Number, required: true } 
-      },
-      health: { type: Number, required: false, default: 100 },
-      inventory: { type: String, required: true },
-    },
+    action: { type: String, required: true },
+    action_by: { type: Schema.Types.ObjectId, ref: "Character", required: false },
+    action_target: { type: Schema.Types.ObjectId, ref: "Character", required: false },
+    action_type: { type: String, required: false, default: "DefaultAction" },
+    action_detail_level: { type: String, required: false, default: "medium" },
+    action_details: { type: String, required: false, default: "No details provided" },
     world: {
       date: { type: String, required: true },
       time: { type: String, required: true },
