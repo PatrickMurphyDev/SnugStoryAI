@@ -139,7 +139,7 @@ export class GUIElementManager {
 
 
   /* =================== RENDER & DRAW ===================*/
-  renderGUI(p5) {
+  renderGUI(p5, socketController) {
     p5.push();
     p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, p5.height-224);
     this.GUIElements.forEach((el) => {
@@ -148,8 +148,18 @@ export class GUIElementManager {
       if(tempEl.y < 0)
         tempEl.y += p5.height;
       this.renderElement(p5, tempEl);
+      if(el.PanelType === "Detail"){
+        socketController.getWorldActionLog().forEach((action,i) => {
+          console.log(action);
+          this.renderWorldActionLog(p5, tempEl, action, i);
+        });
+      }
     });
     p5.pop();
+  }
+
+  renderWorldActionLog(p5, el, action, i) {
+    p5.text(action.text, el.x + 10, el.y + 10*i);
   }
 
   renderElement(p5, el) {

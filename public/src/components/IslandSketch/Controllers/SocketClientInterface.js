@@ -4,8 +4,16 @@ import { host } from "../../../utils/APIRoutes";
 class SocketClientInterface {
   constructor() {
     this.socket = io(host);
+    this.WorldActionLog = [];
     this.isProcessing = false;
     this.incomingMessage = { sender: -1, text: "" };
+    this.onWorldLogAction((action) => {
+      this.WorldActionLog.push(action);
+    })
+  }
+
+  getWorldActionLog() {
+    return this.WorldActionLog;
   }
 
   /**
@@ -35,17 +43,12 @@ class SocketClientInterface {
    * allowing the client to record various world events or player actions in the game.
    *
    * @param {Object} actionData - The data of the action to be logged.
-   * @param {string|number} actionData.from - The identifier of the entity performing the action (e.g., player ID).
-   * @param {string} actionData.action - A description of the action being performed.
-   * @param {Object} [actionData.location] - The location where the action occurred, if applicable.
-   * @param {number} [actionData.location.x] - The x-coordinate of the action location.
-   * @param {number} [actionData.location.y] - The y-coordinate of the action location.
-   * @param {Object} [actionData.additionalInfo] - Any additional information relevant to the action.
    * @returns {void} This function does not return a value.
    */
   worldLogAction(actionData) {
     // TODO: add check if valid action data before sending
     this.socket.emit("world-log-action", actionData);
+    this.WorldActionLog.push(actionData);
   }
 
   /**
@@ -149,6 +152,12 @@ class SocketClientInterface {
     this.socket.on("msg-start-ai", (msg) => {
       this.isProcessing = true;
       callback(msg);
+    });
+  }
+
+  onWorldLogAction(callback) {
+    this.socket.on("world-log-action", (actionData) => {
+      callback(actionData);
     });
   }
 

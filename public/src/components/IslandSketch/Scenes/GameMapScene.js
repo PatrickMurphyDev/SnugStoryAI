@@ -395,7 +395,7 @@ export class GameMapScene extends GameScene {
     }
 
     p5.ellipseMode("CENTER");
-    this.GUI.renderGUI(p5);
+    this.GUI.renderGUI(p5,this.SocketClientInterface);
   }
 
   getCameraOffset() {
