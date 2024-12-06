@@ -435,10 +435,10 @@ export class GameMapScene extends GameScene {
           simTime.getDate() + "|" + simTime.getTime(),
           this.p5.frameCount,
           (i) => {
-            this.doUIAction(this.p5.frameCount, () => {
-              this.playerInventory.addItem(ItemsEnum["Item2"]);
               this.playerInventory.addItem(i);
-            });
+          },
+          () => {
+            this.playerInventory.addItem(ItemsEnum["Item2"]);
           }
         )
       );

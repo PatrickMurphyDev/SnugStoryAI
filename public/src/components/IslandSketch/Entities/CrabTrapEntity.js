@@ -2,7 +2,7 @@ import { ItemsEnum } from '../ConfigurationData/ItemsEnum';
 import Entity from './Entity';
 
 class CrabTrapEntity extends Entity {
-  constructor(parent, id, x, y, time, frame, callback) {
+  constructor(parent, id, x, y, time, frame, callback, harvestCallback) {
     super('CrabTrap', id, { x, y }, { width: 32, height: 32 });
     this.parent = parent;
     this.frameInit = frame;
@@ -11,7 +11,8 @@ class CrabTrapEntity extends Entity {
     this.fillColor = '#ffffff';
     this.trapStates = ["recentlyCast","ready","invalid"];
     this.trapState = 0;
-    this.harvestCallback = callback;
+    this.catchCallback = callback;
+    this.harvestCallback = harvestCallback;
     this.radius = 150;
 
     this.frameAge = -1;
@@ -64,22 +65,23 @@ class CrabTrapEntity extends Entity {
     this.trapState = 2;
     const pctCatchChance = .3;
     const randDidCatch = Math.random() / (((this.trapsInRange(p5)).length) || 1);
+    this.harvestCallback();
     if(randDidCatch>pctCatchChance){
       const randSelect = Math.random();
       if(randSelect<.1){
-        this.harvestCallback(ItemsEnum["Item7"]);
+        this.catchCallback(ItemsEnum["Item7"]);
       }
       if(randSelect < .4 && randSelect >= .1){
-        this.harvestCallback(ItemsEnum["Item6"]);
+        this.catchCallback(ItemsEnum["Item6"]);
       }
       if(randSelect<.7 && randSelect >= .4){
-        this.harvestCallback(ItemsEnum['Item5']);
+        this.catchCallback(ItemsEnum['Item5']);
       }
       if(randSelect>.9 && randSelect>=.7){
-        this.harvestCallback(ItemsEnum['Item4']);
+        this.catchCallback(ItemsEnum['Item4']);
       }
       if(randSelect>=.9){
-        this.harvestCallback(ItemsEnum['Item3']);
+        this.catchCallback(ItemsEnum['Item3']);
       }
     }
   }
