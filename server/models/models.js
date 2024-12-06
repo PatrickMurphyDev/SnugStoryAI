@@ -267,7 +267,6 @@ const CharacterAttributeField = model(
 );
 
 module.exports = {
-  Island,
   Area,
   IslandPropertyLot,
   Building,
