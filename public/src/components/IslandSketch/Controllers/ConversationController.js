@@ -104,8 +104,19 @@ class ConversationController {
     SIMTIME.pause();
     console.log("open convo ", NPC);
     this.isProcessing = false;
-    this.socketController.worldLogAction({from: "000000000000000000000001", location:{x:0,y:0}, action: "start chat conversation with " + NPC.Name, additionalInfo: {"other":"name"}});
     NPC = this.convertNPCKeyToID(this.parent.getNPCKey());
+    this.socketController.worldLogAction({
+      action: "start chat conversation with " + this.parent.getNPCKey(),
+      action_by: "000000000000000000000001",
+      action_target: NPC,
+      action_type: "chat_conversation_start",
+      action_detail_level: "small",
+      action_details: { npcKey: this.parent.getNPCKey() },
+      world: {
+        date: SIMTIME.getDate(),
+        time: SIMTIME.getTime12Hr(),
+      }
+    });
     this.currentNPC = NPC;
     if (!this.ConversationMapContainsNPC(NPC)) {
       this.conversationMap[NPC] = [];
