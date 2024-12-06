@@ -1,6 +1,4 @@
 const {
-    Island,
-    SavedGame,
     Area,
     IslandPropertyLot,
     Building,
@@ -14,6 +12,8 @@ const {
     CharacterRelationship,
     CharacterAttributeField
   } = require('../models/models');
+
+  const {Island} = require('../models/IslandModel');
 
   const {
     Character,
@@ -217,12 +217,6 @@ const {
     getCharacterRelationshipById: getDocumentById(CharacterRelationship),
     updateCharacterRelationship: updateDocument(CharacterRelationship),
     deleteCharacterRelationship: deleteDocument(CharacterRelationship),
-
-    createSavedGame: createDocument(SavedGame),
-    getSavedGames: getDocuments(SavedGame),
-    getSavedGameById: getDocumentById(SavedGame),
-    updateSavedGame: updateDocument(SavedGame),
-    deleteSavedGame: deleteDocument(SavedGame),
 
     getCharacterAttributeField: getDocumentWhere(CharacterAttributeField), // default uses req.params
   };

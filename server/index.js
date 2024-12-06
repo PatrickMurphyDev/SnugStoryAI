@@ -98,11 +98,6 @@ const {
   updateCharacterDetails,
   deleteCharacterDetails,
   createCharacterDetails,
-  createSavedGame,
-  getSavedGameById,
-  getSavedGames,
-  updateSavedGame,
-  deleteSavedGame,
 } = require("./controllers/crud");
 
 app.use(cors());
@@ -230,13 +225,6 @@ app.get("/api/characterrelationships", getCharacterRelationships);
 app.get("/api/characterrelationships/:id", getCharacterRelationshipById);
 app.put("/api/characterrelationships/:id", updateCharacterRelationship);
 app.delete("/api/characterrelationships/:id", deleteCharacterRelationship);
-
-// REST API endpoints for SaveGame
-app.post("/api/savedgame", createSavedGame);
-app.get("/api/savedgame", getSavedGames);
-app.get("/api/savedgame/:id", getSavedGameById);
-app.put("/api/savedgame/:id", updateSavedGame);
-app.delete("/api/savedgame/:id", deleteSavedGame);
 
 // SETUP DB Instances
 mongoose

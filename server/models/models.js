@@ -1,28 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-// Island Schema
-const IslandSchema = new Schema({
-  name: { type: String, required: true },
-  location: { type: String, required: false },
-  description: { type: String, required: false },
-  userID: { type: String, required: false },
-});
-
-const Island = model("Island", IslandSchema);
-
-
-const SavedGameSchema = new Schema({
-  name: { type: String, default: "Save File" },
-  timestamp: { type: String, required: false },
-  userID: { type: String, required: false },
-  saveUserLocation: {type: Object, required: true},
-  saveGameTime: {type: Number, min: 0, max: 1440},
-  saveGameDay: {type: Number, min: 0, default:1},
-});
-
-const SavedGame = model("SavedGame", SavedGameSchema);
-
 // Area Schema
 const AreaSchema = new Schema({
   island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
@@ -290,7 +268,6 @@ const CharacterAttributeField = model(
 
 module.exports = {
   Island,
-  SavedGame,
   Area,
   IslandPropertyLot,
   Building,
