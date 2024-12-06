@@ -117,7 +117,7 @@ class SimulationTime extends EventEmitter {
 
   // Function to get the date in DD/MM/YYYY format
   getDate() {
-    return `${String(this._dayOfMonth).padStart(2, '0')}/${String(this._month).padStart(2, '0')}/${this._year}`;
+    return `${String(this._month).padStart(2, '0')}/${String(this._dayOfMonth).padStart(2, '0')}/${this._year}`;
   }
 
   getDateParts() {
