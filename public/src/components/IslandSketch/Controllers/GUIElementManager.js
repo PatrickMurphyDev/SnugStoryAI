@@ -147,22 +147,16 @@ export class GUIElementManager {
       const tempEl = el;
       if(tempEl.y < 0)
         tempEl.y += p5.height;
-      this.renderElement(p5, tempEl);
-      if(el.PanelType === "Detail"){
-        socketController.getWorldActionLog().forEach((action,i) => {
-          console.log(action);
-          this.renderWorldActionLog(p5, tempEl, action, i);
-        });
-      }
+      this.renderElement(p5, tempEl, socketController);
     });
     p5.pop();
   }
 
   renderWorldActionLog(p5, el, action, i) {
-    p5.text(action.text, el.x + 10, el.y + 10*i);
+    p5.text(action.action, el.x + 25, el.y + 10*i +20);
   }
 
-  renderElement(p5, el) {
+  renderElement(p5, el, socketController) {
     switch (el.GUIType) {
       case "AlertWindow":
         if (this.AlertWindow.isOpen()) this.AlertWindow.draw(p5, el);
@@ -171,7 +165,7 @@ export class GUIElementManager {
         this.renderPlayerProfilePanel(p5, el);
         break;
       default:
-        this.renderDefaultPanel(p5, el);
+        this.renderDefaultPanel(p5, el, socketController);
     }
   }
 
@@ -183,11 +177,15 @@ export class GUIElementManager {
     this.renderPanelText(p5, el, textLocation, textDimensions);
   }
 
-  renderDefaultPanel(p5, el) {
+  renderDefaultPanel(p5, el, socketController) {
     const padding = 25, spacing = 13, size = 32, cols = 12;
     if (el.PanelType === "Detail") {
+      socketController.getWorldActionLog().forEach((action,i) => {
+        //console.log(action);
+        this.renderWorldActionLog(p5, el, action, i);
+      });
       this.renderSimulationDate(p5, el);
-      p5.text("$"+this.getInventory().getCash(),el.x+ 60, el.y+75);
+      p5.text("$"+this.getInventory().getCash(),el.x+ 35, el.y+55);
     } else {
       if(this.getDisplayMode() === 0){
         this.renderInventoryView(p5, el, cols, padding, spacing, size);
