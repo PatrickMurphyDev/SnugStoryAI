@@ -2,6 +2,7 @@ import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import { ItemsEnum } from "../ConfigurationData/ItemsEnum";
 import GUIAlertWindow from "../GUI/GUIAlertWindow";
 import GUIButton from "../GUI/GUIButton";
+import GUIPanel from "../GUI/GUIPanel";
 import SimulationTime from "../../../utils/SimulationTime";
 
 const SIMTIME = SimulationTime.getInstance();
@@ -13,6 +14,8 @@ export class GUIElementManager {
     this.RenderOffset = {x:(this.parent.sizeVector.x-1000)/4,y:0};
     this.imageAssets = imgAssets || { imgKey: null };
     this.GUIButton = new GUIButton(this.parent);
+    this.GUIPanel = new GUIPanel(this);
+    this.ItemsEnum = ItemsEnum;
     this.SimulationDateTime = { time: "", date: "" };
     this.GUIElements = []; 
 
@@ -152,21 +155,21 @@ export class GUIElementManager {
     p5.pop();
   }
 
-  renderWorldActionLog(p5, el, action, i) {
-    p5.text(action.action, el.x + 25, el.y + 10*i +20);
-  }
-
   renderElement(p5, el, socketController) {
     switch (el.GUIType) {
       case "AlertWindow":
         if (this.AlertWindow.isOpen()) this.AlertWindow.draw(p5, el);
         break;
       case "PlayerProfileImageCirclePanel":
-        this.renderPlayerProfilePanel(p5, el);
+        this.GUIPanel.draw(p5, { ...el, PanelType: "PlayerProfile" }, socketController);
         break;
       default:
-        this.renderDefaultPanel(p5, el, socketController);
+        this.GUIPanel.draw(p5, el, socketController);
     }
+  }
+/*
+  renderWorldActionLog(p5, el, action, i) {
+    p5.text(action.action, el.x + 25, el.y + 10*i +20);
   }
 
   renderPlayerProfilePanel(p5, el) {
@@ -196,21 +199,6 @@ export class GUIElementManager {
     this.renderPanelText(p5, el);
   }
 
-  renderChatInputView(p5){
-    if(!this.chatInput && !this.chatSubmit){
-      this.chatInput = p5.createInput();
-      this.chatInput.attribute('placeholder', 'Chat here.....');
-      this.chatInput.size(p5.width/3);
-      this.chatInput.style("font-size", this.OPTIONS["InputFontSize"] + "px");
-      this.chatInput.position(p5.width/3, p5.height*.89);
-      window.addEventListener("keyup", (e)=>this.keyReleased(e,()=>this.chatInput.value(),()=>this.submitMsg(this)));
-
-      this.chatSubmit = p5.createButton("Send");
-      this.chatSubmit.size(p5.width/6);
-      this.chatSubmit.position(p5.width/2, p5.height*.92);
-      this.chatSubmit.mousePressed(()=>{this.submitMsg(this);});
-    }
-  }
 
   renderSimulationDate(p5, el) {
     const { time, date } = this.SimulationDateTime;
@@ -261,6 +249,23 @@ export class GUIElementManager {
     p5.textSize(21);
     p5.text(el.text || "Panel", location.x + dimensions.width/2, location.y + 18, dimensions.width, dimensions.height);
     p5.pop();
+  }
+    */
+  
+  renderChatInputView(p5){
+    if(!this.chatInput && !this.chatSubmit){
+      this.chatInput = p5.createInput();
+      this.chatInput.attribute('placeholder', 'Chat here.....');
+      this.chatInput.size(p5.width/3);
+      this.chatInput.style("font-size", this.OPTIONS["InputFontSize"] + "px");
+      this.chatInput.position(p5.width/3, p5.height*.89);
+      window.addEventListener("keyup", (e)=>this.keyReleased(e,()=>this.chatInput.value(),()=>this.submitMsg(this)));
+
+      this.chatSubmit = p5.createButton("Send");
+      this.chatSubmit.size(p5.width/6);
+      this.chatSubmit.position(p5.width/2, p5.height*.92);
+      this.chatSubmit.mousePressed(()=>{this.submitMsg(this);});
+    }
   }
 
   renderDialogActions(){
