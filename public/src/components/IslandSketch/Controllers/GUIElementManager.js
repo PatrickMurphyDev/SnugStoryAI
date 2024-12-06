@@ -117,13 +117,15 @@ export class GUIElementManager {
   }
 
   setDisplayMode(dm){
-    if(dm===0 && this.chatInput){
+    if(dm===0 && this.chatInput){ // REASON FOR PANEL TITLE NOT RIGHT FIRST SWITCH
       this.parent.chatData.closeConversation();
       this.chatInput.hide();
       this.chatSubmit.hide();
+      this.GUIPanel.setPanelTitle(false);
     }else if(this.chatInput){
       this.chatInput.show();
       this.chatSubmit.show();
+      this.GUIPanel.setPanelTitle("Chat");
     }
 
     if(dm !== 0){
