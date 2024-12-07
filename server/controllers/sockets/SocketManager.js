@@ -1,6 +1,7 @@
 const Ollama = require("ollama-node");
 const IslandTemplate = require("../../IslandTemplateServer");
 const WorldActionLog = require("../WorldActionLog");
+const ConversationManager = require('./ConversationManager');
 
 class SocketManager {
   constructor(io) {
@@ -24,6 +25,7 @@ class SocketManager {
       action: [],
       climax: [],
     };
+    this.conversationManager = new ConversationManager();
   }
 
   init() {
@@ -61,6 +63,9 @@ class SocketManager {
 
     socket.on("start-conversation", (data) =>
       this.startConversation(socket, data)
+    );
+    socket.on("end-conversation", (data) =>
+      this.endConversation(socket, data)
     );
     socket.on("send-msg", (data) => this.sendMessage(socket, data));
     socket.on("world-log-action", (data) =>
@@ -120,7 +125,35 @@ class SocketManager {
     const sendUserSocket = this.onlineUsers.get(data.NPC);
     const fromUserSocket = this.onlineUsers.get(data.Player);
     const socketList = [socket, this.io, sendUserSocket, fromUserSocket];
+    data.to = data.NPC;
+    data.from = data.Player;
+    data.msg = "Hey there!";
 
+    const conversationId = this.conversationManager.addConversation(
+      { participants: [data.NPC, data.Player], messages: [] },
+      [data.NPC, data.Player]
+    );
+
+    const newPrompt = await this.promptAI(data, socketList, true);
+    return newPrompt;
+  }
+
+  async endConversation(socket, data) {
+    console.log(data);
+    const sendUserSocket = this.onlineUsers.get(data.NPC);
+    const fromUserSocket = this.onlineUsers.get(data.Player);
+    const socketList = [socket, this.io, sendUserSocket, fromUserSocket];
+    data.to = data.Player;
+    data.from = data.NPC;
+    data.msg = "Goodbye!";
+
+    // You might want to update the conversation in the manager here
+    const conversationIndexes = this.conversationManager.getConversationIndexesInvolving([data.NPC, data.Player]);
+    if (conversationIndexes.length > 0) {
+      const latestConversation = this.conversationManager.getConversationByIndex(conversationIndexes[conversationIndexes.length - 1]);
+      // Update the conversation with the summary or any final data
+    }
+    // summarize conversation using llm prompt
     const newPrompt = await this.promptAI(data, socketList, false);
     return newPrompt;
   }
@@ -228,43 +261,51 @@ class SocketManager {
       this.GetCharacterDataSummary(parseInt(NPCIDs[1] - 1)),
     ];
   }
-
   async promptAI(data, socketList, doBroadcast = true) {
-    let dataPrefix = [];
-    if (this.lastSentToCharacter !== data.to) {
-      this.lastSentToCharacter = data.to;
-      this.promptCount = 0;
-    }
-    if (this.promptCount <= 0) {
-      dataPrefix = this.getPresentCharactersData([data.to, data.from]);
-    }
-
-    this.promptCount++;
-    this.broadcastMsg(socketList, "msg-start-ai", data.msg, doBroadcast);
-    this.isAIProcessing = true;
-
-    let sendMsg = this.buildAIPromptTXT(data, dataPrefix);
-
+    const dataPrefix = this.getDataPrefix(data);
+    this.updatePromptCount(data.to);
+    this.broadcastStartAI(socketList, data.msg, doBroadcast);
+ 
+    const sendMsg = this.buildAIPromptTXT(data, dataPrefix);
     console.log("Send AI Prompt: " + sendMsg);
-
-    const streamResponseFull = (response) => {
-      const resp = JSON.parse(response);
-      this.broadcastMsg(
-        socketList,
-        "msg-recieve-ai-part",
-        { sender: data.to, text: resp },
-        doBroadcast
-      );
-      this.isAIProcessing = false;
-    };
-
-    return this.ollama.streamingGenerate(
-      sendMsg,
-      null,
-      null,
-      streamResponseFull
-    );
+ 
+    return this.streamAIResponse(sendMsg, socketList, data.to, doBroadcast);
   }
+
+ getDataPrefix(data) {
+   if (this.lastSentToCharacter !== data.to) {
+     this.lastSentToCharacter = data.to;
+     this.promptCount = 0;
+   }
+   return this.promptCount <= 0 ? this.getPresentCharactersData([data.to, data.from]) : [];
+ }
+
+ updatePromptCount(to) {
+   if (this.lastSentToCharacter !== to) {
+     this.promptCount = 0;
+   }
+   this.promptCount++;
+ }
+
+ broadcastStartAI(socketList, msg, doBroadcast) {
+   this.broadcastMsg(socketList, "msg-start-ai", msg, doBroadcast);
+   this.isAIProcessing = true;
+ }
+
+ streamAIResponse(sendMsg, socketList, to, doBroadcast) {
+   const streamResponseFull = (response) => {
+     const resp = JSON.parse(response);
+     this.broadcastMsg(
+       socketList,
+       "msg-recieve-ai-part",
+       { sender: to, text: resp },
+       doBroadcast
+     );
+     this.isAIProcessing = false;
+   };
+
+   return this.ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
+ }
 
   /* Prompt string building functions
    *   START of buildPromptTXT functions
