@@ -153,6 +153,7 @@ class SocketManager {
     console.log("actionLog:" + JSON.stringify(data));
     // save persistent store action log item
     const gameActionLogItem = await this.storeGameActionLog(data);
+    this.wActionLog.addAction(data);
   };
 
   /**

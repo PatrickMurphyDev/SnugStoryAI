@@ -106,7 +106,7 @@ class ConversationController {
     this.isProcessing = false;
     NPC = this.convertNPCKeyToID(this.parent.getNPCKey());
     this.socketController.worldLogAction({
-      action: "start chat conversation with " + this.parent.getNPCKey(),
+      action: "Start chat conversation with " + this.parent.getNPCKey(),
       action_by: "000000000000000000000001",
       action_target: NPC,
       action_type: "chat_conversation_start",
@@ -138,6 +138,23 @@ class ConversationController {
     
     // SAVE
     this.addConversation(this.currentNPC, this.chatData);
+    
+    const NPC = this.convertNPCKeyToID(this.parent.getNPCKey());
+    // trigger end convo socket & log world log action
+    this.socketController.endConversation(this.chatData, this.currentNPC);
+    this.socketController.worldLogAction({
+      action: "End chat conversation with " + this.parent.getNPCKey(),
+      action_by: "000000000000000000000001",
+      action_target: NPC,
+      action_type: "chat_conversation_end",
+      action_detail_level: "small",
+      action_details: { npcKey: this.parent.getNPCKey() },
+      world: {
+        date: SIMTIME.getDate(),
+        time: SIMTIME.getTime12Hr(),
+      }
+    });
+
     // RESET
     this.chatData = [];
     this.currentNPC = "";

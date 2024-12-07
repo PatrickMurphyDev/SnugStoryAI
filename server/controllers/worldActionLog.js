@@ -7,13 +7,8 @@ class WorldActionLog {
     return this.log;
   }
 
-  async addAction(userid, action, usrLoc, simTimeData) {
-    this.log.push({
-      userid,
-      action,
-      usrLoc,
-      simTimeData,
-    });
+  async addAction(action) {
+    this.log.push({action});
   }
 }
 
