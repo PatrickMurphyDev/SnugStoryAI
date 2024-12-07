@@ -1,117 +1,114 @@
+const { Island } = require("../models/IslandModel");
+const { Area } = require("../models/AreaModel");
+const { IslandPropertyLot } = require("../models/IslandPropertyLotModel");
+const { Building } = require("../models/BuildingModel");
+const { Organization } = require('../models/OrganizationModel');
+const { JobPosition } = require('../models/JobPositionModel');
+const { Resources } = require('../models/ResourcesModel');
+const { Location } = require('../models/LocationModel');
+const { BehavioralPatterns } = require('../models/BehavioralPatternsModel');
+const { SpecialConditions } = require('../models/SpecialConditionsModel');
+const { RelationshipEvent } = require('../models/RelationshipEventModel');
+const { CharacterRelationship } = require('../models/CharacterRelationshipModel');
+const { CharacterAttributeField } = require('../models/CharacterAttributeFieldModel');
+
 const {
-    IslandPropertyLot,
-    Building,
-    Organization,
-    JobPosition,
-    Resources,
-    Location,
-    BehavioralPatterns,
-    SpecialConditions,
-    RelationshipEvent,
-    CharacterRelationship,
-    CharacterAttributeField
-  } = require('../models/models');
+  Character,
+  CharacterDetails,
+  CharacterTrait,
+  Trait,
+  CharacterPersonality} = require('../models/CharacterModel');
 
-  const {Island} = require('../models/IslandModel');
-  const {Area} = require('../models/AreaModel');
+  const mongoose = require('mongoose');
 
-  const {
-    Character,
-    CharacterDetails,
-    CharacterTrait,
-    Trait,
-    CharacterPersonality} = require('../models/CharacterModel');
+// Generic CRUD operation functions
+const createDocument = (Model) => async (req, res) => {
+  try {
+    const document = new Model(req.body);
+    await document.save();
+    res.status(201).send(document);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
 
-    const mongoose = require('mongoose');
-  
-  // Generic CRUD operation functions
-  const createDocument = (Model) => async (req, res) => {
-    try {
-      const document = new Model(req.body);
-      await document.save();
-      res.status(201).send(document);
-    } catch (error) {
-      console.log(error);
-      res.status(400).send(error);
+const getDocuments = (Model, filter) => async (req, res) => {
+  try {
+    let documents = false;
+    if(filter){
+      documents = await Model.find(filter);
+    } else { 
+      documents = await Model.find();
     }
-  };
-  
-  const getDocuments = (Model, filter) => async (req, res) => {
-    try {
-      let documents = false;
-      if(filter){
-        documents = await Model.find(filter);
-      } else { 
-        documents = await Model.find();
-      }
-      res.send(documents);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  };
-  
-  const getDocumentById = (Model) => async (req, res) => {
-    try {
-      const document = await Model.findById(req.params.id);
-      if (!document) {
-        return res.status(404).send();
-      }
-      res.send(document);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  }; 
+    res.send(documents);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
-  const getDocumentByCharacterId = (Model) => async (req, res) => {
-    try {
-      const vrID = mongoose.Types.ObjectId(req.params.id);
-      console.log(req.params.id, vrID);
-      const document = await Model.find({"character_id": {"$oid":req.params.id}});
-      if (!document) {
-        return res.status(404).send();
-      }
-      res.send(document);
-    } catch (error) {
-      res.status(500).send(error);
+const getDocumentById = (Model) => async (req, res) => {
+  try {
+    const document = await Model.findById(req.params.id);
+    if (!document) {
+      return res.status(404).send();
     }
-  }; 
+    res.send(document);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}; 
 
-  const getDocumentWhere = (Model, where = {}) => async (req, res) => {
-    try {
-      let m = await Model.findOne(req.params);
-      if(m){
-        res.send(m);
-      }else{
-        res.send({'error':"no-data"});
-      }
-    } catch (error) {
-      res.status(500).send(error);
+const getDocumentByCharacterId = (Model) => async (req, res) => {
+  try {
+    const vrID = mongoose.Types.ObjectId(req.params.id);
+    console.log(req.params.id, vrID);
+    const document = await Model.find({"character_id": {"$oid":req.params.id}});
+    if (!document) {
+      return res.status(404).send();
     }
-  };
-  
-  const updateDocument = (Model) => async (req, res) => {
-    try {
-      const document = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-      if (!document) {
-        return res.status(404).send();
-      }
-      res.send(document);
-    } catch (error) {
-      res.status(400).send(error);
+    res.send(document);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}; 
+
+const getDocumentWhere = (Model, where = {}) => async (req, res) => {
+  try {
+    let m = await Model.findOne(req.params);
+    if(m){
+      res.send(m);
+    }else{
+      res.send({'error':"no-data"});
     }
-  };
-  
-  const deleteDocument = (Model) => async (req, res) => {
-    try {
-      const document = await Model.findByIdAndDelete(req.params.id);
-      if (!document) {
-        return res.status(404).send();
-      }
-      res.status(204).send();
-    } catch (error) {
-      res.status(500).send(error);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const updateDocument = (Model) => async (req, res) => {
+  try {
+    const document = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!document) {
+      return res.status(404).send();
     }
-  };
+    res.send(document);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+const deleteDocument = (Model) => async (req, res) => {
+  try {
+    const document = await Model.findByIdAndDelete(req.params.id);
+    if (!document) {
+      return res.status(404).send();
+    }
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
   
   // Exporting specific CRUD functions for each schema
   module.exports = {
