@@ -175,6 +175,15 @@ class SocketManager {
     // save persistent store msg sent by user
     const newMsg = await this.storeMessage(data.msg, data.to, data.from, true);
 
+    // Add message to the current conversation
+    const currentConversation = this.conversationManager.getCurrentConversation([data.to, data.from]);
+    if (currentConversation) {
+      this.conversationManager.addMessageToConversation(currentConversation.id, {
+        sender: data.from,
+        content: data.msg,
+        timestamp: new Date()
+      });
+    }
     // if AI requested
     if (data.llmodel !== 0) {
       const newPrompt = await this.promptAI(data, socketList, true);
@@ -292,20 +301,35 @@ class SocketManager {
    this.isAIProcessing = true;
  }
 
- streamAIResponse(sendMsg, socketList, to, doBroadcast) {
-   const streamResponseFull = (response) => {
-     const resp = JSON.parse(response);
-     this.broadcastMsg(
-       socketList,
-       "msg-recieve-ai-part",
-       { sender: to, text: resp },
-       doBroadcast
-     );
-     this.isAIProcessing = false;
-   };
+  streamAIResponse(sendMsg, socketList, to, doBroadcast) {
+    const streamResponseFull = (response) => {
+      const resp = JSON.parse(response);
+      this.broadcastMsg(
+        socketList,
+        "msg-recieve-ai-part",
+        { sender: to, text: resp },
+        doBroadcast
+      );
+      this.isAIProcessing = false;
 
-   return this.ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
- }
+      // Add AI response to the current conversation
+      this.addAIResponseToConversation(to, resp.content);
+    };
+
+    return this.ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
+  }
+
+  // New helper function to add AI response to the conversation
+  addAIResponseToConversation(to, content) {
+    const currentConversation = this.conversationManager.getCurrentConversation([to]);
+    if (currentConversation) {
+      this.conversationManager.addMessageToConversation(currentConversation.id, {
+        sender: to,
+        content: content,
+        timestamp: new Date()
+      });
+    }
+  }
 
   /* Prompt string building functions
    *   START of buildPromptTXT functions
