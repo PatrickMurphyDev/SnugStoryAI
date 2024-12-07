@@ -1,5 +1,4 @@
 const {
-    Area,
     IslandPropertyLot,
     Building,
     Organization,
@@ -14,6 +13,7 @@ const {
   } = require('../models/models');
 
   const {Island} = require('../models/IslandModel');
+  const {Area} = require('../models/AreaModel');
 
   const {
     Character,
