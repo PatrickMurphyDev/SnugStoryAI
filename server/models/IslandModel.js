@@ -8,4 +8,5 @@ const IslandSchema = new Schema({
   description: { type: String, required: false },
   userID: { type: String, required: false },
 });
-const Island = model("Island", IslandSchema);
+const island = model("Island", IslandSchema);
+module.exports = {island};
