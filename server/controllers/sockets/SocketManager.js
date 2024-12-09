@@ -134,25 +134,20 @@ class SocketManager {
       [data.NPC, data.Player]
     );
 
+    // send msg to make npc initiate conversation
     const newPrompt = await this.promptAI(data, socketList, true);
     return newPrompt;
   }
 
   async endConversation(socket, data) {
     console.log(data);
-    const sendUserSocket = this.onlineUsers.get(data.NPC);
-    const fromUserSocket = this.onlineUsers.get(data.Player);
-    const socketList = [socket, this.io, sendUserSocket, fromUserSocket];
     data.to = data.Player;
     data.from = data.NPC;
-    data.msg = "Goodbye!";
 
-    // You might want to update the conversation in the manager here
-    const conversationIndexes = this.conversationManager.getConversationIndexesInvolving([data.NPC, data.Player]);
-    if (conversationIndexes.length > 0) {
-      const latestConversation = this.conversationManager.getConversationByIndex(conversationIndexes[conversationIndexes.length - 1]);
-      // Update the conversation with the summary or any final data
-    }
+    // Update the conversation with the summary or any final data
+    const summaryConvoTmp = this.summarizeConversation(data);
+    // todo: store summaryConvoTmp in persistent store
+    console.log("Summary Conversation:", summaryConvoTmp);
   }
 
   sendMessage = async (socket, data) => {
@@ -314,6 +309,61 @@ broadcastStartAI(socketList, msg, doBroadcast) {
     };
 
     return this.ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
+  }
+
+
+  async summarizeConversation(conversationData) {
+
+    /*
+  Consider the following when determining the relationshipEffect:
+  - The sentiment of the NPC's responses
+  - The mood the NPC is in
+  - The relationship with the player at the start of the conversation
+  - Any potentially offensive or upsetting comments from the player
+  - Any actions or words from the player that might make the NPC happy or feel special
+   */
+
+    const prompt = `
+  #Analyze the following conversation and provide a summary in JSON format:
+  
+  ${JSON.stringify(conversationData)}
+  
+  Please provide a JSON object with the following structure:
+  {
+    "overallTopic": "Brief description of the main topic",
+    "keywords": ["List of important keywords from the conversation"],
+    "conversationSummary": "A concise summary of the conversation",
+    "playerDetails": "Details revealed by the player about themselves",
+    "npcDetails": [{"keyword": "details revealed by the NPC related to the keyword"}],
+    "relationshipEffect": "A number between -100 and 100 representing the effect on the NPC's relationship with the player"
+  }
+  Provide your response as a valid JSON object, do not include your reasoning or anything ther than the json object.
+  `;
+
+  let fullResponse = "";
+  
+    await this.ollama.streamingGenerate(
+      prompt,
+      null,
+      null,
+      (msg) => {
+        msg = JSON.parse(msg);
+        console.log("Streaming response: ", msg, " ", fullResponse);
+        fullResponse += msg.response;
+        if(msg.done){
+          console.log("Final Response: " + fullResponse);
+          try {
+            const parsedResponse = JSON.parse(fullResponse);
+            console.log("Parsed JSON response:", parsedResponse);
+            return parsedResponse;
+          } catch (error) {
+            console.log(fullResponse);
+            console.error("Error parsing JSON response:", error);
+            return null;
+          }
+        }
+      }
+    );
   }
 
   // New helper function to add AI response to the conversation
