@@ -15,6 +15,7 @@ class ConversationManager {
     };
     this.ConversationHistory.push(newConversation);
     this.ConversationHistoryParticipantsMap.set(conversationId, participants);
+    //console.log(`Added new conversation: ${conversationId}`);
     return conversationId;
   }
 
