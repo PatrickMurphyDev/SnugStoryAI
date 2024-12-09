@@ -293,10 +293,10 @@ updatePromptCount(to) {
   this.promptCount++;
 }
 
- broadcastStartAI(socketList, msg, doBroadcast) {
-   this.broadcastMsg(socketList, "msg-start-ai", msg, doBroadcast);
-   this.isAIProcessing = true;
- }
+broadcastStartAI(socketList, msg, doBroadcast) {
+  this.broadcastMsg(socketList, "msg-start-ai", msg, doBroadcast);
+  this.isAIProcessing = true;
+}
 
   streamAIResponse(sendMsg, socketList, to, doBroadcast) {
     const streamResponseFull = (response) => {
