@@ -1,7 +1,7 @@
 const Ollama = require("ollama-node");
 const IslandTemplate = require("../../IslandTemplateServer");
 const WorldActionLog = require("../WorldActionLog");
-const ConversationManager = require('./ConversationManager');
+const ConversationManager = require('../ConversationManager');
 
 class SocketManager {
   constructor(io) {
@@ -153,9 +153,6 @@ class SocketManager {
       const latestConversation = this.conversationManager.getConversationByIndex(conversationIndexes[conversationIndexes.length - 1]);
       // Update the conversation with the summary or any final data
     }
-    // summarize conversation using llm prompt
-    const newPrompt = await this.promptAI(data, socketList, false);
-    return newPrompt;
   }
 
   sendMessage = async (socket, data) => {
@@ -282,19 +279,19 @@ class SocketManager {
   }
 
  getDataPrefix(data) {
-   if (this.lastSentToCharacter !== data.to) {
-     this.lastSentToCharacter = data.to;
-     this.promptCount = 0;
-   }
-   return this.promptCount <= 0 ? this.getPresentCharactersData([data.to, data.from]) : [];
- }
+  if (this.lastSentToCharacter !== data.to) {
+    this.lastSentToCharacter = data.to;
+    this.promptCount = 0;
+  }
+  return this.promptCount <= 0 ? this.getPresentCharactersData([data.to, data.from]) : [];
+}
 
- updatePromptCount(to) {
-   if (this.lastSentToCharacter !== to) {
-     this.promptCount = 0;
-   }
-   this.promptCount++;
- }
+updatePromptCount(to) {
+  if (this.lastSentToCharacter !== to) {
+    this.promptCount = 0;
+  }
+  this.promptCount++;
+}
 
  broadcastStartAI(socketList, msg, doBroadcast) {
    this.broadcastMsg(socketList, "msg-start-ai", msg, doBroadcast);
