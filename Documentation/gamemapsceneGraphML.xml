@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <graph id="G" edgedefault="directed">
+    
+    <!-- GameMapScene class -->
+    <node id="GameMapScene">
+      <data key="label">GameMapScene</data>
+    </node>
+    <node id="constructor">
+      <data key="label">constructor</data>
+    </node>
+    <node id="setupParams">
+      <data key="label">setupParams</data>
+    </node>
+    <node id="initMapSettings">
+      <data key="label">initMapSettings</data>
+    </node>
+    <node id="AddSceneCollideEntities">
+      <data key="label">AddSceneCollideEntities</data>
+    </node>
+    <node id="findCharByNPCKey">
+      <data key="label">findCharByNPCKey</data>
+    </node>
+    <node id="loadGameState">
+      <data key="label">loadGameState</data>
+    </node>
+    <node id="loadWallData">
+      <data key="label">loadWallData</data>
+    </node>
+    <node id="initializeLots">
+      <data key="label">initializeLots</data>
+    </node>
+    <node id="initializeCharacters">
+      <data key="label">initializeCharacters</data>
+    </node>
+    <node id="loadAssets">
+      <data key="label">loadAssets</data>
+    </node>
+    <node id="setNPCKey">
+      <data key="label">setNPCKey</data>
+    </node>
+    <node id="getNPCKey">
+      <data key="label">getNPCKey</data>
+    </node>
+    <node id="getMouseScreenPosition">
+      <data key="label">getMouseScreenPosition</data>
+    </node>
+    <node id="getMouseWorldPosition">
+      <data key="label">getMouseWorldPosition</data>
+    </node>
+    <node id="convertScreenPositionToWorldPosition">
+      <data key="label">convertScreenPositionToWorldPosition</data>
+    </node>
+    <node id="convertWorldPositionToScreenPosition">
+      <data key="label">convertWorldPositionToScreenPosition</data>
+    </node>
+    <node id="setNextGameStateSaveID">
+      <data key="label">setNextGameStateSaveID</data>
+    </node>
+    <node id="update">
+      <data key="label">update</data>
+    </node>
+    <node id="checkSleepConditionUpdate">
+      <data key="label">checkSleepConditionUpdate</data>
+    </node>
+
+    <!-- Other classes -->
+    <node id="PlayerController">
+      <data key="label">PlayerController</data>
+    </node>
+    <node id="GUIElementManager">
+      <data key="label">GUIElementManager</data>
+    </node>
+    <node id="CharacterInventory">
+      <data key="label">CharacterInventory</data>
+    </node>
+    <node id="SocketClientInterface">
+      <data key="label">SocketClientInterface</data>
+    </node>
+    <node id="ConversationController">
+      <data key="label">ConversationController</data>
+    </node>
+    <node id="GameDialogScene">
+      <data key="label">GameDialogScene</data>
+    </node>
+    <node id="GameViewMapScene">
+      <data key="label">GameViewMapScene</data>
+    </node>
+    <node id="UserInputController">
+      <data key="label">UserInputController</data>
+    </node>
+    <node id="LotEntity">
+      <data key="label">LotEntity</data>
+    </node>
+    <node id="CharacterEntity">
+      <data key="label">CharacterEntity</data>
+    </node>
+    <node id="CollideRectEntity">
+      <data key="label">CollideRectEntity</data>
+    </node>
+
+    <!-- Edges within GameMapScene -->
+    <edge source="GameMapScene" target="constructor"/>
+    <edge source="constructor" target="setupParams"/>
+    <edge source="constructor" target="initMapSettings"/>
+    <edge source="constructor" target="loadAssets"/>
+    <edge source="constructor" target="loadWallData"/>
+    <edge source="constructor" target="initializeLots"/>
+    <edge source="constructor" target="initializeCharacters"/>
+    <edge source="constructor" target="AddSceneCollideEntities"/>
+    <edge source="update" target="checkSleepConditionUpdate"/>
+    <edge source="getMouseWorldPosition" target="convertScreenPositionToWorldPosition"/>
+
+    <!-- Edges between GameMapScene and other classes -->
+    <edge source="GameMapScene" target="PlayerController"/>
+    <edge source="GameMapScene" target="GUIElementManager"/>
+    <edge source="GameMapScene" target="CharacterInventory"/>
+    <edge source="GameMapScene" target="SocketClientInterface"/>
+    <edge source="GameMapScene" target="ConversationController"/>
+    <edge source="GameMapScene" target="GameDialogScene"/>
+    <edge source="GameMapScene" target="GameViewMapScene"/>
+    <edge source="GameMapScene" target="UserInputController"/>
+    <edge source="initializeLots" target="LotEntity"/>
+    <edge source="initializeLots" target="CollideRectEntity"/>
+    <edge source="initializeCharacters" target="CharacterEntity"/>
+    <edge source="AddSceneCollideEntities" target="CollideRectEntity"/>
+
+  </graph>
+</graphml>
