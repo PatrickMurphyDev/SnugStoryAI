@@ -6,7 +6,7 @@ const messageRoutes = require("./routes/messages");
 const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
-const SocketManager = require("./Controllers/Sockets/SocketManager") 
+const SocketManager = require("./controllers/sockets/SocketManager") 
 const IslandTemplate = require("./IslandTemplateServer");
 const global = {};
 global.onlineUsers = new Map();
