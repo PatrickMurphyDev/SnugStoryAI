@@ -37,7 +37,7 @@ class ConversationManager {
     }
   }
 
-  getPastConversations(npcKeys, limit = Infinity, exclusive = false, lastNMessages = Infinity) {
+  getPastConversations(npcKeys, convoReturnLimit = Infinity, exclusive = false, convoMsgReturnLimit = 25) {
     const npcSet = new Set(npcKeys);
     const filteredConversations = this.ConversationHistory.filter(conversation => {
       const participants = this.ConversationHistoryParticipantsMap.get(conversation.id);
@@ -50,10 +50,10 @@ class ConversationManager {
 
     return filteredConversations
       .sort((a, b) => b.creationTime - a.creationTime)
-      .slice(0, limit)
+      .slice(0, convoReturnLimit)
       .map(conversation => ({
         ...conversation,
-        messages: conversation.messages.slice(-lastNMessages)
+        messages: conversation.messages.slice(-convoMsgReturnLimit)
       }));
   }
 
