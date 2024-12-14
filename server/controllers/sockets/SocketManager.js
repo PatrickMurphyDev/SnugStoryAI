@@ -1,6 +1,6 @@
 const Ollama = require("ollama-node");
 const IslandTemplate = require("../../IslandTemplateServer");
-const WorldActionLog = require("../WorldActionLog");
+const WorldActionLogClass = require("../worldActionLog");
 const ConversationManager = require('../ConversationManager');
 
 class SocketManager {
@@ -12,7 +12,7 @@ class SocketManager {
     this.ollama = new Ollama.Ollama();
     this.lastSentToCharacter = -1;
     this.promptCount = 0;
-    this.wActionLog = new WorldActionLog();
+    this.WorldActionLog = new WorldActionLogClass();
     this.overallNarrative = {
       intro: [
         "Ellie should Go to the bait shop to get some crab traps!",
@@ -187,7 +187,7 @@ class SocketManager {
     console.log("actionLog:" + JSON.stringify(data));
     // save persistent store action log item
     const gameActionLogItem = await this.storeGameActionLog(data);
-    this.wActionLog.addAction(data);
+    this.WorldActionLog.addAction(data);
   };
 
   /**
