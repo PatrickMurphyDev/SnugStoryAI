@@ -103,6 +103,13 @@ SnugStoryAI is a comprehensive project that combines a chat application and an i
     │ ├── public/
         ├── Images/
 
+### Data Model
+![Overall Model](./Documentation/datamodel/V2Game.png) 
+![Character Model](./Documentation/datamodel/V2_1Character.png)
+![Island Model](./Documentation/datamodel/V2Island.png)
+![Interaction Model](./Documentation/datamodel/V2Interaction.png)
+![Game Model](./Documentation/datamodel/V2Game.png)
+
 ### Key Directories and Files
 
 - `Documentation`: Contains logs and documentation related to the GPT integration.
