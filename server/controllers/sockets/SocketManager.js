@@ -31,6 +31,7 @@ class SocketManager {
   init() {
     this.setupOllama();
     this.io.on("connection", (socket) => {
+      console.log("User connected: ", socket.id);
       this.handleConnection(socket);
     });
   }
