@@ -1,0 +1,5 @@
+[[Daily -- Wake Up]]
+[[Daily -- Preparation Phase]]
+[[Daily -- Fishing Phase]]
+[[Daily -- Offload Catch]]
+[[Daily -- Evening Activities]]

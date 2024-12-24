@@ -1,0 +1,19 @@
+{
+	"nodes":[
+		{"id":"c6a98889c66e76a1","type":"group","x":-1440,"y":-960,"width":360,"height":360,"label":"Custom Scenes"},
+		{"id":"e760702256bb3c3b","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Main_GameMenuScene.js","x":-1425,"y":-945,"width":150,"height":150},
+		{"id":"e15d1497b297d5cd","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Settings_GameMenuScene.js","x":-1245,"y":-945,"width":150,"height":150},
+		{"id":"43e4eec5ae9149e8","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Load_GameMenuScene.js","x":-1425,"y":-765,"width":150,"height":150},
+		{"id":"82316f01fbb698ab","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Intro_GameCutScene.js","x":-1245,"y":-765,"width":150,"height":150},
+		{"id":"d25d8ca3f3621c9f","type":"file","file":"public/src/components/IslandSketch/IslandSketch.jsx","x":-840,"y":-560,"width":400,"height":400},
+		{"id":"e33bad9d8a262da6","type":"file","file":"public/src/components/IslandSketch/Scenes/GameMapScene.js","x":-1450,"y":-520,"width":205,"height":200},
+		{"id":"cdc9bf7c6df857df","type":"file","file":"public/src/utils/IslandTemplateTile.js","x":-1433,"y":-240,"width":188,"height":160},
+		{"id":"e574d4b262c79b69","type":"file","file":"public/src/components/IslandSketch/ConfigurationData/AssetsList.js","x":-1365,"y":0,"width":120,"height":120}
+	],
+	"edges":[
+		{"id":"11fc819586910ac5","fromNode":"c6a98889c66e76a1","fromSide":"bottom","toNode":"d25d8ca3f3621c9f","toSide":"left"},
+		{"id":"367e212440e4bacb","fromNode":"e574d4b262c79b69","fromSide":"right","toNode":"d25d8ca3f3621c9f","toSide":"left"},
+		{"id":"84dbd61dec26ea5d","fromNode":"e33bad9d8a262da6","fromSide":"right","toNode":"d25d8ca3f3621c9f","toSide":"left"},
+		{"id":"1c6a3cc91b5ca592","fromNode":"cdc9bf7c6df857df","fromSide":"right","toNode":"d25d8ca3f3621c9f","toSide":"left"}
+	]
+}

@@ -4,24 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "d6c3c64dd9733739",
+        "id": "388acf980f78ca27",
         "type": "tabs",
         "children": [
           {
-            "id": "9ff16f525cf5be6b",
+            "id": "6dd4f59e300551d7",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/ServerDiagram.canvas",
+                "file": "Documentation/MapComponent.canvas",
                 "viewState": {
-                  "x": -1250.5854007105906,
-                  "y": 8775.223419254851,
-                  "zoom": -1.8391881617185843
+                  "x": -449.0945334392321,
+                  "y": -423.34541797214416,
+                  "zoom": -1.0000000366797828
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "ServerDiagram"
+              "title": "MapComponent"
             }
           }
         ]
@@ -161,29 +161,50 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "9ff16f525cf5be6b",
+  "active": "6dd4f59e300551d7",
   "lastOpenFiles": [
-    "Documentation/LLMStructure.canvas",
+    "Documentation/MapComponent.canvas",
+    "Documentation/gameplay/Loop/longterm/Longer-Term Progression.md",
+    "Documentation/gameplay/Loop/daily/Daily -- Evening Activities.md",
+    "Cult Mystery.md",
+    "cult subplot.md",
+    "Documentation/gameplay/Mechanic/Mechanic -- Dockside Crabbing.md",
+    "Documentation/gameplay/Introduction Phase (Player Setup).md",
+    "time of day.md",
+    "Documentation/gameplay/Mechanic/Mechanic -- Date & Time Of Day.md",
+    "Documentation/gameplay/Mechanic/Mechanic -- Community.md",
+    "Documentation/gameplay/Loop/Daily Gameplay Loop.md",
+    "Documentation/gameplay/Theme/Main Theme -- Cult.md",
+    "Documentation/gameplay/Theme/Theme -- Energy.md",
+    "Documentation/gameplay/Theme/Theme -- Inherited Boat.md",
+    "Documentation/gameplay/Gameplay Loop.md",
+    "Documentation/gameplay/Loop/endgame/Endgame.md",
+    "Documentation/gameplay/Mechanic/Mechanic -- Thirst.md",
+    "Documentation/gameplay/Island -- Asbury's Reef.md",
+    "deeper fishing zones.md",
+    "Documentation/gameplay/Mechanic/Mechanic -- Hunger.md",
+    "server/LLM_Modules/dramatron-template/README.md",
+    "Documentation/gameplay/Loop/endgame",
+    "Documentation/gameplay/Loop/longterm",
+    "Documentation/gameplay/Loop",
+    "Documentation/gameplay/Mechanic/Mechanic -- Fishing Zones.md",
+    "Documentation/gameplay/Mechanic/Mechanic -- Side Jobs.md",
+    "Documentation/gameplay/Mechanic",
+    "Documentation/gameplay/Theme",
+    "Documentation/gameplay/Loop/daily/Daily -- Wake Up.md",
+    "Documentation/gameplay/Loop/daily/Daily -- Fishing Phase.md",
+    "Documentation/gameplay/Loop/daily/Daily -- Preparation Phase.md",
+    "Documentation/gameplay/Loop/daily",
+    "Documentation/gameplay",
     "Documentation/ServerDiagram.canvas",
+    "Documentation/LLMStructure.canvas",
     "Documentation/Story.canvas",
-    "DailyLoopOutline.md",
     "Documentation/NPC's.canvas",
-    "Documentation/datamodel/MD/SpecialConditionsModel.md",
-    "Documentation/datamodel/MD/CharacterModel.md",
-    "Documentation/datamodel/MD/IslandModel.md",
-    "Documentation/datamodel/MD/BuildingModel.md",
-    "Documentation/datamodel/MD/BehavioralPatternsModel.md",
     "Documentation/datamodel/Untitled.canvas",
     "Documentation/datamodel/MD",
     "Untitled.canvas",
-    "node_modules/eslint-plugin-jest/README.md",
-    "README.md",
-    "2024-12-20.md",
-    "2024-12-19.md",
     "Untitled",
     "Documentation/datamodel/LargerModel.png",
-    "Documentation/datamodel/CharModel.png",
-    "TestCheckList.md",
-    "Untitled.md"
+    "Documentation/datamodel/CharModel.png"
   ]
 }

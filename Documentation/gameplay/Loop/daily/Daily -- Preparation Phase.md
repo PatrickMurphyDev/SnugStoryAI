@@ -1,0 +1,10 @@
+- **[[Supplies]]:**
+    - Buy bait, traps, and provisions from the market in [[Asbury’s Reef]].
+    - Search the island for free resources (e.g., discarded traps or repair materials).
+- **[[Equipment]]:**
+    - Fix traps and repair the [[Theme -- Inherited Boat]] if resources allow.
+    - Upgrade traps or purchase better gear over time.
+- **[[Crew Management]]:**
+    - Recruit [[crew members]] if the boat is operational. Each crew member has unique skills and loyalty levels, with some tied to the [[cult subplot]].
+- **[[Mechanic -- Side Jobs]]:**
+    - Work for [[harbor boats]] or help locals for quick income or resources.

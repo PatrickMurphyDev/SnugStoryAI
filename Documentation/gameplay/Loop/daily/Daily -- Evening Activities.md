@@ -1,0 +1,6 @@
+- **[[Preparation]]:**
+    - Repair traps and gear, prepare meals, or upgrade equipment.
+- **[[Investigation]]:**
+    - Explore suspicious locations or eavesdrop on [[Main Theme -- Cult]], risking suspicion or penalties for exhaustion.
+- **[[Balance Risks]]:**
+    - Staying up late reduces energy and increases [[Mechanic -- Hunger]] the next day.

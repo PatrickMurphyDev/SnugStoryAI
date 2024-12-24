@@ -1,22 +1,51 @@
 {
   "collapse-filter": false,
-  "search": "path:Documentation/datamodel/MD  ",
+  "search": "-path:node_modules",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": false,
-  "collapse-color-groups": true,
-  "colorGroups": [],
-  "collapse-display": false,
-  "showArrow": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:Documentation/gameplay/Loop/daily  ",
+      "color": {
+        "a": 1,
+        "rgb": 14048348
+      }
+    },
+    {
+      "query": "path:Documentation/gameplay/Theme  ",
+      "color": {
+        "a": 1,
+        "rgb": 14069084
+      }
+    },
+    {
+      "query": "path:Documentation/gameplay/Mechanic  ",
+      "color": {
+        "a": 1,
+        "rgb": 11392604
+      }
+    },
+    {
+      "query": "path:Documentation/gameplay ",
+      "color": {
+        "a": 1,
+        "rgb": 4547397
+      }
+    }
+  ],
+  "collapse-display": true,
+  "showArrow": true,
   "textFadeMultiplier": 0,
-  "nodeSizeMultiplier": 1,
-  "lineSizeMultiplier": 1,
-  "collapse-forces": false,
+  "nodeSizeMultiplier": 2.32679987511708,
+  "lineSizeMultiplier": 2.38554480174836,
+  "collapse-forces": true,
   "centerStrength": 0.430471433031533,
-  "repelStrength": 11.4068061192632,
-  "linkStrength": 0.614299094598814,
-  "linkDistance": 138,
-  "scale": 0.9999999999999912,
+  "repelStrength": 12.7655323134561,
+  "linkStrength": 0.778145488604433,
+  "linkDistance": 116,
+  "scale": 0.4505081846770258,
   "close": false
 }

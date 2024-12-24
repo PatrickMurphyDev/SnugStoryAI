@@ -1,0 +1,5 @@
+- **[[Player Status]]:**
+    - Begin each day with a summary of [[Mechanic -- Hunger]], [[Mechanic -- Thirst]], and [[Theme -- Energy]].
+    - Receive the day’s [[weather]] and [[tide conditions]], which affect fishing success.
+- **[[NPC Interactions]]:**
+    - Chat with locals for rumors, tips, or [[Mechanic -- Side Jobs]]. NPCs might reveal information about the [[Main Theme -- Cult]] or the [[property debt]].
