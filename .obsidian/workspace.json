@@ -4,17 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "6ee8244db10a0518",
+        "id": "d6c3c64dd9733739",
         "type": "tabs",
         "children": [
           {
-            "id": "44fe501ecc4b2a65",
+            "id": "9ff16f525cf5be6b",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "canvas",
+              "state": {
+                "file": "Documentation/ServerDiagram.canvas",
+                "viewState": {
+                  "x": -1250.5854007105906,
+                  "y": 8775.223419254851,
+                  "zoom": -1.8391881617185843
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "ServerDiagram"
             }
           }
         ]
@@ -69,8 +76,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -155,13 +161,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "44fe501ecc4b2a65",
+  "active": "9ff16f525cf5be6b",
   "lastOpenFiles": [
     "Documentation/LLMStructure.canvas",
+    "Documentation/ServerDiagram.canvas",
+    "Documentation/Story.canvas",
     "DailyLoopOutline.md",
     "Documentation/NPC's.canvas",
-    "Documentation/Story.canvas",
-    "Documentation/ServerDiagram.canvas",
     "Documentation/datamodel/MD/SpecialConditionsModel.md",
     "Documentation/datamodel/MD/CharacterModel.md",
     "Documentation/datamodel/MD/IslandModel.md",
