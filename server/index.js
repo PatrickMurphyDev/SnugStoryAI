@@ -225,6 +225,9 @@ app.get("/api/characterrelationships/:id", getCharacterRelationshipById);
 app.put("/api/characterrelationships/:id", updateCharacterRelationship);
 app.delete("/api/characterrelationships/:id", deleteCharacterRelationship);
 
+// SERVER STATE - Displayed on /ping
+let isDBConnected = false;
+
 // SETUP DB Instances
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -238,11 +241,10 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
   app.use("/api/auth", authRoutes);
   app.use("/api/messages", messageRoutes);
   
-// SERVER STATE - Displayed on /ping
-let isDBConnected = false;
 
 // Ping Page Route
 // == Display Server State

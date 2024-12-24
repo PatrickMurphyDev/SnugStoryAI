@@ -20,77 +20,7 @@ const CharacterSchema = new Schema({
 
 const Character = model("Character", CharacterSchema);
 
-// Character Details Schema
-const CharacterDetailsSchema = new Schema({
-  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
-  character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
-  presentingGender: {
-    type: String,
-    enum: ["male", "female", "non-binary"],
-    default: "female",
-  },
-  raceEthnicity: { type: String },
-  sexualOrientation: {
-    type: String,
-    enum: ["heterosexual", "homosexual", "bisexual", "asexual", "other"],
-    default: "heterosexual",
-  },
-  occupation: { type: String },
-  job_id: { type: Schema.Types.ObjectId, ref: "JobPosition" },
-  residence_id: { type: Schema.Types.ObjectId, ref: "Building" },
-  appearance: {
-    height: { type: String },
-    bodyType: { type: String },
-    hairColor: { type: String },
-    hairStyle: { type: String },
-    eyeDescriptor: { type: String },
-    eyeColor: { type: String },
-    clothingStyle: { type: String },
-  },
-  description: { type: String },
-  goals: [
-    {
-      goalType: {
-        type: String,
-        enum: ["Story", "Scene", "Secondary", "Other"],
-        default: "Story",
-      },
-      goalName: { type: String, required: true },
-      goalDescription: { type: String, required: true },
-    },
-  ],
-  traits: [{ type: Schema.Types.ObjectId, ref: "CharacterTrait" }],
-  resources_id: { type: Schema.Types.ObjectId, ref: "Resources" },
-  behavioral_patterns_id: { type: Schema.Types.ObjectId, ref: "BehavioralPatterns" },
-  special_conditions_id: { type: Schema.Types.ObjectId, ref: "SpecialConditions" },
-});
-
-const CharacterDetails = model("CharacterDetails", CharacterDetailsSchema);
-
-// Character Trait Schema
-const CharacterTraitSchema = new Schema({
-  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
-  character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
-  trait_id: { type: Schema.Types.ObjectId, ref: "Trait", required: true },
-  value: { type: Number, min: 0, max: 100, required: true },
-});
-
-const CharacterTrait = model("CharacterTrait", CharacterTraitSchema);
-
-// Trait Schema
-const TraitSchema = new Schema({
-  island_id: { type: Schema.Types.ObjectId, ref: "Island", required: true },
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  category: {
-    type: String,
-    enum: ["physical", "psychological", "social", "other"],
-    default: "other",
-  },
-});
-
-const Trait = model("Trait", TraitSchema);
-
+/* 
 // Character Personality Schema
 const CharacterPersonalitySchema = new Schema({
   character_id: { type: Schema.Types.ObjectId, ref: "Character", required: true },
@@ -148,7 +78,5 @@ const CharacterPersonalitySchema = new Schema({
   favoriteMusicGenre: { type: String },
   favoriteFoods: { type: String },
 });
-
-const CharacterPersonality = model("CharacterPersonality", CharacterPersonalitySchema);
-
-module.exports = { Character, CharacterDetails, CharacterTrait, Trait, CharacterPersonality };
+ */
+module.exports = { Character };
