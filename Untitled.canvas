@@ -1,0 +1,8 @@
+{
+	"nodes":[
+		{"id":"dc050e4f24752389","type":"file","file":"server/index.js","x":-125,"y":230,"width":400,"height":400},
+		{"id":"ec3a138bd48ecff9","type":"file","file":"README.md","x":-460,"y":-460,"width":400,"height":400},
+		{"id":"3098109a5b61cc23","type":"file","file":"Documentation/datamodel/LargerModel.png","x":0,"y":-460,"width":400,"height":278}
+	],
+	"edges":[]
+}

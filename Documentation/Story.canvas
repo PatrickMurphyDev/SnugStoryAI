@@ -1,0 +1,15 @@
+{
+	"nodes":[
+		{"id":"80ed78df236ca82d","x":-249,"y":-209,"width":400,"height":400,"type":"group","label":"Prologue"},
+		{"id":"17e60e2ccdb1584e","x":320,"y":-209,"width":400,"height":400,"type":"group","label":"Arrive Island"},
+		{"id":"6a01431cfa9f02d8","x":1080,"y":-209,"width":400,"height":200,"type":"group","label":"View Property"},
+		{"id":"7bbfc37939027cb6","type":"group","x":1080,"y":116,"width":400,"height":151,"label":"Bar"}
+	],
+	"edges":[
+		{"id":"8126a0b68f1ef085","fromNode":"80ed78df236ca82d","fromSide":"right","toNode":"17e60e2ccdb1584e","toSide":"left"},
+		{"id":"a4bd71c529f506f4","fromNode":"17e60e2ccdb1584e","fromSide":"right","toNode":"6a01431cfa9f02d8","toSide":"left"},
+		{"id":"07746f477f68a2a3","fromNode":"17e60e2ccdb1584e","fromSide":"right","toNode":"7bbfc37939027cb6","toSide":"left"},
+		{"id":"59ecad8a7113abfc","fromNode":"6a01431cfa9f02d8","fromSide":"bottom","toNode":"7bbfc37939027cb6","toSide":"top"},
+		{"id":"9b54779d6fe16d25","fromNode":"7bbfc37939027cb6","fromSide":"top","toNode":"6a01431cfa9f02d8","toSide":"bottom"}
+	]
+}
