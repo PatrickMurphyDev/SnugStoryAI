@@ -26,23 +26,22 @@ const IslandSketch = ({
 
   const [scenes, setScenes] = useState([]);
 
-  const preload = (p5) => {
-    console.log('run sketchpreload');
-    const mapSceneId = "GameMapScene";
-    assetsByScene[mapSceneId] = {};
-       
-    assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(IslandTemplate.Image.source);
-    
-    // Load assets from the config
-    gameMapSceneAssets.forEach(asset => {
-      assetsByScene[mapSceneId][asset.key] = p5.loadImage(asset.path);
-    });
-  
-    let newLots = [...IslandTemplate.Buildings];
-    newLots.forEach((v)=>{
-      assetsByScene[mapSceneId][v.id] = p5.loadImage("images/lots/"+v.lotDetails.imgFileSrc);
-    });
+  const checkForGameToLoad = () => {
+    if (currentSceneIndex === 4 && loadData) {
+      scenes[currentSceneIndex].loadGameState(loadData);
+      setLoadData(undefined);
+    }
   };
+  
+  const setCurrentSceneIndexLoad = (id, data) => {
+    console.log('load save game ' + id + " " + scenes.length, currentSave); // if is object set save data
+    if(id >= 0 && id < SCENECOUNT) { 
+      //console.log('load save game, after int check, range check ' + id, currentSave); // if is object set save data
+      currentSave = data; // if is object set save data
+      setLoadData(data);
+      setCurrentSceneIndex(id); 
+    }
+  }  
 
   const getIsServerConnected = () => {
     if(scenes.length <= 5) {
@@ -62,15 +61,23 @@ const IslandSketch = ({
     p5.pop();
   }
 
-  const setCurrentSceneIndexLoad = (id, data) => {
-    console.log('load save game ' + id + " " + scenes.length, currentSave); // if is object set save data
-    if(id >= 0 && id < SCENECOUNT) { 
-      //console.log('load save game, after int check, range check ' + id, currentSave); // if is object set save data
-      currentSave = data; // if is object set save data
-      setLoadData(data);
-      setCurrentSceneIndex(id); 
-    }
-  }
+  const preload = (p5) => {
+    console.log('run sketchpreload');
+    const mapSceneId = "GameMapScene";
+    assetsByScene[mapSceneId] = {};
+       
+    assetsByScene[mapSceneId]["BGImage"] = p5.loadImage(IslandTemplate.Image.source);
+    
+    // Load assets from the config
+    gameMapSceneAssets.forEach(asset => {
+      assetsByScene[mapSceneId][asset.key] = p5.loadImage(asset.path);
+    });
+  
+    let newLots = [...IslandTemplate.Buildings];
+    newLots.forEach((v)=>{
+      assetsByScene[mapSceneId][v.id] = p5.loadImage("images/lots/"+v.lotDetails.imgFileSrc);
+    });
+  };
 
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(sizeVector.x, sizeVector.y).parent(canvasParentRef);
@@ -91,13 +98,6 @@ const IslandSketch = ({
       ]);
     }
   };    
-  
-  const checkForGameToLoad = () => {
-    if (currentSceneIndex === 4 && loadData) {
-      scenes[currentSceneIndex].loadGameState(loadData);
-      setLoadData(undefined);
-    }
-  };
 
   const draw = (p5) => {
     checkForGameToLoad();
