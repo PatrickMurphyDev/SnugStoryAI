@@ -1,6 +1,6 @@
 - **[[Mechanic -- Dockside Crabbing]]:**
     - Set and collect traps along the docks for low-risk but modest income.
-- **[[Voyaging to Sea]]:**
+- **[[Mechanic -- Voyaging to Sea]]:**
     - Sail to different [[Mechanic -- Fishing Zones]] ([[nearshore]], [[mid-depth]], [[deep sea]]).
     - Deploy traps, balancing [[Mechanic -- Date & Time Of Day]], [[resources]], and [[risk]].
     - Manage [[random events]] (e.g., storms, equipment damage, encounters with suspicious characters).

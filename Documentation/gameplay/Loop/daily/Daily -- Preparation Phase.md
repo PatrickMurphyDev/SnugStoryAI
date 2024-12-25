@@ -5,6 +5,6 @@
     - Fix traps and repair the [[Theme -- Inherited Boat]] if resources allow.
     - Upgrade traps or purchase better gear over time.
 - **[[Crew Management]]:**
-    - Recruit [[crew members]] if the boat is operational. Each crew member has unique skills and loyalty levels, with some tied to the [[cult subplot]].
+    - Recruit [[crew members]] if the boat is operational. Each crew member has unique skills and loyalty levels, with some tied to the [[Main Theme -- Cult]].
 - **[[Mechanic -- Side Jobs]]:**
     - Work for [[harbor boats]] or help locals for quick income or resources.
