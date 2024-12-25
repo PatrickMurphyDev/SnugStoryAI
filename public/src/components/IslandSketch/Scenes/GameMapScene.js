@@ -48,13 +48,13 @@ This class serves as the core of the game's map scene, managing various aspects 
 // import dependents
 import SimulationTime from "../../../utils/SimulationTime";
 import { GameScene } from "./GameScene";
+import { GUIElementManager } from "../Controllers/GUIElementManager";
+import PlayerController from "../Controllers/PlayerController";
+import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
-import { GUIElementManager } from "../Controllers/GUIElementManager";
-import CharacterInventory from "../CharacterFeatures/CharacterInventory";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
-import PlayerController from "../Controllers/PlayerController";
 
 // import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
@@ -69,6 +69,8 @@ import { UserInputController } from "../Controllers/UserInputController";
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
+
+
 export class GameMapScene extends GameScene {
   constructor(
     onCharacterSelect,
@@ -80,10 +82,12 @@ export class GameMapScene extends GameScene {
   ) {
     super("GameMapScene");
     this.DEBUG_LEVEL = 0;
+    this.OPTIONS = { "enable_socket-load-world": false };
     this.lastFrame = -1;
 
     // process params and set
     this.playerControl = new PlayerController(this, { x: 570, y: 1820 }, 0.4);
+
     this.setupParams(
       onCharacterSelect,
       onPropertySelect,
@@ -92,7 +96,6 @@ export class GameMapScene extends GameScene {
       sizeVector,
       parentAssetsByScene
     );
-    this.OPTIONS = { "enable_socket-load-world": false };
     this.parentAssets = parentAssetsByScene;
     this.initMapSettings();
     this.GUI_Time = "";
@@ -218,7 +221,7 @@ export class GameMapScene extends GameScene {
         () => {
           this.GUI.openAlert(
             "Andi McNuttly",
-            "Andi wants to welcome you to te island!",
+            "Andi wants to welcome you to the island!",
             {
               NPCKey: "AndiMcNuttly",
               msg: "Hey Ellie! So excited you finally arrived on the island! I'll help show you to your property!",
