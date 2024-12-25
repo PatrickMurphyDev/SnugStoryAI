@@ -330,14 +330,17 @@ broadcastStartAI(socketList, msg, doBroadcast) {
   ${JSON.stringify(conversationData)}
   
   Please provide a JSON object with the following structure:
-  {
-    "overallTopic": "Brief description of the main topic",
-    "keywords": ["List of important keywords from the conversation"],
-    "conversationSummary": "A concise summary of the conversation",
-    "playerDetails": "Details revealed by the player about themselves",
-    "npcDetails": [{"keyword": "details revealed by the NPC related to the keyword"}],
-    "relationshipEffect": "A number between -100 and 100 representing the effect on the NPC's relationship with the player"
-  }
+  
+      {
+        "overallTopic": "Brief description of the main topic",
+        "keywords": ["List of important keywords from the conversation"],
+        "charactersMentioned": ["List of characters mentioned in the conversation"],
+        "conversationSummary": "A concise summary of the conversation",
+        "playerDetailsList": ["list of details mentioned about Ellie, the player"],
+        "npcDetailsList": ["list of details revealed by the NPC"],
+        "relationshipEffect": "number between -100 and 100 representing the effect on the NPC's relationship or friendship with the player",
+      }
+
   Provide your response as a valid JSON object, do not include your reasoning or anything ther than the json object.
   `;
 
@@ -349,7 +352,7 @@ broadcastStartAI(socketList, msg, doBroadcast) {
       null,
       (msg) => {
         msg = JSON.parse(msg);
-        console.log("Streaming response: ", msg, " ", fullResponse);
+        //console.log("Streaming response: ", msg, " ", fullResponse);
         fullResponse += msg.response;
         if(msg.done){
           console.log("Final Response: " + fullResponse);
