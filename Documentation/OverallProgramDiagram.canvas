@@ -1,14 +1,15 @@
 {
 	"nodes":[
-		{"id":"9ae5a6a27428b575","type":"group","x":-400,"y":1920,"width":5190,"height":1840,"color":"3","label":"DataModel"},
+		{"id":"9ae5a6a27428b575","type":"group","x":-560,"y":3280,"width":5190,"height":1840,"color":"3","label":"DataModel"},
+		{"id":"cbb9301115bf341a","type":"group","x":-560,"y":2240,"width":4880,"height":880,"color":"6","label":"LLM Server"},
 		{"id":"7a3c5aa2669bf285","type":"group","x":-400,"y":338,"width":1095,"height":1497,"label":"Daily Loop"},
 		{"id":"c6ba73f31fcd2bf5","type":"group","x":2200,"y":138,"width":713,"height":1102,"label":"InteractionEvent"},
 		{"id":"e583cd43d5b63ec9","type":"group","x":1560,"y":-400,"width":1353,"height":400,"label":"plot"},
+		{"id":"dea9253d04474808","type":"group","x":920,"y":203,"width":806,"height":537,"label":"Locations"},
 		{"id":"fb3f1f1a44b797e8","type":"group","x":3360,"y":138,"width":1040,"height":400,"label":"Voyage"},
 		{"id":"e4d676c8645669c9","type":"group","x":-560,"y":-470,"width":530,"height":608,"label":"GameSaveState"},
 		{"id":"4fe3db963a3083e0","type":"group","x":920,"y":-397,"width":400,"height":400,"label":"NPCs"},
 		{"id":"f7ab6a89fd765880","type":"group","x":2273,"y":273,"width":400,"height":400,"label":"Conversation"},
-		{"id":"dea9253d04474808","type":"group","x":920,"y":203,"width":400,"height":400,"label":"Locations"},
 		{"id":"9c4403399a13610b","type":"group","x":2273,"y":760,"width":400,"height":400,"label":"WorldLocationArrive"},
 		{"id":"0ab27fe194c58815","type":"group","x":920,"y":-1280,"width":400,"height":400,"label":"Player"},
 		{"id":"4d501c7291c58730","type":"group","x":-515,"y":-213,"width":440,"height":302,"label":"Manage Save"},
@@ -33,7 +34,13 @@
 		{"id":"c987e2206ed1bf03","type":"text","text":"# Must Earn\n$x to keep Property in 1 yr or less","x":1600,"y":-380,"width":300,"height":77},
 		{"id":"8609c2c8ab32e127","type":"text","text":"# Dockside Crab","x":1900,"y":-303,"width":260,"height":60},
 		{"id":"914cd96fdb31ffcf","type":"text","text":"## Choose Cult Members","x":1563,"y":-243,"width":325,"height":60},
-		{"id":"9dd18558c0e42e76","type":"text","text":"# Threating Note","x":1890,"y":-213,"width":280,"height":60}
+		{"id":"9dd18558c0e42e76","type":"text","text":"# Threating Note","x":1890,"y":-213,"width":280,"height":60},
+		{"id":"f987f802f2cd63c2","type":"text","text":"Start Conversation\n- Plot influence\n- past convo summary","x":-140,"y":2280,"width":280,"height":120},
+		{"id":"b995669b51a9fc8d","type":"text","text":"Choose Cult Members","x":-500,"y":2420,"width":250,"height":60},
+		{"id":"f0ed011621c95850","type":"text","text":"Summarize NPC Conversation","x":-140,"y":2660,"width":280,"height":60},
+		{"id":"38f421a9991e33e7","x":-125,"y":2540,"width":250,"height":60,"type":"text","text":"End Conversation"},
+		{"id":"f7616f0b54cf3aba","x":-125,"y":2450,"width":250,"height":60,"type":"text","text":"Process Conversation"},
+		{"id":"b24700dedc838eba","x":-500,"y":2310,"width":250,"height":60,"type":"text","text":"INIT World"}
 	],
 	"edges":[
 		{"id":"771223af05c904be","fromNode":"670b1db1afd27d80","fromSide":"bottom","toNode":"af83f058c508c1cc","toSide":"top"},
@@ -45,6 +52,11 @@
 		{"id":"4c00bab48aa01b01","fromNode":"af83f058c508c1cc","fromSide":"bottom","toNode":"7a3c5aa2669bf285","toSide":"top"},
 		{"id":"36ad8efcea55bf36","fromNode":"c987e2206ed1bf03","fromSide":"right","toNode":"8609c2c8ab32e127","toSide":"top"},
 		{"id":"410fa7f9a836e4ab","fromNode":"c987e2206ed1bf03","fromSide":"bottom","toNode":"914cd96fdb31ffcf","toSide":"top"},
-		{"id":"26402d233f91f2b8","fromNode":"8609c2c8ab32e127","fromSide":"bottom","toNode":"9dd18558c0e42e76","toSide":"top"}
+		{"id":"26402d233f91f2b8","fromNode":"8609c2c8ab32e127","fromSide":"bottom","toNode":"9dd18558c0e42e76","toSide":"top"},
+		{"id":"afc502871fec11d1","fromNode":"b24700dedc838eba","fromSide":"bottom","toNode":"b995669b51a9fc8d","toSide":"top"},
+		{"id":"496b6ef8bd82408b","fromNode":"b24700dedc838eba","fromSide":"right","toNode":"f987f802f2cd63c2","toSide":"left"},
+		{"id":"e06c7a5a479d7193","fromNode":"f987f802f2cd63c2","fromSide":"bottom","toNode":"f7616f0b54cf3aba","toSide":"top"},
+		{"id":"7c43f23d58ad81b6","fromNode":"f7616f0b54cf3aba","fromSide":"bottom","toNode":"38f421a9991e33e7","toSide":"top"},
+		{"id":"040349326cb2290c","fromNode":"38f421a9991e33e7","fromSide":"bottom","toNode":"f0ed011621c95850","toSide":"top"}
 	]
 }

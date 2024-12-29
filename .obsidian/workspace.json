@@ -13,36 +13,18 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/MapComponent.canvas",
+                "file": "Documentation/datamodel/DataModel.canvas",
                 "viewState": {
-                  "x": 633.7342544622883,
-                  "y": -876.3235838907199,
-                  "zoom": -1.3322126570195387
+                  "x": 2961.9536751828723,
+                  "y": -177.22461115934556,
+                  "zoom": -1.0000000733595658
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "MapComponent"
-            }
-          },
-          {
-            "id": "edc208174afa6521",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Documentation/OverallProgramDiagram.canvas",
-                "viewState": {
-                  "x": 1953.5655593455674,
-                  "y": 419.22325646423815,
-                  "zoom": -2.382279007870101
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "OverallProgramDiagram"
+              "title": "DataModel"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -179,15 +161,24 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "edc208174afa6521",
+  "active": "e0869e76ff850179",
   "lastOpenFiles": [
+    "Documentation/datamodel/data/chat.characters.json",
+    "Documentation/datamodel/data/remainingNPCsFormat.js",
+    "Documentation/datamodel/data/remainingNPCs.json",
+    "Documentation/datamodel/data",
+    "Documentation/datamodel/New folder",
+    "Documentation/datamodel/MD/IslandPropertyLot.md",
+    "Documentation/datamodel/MD/JobPosition.md",
     "Documentation/MapComponent.canvas",
+    "Documentation/datamodel/MD/SpecialConditionsModel.md",
+    "Documentation/datamodel/DataModel.canvas",
+    "Documentation/datamodel/MD/BuildingModel.md",
+    "Documentation/OverallProgramDiagram.canvas",
     "Documentation/NPC's.canvas",
     "Documentation/Story.canvas",
     "Documentation/Untitled.canvas",
-    "Documentation/datamodel/Untitled.canvas",
     "Documentation/datamodel/MD/CharacterModel.md",
-    "Documentation/OverallProgramDiagram.canvas",
     "Documentation/ServerDiagram.canvas",
     "Documentation/gameplay/Loop/daily/Daily -- Offload Catch.md",
     "Documentation/gameplay/Theme/Main Theme -- Repair Boat.md",
@@ -209,20 +200,13 @@
     "Documentation/gameplay/Theme/Theme -- Energy.md",
     "Documentation/gameplay/Theme/Theme -- Inherited Boat.md",
     "Documentation/gameplay/Gameplay Loop.md",
-    "Documentation/gameplay/Loop/endgame/Endgame.md",
-    "Documentation/gameplay/Mechanic/Mechanic -- Thirst.md",
-    "Documentation/gameplay/Island -- Asbury's Reef.md",
-    "Documentation/gameplay/Mechanic/Mechanic -- Hunger.md",
     "Documentation/gameplay/Loop/endgame",
     "Documentation/gameplay/Loop/longterm",
     "Documentation/gameplay/Loop",
     "Documentation/gameplay/Mechanic",
     "Documentation/gameplay/Theme",
     "Documentation/gameplay/Loop/daily",
-    "Documentation/gameplay",
-    "Documentation/datamodel/MD",
     "Untitled.canvas",
-    "Untitled",
     "Documentation/datamodel/LargerModel.png",
     "Documentation/datamodel/CharModel.png"
   ]

@@ -1,9 +1,0 @@
-{
-	"nodes":[
-		{"id":"c176ae6d583f6b98","x":-438,"y":-289,"width":400,"height":378,"type":"file","file":"Documentation/datamodel/CharModel.png"},
-		{"id":"60576269a50c2a2c","x":143,"y":-177,"width":400,"height":278,"type":"file","file":"Documentation/datamodel/LargerModel.png"},
-		{"id":"273b1f7d6e4f718d","x":26,"y":176,"width":400,"height":400,"type":"file","file":"Documentation/datamodel/MD/CharacterModel.md"},
-		{"id":"7ccdb3f8a5f0ca04","x":-438,"y":176,"width":400,"height":400,"type":"file","file":"Documentation/datamodel/MD/IslandModel.md"}
-	],
-	"edges":[]
-}

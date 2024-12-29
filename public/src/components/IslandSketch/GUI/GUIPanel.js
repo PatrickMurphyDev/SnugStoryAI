@@ -82,7 +82,9 @@ class GUIPanel {
    */
   renderWorldActionLogs(p5, el, socketController) {
     socketController.getWorldActionLog().forEach((action, i) => {
-      p5.text(action.action, el.x + 25, el.y + 10 * i + 20);
+      let actText = action.action;
+      actText = actText.replace(' conversation ', " 💬 ").replace('chat ', "").replace(' with ', " - ");
+      p5.text(actText, el.x + 112, el.y + 12 * i + 40);
     });
   }
 
