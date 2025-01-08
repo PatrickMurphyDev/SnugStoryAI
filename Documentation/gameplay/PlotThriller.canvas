@@ -1,0 +1,19 @@
+{
+	"nodes":[
+		{"id":"3","type":"text","text":"**Rising Tension**\nClues and red herrings are uncovered, leading to dangerous encounters and deepening the mystery.","x":620,"y":-10,"width":260,"height":220},
+		{"id":"4","type":"text","text":"**Midpoint Twist**\nA major revelation shifts the stakes, forcing the protagonist to rethink their approach (e.g., an ally is revealed as a traitor).","x":960,"y":-10,"width":260,"height":220},
+		{"id":"1","type":"text","text":"**Inciting Incident**\nThe protagonist encounters a shocking event that disrupts their ordinary life (e.g., a mysterious death, a cryptic letter, or the discovery of a conspiracy).","x":-30,"y":-10,"width":260,"height":220},
+		{"id":"2","type":"text","text":"**Call to Action**\nThe protagonist decides to investigate or take action, often reluctantly, setting the story in motion.","x":270,"y":-10,"width":260,"height":220},
+		{"id":"5","type":"text","text":"**Escalation**\nThe protagonist faces increasing threats, and the antagonist’s plans become clearer. The mystery deepens with new layers.","x":990,"y":400,"width":193,"height":280},
+		{"id":"6","type":"text","text":"**Climactic Showdown**\nThe protagonist confronts the antagonist, solving the mystery and overcoming the central conflict.","x":1300,"y":400,"width":193,"height":280},
+		{"id":"7","type":"text","text":"**Resolution**\nLoose ends are tied up, and the protagonist reflects on their journey. New mysteries or questions may be hinted at.","x":1600,"y":400,"width":193,"height":280}
+	],
+	"edges":[
+		{"id":10,"fromNode":"1","fromSide":"right","toNode":"2","toSide":"left"},
+		{"id":20,"fromNode":"2","fromSide":"right","toNode":"3","toSide":"left"},
+		{"id":30,"fromNode":"3","fromSide":"right","toNode":"4","toSide":"left"},
+		{"id":40,"fromNode":"4","fromSide":"left","toNode":"5","toSide":"right"},
+		{"id":50,"fromNode":"5","fromSide":"right","toNode":"6","toSide":"left"},
+		{"id":60,"fromNode":"6","fromSide":"right","toNode":"7","toSide":"left"}
+	]
+}
