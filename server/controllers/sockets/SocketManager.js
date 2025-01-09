@@ -22,7 +22,10 @@ class SocketManager {
         "warning of the mysterious cult on the island without using the word cult.",
         "shady families control the island",
       ],
-      action: [],
+      action: ["As soon as you start repairs on your ship, your closest friend is kidnapped by the cult's leader.",
+         "Ellie must navigate the cult's influence on the island's fishing industry in order to get her ship out to sea.",
+        "Ellie needs to work as a hired fisherman on other boats to get experience for her fisherman's license as a captain.",
+      "Ellie must find her kidnapped friend and save her from the cult sacrifice."],
       climax: [],
     };
     this.conversationManager = new ConversationManager();

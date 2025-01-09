@@ -26,18 +26,23 @@ async function suggestAndConfirm(property, suggestion) {
 
 
 async function createCharacterDetails(character) {
+  console.log(` `);
+  console.log(` - - - - - - - - - - - - - - - - - -`);
   console.log(`Creating CharacterDetails for ${character.name.first} ${character.name.last}`);
 
   // Find matching resident from IslandTemplate
   const matchingResident = IslandTemplate.Residents.find(resident => resident.id === character._id.toString()) || {id: character._id.toString(), name: character.name, details: {}  };
   const details = {
     island_id: character.island_id,
+    img: await suggestAndConfirm("img src", matchingResident?.details?.img_src),
     character_id: character._id,
-    presentingGender: (await suggestAndConfirm('presentingGender', matchingResident?.gender || character.biologicalGender)).toLowerCase(),
-    raceEthnicity: await suggestAndConfirm('raceEthnicity', matchingResident?.details?.raceEthnicity || 'white/caucasian'),
+    presentingGender: (matchingResident?.gender || await suggestAndConfirm('presentingGender', matchingResident?.gender || character.biologicalGender)).toLowerCase(),
+    raceEthnicity: await suggestAndConfirm('raceEthnicity', matchingResident?.details?.race+"/"+matchingResident?.details?.ethnicity || 'white/caucasian'),
     sexualOrientation: (await suggestAndConfirm('sexualOrientation', matchingResident?.details?.sexualOrientation || 'heterosexual')).toLowerCase(),
     occupation: await suggestAndConfirm('occupation', matchingResident?.details?.occupation || 'Unemployed'),
+    employer: await suggestAndConfirm('employer', matchingResident?.details?.employer || 'Unemployed'),
     description: await suggestAndConfirm('description', matchingResident?.details?.description || `A ${character.age}-year-old ${character.biologicalGender}.`),
+    personalityTraits: await suggestAndConfirm('personality traits', matchingResident?.details?.personalityTraits),
     appearance: {
       height: await suggestAndConfirm('height', matchingResident?.details?.appearance?.height || 'Average'),
       bodyType: await suggestAndConfirm('bodyType', matchingResident?.details?.appearance?.bodyType || 'Average'),
