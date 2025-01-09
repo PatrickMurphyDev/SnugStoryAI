@@ -40,7 +40,6 @@
   "age": 28,
   "gender": "male"
 },
-[
   {
     "_id": {
       "$oid": "000000000000000000000003"
@@ -82,20 +81,6 @@
     },
     "age": 19,
     "biologicalGender": "Female"
-  },
-  {
-    "_id": {
-      "$oid": "000000000000000000000006"
-    },
-    "island_id": "66dc506deaae235d2dbe4a3a",
-    "is_active": true,
-    "is_npc": true,
-    "name": {
-      "first": "Briggs",
-      "last": ""
-    },
-    "age": 55,
-    "biologicalGender": "Male"
   },
   {
     "_id": {
@@ -754,4 +739,18 @@
   },
   "age": 67,
   "biologicalGender": "Male"
-}]]
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000054"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Briggs",
+    "last": ""
+  },
+  "age": 55,
+  "biologicalGender": "Male"
+}]

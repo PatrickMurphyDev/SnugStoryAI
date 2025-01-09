@@ -4,24 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "4ecf05b9a7aa4895",
+        "id": "67572e68f773e7b0",
         "type": "tabs",
         "children": [
           {
-            "id": "e0869e76ff850179",
+            "id": "a980688f661c8fd8",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Documentation/datamodel/DataModel.canvas",
-                "viewState": {
-                  "x": 2961.9536751828723,
-                  "y": -177.22461115934556,
-                  "zoom": -1.0000000733595658
-                }
+                "file": "LLM/Prompts/FinalizeCharacters.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "DataModel"
+              "icon": "lucide-file",
+              "title": "FinalizeCharacters"
             }
           }
         ]
@@ -80,7 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 298.5096130371094
+    "width": 426.5096130371094
   },
   "right": {
     "id": "5529e2d9d093c0bf",
@@ -139,17 +136,19 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {},
+              "state": {
+                "file": "LLM/Prompts/FinalizeCharacters.md"
+              },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of FinalizeCharacters"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -161,53 +160,63 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e0869e76ff850179",
+  "active": "a980688f661c8fd8",
   "lastOpenFiles": [
-    "Documentation/datamodel/data/chat.characters.json",
-    "Documentation/datamodel/data/remainingNPCsFormat.js",
-    "Documentation/datamodel/data/remainingNPCs.json",
-    "Documentation/datamodel/data",
-    "Documentation/datamodel/New folder",
-    "Documentation/datamodel/MD/IslandPropertyLot.md",
-    "Documentation/datamodel/MD/JobPosition.md",
-    "Documentation/MapComponent.canvas",
-    "Documentation/datamodel/MD/SpecialConditionsModel.md",
+    "Documentation/Chars.canvas",
     "Documentation/datamodel/DataModel.canvas",
-    "Documentation/datamodel/MD/BuildingModel.md",
-    "Documentation/OverallProgramDiagram.canvas",
-    "Documentation/NPC's.canvas",
-    "Documentation/Story.canvas",
-    "Documentation/Untitled.canvas",
-    "Documentation/datamodel/MD/CharacterModel.md",
-    "Documentation/ServerDiagram.canvas",
-    "Documentation/gameplay/Loop/daily/Daily -- Offload Catch.md",
-    "Documentation/gameplay/Theme/Main Theme -- Repair Boat.md",
-    "Documentation/gameplay/Introduction Phase (Player Setup).md",
-    "Documentation/gameplay/Loop/daily/Daily -- Preparation Phase.md",
-    "Documentation/gameplay/Mechanic/Mechanic -- Voyaging to Sea.md",
-    "DailyLoopOutline.md",
-    "time of day.md",
-    "deeper fishing zones.md",
-    "cult subplot.md",
-    "Cult Mystery.md",
-    "Documentation/gameplay/Loop/longterm/Longer-Term Progression.md",
-    "Documentation/gameplay/Loop/daily/Daily -- Evening Activities.md",
-    "Documentation/gameplay/Mechanic/Mechanic -- Dockside Crabbing.md",
-    "Documentation/gameplay/Mechanic/Mechanic -- Date & Time Of Day.md",
-    "Documentation/gameplay/Mechanic/Mechanic -- Community.md",
-    "Documentation/gameplay/Loop/Daily Gameplay Loop.md",
-    "Documentation/gameplay/Theme/Main Theme -- Cult.md",
-    "Documentation/gameplay/Theme/Theme -- Energy.md",
-    "Documentation/gameplay/Theme/Theme -- Inherited Boat.md",
-    "Documentation/gameplay/Gameplay Loop.md",
-    "Documentation/gameplay/Loop/endgame",
-    "Documentation/gameplay/Loop/longterm",
-    "Documentation/gameplay/Loop",
-    "Documentation/gameplay/Mechanic",
-    "Documentation/gameplay/Theme",
-    "Documentation/gameplay/Loop/daily",
-    "Untitled.canvas",
+    "LLM/Prompts/FinalizeCharacters.md",
+    "LLM/Prompts/GenerateStory.md",
+    "LLM/Prompts/NarratorPrompt.md",
+    "LLM/Prompts",
+    "LLM",
     "Documentation/datamodel/LargerModel.png",
-    "Documentation/datamodel/CharModel.png"
+    "Documentation/datamodel/CharModel.png",
+    "Documentation/datamodel/Conversation Sub-Graph Construction.md",
+    "Documentation/images/Pasted image 20250108123028.png",
+    "Documentation/images/Pasted image 20250108123428.png",
+    "public/test/TestCheckList.md",
+    "public/test",
+    "Untitled 1.canvas",
+    "Untitled.md",
+    "Untitled 1.md",
+    "Untitled.canvas",
+    "DailyLoopOutline.md",
+    "2025-01-01.md",
+    "Documentation/dbViz/Chars.canvas",
+    "Narra.md",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/New,js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/answerQuestion.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/askQuestion.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/ask",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/getQuestion.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/CharacterIntroduction.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/Conversation.js",
+    "Documentation/dbViz/characters/000000000000000000000001.md",
+    "public/public/images/CharacterProfileImages/HenryTurner.png",
+    "Documentation/dbViz/characters/000000000000000000000053.md",
+    "Documentation/dbViz/characters/000000000000000000000052.md",
+    "Documentation/dbViz/characters/000000000000000000000054.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000001.md",
+    "public/public/images/CharacterProfileImages/KennyMcNeil.png",
+    "public/public/images/CharacterProfileImages/KatieCarrington.png",
+    "public/public/images/CharacterProfileImages/ClaraDickson.png",
+    "public/public/images/CharacterProfileImages/ChristianLumley.png",
+    "public/public/images/CharacterProfileImages/ChealseaKing.png",
+    "CharacterDetails/000000000000000000000001.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000002.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000009.md",
+    "Documentation/dbViz/characters/000000000000000000000002.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000008.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000007.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000006.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000005.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000004.md",
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000003.md",
+    "Documentation/gameplay/NPC's.canvas",
+    "Documentation/ServerDiagram.canvas",
+    "Documentation/gameplay/PlotThriller.canvas",
+    "Documentation/OverallProgramDiagram.canvas",
+    "Documentation/Untitled.canvas",
+    "Documentation/Story.canvas"
   ]
 }

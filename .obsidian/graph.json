@@ -34,18 +34,32 @@
         "a": 1,
         "rgb": 4547397
       }
+    },
+    {
+      "query": "path:Documentation/dbViz/characters",
+      "color": {
+        "a": 1,
+        "rgb": 6084269
+      }
+    },
+    {
+      "query": "path:CharacterDetails  ",
+      "color": {
+        "a": 1,
+        "rgb": 6073814
+      }
     }
   ],
-  "collapse-display": true,
+  "collapse-display": false,
   "showArrow": true,
-  "textFadeMultiplier": 0,
-  "nodeSizeMultiplier": 2.32679987511708,
-  "lineSizeMultiplier": 2.38554480174836,
-  "collapse-forces": true,
-  "centerStrength": 0.526381517327506,
-  "repelStrength": 10.8473306275367,
-  "linkStrength": 0.706212925382454,
+  "textFadeMultiplier": -0.4,
+  "nodeSizeMultiplier": 1.97433031532938,
+  "lineSizeMultiplier": 2.77687168279738,
+  "collapse-forces": false,
+  "centerStrength": 0.654261629722136,
+  "repelStrength": 18.2803621604746,
+  "linkStrength": 0.634217920699344,
   "linkDistance": 30,
-  "scale": 0.6316047780532269,
+  "scale": 0.321336429858165,
   "close": false
 }

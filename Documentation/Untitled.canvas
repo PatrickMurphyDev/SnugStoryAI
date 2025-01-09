@@ -1,7 +1,7 @@
 {
 	"nodes":[
-		{"id":"0d26b5ded7c8bfa2","x":38,"y":234,"width":400,"height":400,"type":"file","file":"Documentation/ServerDiagram.canvas"},
-		{"id":"2fb1e2fb1c3f250b","x":-270,"y":-227,"width":400,"height":278,"type":"file","file":"Documentation/datamodel/LargerModel.png"}
+		{"id":"0d26b5ded7c8bfa2","type":"file","file":"Documentation/ServerDiagram.canvas","x":38,"y":234,"width":400,"height":400},
+		{"id":"2fb1e2fb1c3f250b","type":"file","file":"Documentation/datamodel/LargerModel.png","x":-270,"y":-227,"width":400,"height":278}
 	],
 	"edges":[]
 }
