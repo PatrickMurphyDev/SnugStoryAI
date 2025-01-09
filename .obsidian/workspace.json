@@ -11,14 +11,17 @@
             "id": "a980688f661c8fd8",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "LLM/Prompts/FinalizeCharacters.md",
-                "mode": "source",
-                "source": false
+                "file": "Documentation/datamodel/DataModel.canvas",
+                "viewState": {
+                  "x": 2572.660273941153,
+                  "y": 1782.1068023376479,
+                  "zoom": -2.1047188656102014
+                }
               },
-              "icon": "lucide-file",
-              "title": "FinalizeCharacters"
+              "icon": "lucide-layout-dashboard",
+              "title": "DataModel"
             }
           }
         ]
@@ -137,10 +140,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "LLM/Prompts/FinalizeCharacters.md"
+                "file": "Documentation/datamodel/DataModel.canvas"
               },
               "icon": "lucide-list",
-              "title": "Outline of FinalizeCharacters"
+              "title": "Outline of DataModel"
             }
           }
         ],
@@ -162,9 +165,15 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "server/LLM_Modules/AgentGraphStory/RunTest.js",
+    "LLM/Prompts/FinalizeCharacters.md",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/Narrator.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/CreateStory.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/CreateCharacters.js",
+    "server/LLM_Modules/AgentGraphStory/LLMFunctions/WhereToGo.js",
+    "server/LLM_Modules/AgentGraphStory/LLMAction.js",
     "Documentation/Chars.canvas",
     "Documentation/datamodel/DataModel.canvas",
-    "LLM/Prompts/FinalizeCharacters.md",
     "LLM/Prompts/GenerateStory.md",
     "LLM/Prompts/NarratorPrompt.md",
     "LLM/Prompts",
@@ -186,11 +195,6 @@
     "Narra.md",
     "server/LLM_Modules/AgentGraphStory/LLMFunctions/New,js",
     "server/LLM_Modules/AgentGraphStory/LLMFunctions/answerQuestion.js",
-    "server/LLM_Modules/AgentGraphStory/LLMFunctions/askQuestion.js",
-    "server/LLM_Modules/AgentGraphStory/LLMFunctions/ask",
-    "server/LLM_Modules/AgentGraphStory/LLMFunctions/getQuestion.js",
-    "server/LLM_Modules/AgentGraphStory/LLMFunctions/CharacterIntroduction.js",
-    "server/LLM_Modules/AgentGraphStory/LLMFunctions/Conversation.js",
     "Documentation/dbViz/characters/000000000000000000000001.md",
     "public/public/images/CharacterProfileImages/HenryTurner.png",
     "Documentation/dbViz/characters/000000000000000000000053.md",
@@ -216,7 +220,6 @@
     "Documentation/ServerDiagram.canvas",
     "Documentation/gameplay/PlotThriller.canvas",
     "Documentation/OverallProgramDiagram.canvas",
-    "Documentation/Untitled.canvas",
-    "Documentation/Story.canvas"
+    "Documentation/Untitled.canvas"
   ]
 }
