@@ -1,5 +1,5 @@
 // A Class to define and manage the overall State of the Game
-export class GenerateGameState {
+class GenerateGameState {
     /**
      * @param {BaseMessage[]} messages - Sequence of messages
      * @param {string} environment - Story environment
@@ -30,3 +30,5 @@ export class GenerateGameState {
         this.result = result;
     }
 }
+
+module.exports = GenerateGameState;
