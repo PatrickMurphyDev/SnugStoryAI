@@ -9,6 +9,14 @@ const {
 const CreateStory = require("./LLMFunctions/CreateStory");
 
 const GenerateGameState = require("./StoryParts/GenerateGameState");
+const OpenAI = require("openai");
+
+const client = new OpenAI({ 
+  baseURL: 'http://localhost:11434/v1',
+  apiKey: 'ollama', // required but unused
+});
+
+
 
 var genState = createGameState("male","tom","english");
 
@@ -403,6 +411,16 @@ async function getCharacters(){
 }
 
 async function execute(state, callback) {
+  let llm = {invoke: async function(msgs, model){
+    const completion = await client.chat.completions.create({
+      model: model || 'llama3',
+      messages: msgs,
+    })
+    
+    console.log(completion.choices[0].message.content);
+    
+    return completion.choices[0].message.content;    
+  }};
   const characters = await getCharacters();
 
   const storyCreator = new CreateStory();
