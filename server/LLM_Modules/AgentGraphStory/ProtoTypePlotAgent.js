@@ -421,7 +421,14 @@ async function execute(state, callback) {
     
     return completion.choices[0].message.content;    
   }};
+
+  const environment = "Asbury's Reef is a rugged and isolated island nestled in the Pacific Northwest, home to a tight-knit community of just 50 residents. The island’s heart is a quaint fishing village where weathered boats bob in the harbor, and homes cling to rocky cliffs overlooking the stormy sea. Despite its picturesque charm, life on the island is harsh, with residents relying on their fishing trade and the occasional delivery from mainland supply boats to survive. Cut off from the conveniences of modern life, the island has an eerie timelessness, enhanced by the dense evergreen forests and ever-present mist that shroud much of the land. "
++ "Beneath the village’s quiet exterior lies a darker truth. A secretive cult wields significant influence over the island’s affairs, its reach extending to every corner of Asbury's Reef. Whispers of strange rituals and shadowy gatherings in the ancient woods are common among locals, though no one dares speak openly. The cult’s power is felt in the rigid social order and the unspoken rules that govern daily life, ensuring outsiders are met with guarded suspicion and a chilly reception. "
++ "Legends passed down through generations tell of the cult's origins, rooted in the island’s founding families who came seeking isolation. These stories, combined with the island's remote beauty, create a haunting atmosphere where secrets seem to linger in every shadow. Visitors rarely stay long, unnerved by the unsettling sense of being watched and the unshakable feeling that something is amiss on Asbury's Reef.";
+  genState.setEnvironment(environment);
+
   const characters = await getCharacters();
+  genState.setCharacters(characters);
 
   const storyCreator = new CreateStory();
   const story = await storyCreator.execute(state, llm);

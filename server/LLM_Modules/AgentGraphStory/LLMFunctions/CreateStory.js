@@ -21,7 +21,8 @@ You are crafting the central murder mystery for our story. Using the provided en
          * Returns:
          *  Object containing the complete story details
          */
-        const { environment, characters } = state;
+        const environment = state.getEnvironment();
+        const characters = state.getCharacters();
         const characterList = characters.map(char => char.persona).join("\n");
 
         const systemMessage = this.instructions

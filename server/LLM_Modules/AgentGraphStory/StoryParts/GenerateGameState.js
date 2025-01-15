@@ -31,6 +31,14 @@ class GenerateGameState {
         this.selectedCharacterId = selectedCharacterId;
     }
 
+    getCharacters() { return this.characters;};
+    getEnvironment() { return this.environment;};
+
+    setCharacters(characters) { this.characters = characters; };
+    setEnvironment(environment) { this.environment = environment; };
+    
+    getMaxCharacters() {return this.maxCharacters;};
+
     setGender(gender) {
         this.platerDetails.gender = gender;
     }
