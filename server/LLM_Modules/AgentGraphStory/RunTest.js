@@ -398,8 +398,7 @@ async function getCharacters(){
 }
 
 async function execute(state, callback) {
-  const characterCreator = CreateCharacters();
-  const characters = await characterCreator.execute(state, llm);
+  const characters = await getCharacters();
 
   const storyCreator = new CreateStory();
   const story = await storyCreator.execute(state, llm);
@@ -444,7 +443,7 @@ async function run() {
     console.log("Confirmed!");
     const selectedCharID = 0; // await requestSelectCharacter(characters)
     const resultTxt = "";
-    execute(new GenerateGameState(getMessages(), getEnvironmentDescription(), npcCount, getCharacters(), getStoryDetails(), selectedCharID, 10, resultTxt), (returned) => console.log(returned));
+    execute(new GenerateGameState(getMessages(), getEnvironmentDescription(), npcCount, getCharacters(), 10, resultTxt, getStoryDetails(), selectedCharID), (returned) => console.log(returned));
   } else {
     console.log("Not confirmed.");
   }

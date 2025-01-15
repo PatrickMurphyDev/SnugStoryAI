@@ -15,10 +15,10 @@ class GenerateGameState {
         environment,
         maxCharacters,
         characters,
+        numGuessesLeft = 10,
+        result = null,
         storyDetails = null,
         selectedCharacterId = null,
-        numGuessesLeft,
-        result
     ) {
         this.messages = messages;
         this.environment = environment;
