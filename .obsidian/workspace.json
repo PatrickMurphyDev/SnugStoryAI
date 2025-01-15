@@ -166,6 +166,7 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "server/LLM_Modules/AgentGraphStory/ProtoTypePlotAgent.js",
     "Documentation/images/ViewPlayerProperty.png",
     "LLM/Prompts/FinalizeCharacters.md",
     "Documentation/images/Arrival.png",
@@ -206,7 +207,6 @@
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000001.md",
     "public/public/images/CharacterProfileImages/KennyMcNeil.png",
     "public/public/images/CharacterProfileImages/KatieCarrington.png",
-    "public/public/images/CharacterProfileImages/ClaraDickson.png",
     "CharacterDetails/000000000000000000000001.md",
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000002.md",
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000009.md",

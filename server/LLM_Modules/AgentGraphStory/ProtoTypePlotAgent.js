@@ -427,6 +427,10 @@ function getStoryDetails() {
   };
 }
 
+function createGameState(){
+  return new GenerateGameState(getMessages(), getEnvironmentDescription(), npcCount, getCharacters(), 10, resultTxt, getStoryDetails(), selectedCharID);
+}
+
 async function run() {
   const pGender = await requestString("What gender is the Player? (Male, Female, Non-Binary, etc.)");
   const pName = await requestString("Enter the Player's First Name");
