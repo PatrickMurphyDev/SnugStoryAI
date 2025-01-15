@@ -5,7 +5,12 @@ const {
   requestConfirm,
   closeInterface,
 } = require("../utils/consoleInputUtils");
+
+const CreateStory = require("./LLMFunctions/CreateStory");
+
 const GenerateGameState = require("./StoryParts/GenerateGameState");
+
+var genState = createGameState("male","tom","english");
 
 async function getCharacters(){
   // load characters from mongodb 
@@ -409,6 +414,11 @@ async function execute(state, callback) {
   callback([nextStep, characters, story, narration]);
 }
 
+function createGameState(gender, name, education, npcCount){
+  const selectedCharID = 0;
+  const resultTxt = `The player has chosen to play as ${name} a 25 year old ${gender}. ${name} recently graduated with a degree in ${education} They will be interacting with ${npcCount} non-player characters in this game.`;
+  return new GenerateGameState(getEnvironmentDescription(), getCharacters(), getMessages(), npcCount, 10, resultTxt, getStoryDetails(), selectedCharID);
+}
 function getMessages() {
   return [];  
 }
@@ -427,11 +437,8 @@ function getStoryDetails() {
   };
 }
 
-function createGameState(){
-  return new GenerateGameState(getMessages(), getEnvironmentDescription(), npcCount, getCharacters(), 10, resultTxt, getStoryDetails(), selectedCharID);
-}
 
-async function run() {
+async function runCMDLineGetUserInput() {
   const pGender = await requestString("What gender is the Player? (Male, Female, Non-Binary, etc.)");
   const pName = await requestString("Enter the Player's First Name");
   const pEducation = await requestString("Enter the Player's College Major: (Computer Science, Biology, Psychology, etc.)");
@@ -439,15 +446,17 @@ async function run() {
   console.log('');
   console.log('');
   console.log(`Player Gender: ${pGender}`);
+  genState.setGender(pGender);
   console.log(`Player Name: ${pName}`);
+  genState.setName(pName);
   console.log(`Player College Degree: ${pEducation}`);
+  genState.setEducation(pEducation);
   console.log(`Number of Non-Player Characters: ${npcCount}`);
+  genState.setNPCCount(npcCount); 
   const confirmed = await requestConfirm("Are you sure you want to proceed?");
   if (confirmed) {
-    console.log("Confirmed!");
-    const selectedCharID = 0; // await requestSelectCharacter(characters)
-    const resultTxt = "";
-    execute(new GenerateGameState(getMessages(), getEnvironmentDescription(), npcCount, getCharacters(), 10, resultTxt, getStoryDetails(), selectedCharID), (returned) => console.log(returned));
+    console.log("Confirmed!");//createGameState(pGender, pName, pEducation, npcCount)
+    execute(genState, (returned) => console.log(returned));
   } else {
     console.log("Not confirmed.");
   }
@@ -455,4 +464,4 @@ async function run() {
   closeInterface();
 }
 
-run();
+runCMDLineGetUserInput();

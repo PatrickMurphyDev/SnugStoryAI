@@ -1,4 +1,5 @@
-import LLMAction from "../LLMAction";
+
+const LLMAction = require("../LLMAction");
 
 // Story creation class
 class CreateStory extends LLMAction {
