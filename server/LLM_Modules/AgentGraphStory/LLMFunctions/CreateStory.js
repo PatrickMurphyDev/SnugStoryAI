@@ -50,17 +50,7 @@ Important:
 - Ensure all clues are consistent with the environment and characters
 - Make the scenario complex enough to be interesting but clear enough to be solvable
 
-Format your response to provide the specific details requested in the StoryDetails schema: {
-    victimName - Name of the murder victim
-    timeOfDeath - Approximate time when the murder occurred
-    locationFound - Where the body was discovered
-    murderWeapon - The weapon or method used in the murder
-    causeOfDeath - Specific medical cause of death
-    crimeSceneDetails - Description of the crime scene and any relevant evidence found
-    witnesses - Information about potential witnesses or last known sightings
-    initialClues - Initial clues or evidence found at the scene
-    npcBrief - Brief description of the characters and their relationships
-    }`;
+Format your response to provide the specific details requested in the StoryDetails schema: {victimName, timeOfDeath, locationFound, murderWeapon, causeOfDeath, crimeSceneDetails, witnesses, initialClues, npcBrief}`;
     }
 
     async execute(state, llm) {
@@ -84,7 +74,7 @@ Format your response to provide the specific details requested in the StoryDetai
 
         const result = await llm.invoke([
             { role: "system", content: systemMessage },
-            { role: "user", content: "Generate mystery surrounding the player's father's death and include the island cult's involvment." }
+            { role: "user", content: "Generate mystery surrounding the death of Ellie's Father" }
         ]);
 
         return { storyDetails: result };
