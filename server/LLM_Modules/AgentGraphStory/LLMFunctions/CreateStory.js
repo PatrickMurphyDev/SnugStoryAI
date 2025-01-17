@@ -66,7 +66,7 @@ Format your response to provide the specific details requested in the StoryDetai
          */
         const environment = state.getEnvironment();
         const characters = state.getCharacters();
-        const characterList = characters.map(char => char.persona).join("\n");
+        const characterList = JSON.stringify(characters);
 
         const systemMessage = this.instructions
             .replace("{{environment}}", environment)
@@ -74,7 +74,7 @@ Format your response to provide the specific details requested in the StoryDetai
 
         const result = await llm.invoke([
             { role: "system", content: systemMessage },
-            { role: "user", content: "Generate mystery surrounding the player's father's death and the island cult's involvment." }
+            { role: "user", content: "Generate mystery surrounding the player's father's death and include the island cult's involvment." }
         ]);
 
         return { storyDetails: result };
