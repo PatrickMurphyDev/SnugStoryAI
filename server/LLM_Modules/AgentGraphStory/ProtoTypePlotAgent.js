@@ -68,9 +68,12 @@ async function getCharacters() {
 
 async function execute(state, callback) {
   let llm = {
-    invoke: async function (msgs, model) {
+    invoke: async function (msgs, model, title) {
+      model = model || "llama3";
+      title = title || "Default";
+      console.log(`Invoking [${title}] LLM with model: ${model} and with messages: ${msgs}`);
       const completion = await ollama.chat({
-        model: model || "phi3:mini" || "llama3",
+        model: model,
         messages: msgs,
       });
 
