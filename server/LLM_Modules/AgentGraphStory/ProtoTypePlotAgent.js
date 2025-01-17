@@ -10,7 +10,7 @@ const CreateStory = require("./LLMFunctions/CreateStory");
 
 const GenerateGameState = require("./StoryParts/GenerateGameState");
 const OpenAI = require("openai");
-
+const { default: ollama } = require('ollama'); // CJS
 const client = new OpenAI({ 
   baseURL: 'http://localhost:11434/v1',
   apiKey: 'ollama', // required but unused
@@ -412,14 +412,14 @@ async function getCharacters(){
 
 async function execute(state, callback) {
   let llm = {invoke: async function(msgs, model){
-    const completion = await client.chat.completions.create({
+    const completion = await ollama.chat({
       model: model || 'llama3',
       messages: msgs,
     })
     
-    console.log(completion.choices[0].message.content);
+    console.log(completion);
     
-    return completion.choices[0].message.content;    
+    return completion.message.content;    
   }};
 
   const environment = "Asbury's Reef is a rugged and isolated island nestled in the Pacific Northwest, home to a tight-knit community of just 50 residents. The island’s heart is a quaint fishing village where weathered boats bob in the harbor, and homes cling to rocky cliffs overlooking the stormy sea. Despite its picturesque charm, life on the island is harsh, with residents relying on their fishing trade and the occasional delivery from mainland supply boats to survive. Cut off from the conveniences of modern life, the island has an eerie timelessness, enhanced by the dense evergreen forests and ever-present mist that shroud much of the land. "
