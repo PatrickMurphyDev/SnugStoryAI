@@ -6,8 +6,7 @@ class Narrator extends LLMAction {
         super();
         this.instructions = `
 You are trusted assistant and friend of the legendary detective Sherlock Holmes - Dr. John Watson.
-Sherlock has just arrived at the scene of the murder.
-...`;
+Sherlock has just arrived at the scene of the murder.`;
     }
 
     async execute(state, llm) {
