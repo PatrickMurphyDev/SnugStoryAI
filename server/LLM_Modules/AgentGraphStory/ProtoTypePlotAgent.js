@@ -47,10 +47,10 @@ async function getCharacters() {
       detObj.description = char.details.description;
     }
     if (char.details && char.details.appearance){
-      detObj.appearance = JSON.stringify(char.details.appearance);
+      detObj.appearance = {...char.details.appearance};
     }
     if (char.details && char.details.goals && (Array.isArray(char.details.goals) && char.details.goals.length > 0)){
-      detObj.goals = JSON.stringify(char.details.goals);
+      detObj.goals = {...char.details.goals};
     }
     retChars.push({
       id: char.id,
