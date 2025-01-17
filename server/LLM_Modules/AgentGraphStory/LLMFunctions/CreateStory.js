@@ -1,6 +1,8 @@
 
 const LLMAction = require("../LLMAction");
-
+const z = require('zod');
+const {zodToJsonSchema} = require('zod-to-json-schema');
+const {StoryDetails} = require("../StoryParts/StoryDetails");
 // Story creation class
 class CreateStory extends LLMAction {
     constructor() {
@@ -75,7 +77,7 @@ Format your response to provide the specific details requested in the StoryDetai
         const result = await llm.invoke([
             { role: "system", content: systemMessage },
             { role: "user", content: "Generate mystery surrounding the death of Ellie's Father" }
-        ]);
+        ], 'llama3', zodToJsonSchema(StoryDetails));
 
         return { storyDetails: result };
     }
