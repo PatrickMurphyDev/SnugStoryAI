@@ -11,6 +11,7 @@ const charTempData = require("../utils/tempCharData");
 const { default: ollama } = require("ollama"); // CJS
 
 const CreateStory = require("./LLMFunctions/CreateStory");
+const Narrator = require("./LLMFunctions/Narrator");
 const GenerateGameState = require("./StoryParts/GenerateGameState");
 
 //const OpenAI = require("openai");
@@ -133,14 +134,7 @@ function getEnvironmentDescription() {
 }
 
 function getStoryDetails() {
-  return {
-    title: "The Magical Adventure",
-    author: "Dr. Lucy McCoy",
-    genre: "Adventure, Fantasy, RPG",
-    releaseDate: "July 15, 2022",
-    description:
-      "In a world where magic and technology coexist, players embark on an adventure to uncover the secrets of the magical island, where the beauty of nature and the mysteries of the universe intertwine. As they navigate through the enchanting world, they will encounter various challenges, discover hidden treasures, and face the dangers that lie ahead.",
-  };
+  return genState.getStoryDetails();
 }
 
 async function runCMDLineGetUserInput() {

@@ -1,4 +1,4 @@
-import LLMAction from "../LLMAction";
+const LLMAction = require("../LLMAction");
 
 // Narrator (Dr. Watson) class
 class Narrator extends LLMAction {
@@ -19,7 +19,7 @@ Sherlock has just arrived at the scene of the murder.`;
          * Returns:
          *  Object containing Dr. Watson's narration message
          */
-        const { storyDetails } = state;
+        const storyDetails = state.getStoryDetails();
         const systemMessage = this.instructions
             .replace("{victim}", storyDetails.victimName)
             .replace("{time}", storyDetails.timeOfDeath)

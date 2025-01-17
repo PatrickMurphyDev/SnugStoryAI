@@ -74,6 +74,8 @@ Format your response to provide the specific details requested in the StoryDetai
             .replace("{{environment}}", environment)
             .replace("{{characters}}", characterList);
 
+        console.log(systemMessage);
+        
         const result = await llm.invoke([
             { role: "system", content: systemMessage },
             { role: "user", content: "Generate mystery surrounding the death of Ellie's Father" }
