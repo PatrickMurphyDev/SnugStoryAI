@@ -16,17 +16,7 @@ async function askQuestion(state) {
 
   while (true) {
     try {
-      const useAISherlock = await getPlayerYesNoAnswer(
-        "Do you want SherlockAI to ask a question?"
-      );
-
-      let question;
-      if (useAISherlock.toLowerCase().startsWith("y")) {
-        question = await getQuestion(state); // AI-generated question
-      } else {
-        question = await getPlayerInput(`Ask your question to ${character.name}:`);
-      }
-
+      let question = await getPlayerInput(`Ask your question to ${character.name}:`);
       return { messages: [{ role: "user", content: question }] };
     } catch (error) {
       console.error("Invalid input. Please enter a valid question.");
