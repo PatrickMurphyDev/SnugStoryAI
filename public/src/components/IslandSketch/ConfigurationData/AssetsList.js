@@ -1,5 +1,6 @@
 const AssetsList = [
   { key: "WaveSpriteSheet", path: "tiles/Wave4.png" },
+  { key: "Buoy", path: "images/Buoy.png" },
   { key: "OtherCharSheet", path: "images/otherchar.png" },
   { key: "OtherCharSheet2", path: "images/otherchar2.png" },
   { key: "NewCharSheet", path: "images/EllieSpriteNew.png" },

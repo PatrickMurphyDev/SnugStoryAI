@@ -7,7 +7,7 @@ class CrabTrapEntity extends Entity {
     this.parent = parent;
     this.frameInit = frame;
     this.randomOffset = Math.floor(Math.random()*25);
-    this.castDateTime = time;//now
+    this.castDateTime = time; //now
     this.fillColor = '#ffffff';
     this.trapStates = ["recentlyCast","ready","invalid"];
     this.trapState = 0;
@@ -32,15 +32,18 @@ class CrabTrapEntity extends Entity {
 
   draw(p5, transparency, offset, scal) {
     offset = offset || {x:0,y:0};
+    p5.push();
     const ps = p5.createVector(this.location.x, this.location.y);
     let fillColor = this.fillColor || '#000000';
     p5.fill(fillColor);
     p5.stroke("#fffff");
     if(this.trapState < 2){
       const yOffsetAnimation = (50-(p5.frameCount+this.randomOffset)%100)/30;
-      p5.ellipse(ps.x, ps.y+yOffsetAnimation, 10, 6);
-
+      //p5.ellipse(ps.x, ps.y+yOffsetAnimation, 10, 6);
+      p5.image(this.parent.parentAssets.GameMapScene.Buoy,ps.x, ps.y+yOffsetAnimation, 12, 12);
       if (this.isMouseOver(p5,offset,scal) || super.isSelected()) {
+        p5.textSize(10);
+        p5.strokeWeight(0)
         p5.fill(`${fillColor}ff`);
         p5.stroke('#ffffffaa');
         const label = "CrapTrap";
@@ -50,6 +53,7 @@ class CrabTrapEntity extends Entity {
     
     p5.fill(`#000000${transparency}`);
     p5.stroke(`#ffffff${transparency}`);
+    p5.pop();
   }
 
   trapsInRange(p5) {

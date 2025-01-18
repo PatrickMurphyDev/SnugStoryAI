@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/datamodel/DataModel.canvas",
+                "file": "Untitled.canvas",
                 "viewState": {
-                  "x": 6970.558922070269,
-                  "y": 2509.4925484343285,
-                  "zoom": -1.3333333822397102
+                  "x": -30,
+                  "y": -47.11730342423289,
+                  "zoom": -0.5065167547070386
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "DataModel"
+              "title": "Untitled"
             }
           }
         ]
@@ -140,10 +140,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Documentation/images/ViewPlayerProperty.png"
+                "file": "Untitled.canvas"
               },
               "icon": "lucide-list",
-              "title": "Outline of ViewPlayerProperty"
+              "title": "Outline of Untitled"
             }
           }
         ],
@@ -166,6 +166,7 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "Documentation/datamodel/DataModel.canvas",
     "public/public/images/buoy.png",
     "public/public/images/lots/buoy.psd.crswap",
     "public/public/images/lots/buoy.psd",
@@ -188,7 +189,6 @@
     "Documentation/images/ViewPlayerProperty.png",
     "LLM/Prompts/FinalizeCharacters.md",
     "Documentation/images/Arrival.png",
-    "Documentation/datamodel/DataModel.canvas",
     "Pasted image 20250113092531.png",
     "LLM/Prompts/NarratorPrompt.md",
     "LLM/Prompts/GenerateStory.md",
@@ -214,7 +214,6 @@
     "Documentation/dbViz/characters/000000000000000000000054.md",
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000001.md",
     "public/public/images/CharacterProfileImages/KennyMcNeil.png",
-    "public/public/images/CharacterProfileImages/KatieCarrington.png",
     "CharacterDetails/000000000000000000000001.md",
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000002.md",
     "Documentation/gameplay/NPC's.canvas",
