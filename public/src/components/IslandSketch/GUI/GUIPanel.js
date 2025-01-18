@@ -23,7 +23,7 @@ class GUIPanel {
    */
   draw(p5, el, socketController) {
     this.renderPanel(p5, el, socketController);
-    this.renderPanelText(p5, el);
+    if(el.PanelType !== "PlayerProfile") this.renderPanelText(p5, el);
   }
 
   /**
@@ -103,11 +103,11 @@ class GUIPanel {
    * @param {Object} el - Element configuration
    */
   renderPlayerProfilePanel(p5, el) {
-    const textLocation = { x: el.x, y: el.y + el.h * 0.75 };
+    const textLocation = { x: el.x, y: el.y + el.h * 0.76 };
     const textDimensions = { width: el.w, height: el.h * 0.25 };
     this.renderProfileImage(p5, el);
     this.renderUIBanner(p5, el);
-    //this.renderPanelText(p5, el, textLocation, textDimensions);
+    this.renderPanelText(p5, el, textLocation, textDimensions);
   }
 
   /**
