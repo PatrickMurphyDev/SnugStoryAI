@@ -134,7 +134,11 @@ function getEnvironmentDescription() {
 }
 
 function getStoryDetails() {
-  return genState.getStoryDetails();
+  if(genState){
+    return genState.getStoryDetails();
+  }else{
+    return "No game state generated yet";
+  }
 }
 
 async function runCMDLineGetUserInput() {
