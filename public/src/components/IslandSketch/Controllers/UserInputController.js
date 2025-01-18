@@ -83,7 +83,11 @@ export class UserInputController {
       // record time when t key was pressed
       this.isTKeyPressed = true;
       this.keyPressStartTime = Date.now();
-    }else if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]){
+    } else if(e.keyCode === 27) {
+      // esc
+      this.gameMapScene.GUI.toggleMenuVisibility();
+     }
+    else if (IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]){
       this.playerControl.getMoveState()[
         IslandTemplate.INPUTKEY_TO_STATE_MAP[e.code]
       ] = true;

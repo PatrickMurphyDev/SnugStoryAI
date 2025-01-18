@@ -20,6 +20,7 @@ export class GUIElementManager {
     this.GUIElements = []; 
 
     this.AlertWindow = new GUIAlertWindow(this.parent); // Pass Ref to Scene Parent (Game Map Scene)
+    this.menuVisable = false;
 
     this.allowMoveInputKeys = true;
     this.displayMode = 0;
@@ -74,6 +75,10 @@ export class GUIElementManager {
       callback();
     }
     e.stopPropagation(); // Don't bubble/capture the event any further
+  }
+
+  toggleMenuVisibility() {
+    this.menuVisable = !this.menuVisable;
   }
 
   toggleMainPanelViewType(){
@@ -146,6 +151,11 @@ export class GUIElementManager {
   /* =================== RENDER & DRAW ===================*/
   renderGUI(p5, socketController) {
     p5.push();
+    if(this.menuVisable){
+      p5.fill('#ff0000');
+      p5.rect(0,0,p5.width,p5.height);
+      //    p5.image(this.parent.)
+    }
     p5.image(this.parent.GameMapSceneUI, this.RenderOffset.x, p5.height-224);
     this.GUIElements.forEach((el) => {
       p5.fill(el.fill || 200);
