@@ -110,6 +110,7 @@ export class GameMapScene extends GameScene {
     this.preloadedImages = [];
 
     this.currentZoomLevel = 3;
+    this.currentInventoryOffset = 0;
 
     this.gameDialogScene = new GameDialogScene(this);
     this.gameViewMapScene = new GameViewMapScene(this);

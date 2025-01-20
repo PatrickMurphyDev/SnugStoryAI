@@ -76,6 +76,13 @@ export class UserInputController {
     });
   }else{
     // TODO: change inventory selection
+    this.gameMapScene.doUIAction(this.gameMapScene.lastFrame, () => {
+      if (dir > 0) {
+        this.gameMapScene.currentInventoryOffset--;
+      } else {
+        this.gameMapScene.currentInventoryOffset++;
+      }
+    });
   }
   }
 

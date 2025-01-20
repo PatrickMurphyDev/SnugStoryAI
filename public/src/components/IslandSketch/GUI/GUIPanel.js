@@ -220,7 +220,10 @@ class GUIPanel {
   renderInventorySlot(p5, el, index, padding, spacing, size) {
     const x = el.x + padding + (size + spacing) * index;
     const y = el.y + padding + 15;
+    if(index === this.parent.parent.currentInventoryOffset % 12)
+      p5.stroke("#aa2222");
     p5.rect(x, y, size, size);
+    p5.noStroke();
     p5.push();
     p5.fill(index === 0 ? "red" : "white");
     this.renderInventoryItem(p5, index, x, y);
