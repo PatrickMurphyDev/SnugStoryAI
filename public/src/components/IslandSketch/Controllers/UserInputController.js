@@ -57,6 +57,7 @@ export class UserInputController {
    */
   handleWheel(event) {
     if (!this.gameMapScene.GUI.allowMoveInputKeys) return;
+    if (!this.isZKeyPressed) return;
     const dir = Math.sign(event.deltaY);
     this.gameMapScene.doUIAction(this.gameMapScene.lastFrame, () => {
       if (dir > 0) {
