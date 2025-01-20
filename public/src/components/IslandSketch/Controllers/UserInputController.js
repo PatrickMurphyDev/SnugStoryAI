@@ -57,8 +57,8 @@ export class UserInputController {
    */
   handleWheel(event) {
     if (!this.gameMapScene.GUI.allowMoveInputKeys) return;
-    if (!this.isZKeyPressed) return;
     const dir = Math.sign(event.deltaY);
+    if (this.isZKeyPressed){
     this.gameMapScene.doUIAction(this.gameMapScene.lastFrame, () => {
       if (dir > 0) {
         this.gameMapScene.currentZoomLevel--;
@@ -74,6 +74,9 @@ export class UserInputController {
       );
       this.playerControl.setDidMove(true);
     });
+  }else{
+    // TODO: change inventory selection
+  }
   }
 
   keyPressed(e) {
