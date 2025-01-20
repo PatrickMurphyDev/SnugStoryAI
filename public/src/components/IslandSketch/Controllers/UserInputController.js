@@ -12,6 +12,7 @@ export class UserInputController {
     this.lastFrameKeyPressed = false;
     this.isTKeyPressed = false;
     this.isTKeyReleased = false;
+    this.isZKeyPressed = false;
     this.minPressTime = 500; // j = 0.5 seconds
     this.maxPressTime = 1500; // k = 1.5 seconds
     
@@ -48,8 +49,6 @@ export class UserInputController {
     window.addEventListener("wheel", this.handleWheel.bind(this));
     window.addEventListener("keydown", this.keyPressed.bind(this));
     window.addEventListener("keyup", this.keyReleased.bind(this)); 
-    //indow.addEventListener("mousedown", this.mousePressed.bind(this));
-    //window.addEventListener("mouseup", this.mouseReleased.bind(this));
   }
   /*
    * Handles mouse wheel event.
@@ -78,8 +77,11 @@ export class UserInputController {
 
   keyPressed(e) {
     //e.preventDefault();
+    if( e.key === 'z'){
+      this.isZKeyPressed = true;
+    }
     if (e.key === 't' && !this.isTKeyPressed) {
-      // if t key pressed and wasn't pressed previously
+      // if t key pressed and  wasn't pressed previously
       // record time when t key was pressed
       this.isTKeyPressed = true;
       this.keyPressStartTime = Date.now();
@@ -97,6 +99,9 @@ export class UserInputController {
 
   keyReleased(e) {
     e.preventDefault();
+    if( e.key === 'z'){
+      this.isZKeyPressed = false;
+    }
     if (e.key === 't') {
       this.isTKeyPressed = false;
       const pressDuration = this.getPressDuration(this.keyPressStartTime);
@@ -134,6 +139,22 @@ export class UserInputController {
     }
   }
 
+  handleMouseInteraction(p5) {
+    this.isMouseReleased = false;
+    if (p5.mouseIsPressed) {
+      this.isMouseReleased = false;
+      this.lastFrameMousePressed = true;
+    } else if (this.lastFrameMousePressed) {
+      this.isMouseReleased = true;
+      this.lastFrameMousePressed = false;
+      this.onMouseReleased(p5);
+    }
+  }
+
+  onMouseReleased(p5) {
+    // orient player normal
+    //this.gameMapScene.onPlaceCrabTrap(p5)
+  }
 
   calculateNewPosition(currentLocation, moveState) {
     const speedModifier = this.getSpeedModifier(moveState);
@@ -182,23 +203,6 @@ export class UserInputController {
     const maxDistance = 200; // Maximum throw distance
     const normalizedDuration = (pressDuration - this.minPressTime) / (this.maxPressTime - this.minPressTime);
     return minDistance + normalizedDuration * (maxDistance - minDistance);
-  }
-
-  handleMouseInteraction(p5) {
-    this.isMouseReleased = false;
-    if (p5.mouseIsPressed) {
-      this.isMouseReleased = false;
-      this.lastFrameMousePressed = true;
-    } else if (this.lastFrameMousePressed) {
-      this.isMouseReleased = true;
-      this.lastFrameMousePressed = false;
-      this.onMouseReleased(p5);
-    }
-  }
-
-  onMouseReleased(p5) {
-    // orient player normal
-    //this.gameMapScene.onPlaceCrabTrap(p5)
   }
   
   getOffsetLocal(p5, offset, zoom) {
