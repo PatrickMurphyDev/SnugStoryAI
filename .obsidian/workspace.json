@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Untitled.canvas",
+                "file": "Documentation/datamodel/DataModel.canvas",
                 "viewState": {
-                  "x": -30,
-                  "y": -47.11730342423289,
-                  "zoom": -0.5065167547070386
+                  "x": 3594.6977148168103,
+                  "y": 2106.3759718713854,
+                  "zoom": -1.5311624404969977
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "Untitled"
+              "title": "DataModel"
             }
           }
         ]
@@ -166,6 +166,16 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "public/public/images/TileMovementMap.psd",
+    "Documentation/MapComponent.canvas",
+    "Documentation/Story.canvas",
+    "Documentation/Untitled.canvas",
+    "Documentation/ServerDiagram.canvas",
+    "Documentation/OverallProgramDiagram.canvas",
+    "Documentation/Chars.canvas",
+    "Documentation/gameplay/PlotThriller.canvas",
+    "Documentation/gameplay/NPC's.canvas",
+    "Untitled.canvas",
     "Documentation/datamodel/DataModel.canvas",
     "public/public/images/buoy.png",
     "public/public/images/lots/buoy.psd.crswap",
@@ -192,20 +202,16 @@
     "Pasted image 20250113092531.png",
     "LLM/Prompts/NarratorPrompt.md",
     "LLM/Prompts/GenerateStory.md",
-    "Documentation/Chars.canvas",
     "Documentation/datamodel/LargerModel.png",
     "Documentation/datamodel/CharModel.png",
     "Documentation/datamodel/Conversation Sub-Graph Construction.md",
     "Documentation/images/Pasted image 20250108123028.png",
     "Documentation/images/Pasted image 20250108123428.png",
     "public/test/TestCheckList.md",
-    "Untitled 1.canvas",
     "Untitled.md",
     "Untitled 1.md",
-    "Untitled.canvas",
     "DailyLoopOutline.md",
     "2025-01-01.md",
-    "Documentation/dbViz/Chars.canvas",
     "Narra.md",
     "Documentation/dbViz/characters/000000000000000000000001.md",
     "public/public/images/CharacterProfileImages/HenryTurner.png",
@@ -215,11 +221,6 @@
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000001.md",
     "public/public/images/CharacterProfileImages/KennyMcNeil.png",
     "CharacterDetails/000000000000000000000001.md",
-    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000002.md",
-    "Documentation/gameplay/NPC's.canvas",
-    "Documentation/ServerDiagram.canvas",
-    "Documentation/gameplay/PlotThriller.canvas",
-    "Documentation/OverallProgramDiagram.canvas",
-    "Documentation/Untitled.canvas"
+    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000002.md"
   ]
 }
