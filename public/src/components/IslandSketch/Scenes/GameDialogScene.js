@@ -482,7 +482,7 @@ class GameDialogScene extends GameSlideScene {
     p5.fill("#cccccc");
     p5.rect(pos.x + dim.x*.1, pos.y+dim.y*.65, dim.x*.8, dim.y*.1);
     p5.fill(pct<=.5 ? "#ff0000" : "#00ff00");
-    p5.rect(pos.x + dim.x*.1 + (dim.x*.8)/2, pos.y+dim.y*.65, dim.x*(pct/2), dim.y*.1);
+    p5.rect(pos.x + dim.x*.1 + (dim.x*.8)/2, pos.y+dim.y*.65, (dim.x*(pct/2))*(pct<=.5 ? -1 : 1), dim.y*.1);
     p5.pop();
   }
 
@@ -495,7 +495,7 @@ class GameDialogScene extends GameSlideScene {
     p5.noStroke();
     p5.fill("#ffffff");
     p5.text("Chat History", pos.x, pos.y, dim.x, dim.y);
-    this.drawRelationshipGraph(p5,.3, pos, dim);
+    this.drawRelationshipGraph(p5,.6, pos, dim);
     this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
       this.setDisplayMode(2);
     });
