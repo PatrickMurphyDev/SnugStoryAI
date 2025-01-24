@@ -486,6 +486,7 @@ class GameDialogScene extends GameSlideScene {
     p5.noStroke();
     p5.fill("#ffffff");
     p5.text("Chat History", pos.x, pos.y, dim.x, dim.y);
+    p5.rect(pos.x + dim.x*.1, pos.y+dim.y*.65, dim.x*.8, dim.y*.1);
     this.parent.handleTargetClick(p5, pos.x, pos.y, dim.x, dim.y, () => {
       this.setDisplayMode(2);
     });
