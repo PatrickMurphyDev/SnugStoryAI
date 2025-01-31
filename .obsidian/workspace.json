@@ -13,15 +13,27 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/datamodel/DataModel.canvas",
+                "file": "OverallCanvas.canvas",
                 "viewState": {
-                  "x": 3594.6977148168103,
-                  "y": 2106.3759718713854,
-                  "zoom": -1.5311624404969977
+                  "x": 704.3069665444727,
+                  "y": 668.6237774105354,
+                  "zoom": 0.16705958312033392
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "DataModel"
+              "title": "OverallCanvas"
+            }
+          },
+          {
+            "id": "2343bff6dfd1906c",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Documentation/images/FamilyRelationships.png"
+              },
+              "icon": "lucide-image",
+              "title": "FamilyRelationships"
             }
           }
         ]
@@ -166,18 +178,28 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
-    "public/public/images/TileMovementMap.psd",
-    "Documentation/MapComponent.canvas",
-    "Documentation/Story.canvas",
-    "Documentation/Untitled.canvas",
-    "Documentation/ServerDiagram.canvas",
+    "Documentation/images/FamilyRelationships.png",
+    "Documentation/images/FSMPatrol.png",
+    "Documentation/images/homescreenmenu.png",
+    "Documentation/images/images.jpeg",
+    "Documentation/images/ingamechatu.png",
+    "Documentation/images/ingamepreui.png",
+    "Documentation/images/MapScreenshot.png",
+    "Documentation/images/MapScreenshotZoom.png",
+    "Documentation/images/snappy_login.png",
+    "Documentation/images/Pasted image 20250108123428.png",
+    "Documentation/images/Pasted image 20250108123028.png",
+    "Documentation/gameplay/NPC's.canvas",
+    "OverallCanvas.canvas",
+    "Untitled.canvas",
     "Documentation/OverallProgramDiagram.canvas",
+    "Documentation/Story.canvas",
+    "Documentation/ServerDiagram.canvas",
+    "Documentation/MapComponent.canvas",
     "Documentation/Chars.canvas",
     "Documentation/gameplay/PlotThriller.canvas",
-    "Documentation/gameplay/NPC's.canvas",
-    "Untitled.canvas",
     "Documentation/datamodel/DataModel.canvas",
-    "public/public/images/buoy.png",
+    "public/public/images/TileMovementMap.psd",
     "public/public/images/lots/buoy.psd.crswap",
     "public/public/images/lots/buoy.psd",
     "public/public/images/lots/SnugIslandminEmpty.psd.crswap",
@@ -187,7 +209,6 @@
     "server/node_modules/zod-to-json-schema/dist/types/parsers/union.d.ts",
     "server/node_modules/zod-to-json-schema/dist/types/parsers/undefined.d.ts",
     "server/node_modules/zod-to-json-schema/dist/types/parsers/tuple.d.ts",
-    "server/node_modules/zod-to-json-schema/dist/types/parsers/set.d.ts",
     "server/node_modules/zod/README.md",
     "server/node_modules/openai/src/_vendor/zod-to-json-schema/README.md",
     "server/node_modules/openai/src/_vendor/partial-json-parser/README.md",
@@ -196,17 +217,10 @@
     "server/node_modules/openai/src/_shims/README.md",
     "server/node_modules/openai/_shims/README.md",
     "server/node_modules/humanize-ms/History.md",
-    "Documentation/images/ViewPlayerProperty.png",
     "LLM/Prompts/FinalizeCharacters.md",
-    "Documentation/images/Arrival.png",
-    "Pasted image 20250113092531.png",
     "LLM/Prompts/NarratorPrompt.md",
     "LLM/Prompts/GenerateStory.md",
-    "Documentation/datamodel/LargerModel.png",
-    "Documentation/datamodel/CharModel.png",
     "Documentation/datamodel/Conversation Sub-Graph Construction.md",
-    "Documentation/images/Pasted image 20250108123028.png",
-    "Documentation/images/Pasted image 20250108123428.png",
     "public/test/TestCheckList.md",
     "Untitled.md",
     "Untitled 1.md",
@@ -214,12 +228,10 @@
     "2025-01-01.md",
     "Narra.md",
     "Documentation/dbViz/characters/000000000000000000000001.md",
-    "public/public/images/CharacterProfileImages/HenryTurner.png",
     "Documentation/dbViz/characters/000000000000000000000053.md",
     "Documentation/dbViz/characters/000000000000000000000052.md",
     "Documentation/dbViz/characters/000000000000000000000054.md",
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000001.md",
-    "public/public/images/CharacterProfileImages/KennyMcNeil.png",
     "CharacterDetails/000000000000000000000001.md",
     "Documentation/dbViz/characters/CharacterDetails/000000000000000000000002.md"
   ]

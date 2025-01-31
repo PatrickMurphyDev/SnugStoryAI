@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"7901f11b25072aa8","type":"file","file":"Documentation/Chars.canvas","x":38,"y":234,"width":400,"height":400},
+		{"id":"04b4a4070de7f429","type":"file","file":"Documentation/gameplay/PlotThriller.canvas","x":-440,"y":234,"width":400,"height":400},
+		{"id":"20226c1ef55d28e6","type":"file","file":"Documentation/Story.canvas","x":-900,"y":234,"width":400,"height":400},
+		{"id":"171998e39ef3fe35","type":"file","file":"Documentation/gameplay/NPC's.canvas","x":38,"y":720,"width":400,"height":400},
+		{"id":"90359fd1f6f05aeb","type":"file","file":"Documentation/OverallProgramDiagram.canvas","x":-900,"y":-320,"width":400,"height":400},
+		{"id":"0d26b5ded7c8bfa2","type":"file","file":"Documentation/ServerDiagram.canvas","x":-440,"y":-320,"width":400,"height":400},
+		{"id":"eb8825dd74bfeda0","type":"file","file":"Documentation/datamodel/DataModel.canvas","x":38,"y":-320,"width":400,"height":400},
+		{"id":"2fb1e2fb1c3f250b","type":"file","file":"Documentation/datamodel/LargerModel.png","x":38,"y":-720,"width":400,"height":278},
+		{"id":"82b4d232ffc5c23a","x":280,"y":340,"width":900,"height":514,"type":"file","file":"Documentation/images/FamilyRelationships.png"}
+	],
+	"edges":[
+		{"id":"06bf8dbecab12205","fromNode":"90359fd1f6f05aeb","fromSide":"right","toNode":"0d26b5ded7c8bfa2","toSide":"left"},
+		{"id":"ee3cdef96b7d83be","fromNode":"2fb1e2fb1c3f250b","fromSide":"bottom","toNode":"eb8825dd74bfeda0","toSide":"top"},
+		{"id":"5f8978e74a7d2465","fromNode":"eb8825dd74bfeda0","fromSide":"left","toNode":"0d26b5ded7c8bfa2","toSide":"right"},
+		{"id":"fd5550662a39d2e0","fromNode":"20226c1ef55d28e6","fromSide":"right","toNode":"04b4a4070de7f429","toSide":"left"},
+		{"id":"7c912f423024d888","fromNode":"04b4a4070de7f429","fromSide":"right","toNode":"7901f11b25072aa8","toSide":"left"},
+		{"id":"34d68ec0db6cac87","fromNode":"7901f11b25072aa8","fromSide":"bottom","toNode":"171998e39ef3fe35","toSide":"top"}
+	]
+}
