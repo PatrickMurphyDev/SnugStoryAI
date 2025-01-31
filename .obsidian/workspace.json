@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "OverallCanvas.canvas",
+                "file": "Documentation/datamodel/DataModel.canvas",
                 "viewState": {
-                  "x": 704.3069665444727,
-                  "y": 668.6237774105354,
-                  "zoom": 0.16705958312033392
+                  "x": 2626.039537749071,
+                  "y": 614.4787960868332,
+                  "zoom": -2.5311624771767804
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "OverallCanvas"
+              "title": "DataModel"
             }
           },
           {
@@ -178,6 +178,22 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "coverage/lcov-report/server/controllers/sockets/SocketManager.js.html",
+    "coverage/lcov-report/server/controllers/sockets/index.html",
+    "coverage/lcov-report/server/controllers/index.html",
+    "coverage/lcov-report/server/controllers/ConversationManager.js.html",
+    "coverage/lcov-report/server/controllers/WorldActionLog.js.html",
+    "coverage/lcov-report/server/controllers/sockets",
+    "coverage/lcov-report/server/IslandTemplateServer.js.html",
+    "coverage/lcov-report/server/index.html",
+    "coverage/lcov-report/server/controllers",
+    "coverage/lcov-report/sorter.js",
+    "coverage/lcov-report/sort-arrow-sprite.png",
+    "coverage/lcov-report/prettify.js",
+    "coverage/lcov-report/favicon.png",
+    "OverallCanvas.canvas",
+    "Documentation/OverallProgramDiagram.canvas",
+    "Documentation/datamodel/DataModel.canvas",
     "Documentation/images/FamilyRelationships.png",
     "Documentation/images/FSMPatrol.png",
     "Documentation/images/homescreenmenu.png",
@@ -186,29 +202,13 @@
     "Documentation/images/ingamepreui.png",
     "Documentation/images/MapScreenshot.png",
     "Documentation/images/MapScreenshotZoom.png",
-    "Documentation/images/snappy_login.png",
-    "Documentation/images/Pasted image 20250108123428.png",
-    "Documentation/images/Pasted image 20250108123028.png",
     "Documentation/gameplay/NPC's.canvas",
-    "OverallCanvas.canvas",
     "Untitled.canvas",
-    "Documentation/OverallProgramDiagram.canvas",
     "Documentation/Story.canvas",
     "Documentation/ServerDiagram.canvas",
     "Documentation/MapComponent.canvas",
     "Documentation/Chars.canvas",
     "Documentation/gameplay/PlotThriller.canvas",
-    "Documentation/datamodel/DataModel.canvas",
-    "public/public/images/TileMovementMap.psd",
-    "public/public/images/lots/buoy.psd.crswap",
-    "public/public/images/lots/buoy.psd",
-    "public/public/images/lots/SnugIslandminEmpty.psd.crswap",
-    "public/public/images/lots/SnugIslandminEmpty.psd",
-    "public/public/images/lots/New Project.psd",
-    "server/node_modules/zod-to-json-schema/dist/types/parsers/unknown.d.ts",
-    "server/node_modules/zod-to-json-schema/dist/types/parsers/union.d.ts",
-    "server/node_modules/zod-to-json-schema/dist/types/parsers/undefined.d.ts",
-    "server/node_modules/zod-to-json-schema/dist/types/parsers/tuple.d.ts",
     "server/node_modules/zod/README.md",
     "server/node_modules/openai/src/_vendor/zod-to-json-schema/README.md",
     "server/node_modules/openai/src/_vendor/partial-json-parser/README.md",
