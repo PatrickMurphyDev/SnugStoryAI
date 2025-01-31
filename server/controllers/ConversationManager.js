@@ -11,7 +11,7 @@ class ConversationManager {
       ...conversation,
       id: conversationId,
       creationTime: Date.now(),
-      messages: []
+      messages: conversation.messages || []
     };
     this.ConversationHistory.push(newConversation);
     this.ConversationHistoryParticipantsMap.set(conversationId, participants);
