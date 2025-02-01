@@ -1,20 +1,43 @@
+const ConversationModel = require('../models/v3/Interaction/ConversationModel');
+
 class ConversationManager {
   constructor() {
     this.ConversationHistory = [];
     this.ConversationHistoryParticipantsMap = new Map();
     this.currentConversation = null;
   }
+  getPastConversations(npcKeys, convoReturnLimit = Infinity, exclusive = false, convoMsgReturnLimit = Infinity) {
+    const npcSet = new Set(npcKeys);
+    const filteredConversations = this.ConversationHistory.filter(conversation => {
+      const participants = this.ConversationHistoryParticipantsMap.get(conversation.id);
+      if (exclusive) {
+        return npcSet.size === participants.length && participants.every(npc => npcSet.has(npc));
+      } else {
+        return participants.some(npc => npcSet.has(npc));
+      }
+    });
+
+    return filteredConversations
+      .sort((a, b) => b.creationTime - a.creationTime)
+      .slice(0, convoReturnLimit)
+      .map(conversation => ({
+        ...conversation,
+        messages: conversation.messages.slice(-convoMsgReturnLimit)
+      }));
+  }
+
 
   addConversation(conversation, participants) {
     const conversationId = this.ConversationHistory.length;
     const newConversation = {
       ...conversation,
-      id: conversationId,
-      creationTime: Date.now(),
+      index: conversationId,
       messages: conversation.messages || []
     };
+
     this.ConversationHistory.push(newConversation);
     this.ConversationHistoryParticipantsMap.set(conversationId, participants);
+    ConversationModel.create(newConversation);
     //console.log(`Added new conversation: ${conversationId}`);
     return conversationId;
   }
@@ -36,27 +59,6 @@ class ConversationManager {
       });
     }
   }
-
-  getPastConversations(npcKeys, convoReturnLimit = Infinity, exclusive = false, convoMsgReturnLimit = 25) {
-    const npcSet = new Set(npcKeys);
-    const filteredConversations = this.ConversationHistory.filter(conversation => {
-      const participants = this.ConversationHistoryParticipantsMap.get(conversation.id);
-      if (exclusive) {
-        return npcSet.size === participants.length && participants.every(npc => npcSet.has(npc));
-      } else {
-        return participants.some(npc => npcSet.has(npc));
-      }
-    });
-
-    return filteredConversations
-      .sort((a, b) => b.creationTime - a.creationTime)
-      .slice(0, convoReturnLimit)
-      .map(conversation => ({
-        ...conversation,
-        messages: conversation.messages.slice(-convoMsgReturnLimit)
-      }));
-  }
-
   getConversationByIndex(index) {
     if (index >= 0 && index < this.ConversationHistory.length) {
       return this.ConversationHistory[index];
