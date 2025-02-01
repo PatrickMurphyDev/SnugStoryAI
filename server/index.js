@@ -4,9 +4,11 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 const mongoose = require("mongoose");
+
 const authRoutes = require("./routes/auth");
 const messageRoutes = require("./routes/messages");
 const SocketManager = require("./controllers/sockets/SocketManager");
+
 const global = {};
 global.onlineUsers = new Map();
 
@@ -104,22 +106,22 @@ app.use(express.json());
 app.use(express.static("public"));
 app.options("*", cors());
 
-app.get("/api/characterattributefield/:aid", getCharacterAttributeField);
+//app.get("/api/characterattributefield/:aid", getCharacterAttributeField);
 
 // REST API endpoints for Island
-app.post("/api/islands", createIsland);
-app.get("/api/islands", getIslands);
-app.get("/api/islands/user/:id", getIslandsByUserId);
-app.get("/api/islands/:id", getIslandById);
-app.put("/api/islands/:id", updateIsland);
-app.delete("/api/islands/:id", deleteIsland);
+app.post("/api/v3/island", createIsland);
+app.get("/api/v3/island", getIslands);
+app.get("/api/v3/island/user/:id", getIslandsByUserId);
+app.get("/api/v3/island/:id", getIslandById);
+app.put("/api/v3/island/:id", updateIsland);
+app.delete("/api/v3/island/:id", deleteIsland);
 
 // REST API endpoints for Area
-app.post("/api/areas", createArea);
-app.get("/api/areas", getAreas);
-app.get("/api/areas/:id", getAreaById);
-app.put("/api/areas/:id", updateArea);
-app.delete("/api/areas/:id", deleteArea);
+app.post("/api/v3/area", createArea);
+app.get("/api/v3/area", getAreas);
+app.get("/api/v3/area/:id", getAreaById);
+app.put("/api/v3/area/:id", updateArea);
+app.delete("/api/v3/area/:id", deleteArea);
 
 // REST API endpoints for IslandPropertyLot
 app.post("/api/islandpropertylots", createIslandPropertyLot);
@@ -129,32 +131,32 @@ app.put("/api/islandpropertylots/:id", updateIslandPropertyLot);
 app.delete("/api/islandpropertylots/:id", deleteIslandPropertyLot);
 
 // REST API endpoints for Building
-app.post("/api/buildings", createBuilding);
-app.get("/api/buildings", getBuildings);
-app.get("/api/buildings/:id", getBuildingById);
-app.put("/api/buildings/:id", updateBuilding);
-app.delete("/api/buildings/:id", deleteBuilding);
+app.post("/api/v3/building", createBuilding);
+app.get("/api/v3/building", getBuildings);
+app.get("/api/v3/building/:id", getBuildingById);
+app.put("/api/v3/building/:id", updateBuilding);
+app.delete("/api/v3/building/:id", deleteBuilding);
 
 // REST API endpoints for Organization
-app.post("/api/organizations", createOrganization);
-app.get("/api/organizations", getOrganizations);
-app.get("/api/organizations/:id", getOrganizationById);
-app.put("/api/organizations/:id", updateOrganization);
-app.delete("/api/organizations/:id", deleteOrganization);
+app.post("/api/v3/organization", createOrganization);
+app.get("/api/v3/organization", getOrganizations);
+app.get("/api/v3/organization/:id", getOrganizationById);
+app.put("/api/v3/organization/:id", updateOrganization);
+app.delete("/api/v3/organization/:id", deleteOrganization);
 
 // REST API endpoints for JobPosition
-app.post("/api/jobpositions", createJobPosition);
-app.get("/api/jobpositions", getJobPositions);
-app.get("/api/jobpositions/:id", getJobPositionById);
-app.put("/api/jobpositions/:id", updateJobPosition);
-app.delete("/api/jobpositions/:id", deleteJobPosition);
+app.post("/api/v3/jobposition", createJobPosition);
+app.get("/api/v3/jobposition", getJobPositions);
+app.get("/api/v3/jobposition/:id", getJobPositionById);
+app.put("/api/v3/jobposition/:id", updateJobPosition);
+app.delete("/api/v3/jobposition/:id", deleteJobPosition);
 
 // REST API endpoints for Character
-app.post("/api/characters", createCharacter);
-app.get("/api/characters", getCharacters);
-app.get("/api/characters/:id", getCharacterById);
-app.put("/api/characters/:id", updateCharacter);
-app.delete("/api/characters/:id", deleteCharacter);
+app.post("/api/v3/character", createCharacter);
+app.get("/api/v3/character", getCharacters);
+app.get("/api/v3/character/:id", getCharacterById);
+app.put("/api/v3/character/:id", updateCharacter);
+app.delete("/api/v3/character/:id", deleteCharacter);
 
 // REST API endpoints for CharacterDetails
 app.post("/api/characterDetails", createCharacterDetails);
