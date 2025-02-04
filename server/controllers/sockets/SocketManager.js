@@ -69,7 +69,7 @@ class SocketManager {
       this.startConversation(socket, data)
     );
     socket.on("end-conversation", (data) =>
-      this.endConversation(socket, data)
+      this.endConversation(data)
     );
     socket.on("send-msg", (data) => this.sendMessage(socket, data));
     socket.on("world-log-action", (data) =>
@@ -147,13 +147,13 @@ class SocketManager {
     return newPrompt;
   }
 
-  async endConversation(socket, data) {
+  async endConversation(data) {
     console.log(data);
     data.to = data.Player;
     data.from = data.NPC;
 
     // Update the conversation with the summary or any final data
-    const summaryConvoTmp = this.summarizeConversation(data);
+    const summaryConvoTmp = await this.summarizeConversation(data);
     // todo: store summaryConvoTmp in persistent store
     console.log("Summary Conversation:", summaryConvoTmp);
   }
