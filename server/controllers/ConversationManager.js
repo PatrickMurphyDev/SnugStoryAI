@@ -15,6 +15,7 @@ class ConversationManager {
     });
 
     const savedConversation = await newConversation.save();
+    this.currentConversation = savedConversation;
     return savedConversation._id;
   }
   
@@ -29,7 +30,7 @@ class ConversationManager {
 
   async addMessageToConversation(conversationId, message) {
     await ConversationModel.Conversation.findByIdAndUpdate(
-      conversationId,
+      this.currentConversation._id,
       { 
         $push: { 
           messages: {
