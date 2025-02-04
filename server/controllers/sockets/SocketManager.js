@@ -302,6 +302,8 @@ broadcastStartAI(socketList, msg, doBroadcast) {
 }
 
   streamAIResponse(sendMsg, socketList, to, doBroadcast) {
+    let responseContent = '';
+    this.isAIProcessing = true;
     const streamResponseFull = (response) => {
       const resp = JSON.parse(response);
       this.broadcastMsg(
@@ -310,10 +312,14 @@ broadcastStartAI(socketList, msg, doBroadcast) {
         { sender: to, text: resp },
         doBroadcast
       );
-      this.isAIProcessing = false;
+      responseContent += resp.response;  
 
-      // Add AI response to the current conversation
-      this.addAIResponseToConversation(to, resp.content);
+      if(resp.done) {
+        this.isAIProcessing = false;
+        console.log(responseContent);
+        // Add AI response to the current conversation
+        this.addAIResponseToConversation(to, responseContent);
+      }
     };
 
     return this.ollama.streamingGenerate(sendMsg, null, null, streamResponseFull);
