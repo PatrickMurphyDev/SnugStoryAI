@@ -13,15 +13,25 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/datamodel/DataModel.canvas",
+                "file": "Documentation/datamodel/DataModelv3.canvas",
                 "viewState": {
-                  "x": 2626.039537749071,
-                  "y": 614.4787960868332,
-                  "zoom": -2.5311624771767804
+                  "x": 1894.3825712877879,
+                  "y": 962.2074176243241,
+                  "zoom": -1.19782909493707
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "DataModel"
+              "title": "DataModelv3"
+            }
+          },
+          {
+            "id": "ad7105a1867fad05",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           },
           {
@@ -55,7 +65,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -178,22 +189,24 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "server/controllers/sockets/ConversationService.js",
+    "server/controllers/sockets/AIService.js",
+    "server/controllers/sockets/SocketConnectionManager.js",
+    "Documentation/datamodel/DataModel.canvas",
+    "OverallCanvas.canvas",
+    "DailyLoopOutline.md",
+    "server/models/v3/Interaction/ConversationModel.js",
+    "Documentation/datamodel/DataModelv3.canvas",
+    "public/public/images/mapminipaths.psd.crswap",
+    "public/public/images/mapminipaths.psd",
+    "Documentation/datamodel/data/chat.islands.json",
     "coverage/lcov-report/server/controllers/sockets/SocketManager.js.html",
     "coverage/lcov-report/server/controllers/sockets/index.html",
     "coverage/lcov-report/server/controllers/index.html",
     "coverage/lcov-report/server/controllers/ConversationManager.js.html",
-    "coverage/lcov-report/server/controllers/WorldActionLog.js.html",
-    "coverage/lcov-report/server/controllers/sockets",
-    "coverage/lcov-report/server/IslandTemplateServer.js.html",
-    "coverage/lcov-report/server/index.html",
-    "coverage/lcov-report/server/controllers",
-    "coverage/lcov-report/sorter.js",
     "coverage/lcov-report/sort-arrow-sprite.png",
-    "coverage/lcov-report/prettify.js",
     "coverage/lcov-report/favicon.png",
-    "OverallCanvas.canvas",
     "Documentation/OverallProgramDiagram.canvas",
-    "Documentation/datamodel/DataModel.canvas",
     "Documentation/images/FamilyRelationships.png",
     "Documentation/images/FSMPatrol.png",
     "Documentation/images/homescreenmenu.png",
@@ -208,7 +221,6 @@
     "Documentation/ServerDiagram.canvas",
     "Documentation/MapComponent.canvas",
     "Documentation/Chars.canvas",
-    "Documentation/gameplay/PlotThriller.canvas",
     "server/node_modules/zod/README.md",
     "server/node_modules/openai/src/_vendor/zod-to-json-schema/README.md",
     "server/node_modules/openai/src/_vendor/partial-json-parser/README.md",
@@ -224,7 +236,6 @@
     "public/test/TestCheckList.md",
     "Untitled.md",
     "Untitled 1.md",
-    "DailyLoopOutline.md",
     "2025-01-01.md",
     "Narra.md",
     "Documentation/dbViz/characters/000000000000000000000001.md",

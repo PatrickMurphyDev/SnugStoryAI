@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "66dc506deaae235d2dbe4a3a"
+  },
+  "name": "Asbury's Reef",
+  "location": "Asbury, WA, USA"
+},
+{
+  "_id": {
+    "$oid": "66def85034d300c6d0ab0e0d"
+  },
+  "name": "Maureen Wigg",
+  "location": "",
+  "description": "",
+  "__v": 0
+}]

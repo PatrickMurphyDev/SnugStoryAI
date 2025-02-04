@@ -5,10 +5,10 @@
 		{"id":"20226c1ef55d28e6","type":"file","file":"Documentation/Story.canvas","x":-900,"y":234,"width":400,"height":400},
 		{"id":"171998e39ef3fe35","type":"file","file":"Documentation/gameplay/NPC's.canvas","x":38,"y":720,"width":400,"height":400},
 		{"id":"90359fd1f6f05aeb","type":"file","file":"Documentation/OverallProgramDiagram.canvas","x":-900,"y":-320,"width":400,"height":400},
-		{"id":"0d26b5ded7c8bfa2","type":"file","file":"Documentation/ServerDiagram.canvas","x":-440,"y":-320,"width":400,"height":400},
 		{"id":"eb8825dd74bfeda0","type":"file","file":"Documentation/datamodel/DataModel.canvas","x":38,"y":-320,"width":400,"height":400},
 		{"id":"2fb1e2fb1c3f250b","type":"file","file":"Documentation/datamodel/LargerModel.png","x":38,"y":-720,"width":400,"height":278},
-		{"id":"82b4d232ffc5c23a","type":"file","file":"Documentation/images/FamilyRelationships.png","x":280,"y":340,"width":900,"height":514}
+		{"id":"82b4d232ffc5c23a","type":"file","file":"Documentation/images/FamilyRelationships.png","x":280,"y":340,"width":900,"height":514},
+		{"id":"0d26b5ded7c8bfa2","type":"file","file":"Documentation/ServerDiagram.canvas","x":-440,"y":-320,"width":400,"height":400}
 	],
 	"edges":[
 		{"id":"06bf8dbecab12205","fromNode":"90359fd1f6f05aeb","fromSide":"right","toNode":"0d26b5ded7c8bfa2","toSide":"left"},

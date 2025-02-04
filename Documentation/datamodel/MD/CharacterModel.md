@@ -2,7 +2,7 @@ Represents characters in the game world.
 
 ## Schema Fields
 ### **Character**
-- `island_id` (ObjectId): References the [[IslandModel]].
+- `island_id` (ObjectId): References the [[Island]].
 - `is_npc` (Boolean): Indicates if the character is non-player.
 - `is_active` (Boolean): Whether the character is active.
 - `name` (Object): Character's full name with:
@@ -29,7 +29,7 @@ Represents characters in the game world.
   - `hobbies`, `childhoodMemories`, etc.
 
 ## Relationships
-- [[IslandModel]]
+- [[Island]]
 - [[Trait]]
 - [[Resources]]
 - [[BehavioralPatternsModel]]
