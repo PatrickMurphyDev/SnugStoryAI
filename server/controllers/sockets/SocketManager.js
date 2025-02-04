@@ -134,7 +134,11 @@ class SocketManager {
     data.msg = "Hey there!";
 
     const conversationId = this.conversationManager.addConversation(
-      { participants: [data.NPC, data.Player], messages: [] },
+      { 
+        island_id: "66dc506deaae235d2dbe4a3a",
+        participants: [data.NPC, data.Player], 
+        messages: [] 
+      },
       [data.NPC, data.Player]
     );
 
@@ -358,6 +362,7 @@ broadcastStartAI(socketList, msg, doBroadcast) {
         //console.log("Streaming response: ", msg, " ", fullResponse);
         fullResponse += msg.response;
         if(msg.done){
+          //fullResponse += "}";
           console.log("Final Response: " + fullResponse);
           try {
             const parsedResponse = JSON.parse(fullResponse);
