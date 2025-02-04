@@ -6,12 +6,13 @@ const ConversationSchema = new Schema({
   participants: [{ type: Schema.Types.ObjectId, ref: "Character" }],
   messages: [{
     sender: { type: Schema.Types.ObjectId, ref: "Character" },
-    content: { type: String, required: true },
+    content: { type: String},
     timestamp: { type: Date, default: Date.now }
   }],
-  start_time: { type: Date, default: Date.now },
+  start_time: { type: Date, default: Date.now, immutable: true },
   end_time: { type: Date },
-  description: { type: String, required: false}
+  topic: { type: String },
+  description: { type: String}
 });
 
 const Conversation = model("Conversation", ConversationSchema);
