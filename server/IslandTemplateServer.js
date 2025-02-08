@@ -55,15 +55,19 @@ const IslandTemplate = {
     "WesLast",
   ],
   summarizeResident: (res) => {
-    return {
-      firstName: res.nameObj.first,
-      lastName: res.nameObj.last,
-      ageGender: res.age + "/"+ res.gender,
-      descr: res.details.description,
-      job: res.details.occupation,
-      goal: res.details.goals !== "" ? res.details.goals[0].goalDescription : "",
-      CharacterPersonality: res.details.personalityTraits || ["calm"],
-    };
+    if(res){
+      let fName =  (res.nameObj.first) || (res.name) || "Nameal";
+      let lName =  res.nameObj.last || "LastName";
+      return {
+        firstName: fName,
+        lastName: lName,
+        ageGender: res.age + "/"+ res.gender,
+        descr: res.details.description,
+        job: res.details.occupation,
+        goal: res.details.goals !== "" ? res.details.goals[0].goalDescription : "",
+        CharacterPersonality: res.details.personalityTraits || ["calm"],
+      };
+    }
   },
   Buildings: [
     {

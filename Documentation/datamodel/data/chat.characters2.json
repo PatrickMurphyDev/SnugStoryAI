@@ -1,0 +1,756 @@
+[{
+  "_id": {
+    "$oid": "000000000000000000000001"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_npc": false,
+  "is_active": true,
+  "name": {
+    "first": "Ellie",
+    "last": "Wigg"
+  },
+  "age": 28,
+  "biologicalGender": "female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000006"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_npc": false,
+  "is_active": true,
+  "name": {
+    "first": "Andi",
+    "last": "McNuttly"
+  },
+  "age": 32,
+  "biologicalGender": "female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000002"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_npc": true,
+  "is_active": true,
+  "name": {
+    "first": "Addison",
+    "last": "Clark"
+  },
+  "age": 28,
+  "gender": "male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000003"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Andi",
+    "last": "McNuttly"
+  },
+  "age": 32,
+  "biologicalGender": "female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000004"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Betty",
+    "last": "Last"
+  },
+  "age": 30,
+  "biologicalGender": "female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000005"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Brianna",
+    "last": "Clark"
+  },
+  "age": 19,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000007"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Brittany",
+    "last": "Connors"
+  },
+  "age": 28,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000008"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Chad",
+    "last": "Ellington"
+  },
+  "age": 32,
+  "biologicalGender": "male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000009"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Charlie",
+    "last": "Mallard"
+  },
+  "age": 48,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000010"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Chealsea",
+    "last": "King"
+  },
+  "age": 22,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000011"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Christian",
+    "last": "Lumley"
+  },
+  "age": 29,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000012"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Clara",
+    "last": "Dickson"
+  },
+  "age": 24,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000013"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Dae-Ho",
+    "last": "Ngyne"
+  },
+  "age": 38,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000014"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Dante",
+    "last": "Venezia"
+  },
+  "age": 24,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000015"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Darrel",
+    "last": "Eason"
+  },
+  "age": 74,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000016"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Dylan",
+    "last": "McNuttly "
+  },
+  "age": 31,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000017"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Henry",
+    "last": "Turner"
+  },
+  "age": 46,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000018"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Javi",
+    "last": "Lopez"
+  },
+  "age": 24,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000019"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Jean",
+    "last": "Wong"
+  },
+  "age": 45,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000020"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Jen",
+    "last": "Slate"
+  },
+  "age": 23,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000021"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Joe",
+    "last": "Romano"
+  },
+  "age": 35,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000022"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Karen",
+    "last": "O'Malley"
+  },
+  "age": 55,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000023"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Katie",
+    "last": "Carrington"
+  },
+  "age": 29,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000024"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Kelleigh",
+    "last": "Hawk"
+  },
+  "age": 18,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000025"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Kenny",
+    "last": "McNeil"
+  },
+  "age": 19,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000026"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Konan",
+    "last": "Noah"
+  },
+  "age": 22,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000027"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Korgan",
+    "last": "Luna"
+  },
+  "age": 23,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000028"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Kova",
+    "last": "Apak"
+  },
+  "age": 24,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000029"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Kyle",
+    "last": "Sueco"
+  },
+  "age": 26,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000030"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Laura",
+    "last": "Hale"
+  },
+  "age": 32,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000031"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Lenny",
+    "last": "Carver"
+  },
+  "age": 35,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000032"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Linda ",
+    "last": ""
+  },
+  "age": 45,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000033"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Lindsey",
+    "last": ""
+  },
+  "age": 40,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000034"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Lukas",
+    "last": "Mallard"
+  },
+  "age": 28,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000035"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Lynn",
+    "last": "McNeil"
+  },
+  "age": 45,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000036"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Mandy",
+    "last": ""
+  },
+  "age": 55,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000037"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Mara",
+    "last": "McNeil"
+  },
+  "age": 32,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000038"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Marie ",
+    "last": ""
+  },
+  "age": 30,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000039"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Marissabel",
+    "last": ""
+  },
+  "age": 28,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000040"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Mark",
+    "last": "Dickson"
+  },
+  "age": 63,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000041"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Mateo",
+    "last": "Romano"
+  },
+  "age": 25,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000042"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Melinda",
+    "last": "Cooper"
+  },
+  "age": 38,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000043"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Mike",
+    "last": "Carpenter"
+  },
+  "age": 27,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000044"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Mitch",
+    "last": "Browning"
+  },
+  "age": 83,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000045"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Natalia",
+    "last": "Chenchko"
+  },
+  "age": 24,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000046"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Pete'y",
+    "last": "O'Brian"
+  },
+  "age": 26,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000047"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Ryder",
+    "last": "Konieg"
+  },
+  "age": 25,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000048"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Scott",
+    "last": "Ankor"
+  },
+  "age": 34,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000049"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Shannon",
+    "last": "Dickson"
+  },
+  "age": 59,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000050"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Stephanie",
+    "last": "Venezia"
+  },
+  "age": 26,
+  "biologicalGender": "Female"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000051"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Teddy",
+    "last": "McNuttly"
+  },
+  "age": 36,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000052"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Walter",
+    "last": "McNeil"
+  },
+  "age": 48,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000053"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Wes",
+    "last": ""
+  },
+  "age": 67,
+  "biologicalGender": "Male"
+},
+{
+  "_id": {
+    "$oid": "000000000000000000000054"
+  },
+  "island_id": "66dc506deaae235d2dbe4a3a",
+  "is_active": true,
+  "is_npc": true,
+  "name": {
+    "first": "Briggs",
+    "last": ""
+  },
+  "age": 55,
+  "biologicalGender": "Male"
+}]

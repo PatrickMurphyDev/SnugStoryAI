@@ -384,8 +384,21 @@ class SocketManager {
    * Retrieve a summarized version of a character's data.
    * @param {number|string} id - The character's identifier.
    */
-  GetCharacterDataSummary(id) {
-    return IslandTemplate.summarizeResident(this.GetCharacterData(id));
+  async GetCharacterDataSummary(id) {
+    let res = this.GetCharacterData(id);
+    if (!res) {
+      console.error("Character data not found for ID: " + id);
+      return null;
+    }
+    return {
+      firstName: res.nameObj.first,
+      lastName: res.nameObj.last,
+      ageGender: res.age + "/"+ res.gender,
+      descr: res.details.description,
+      job: res.details.occupation,
+      goal: res.details.goals !== "" ? res.details.goals[0].goalDescription : "",
+      CharacterPersonality: res.details.personalityTraits || ["calm"],
+    };
   }
 
   /**
@@ -413,7 +426,7 @@ class SocketManager {
     this.broadcastStartAI(socketList, data.msg, doBroadcast);
  
     // Build the full prompt string to send to the AI
-    const sendMsg = this.buildAIPromptTXT(data, dataPrefix);
+    const sendMsg = await this.buildAIPromptTXT(data, dataPrefix);
     console.log("Send AI Prompt: " + sendMsg);
  
     // Stream and return the AI response
@@ -564,7 +577,7 @@ Provide the return JSON object with the following structure:
    */
   buildCharacterPromptTXT(data) {
     let sendMsg = " Use the following character data: ";
-    sendMsg += JSON.stringify(data);
+    sendMsg += JSON.stringify(this.GetCharacterDataSummary(data));
     return sendMsg;
   }
 
@@ -599,10 +612,11 @@ Provide the return JSON object with the following structure:
    * @param {object} [userData] - Optional user data; defaults to the sender's character data.
    * @returns {string} The complete AI prompt.
    */
-  buildAIPromptTXT(data, dataPrefix, userData) {
-    userData = userData || this.GetCharacterData(data.from);
+  async buildAIPromptTXT(data, dataPrefix, userData) {
+    dataPrefix = dataPrefix || "";
+    userData = userData || await this.GetCharacterData(data.from);
     let sendMsg =
-      "# Respond as the character " + this.GetCharacterData(data.to).name + ".";
+      "# Respond as the character " + await this.GetCharacterData(data.to).name + ".";
     
     // Function to add details for the first message in the conversation
     const firstMsgInConvoPrompt = (d1, d2) => {
@@ -613,10 +627,10 @@ Provide the return JSON object with the following structure:
 
     // If this is the first message, include character and setting details
     if (dataPrefix.length > 0) {
-      firstMsgInConvoPrompt(data, dataPrefix);
+      firstMsgInConvoPrompt(data, await this.GetCharacterData(data.to));
     }
     // Append the user message and response length constraint
-    sendMsg += " In 3 sentences or less respond to the following sent by: " + this.GetCharacterData(data.from).name + ": " + data.msg;
+    sendMsg += " In 3 sentences or less respond to the following sent by " + await this.GetCharacterData(data.from).name + ": " + data.msg;
 
     return sendMsg;
   }
