@@ -26,7 +26,9 @@ class ConversationManager {
     return this.currentConversation;
   }
 
-  
+  async getConversation(id) {
+    return await ConversationModel.Conversation.findById(id);
+  }
 
   async addMessageToConversation(conversationId, message) {
     await ConversationModel.Conversation.findByIdAndUpdate(
