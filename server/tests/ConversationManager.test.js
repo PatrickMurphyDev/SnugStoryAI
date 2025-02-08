@@ -11,7 +11,7 @@ describe("ConversationManager", () => {
     expect(conversationManager.getCurrentConversation()).toBeNull();
   });
 
-  test("addConversation should add a new conversation and return its id", () => {
+  test("addConversation should add a new conversation and return its id", async () => {
     const participants = [
       "000000000000000000000001",
       "000000000000000000000002",
@@ -22,15 +22,14 @@ describe("ConversationManager", () => {
       participants: participants,
       messages: [],
     };
-    const id = conversationManager.addConversation(conversation, participants);
+    const id = await conversationManager.addConversation(conversation, participants);
 
+    console.log("Added conversation", id);
     //expect(id).toBe(0);
     expect(id).not.toBeNull();
     //expect(conversationManager.ConversationHistory.length).toBe(1);
   });
 
-
-/*
   test("addMessageToConversation should add a message to the specified conversation", () => {
     const participants = [
       "000000000000000000000001",
@@ -47,12 +46,12 @@ describe("ConversationManager", () => {
     const message = { content: "Hello", sender: "000000000000000000000001" };
     conversationManager.addMessageToConversation(id, message);
 
-   /*  const updatedConversation = conversationManager.getConversationByIndex(id);
+    const updatedConversation = conversationManager.getConversationByIndex(id);
     expect(updatedConversation.messages.length).toBe(1);
     expect(updatedConversation.messages[0]).toEqual(
       expect.objectContaining(message)
     ); 
-  });*/
+  });
 });
 /*
   test("setCurrentConversation should set the current conversation", () => {

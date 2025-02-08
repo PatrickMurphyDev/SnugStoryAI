@@ -69,7 +69,7 @@ class SocketManager {
       this.startConversation(socket, data)
     );
     socket.on("end-conversation", (data) =>
-      this.endConversation(data)
+      this.endConversation(socket, data)
     );
     socket.on("send-msg", (data) => this.sendMessage(socket, data));
     socket.on("world-log-action", (data) =>
@@ -148,8 +148,19 @@ class SocketManager {
     return newPrompt;
   }
 
+  async endConversation(socket, data) {
+    console.log("SocketManager:: End conversation");
+    const currentConversation = await this.conversationManager.getCurrentConversation();
+    if(currentConversation._id){
+      console.log("End Conversation w/ ID");
       //console.log(currentConversation,data);
+      data.to = data.Player;
+      data.from = data.NPC;
 
+      // Update the conversation with the summary or any final data
+      const summaryConvoTmp = await this.summarizeConversation(data);
+      console.log("summaryConvoTmp");
+      console.log(summaryConvoTmp);
       //console.log("Summary of Conversation: " + summaryConvoTmp);  
       // todo: store summaryConvoTmp in persistent 
       //currentConversat  ion = { ...currentConversation, ...summaryConvoTmp};
