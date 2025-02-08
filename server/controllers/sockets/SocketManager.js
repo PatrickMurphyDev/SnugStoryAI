@@ -206,6 +206,7 @@ class SocketManager {
    * @param {object} data - Contains participant IDs and initial message details.
    */
   async startConversation(socket, data) {
+    console.log("SocketManager:: End conversation");
     console.log(data);
     // Retrieve socket IDs for both NPC and Player
     const sendUserSocket = this.onlineUsers.get(data.NPC);
@@ -241,16 +242,18 @@ class SocketManager {
     console.log("SocketManager:: End conversation");
     const currentConversation = await this.conversationManager.getCurrentConversation();
     if (currentConversation._id) {
-      console.log("End Conversation w/ ID");
-      // Swap sender and receiver for final message
-      data.to = data.Player;
-      data.from = data.NPC;
+      console.log("End Conversation w/ ID " + currentConversation._id);
+      console.log(data);
+      // // Swap sender and receiver for final message
+      // data.to = data.Player;
+      // data.from = data.NPC;
 
       // Generate conversation summary via AI
-      const summaryConvoTmp = await this.summarizeConversation(data);
-      console.log("Conversation Summary:");
-      console.log(summaryConvoTmp);
-      // TODO: Persist the summary to the conversation record if required
+      const summaryConvoTmp = await this.summarizeConversation(data, (summary)=>{
+        console.log("Conversation Summary:");
+        console.log(summary);
+        // TODO: Persist the summary to the conversation record if required
+      });
     }
   }
 
@@ -487,7 +490,7 @@ class SocketManager {
    * Summarize the conversation using an AI prompt.
    * @param {object} conversationData - The conversation data to summarize.
    */
-  async summarizeConversation(conversationData) {
+  async summarizeConversation(conversationData, callback) {
     /*
       Consider the following when determining the relationshipEffect:
       - The sentiment of the NPC's responses
@@ -501,20 +504,15 @@ class SocketManager {
 
 ${JSON.stringify(conversationData)}
 
-Please provide a JSON object with the following structure:
-
-    {
-      "overallTopic": "Brief description of the main topic",
+IMPORTANT! Provide your response as a valid JSON object, do not include your reasoning or anything other than the JSON object and make sure to include both its surrounding braces "{}".
+Provide the return JSON object with the following structure: 
+  {"overallTopic": "Brief description of the main topic",
       "keywords": ["List of important keywords from the conversation"],
       "charactersMentioned": ["List of characters mentioned in the conversation"],
       "conversationSummary": "A concise summary of the conversation",
       "playerDetailsList": ["list of details mentioned about Ellie, the player"],
       "npcDetailsList": ["list of details revealed by the NPC"],
-      "relationshipEffect": "number between -100 and 100 representing the effect on the NPC's relationship or friendship with the player",
-    }
-
-Provide your response as a valid JSON object, do not include your reasoning or anything other than the JSON object and make sure to include both its surrounding braces "{}".
-`;
+      "relationshipEffect": "number between -100 and 100 representing the effect on the NPC's relationship or friendship with the player"}`;
 
     let fullResponse = "";
   
@@ -528,11 +526,11 @@ Provide your response as a valid JSON object, do not include your reasoning or a
         if (msg.done) {
           try {
             const parsedResponse = JSON.parse(fullResponse);
-            return parsedResponse;
+            callback(parsedResponse);
           } catch (error) {
             console.log(fullResponse);
             console.error("Error parsing JSON response:", error);
-            return null;
+            callback({"ERROR" : error});
           }
         }
       }
@@ -618,7 +616,7 @@ Provide your response as a valid JSON object, do not include your reasoning or a
       firstMsgInConvoPrompt(data, dataPrefix);
     }
     // Append the user message and response length constraint
-    sendMsg += " In 3 sentences or less respond to the following from " + data.msg;
+    sendMsg += " In 3 sentences or less respond to the following sent by: " + this.GetCharacterData(data.from).name + ": " + data.msg;
 
     return sendMsg;
   }
