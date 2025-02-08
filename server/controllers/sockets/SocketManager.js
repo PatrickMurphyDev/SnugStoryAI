@@ -37,6 +37,10 @@ class SocketManager {
       console.log("User connected: ", socket.id);
       this.handleConnection(socket);
     });
+    this.io.on("disconnect", (socket) => {
+      console.log("User disconnected: ", socket.id);
+      this.removeOnlineUser(socket.userID, socket.id);
+    } );
   }
 
   setupOllama() {
@@ -52,8 +56,13 @@ class SocketManager {
     socket.on("connect-user", (userID) =>
       this.addOnlineUser(userID, socket.id)
     );
+    
+    socket.on("disconnect", () => {
+      this.removeOnlineUser(socket.id)
+    });
+
     socket.on("disconnect-user", () =>
-      this.removeOnlineUser(userID, socket.id)
+      this.removeOnlineUser(socket.id)
     );
 
     socket.on("load-world", (WorldData) => this.loadWorld(socket, WorldData));
@@ -90,7 +99,7 @@ class SocketManager {
     this.onlineUsers.set(userId, socketID);
   }
 
-  removeOnlineUser(userId, socketID) {
+  removeOnlineUser(userId) {
     this.onlineUsers.delete(userId);
   }
 
