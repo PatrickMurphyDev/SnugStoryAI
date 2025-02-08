@@ -189,6 +189,7 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "server/StoryData/Narrative.json",
     "server/controllers/sockets/ConversationService.js",
     "server/controllers/sockets/AIService.js",
     "server/controllers/sockets/SocketConnectionManager.js",
@@ -203,7 +204,6 @@
     "coverage/lcov-report/server/controllers/sockets/SocketManager.js.html",
     "coverage/lcov-report/server/controllers/sockets/index.html",
     "coverage/lcov-report/server/controllers/index.html",
-    "coverage/lcov-report/server/controllers/ConversationManager.js.html",
     "coverage/lcov-report/sort-arrow-sprite.png",
     "coverage/lcov-report/favicon.png",
     "Documentation/OverallProgramDiagram.canvas",
