@@ -133,6 +133,7 @@ class SocketManager {
     data.from = data.Player;
     data.msg = "Hey there!";
 
+    // add new conversation db document
     const conversationId = this.conversationManager.addConversation(
       { 
         island_id: "66dc506deaae235d2dbe4a3a",
@@ -147,15 +148,13 @@ class SocketManager {
     return newPrompt;
   }
 
-  async endConversation(data) {
-    console.log(data);
-    data.to = data.Player;
-    data.from = data.NPC;
+      //console.log(currentConversation,data);
 
-    // Update the conversation with the summary or any final data
-    const summaryConvoTmp = await this.summarizeConversation(data);
-    // todo: store summaryConvoTmp in persistent store
-    console.log("Summary Conversation:", summaryConvoTmp);
+      //console.log("Summary of Conversation: " + summaryConvoTmp);  
+      // todo: store summaryConvoTmp in persistent 
+      //currentConversat  ion = { ...currentConversation, ...summaryConvoTmp};
+      //console.log("Conversation:", currentConversation);
+    }
   }
 
   sendMessage = async (socket, data) => {
@@ -369,10 +368,10 @@ broadcastStartAI(socketList, msg, doBroadcast) {
         fullResponse += msg.response;
         if(msg.done){
           //fullResponse += "}";
-          console.log("Final Response: " + fullResponse);
+          //console.log("Final Response: " + fullResponse);
           try {
             const parsedResponse = JSON.parse(fullResponse);
-            console.log("Parsed JSON response:", parsedResponse);
+            //console.log("Parsed JSON response:", parsedResponse);
             return parsedResponse;
           } catch (error) {
             console.log(fullResponse);
