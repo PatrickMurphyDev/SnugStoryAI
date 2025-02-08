@@ -353,12 +353,12 @@ broadcastStartAI(socketList, msg, doBroadcast) {
         "relationshipEffect": "number between -100 and 100 representing the effect on the NPC's relationship or friendship with the player",
       }
 
-  Provide your response as a valid JSON object, do not include your reasoning or anything ther than the json object.
+      Provide your response as a valid JSON object, do not include your reasoning or anything ther than the json object and make sure to include both it's surrounding braces "{}".
   `;
 
   let fullResponse = "";
   
-    await this.ollama.streamingGenerate(
+  await this.ollama.streamingGenerate(
       prompt,
       null,
       null,
