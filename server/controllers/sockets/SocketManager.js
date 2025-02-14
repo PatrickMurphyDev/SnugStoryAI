@@ -538,25 +538,28 @@ Provide the return JSON object with the following structure:
       "relationshipEffect": "number between -100 and 100 representing the effect on the NPC's relationship or friendship with the player"}`;
 
     let fullResponse = "";
+    const streamResponseFull = (msg) => {
+      msg = JSON.parse(msg);
+      fullResponse += msg.response;
+      if (msg.done) {
+        if(fullResponse.charAt(fullResponse.length-1) !== "}")
+          fullResponse += "}";
+        try {
+          const parsedResponse = JSON.parse(fullResponse);
+          callback(parsedResponse);
+        } catch (error) {
+          console.log(fullResponse);
+          console.error("Error parsing JSON response:", error);
+          callback({"ERROR" : error});
+        }
+      }
+    };
   
     await this.ollama.streamingGenerate(
       prompt,
       null,
       null,
-      (msg) => {
-        msg = JSON.parse(msg);
-        fullResponse += msg.response;
-        if (msg.done) {
-          try {
-            const parsedResponse = JSON.parse(fullResponse);
-            callback(parsedResponse);
-          } catch (error) {
-            console.log(fullResponse);
-            console.error("Error parsing JSON response:", error);
-            callback({"ERROR" : error});
-          }
-        }
-      }
+      streamResponseFull
     );
   }
 
