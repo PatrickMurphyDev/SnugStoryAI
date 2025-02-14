@@ -11,8 +11,14 @@ const ConversationSchema = new Schema({
   }],
   start_time: { type: Date, default: Date.now, immutable: true },
   end_time: { type: Date },
+  charactersMentioned: [{ type: String}],
+  charactersMentionedId: [{ type: Schema.Types.ObjectId, ref: "Character" }],
   topic: { type: String },
-  description: { type: String}
+  summary: { type: String},
+  keywords: [{ type: String},],
+  playerDetailsList: [{ type: String},],
+  npcDetailsList: [{ type: String},],
+  relationsipEffect: { type: Number, default: 0 },
 });
 
 const Conversation = model("Conversation", ConversationSchema);
