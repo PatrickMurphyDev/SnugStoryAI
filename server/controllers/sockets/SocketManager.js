@@ -244,16 +244,24 @@ class SocketManager {
     if (currentConversation._id) {
       console.log("End Conversation w/ ID " + currentConversation._id);
       console.log(data);
-      // // Swap sender and receiver for final message
-      // data.to = data.Player;
-      // data.from = data.NPC;
-
-      // Generate conversation summary via AI
-      const summaryConvoTmp = await this.summarizeConversation(data, (summary)=>{
+      
+      const handleConvoSummarized = (summary)=>{
         console.log("Conversation Summary:");
         console.log(summary);
+        currentConversation.topic = summary.overallTopic;
+        currentConversation.keywords = summary.keywords;
+        currentConversation.characterMentioned = summary.characterMentioned;
+        currentConversation.summary = summary.conversationSummary;
+        currentConversation.relationshipEffect = summary.relationshipEffect;
+        currentConversation.playerDetailsList = summary.playerDetailsList;
+        currentConversation.npcDetailsList = summary.npcDetailsList;
+        currentConversation.save();
+
         // TODO: Persist the summary to the conversation record if required
-      });
+      };
+
+      // Generate conversation summary via AI
+      const summaryConvoTmp = await this.summarizeConversation(data, handleConvoSummarized);
     }
   }
 
