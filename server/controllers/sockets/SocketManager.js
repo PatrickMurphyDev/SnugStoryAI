@@ -242,6 +242,7 @@ class SocketManager {
     console.log("SocketManager:: End conversation");
     const currentConversation = await this.conversationManager.getCurrentConversation();
     if (currentConversation._id) {
+     // currentConversation.set
       console.log("End Conversation w/ ID " + currentConversation._id);
       currentConversation.end_time = Date.now();
       currentConversation.save();
@@ -395,20 +396,24 @@ class SocketManager {
    * @param {number|string} id - The character's identifier.
    */
   async GetCharacterDataSummary(id) {
-    let res = this.GetCharacterData(id);
-    if (!res) {
-      console.error("Character data not found for ID: " + id);
+    if(id.hasOwnProperty("id")) {
+      console.log("================================================");
+      console.log(id);
+      console.log("================================================");
+      let res = id;
+      return {
+        firstName: res.nameObj.first,
+        lastName: res.nameObj.last,
+        ageGender: res.age + "/"+ res.gender,
+        descr: res.details.description,
+        job: res.details.occupation,
+        goal: res.details.goals !== "" ? res.details.goals[0].goalDescription : "",
+        CharacterPersonality: res.details.personalityTraits || ["calm"],
+      };
+    }else{
+      console.log(id);
       return null;
     }
-    return {
-      firstName: res.nameObj.first,
-      lastName: res.nameObj.last,
-      ageGender: res.age + "/"+ res.gender,
-      descr: res.details.description,
-      job: res.details.occupation,
-      goal: res.details.goals !== "" ? res.details.goals[0].goalDescription : "",
-      CharacterPersonality: res.details.personalityTraits || ["calm"],
-    };
   }
 
   /**
