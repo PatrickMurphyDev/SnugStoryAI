@@ -243,6 +243,8 @@ class SocketManager {
     const currentConversation = await this.conversationManager.getCurrentConversation();
     if (currentConversation._id) {
       console.log("End Conversation w/ ID " + currentConversation._id);
+      currentConversation.end_time = Date.now();
+      currentConversation.save();
       console.log(data);
       
       const handleConvoSummarized = (summary)=>{
