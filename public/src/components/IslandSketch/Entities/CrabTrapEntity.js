@@ -25,7 +25,10 @@ class CrabTrapEntity extends Entity {
       this.trapState = 1;
       this.fillColor = '#ff0000';
     }
-    if(this.trapState === 1 && p5.mouseIsPressed && this.isMouseOver(p5,offset,scal)){
+
+    // mouse pressed and hovered over trap with state of 1:ready
+    const shouldAllowHarvest = this.trapState === 1 && p5.mouseIsPressed && this.isMouseOver(p5,offset,scal); //this.trapState === 1 && this.frameAge > (30+this.randomOffset)*50 && this.parent.parent.player.inventory.canAdd(ItemsEnum["Item1"]);
+    if(shouldAllowHarvest){
       this.doUIAction(p5.frameCount, ()=>(this.harvest(p5)));
     }
   }
