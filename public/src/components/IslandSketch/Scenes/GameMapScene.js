@@ -430,7 +430,13 @@ export class GameMapScene extends GameScene {
 
   placeCrabTrap(offsetLocal) {
     this.doUIAction(this.p5.frameCount, () => {
-      // Create a new CrabTrap Entity and push it into the CrabTraps array````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+      // Create a new CrabTrap Entity and push it into the CrabTraps array
+      const catchCallback = (i) => {
+        this.playerInventory.addItem(i);
+      };
+      const harvestCallback = () => {
+        this.playerInventory.addItem(ItemsEnum["Item2"]);
+      };
       this.CrabTraps.push(
         new CrabTrapEntity(
           this,
@@ -439,12 +445,8 @@ export class GameMapScene extends GameScene {
           offsetLocal.y,
           simTime.getDate() + "|" + simTime.getTime(),
           this.p5.frameCount,
-          (i) => {
-              this.playerInventory.addItem(i);
-          },
-          () => {
-            this.playerInventory.addItem(ItemsEnum["Item2"]);
-          }
+          catchCallback,
+          harvestCallback
         )
       );
       // REMOVE CrabTrap Item from player inventory after placement
