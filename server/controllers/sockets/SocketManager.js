@@ -418,7 +418,7 @@ class SocketManager {
   getPresentCharactersData(NPCIDs) {
     return [
       this.GetCharacterDataSummary(NPCIDs[0]),
-      this.GetCharacterDataSummary(parseInt(NPCIDs[1] - 1)),
+      this.GetCharacterDataSummary(NPCIDs[1]),
     ];
   }
 
