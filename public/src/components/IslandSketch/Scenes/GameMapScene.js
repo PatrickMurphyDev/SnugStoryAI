@@ -410,6 +410,9 @@ export class GameMapScene extends GameScene {
     return this.gameViewMapScene.scal;
   }
 
+  /*
+    Referenced: UserInputController.js > handleKeyboardUserInput
+  */
   updatePlayerPosition(newPosition, isValid) {
     if (isValid) {
       this.playerControl.location = newPosition;
@@ -454,7 +457,7 @@ export class GameMapScene extends GameScene {
       // REMOVE CrabTrap Item from player inventory after placement
       this.playerInventory.removeItem(ItemsEnum["Item2"]);
     };
-    
+
     this.doUIAction(this.p5.frameCount, plcTrp);
   }
 
