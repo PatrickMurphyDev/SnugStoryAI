@@ -68,6 +68,7 @@ class CrabTrapEntity extends Entity {
   }
 
   harvest(p5){
+    // TODO: Socket Call to server to check player position in relation to trap FIXME:
     this.fillColor = "#00ff00";
     this.trapState = 2;
     const pctCatchChance = .3;
