@@ -19,10 +19,8 @@ class CrabTrapEntity extends Entity {
   }
  update(p5, offset, scal) {
    // Implement any update logic specific
-   this.frameAge = p5.frameCount - this.frameInit;
-   if (this.trapState === 0 && this.frameAge > (15 + this.randomOffset) * 50) {
-     this.trapState = 1;
-   }
+    this.progessStateChange(p5.frameCount);
+
    // Check if player is within 400 pixels of the crab trap
    const playerPosition = this.parent.playerControl.location;
    const distanceToPlayer = p5.dist(this.location.x, this.location.y, playerPosition.x, playerPosition.y);
@@ -30,14 +28,32 @@ class CrabTrapEntity extends Entity {
    const mousePressedAndOver = p5.mouseIsPressed && this.isMouseOver(p5, offset, scal);
    if(mousePressedAndOver) console.log("distanceToPlayer: " + distanceToPlayer);
 
-   if(this.trapState === 1) {
-    this.fillColor = isPlayerInRange ? '#ff0000' : '#550000';
-   }
+   this.determineFillColor(isPlayerInRange);
 
    // mouse pressed and hovered over trap with state of 1:ready
-   const shouldAllowHarvest = this.trapState === 1 && mousePressedAndOver && isPlayerInRange;
-   if (shouldAllowHarvest) {
-     this.doUIAction(p5.frameCount, () => this.harvest(p5));
+   this.checkHarvest(mousePressedAndOver, isPlayerInRange, p5);
+ }
+
+  checkHarvest(mousePressedAndOver, isPlayerInRange, p5) {
+    const shouldAllowHarvest = this.trapState === 1 && mousePressedAndOver && isPlayerInRange;
+    if (shouldAllowHarvest) {
+      this.doUIAction(p5.frameCount, () => this.harvest(p5));
+    }
+  }
+
+  determineFillColor(isPlayerInRange) {
+    if (this.trapState === 1) {
+      this.fillColor = isPlayerInRange ? '#ff0000' : '#550000';
+    } else {
+      const colorList = ['#ffffff', '#550000', '#ff00ff'];
+      this.fillColor = colorList[this.trapState];
+    }
+  }
+
+ progessStateChange(frame){
+  this.frameAge = frame - this.frameInit;
+   if (this.trapState === 0 && this.frameAge > (15 + this.randomOffset) * 50) {
+     this.trapState = 1;
    }
  }
 
