@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/datamodel/DataModelv3.canvas",
+                "file": "Documentation/ServerDiagram.canvas",
                 "viewState": {
-                  "x": 1894.3825712877879,
-                  "y": 962.2074176243241,
-                  "zoom": -1.19782909493707
+                  "x": -1312.1267167124186,
+                  "y": 8146.306791762368,
+                  "zoom": -1.7156123534300287
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "DataModelv3"
+              "title": "ServerDiagram"
             }
           },
           {
@@ -189,6 +189,8 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "Documentation/datamodel/DataModelv3.canvas",
+    "Documentation/ServerDiagram.canvas",
     "server/StoryData/Narrative.json",
     "server/controllers/sockets/ConversationService.js",
     "server/controllers/sockets/AIService.js",
@@ -197,13 +199,11 @@
     "OverallCanvas.canvas",
     "DailyLoopOutline.md",
     "server/models/v3/Interaction/ConversationModel.js",
-    "Documentation/datamodel/DataModelv3.canvas",
     "public/public/images/mapminipaths.psd.crswap",
     "public/public/images/mapminipaths.psd",
     "Documentation/datamodel/data/chat.islands.json",
     "coverage/lcov-report/server/controllers/sockets/SocketManager.js.html",
     "coverage/lcov-report/server/controllers/sockets/index.html",
-    "coverage/lcov-report/server/controllers/index.html",
     "coverage/lcov-report/sort-arrow-sprite.png",
     "coverage/lcov-report/favicon.png",
     "Documentation/OverallProgramDiagram.canvas",
@@ -218,7 +218,6 @@
     "Documentation/gameplay/NPC's.canvas",
     "Untitled.canvas",
     "Documentation/Story.canvas",
-    "Documentation/ServerDiagram.canvas",
     "Documentation/MapComponent.canvas",
     "Documentation/Chars.canvas",
     "server/node_modules/zod/README.md",
