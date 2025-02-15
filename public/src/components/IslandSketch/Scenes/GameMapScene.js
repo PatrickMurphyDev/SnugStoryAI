@@ -429,12 +429,14 @@ export class GameMapScene extends GameScene {
   }
 
   placeCrabTrap(offsetLocal) {
-    this.doUIAction(this.p5.frameCount, () => {
+    const plcTrp = () => {
       // Create a new CrabTrap Entity and push it into the CrabTraps array
       const catchCallback = (i) => {
+        // add the new item passed to the callback to player inventory
         this.playerInventory.addItem(i);
       };
       const harvestCallback = () => {
+        // add the trap back to inventory on harvest trap
         this.playerInventory.addItem(ItemsEnum["Item2"]);
       };
       this.CrabTraps.push(
@@ -451,7 +453,9 @@ export class GameMapScene extends GameScene {
       );
       // REMOVE CrabTrap Item from player inventory after placement
       this.playerInventory.removeItem(ItemsEnum["Item2"]);
-    });
+    };
+    
+    this.doUIAction(this.p5.frameCount, plcTrp);
   }
 
   checkNextPosititionCollision(oldPos, newPos, returnNewValueCallback) {
@@ -471,9 +475,10 @@ export class GameMapScene extends GameScene {
     });
 
     // if new position is valid, set return to newPos
-    if (newPosValidity) returnPos = newPos;
-    returnNewValueCallback(returnPos, newPosValidity);
-  } // end checkNextPositionCollision FN
+    if (newPosValidity) 
+      returnPos = newPos;
+    returnNewValueCallback(returnPos, newPosValidity); // end checkNextPositionCollision FN
+  }
 
   isServerConnected() {
     return this.SocketClientInterface.isConnected();

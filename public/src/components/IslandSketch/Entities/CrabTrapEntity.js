@@ -67,13 +67,22 @@ class CrabTrapEntity extends Entity {
     return this.parent.CrabTraps.filter(fltrFunc);
   }
 
+  /**
+   * Handles the harvest action for the crab trap entity.
+   *
+   * @param {p5} p5 - The p5.js instance for drawing and calculations.
+   *
+   * @returns {void}
+   */
   harvest(p5){
     // TODO: Socket Call to server to check player position in relation to trap FIXME:
     this.fillColor = "#00ff00";
     this.trapState = 2;
     const pctCatchChance = .3;
+
     const randDidCatch = Math.random() / (((this.trapsInRange(p5)).length) || 1);
     this.harvestCallback();
+    
     if(randDidCatch>pctCatchChance){
       const randSelect = Math.random();
       if(randSelect<.1){
