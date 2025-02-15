@@ -17,21 +17,30 @@ class CrabTrapEntity extends Entity {
 
     this.frameAge = -1;
   }
+ update(p5, offset, scal) {
+   // Implement any update logic specific
+   this.frameAge = p5.frameCount - this.frameInit;
+   if (this.trapState === 0 && this.frameAge > (15 + this.randomOffset) * 50) {
+     this.trapState = 1;
+   }
+   // Check if player is within 400 pixels of the crab trap
+   const playerPosition = this.parent.playerControl.location;
+   const distanceToPlayer = p5.dist(this.location.x, this.location.y, playerPosition.x, playerPosition.y);
+   const isPlayerInRange = distanceToPlayer <= 80;
+   const mousePressedAndOver = p5.mouseIsPressed && this.isMouseOver(p5, offset, scal);
+   if(mousePressedAndOver) console.log("distanceToPlayer: " + distanceToPlayer);
 
-  update(p5, offset, scal) {
-    // Implement any update logic specific
-    this.frameAge = p5.frameCount-this.frameInit;
-    if(this.trapState === 0 && this.frameAge > (15+this.randomOffset)*50){
-      this.trapState = 1;
-      this.fillColor = '#ff0000';
-    }
+   if(this.trapState === 1) {
+    this.fillColor = isPlayerInRange ? '#ff0000' : '#550000';
+   }
 
-    // mouse pressed and hovered over trap with state of 1:ready
-    const shouldAllowHarvest = this.trapState === 1 && p5.mouseIsPressed && this.isMouseOver(p5,offset,scal); //this.trapState === 1 && this.frameAge > (30+this.randomOffset)*50 && this.parent.parent.player.inventory.canAdd(ItemsEnum["Item1"]);
-    if(shouldAllowHarvest){
-      this.doUIAction(p5.frameCount, ()=>(this.harvest(p5)));
-    }
-  }
+   // mouse pressed and hovered over trap with state of 1:ready
+   const shouldAllowHarvest = this.trapState === 1 && mousePressedAndOver && isPlayerInRange;
+   if (shouldAllowHarvest) {
+     this.doUIAction(p5.frameCount, () => this.harvest(p5));
+   }
+ }
+
 
   draw(p5, transparency, offset, scal) {
     offset = offset || {x:0,y:0};
@@ -82,7 +91,7 @@ class CrabTrapEntity extends Entity {
 
     const randDidCatch = Math.random() / (((this.trapsInRange(p5)).length) || 1);
     this.harvestCallback();
-    
+
     if(randDidCatch>pctCatchChance){
       const randSelect = Math.random();
       if(randSelect<.1){
