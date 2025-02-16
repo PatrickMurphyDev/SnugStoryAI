@@ -30,6 +30,7 @@ const AssetsList = [
   { key: "PlayerBackHeadImage", path: "images/BackHeadMainChar.png" },
   { key: "OtherPlayerImage", path: "images/playerStandingChar.png" },
   { key: "OtherPlayerProfileImage", path: "images/CharacterProfileImages/LukasMallard.png" },
+  { key: "TileMovementMap", path: "images/TileMovementMap.png" },
 ];
 
 export default AssetsList;

@@ -55,8 +55,6 @@ import LotEntity from "../Entities/LotEntity";
 import CharacterEntity from "../Entities/CharacterEntity";
 import CollideRectEntity from "../Entities/CollideRectEntity";
 import CrabTrapEntity from "../Entities/CrabTrapEntity";
-
-// import world data
 import { IslandTemplate } from "../../../utils/IslandTemplateTile";
 import WallData from "../ConfigurationData/WallData.json"; // Static Data: Wall Positions
 import LoadAnimatedSpritesAndAssetsHelper from "../Objects/LoadAnimatedSpritesAndAssetsHelper"; // Static Data: Image Assets imported
@@ -66,6 +64,7 @@ import ConversationController from "../Controllers/ConversationController";
 import GameDialogScene from "./GameDialogScene";
 import GameViewMapScene from "./GameViewMapScene";
 import { UserInputController } from "../Controllers/UserInputController";
+import { GameTileMapManager } from "../Controllers/GameTileMapManager";
 
 // define simulation time object that tracks time and date in world
 const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
@@ -147,6 +146,8 @@ export class GameMapScene extends GameScene {
     this.characterProfileImages = {
       LukasMallard: this.parentAssets.GameMapScene.OtherPlayerProfileImage,
     };
+
+    this.TileMovementMap = new GameTileMapManager(this);
 
     this.GUI = new GUIElementManager(this);
     this.SocketClientInterface = new SocketClientInterface(this);
@@ -433,29 +434,39 @@ export class GameMapScene extends GameScene {
 
   placeCrabTrap(offsetLocal) {
     const plcTrp = () => {
-      // Create a new CrabTrap Entity and push it into the CrabTraps array
-      const catchCallback = (i) => {
-        // add the new item passed to the callback to player inventory
-        this.playerInventory.addItem(i);
-      };
-      const harvestCallback = () => {
-        // add the trap back to inventory on harvest trap
-        this.playerInventory.addItem(ItemsEnum["Item2"]);
-      };
-      this.CrabTraps.push(
-        new CrabTrapEntity(
-          this,
-          "CTE" + this.p5.frameCount,
-          offsetLocal.x,
-          offsetLocal.y,
-          simTime.getDate() + "|" + simTime.getTime(),
-          this.p5.frameCount,
-          catchCallback,
-          harvestCallback
-        )
-      );
-      // REMOVE CrabTrap Item from player inventory after placement
-      this.playerInventory.removeItem(ItemsEnum["Item2"]);
+      const worldLocation = {x: offsetLocal.x-16, y: offsetLocal.y};//this.convertScreenPositionToWorldPosition(offsetLocal);
+      // v1 = {x: worldLocation.x, y: worldLocation.y};
+      //const v2 = {x: worldLocation.x / 32, y: worldLocation.y / 32};
+      //const v3 = {x: worldLocation.x / 32 * 3, y: worldLocation.y / 32 * 3};
+      //console.log("PlaceCrabTrap: offsetLocal: x: " + offsetLocal.x + ", y: " + offsetLocal.y);
+      //console.log("PlaceCrabTrap: worldLocation: x: " + v1.x + ", y: " + v1.y + ", x2: " + v2.x + ", y2: " + v2.y + ", x3: " + v3.x + ", y3: " + v3.y);
+      const tileColor = this.TileMovementMap.getColorAtLocation(worldLocation);
+      //console.log(tileColor);
+      if(tileColor.r === 0 && tileColor.g === 255 && tileColor.b === 255){
+        // Create a new CrabTrap Entity and push it into the CrabTraps array
+        const catchCallback = (i) => {
+          // add the new item passed to the callback to player inventory
+          this.playerInventory.addItem(i);
+        };
+        const harvestCallback = () => {
+          // add the trap back to inventory on harvest trap
+          this.playerInventory.addItem(ItemsEnum["Item2"]);
+        };
+        this.CrabTraps.push(
+          new CrabTrapEntity(
+            this,
+            "CTE" + this.p5.frameCount,
+            offsetLocal.x,
+            offsetLocal.y,
+            simTime.getDate() + "|" + simTime.getTime(),
+            this.p5.frameCount,
+            catchCallback,
+            harvestCallback
+          )
+        );
+        // REMOVE CrabTrap Item from player inventory after placement
+        this.playerInventory.removeItem(ItemsEnum["Item2"]);
+      }
     };
 
     this.doUIAction(this.p5.frameCount, plcTrp);
