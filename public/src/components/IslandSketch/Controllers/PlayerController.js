@@ -260,9 +260,9 @@ class PlayerController {
           };
         } else {
           that.parent.placeCrabTrap(v3);
-          that.createSplashEntity(p5, v3);
+          that.createSplashEntity(p5, v3); // TODO: Fixme: only display splash if water
           that.parent.gameViewMapScene.removeEntity(this);
-          console.log("remove trap throw entity")
+          //console.log("remove trap throw entity")
         }
       },
       draw: function () {
