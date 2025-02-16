@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"a7913dd7da9147fa","x":460,"y":-904,"width":760,"height":1484,"color":"#c1f0f0","type":"group","label":"GameMapScene"},
+		{"id":"a7913dd7da9147fa","type":"group","x":460,"y":-904,"width":760,"height":1484,"color":"#c1f0f0","label":"GameMapScene"},
 		{"id":"f2b1e0dfb7e43920","type":"group","x":480,"y":-200,"width":720,"height":760,"color":"5","label":"Class Members"},
 		{"id":"3389c6d13d508490","type":"group","x":-860,"y":-580,"width":1060,"height":470,"color":"3","label":"IslandSketch.jsx"},
 		{"id":"c6a98889c66e76a1","type":"group","x":-1440,"y":-1500,"width":360,"height":740,"label":"Custom Scenes"},
@@ -9,7 +9,7 @@
 		{"id":"43e4eec5ae9149e8","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Load_GameMenuScene.js","x":-1425,"y":-1196,"width":305,"height":93},
 		{"id":"82316f01fbb698ab","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Intro_GameCutScene.js","x":-1425,"y":-1338,"width":305,"height":93},
 		{"id":"e760702256bb3c3b","type":"file","file":"public/src/components/IslandSketch/Scenes/custom/Main_GameMenuScene.js","x":-1425,"y":-1480,"width":305,"height":93},
-		{"id":"e574d4b262c79b69","type":"file","file":"public/src/components/IslandSketch/ConfigurationData/AssetsList.js","x":-1332,"y":-80,"width":120,"height":120},
+		{"id":"e574d4b262c79b69","type":"file","file":"public/src/components/IslandSketch/ConfigurationData/AssetsList.js","x":-1440,"y":-80,"width":228,"height":120},
 		{"id":"d25d8ca3f3621c9f","type":"file","file":"public/src/components/IslandSketch/IslandSketch.jsx","x":-840,"y":-560,"width":400,"height":400},
 		{"id":"cdc9bf7c6df857df","type":"file","file":"public/src/utils/IslandTemplateTile.js","x":-1560,"y":-350,"width":382,"height":83},
 		{"id":"d817c943970c69eb","type":"text","text":"# Class Members\nTrack Current SceneIndex\nAssetsByScene (obj)\nScenes (array) ","x":-327,"y":-560,"width":420,"height":140},
@@ -27,7 +27,8 @@
 		{"id":"de53a528f1763441","type":"file","file":"public/src/components/IslandSketch/Entities/CollideRectEntity.js","x":1640,"y":-284,"width":234,"height":234},
 		{"id":"c75ccd7b58b80080","type":"file","file":"public/src/components/IslandSketch/Controllers/PlayerController.js","x":960,"y":90,"width":201,"height":201},
 		{"id":"417322bcf2318453","type":"file","file":"public/src/components/IslandSketch/CharacterFeatures/CharacterInventory.js","x":960,"y":340,"width":201,"height":201},
-		{"id":"58e0ea8a1969a39f","type":"file","file":"public/src/components/IslandSketch/Scenes/GameDialogScene.js","x":1320,"y":191,"width":160,"height":149}
+		{"id":"58e0ea8a1969a39f","type":"file","file":"public/src/components/IslandSketch/Scenes/GameDialogScene.js","x":1320,"y":191,"width":160,"height":149},
+		{"id":"aadfdd0008cf2a05","x":1640,"y":32,"width":234,"height":234,"type":"file","file":"public/src/components/IslandSketch/Controllers/GameTileMapManager.js"}
 	],
 	"edges":[
 		{"id":"11fc819586910ac5","fromNode":"c6a98889c66e76a1","fromSide":"bottom","toNode":"d25d8ca3f3621c9f","toSide":"left"},

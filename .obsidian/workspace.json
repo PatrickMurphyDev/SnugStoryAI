@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Documentation/ServerDiagram.canvas",
+                "file": "Documentation/MapComponent.canvas",
                 "viewState": {
-                  "x": -1312.1267167124186,
-                  "y": 8146.306791762368,
-                  "zoom": -1.7156123534300287
+                  "x": 1127.7206680191966,
+                  "y": -519.9560036331404,
+                  "zoom": -0.5739964975055738
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "ServerDiagram"
+              "title": "MapComponent"
             }
           },
           {
@@ -189,8 +189,9 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
-    "Documentation/datamodel/DataModelv3.canvas",
+    "Documentation/OverallProgramDiagram.canvas",
     "Documentation/ServerDiagram.canvas",
+    "Documentation/datamodel/DataModelv3.canvas",
     "server/StoryData/Narrative.json",
     "server/controllers/sockets/ConversationService.js",
     "server/controllers/sockets/AIService.js",
@@ -206,7 +207,6 @@
     "coverage/lcov-report/server/controllers/sockets/index.html",
     "coverage/lcov-report/sort-arrow-sprite.png",
     "coverage/lcov-report/favicon.png",
-    "Documentation/OverallProgramDiagram.canvas",
     "Documentation/images/FamilyRelationships.png",
     "Documentation/images/FSMPatrol.png",
     "Documentation/images/homescreenmenu.png",
