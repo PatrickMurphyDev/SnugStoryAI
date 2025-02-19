@@ -187,8 +187,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a980688f661c8fd8",
+  "active": "6b9ffb5bb1d487d1",
   "lastOpenFiles": [
+    "Documentation/Issues",
     "Documentation/OverallProgramDiagram.canvas",
     "Documentation/ServerDiagram.canvas",
     "Documentation/datamodel/DataModelv3.canvas",

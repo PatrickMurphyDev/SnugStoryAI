@@ -30,7 +30,7 @@ export default class PathingEntity extends Entity {
       this.map.tiles
     );
     const finder = new PF.AStarFinder({
-      allowDiagonal: false,
+      allowDiagonal: true,
       dontCrossCorners: true,
     });
 
