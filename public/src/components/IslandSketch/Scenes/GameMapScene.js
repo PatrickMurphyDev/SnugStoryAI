@@ -202,6 +202,8 @@ export class GameMapScene extends GameScene {
   }
 
   AddSceneCollideEntities() {
+    // Add a item pickup collision to add 5 crab traps (Item2)
+    // todo make ItemPickup its own entity
     this.CollideEntities.push(
       new CollideRectEntity(
         6666556,
@@ -214,6 +216,8 @@ export class GameMapScene extends GameScene {
         }
       )
     );
+
+    // Add Andi NPC
     this.CollideEntities.push(
       new CollideRectEntity(
         66666,
@@ -232,6 +236,8 @@ export class GameMapScene extends GameScene {
         }
       )
     );
+
+    // Add Brianna NPC
     this.CollideEntities.push(
       new CollideRectEntity(
         66666,
