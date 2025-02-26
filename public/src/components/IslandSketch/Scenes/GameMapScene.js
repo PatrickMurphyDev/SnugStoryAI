@@ -504,20 +504,36 @@ export class GameMapScene extends GameScene {
     return this.SocketClientInterface.isConnected();
   }
 
+  // TODO: move to approriate single responsability principle aligned class
   createCharacterEntity(resident) {
+    const defaultCharacterEntityProps = {
+      x: 450 + (Math.random()*900) - 450,
+      y: 1450 + (Math.random()*400) - 200,
+      name: "Char 1",
+      nameObj: { first: "First", last:"Last" },
+      age: 25,
+      gender: "Female",
+      skills: [],
+      bio: "",
+      attributes: [],
+      residenceLot: { location: { x: 600, y: 1650 } },
+      employmentLot: { location: { x: 800, y: 1650 } },
+      pImage: "", //this.charImages[resident.name] ||
+      img: "AndiMcNuttley.png"
+    }
     return new CharacterEntity(
-      { x: resident.x || 0, y: resident.y || 0 },
-      resident.name || "Char 1",
-      resident.nameObj || {first: "First",last:"Last"},
-      resident.age || 25,
-      resident.gender || "Female",
-      resident.skills || [],
-      resident.bio || resident.details.description || "",
-      resident.attributes || [],
-      resident.residenceLot || { location: { x: 800, y: 800 } },
-      resident.employmentLot || { location: { x: 900, y: 900 } },
-      resident.pImage || "", //this.charImages[resident.name] ||
-      resident.img || "AndiMcNuttley.png"
+      { x: resident.x || defaultCharacterEntityProps.x, y: resident.y || defaultCharacterEntityProps.y },
+      resident.name || defaultCharacterEntityProps.name,
+      resident.nameObj || defaultCharacterEntityProps.nameObj,
+      resident.age || defaultCharacterEntityProps.age,
+      resident.gender || defaultCharacterEntityProps.gender,
+      resident.skills || defaultCharacterEntityProps.skills,
+      resident.bio || resident.details.description || defaultCharacterEntityProps.bio,
+      resident.attributes || defaultCharacterEntityProps.attributes,
+      resident.residenceLot || defaultCharacterEntityProps.residenceLot,
+      resident.employmentLot || defaultCharacterEntityProps.employmentLot,
+      resident.pImage || defaultCharacterEntityProps.pImage,
+      resident.details.img_src || defaultCharacterEntityProps.img
     );
   }
 }
