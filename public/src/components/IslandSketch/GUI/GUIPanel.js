@@ -1,6 +1,6 @@
 import SimulationTime from "../../../utils/SimulationTime";
 
-const SIMTIME = SimulationTime.getInstance();
+const SIMTIME = SimulationTime.getInstance({ currentTimeOfDay: 600 });
 
 class GUIPanel {
   constructor(parent) {
