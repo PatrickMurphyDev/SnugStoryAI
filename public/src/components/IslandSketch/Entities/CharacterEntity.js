@@ -10,7 +10,7 @@ import SimulationTime from "../../../utils/SimulationTime";
 import CharacterInventory from '../CharacterFeatures/CharacterInventory';
 import { ItemsEnum } from '../ConfigurationData/ItemsEnum';
 
-const simTime = SimulationTime.getInstance({ currentTimeOfDay: 600 }); // start 10 am
+const simTime = SimulationTime.getInstance(); // start 10 am
 
 class CharacterEntity extends PathingEntity {
   constructor(
@@ -148,7 +148,7 @@ class CharacterEntity extends PathingEntity {
     p5.fill(this.getCurrentColor());
     p5.ellipse(ps.x + 12, ps.y + 5, 25, 25);
     if (this.profileImage) {
-      p5.image(this.profileImage, ps.x, ps.y, 35, 35);
+      p5.image(this.profileImage, ps.x, ps.y, 35/2, 35/2);
     }
   }
 
