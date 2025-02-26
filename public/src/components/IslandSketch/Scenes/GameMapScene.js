@@ -323,8 +323,10 @@ export class GameMapScene extends GameScene {
 
   initializeCharacters() {
     this.setCharList([]);
-    const characterTempList = IslandTemplate.Residents.map((v) =>
-      this.createCharacterEntity(v)
+    const characterTempList = IslandTemplate.Residents.map((v) => {
+      v.pImage = this.characterProfileImages[v.nameObj.first+v.nameObj.last];
+      return this.createCharacterEntity(v)
+    }
     );
     this.setCharList(characterTempList);
     if (this.OPTIONS["enable_socket-load-world"]) {
