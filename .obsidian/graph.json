@@ -3,8 +3,8 @@
   "search": "-path:node_modules",
   "showTags": false,
   "showAttachments": false,
-  "hideUnresolved": false,
-  "showOrphans": false,
+  "hideUnresolved": true,
+  "showOrphans": true,
   "collapse-color-groups": false,
   "colorGroups": [
     {
@@ -50,16 +50,16 @@
       }
     }
   ],
-  "collapse-display": false,
+  "collapse-display": true,
   "showArrow": true,
   "textFadeMultiplier": -0.4,
   "nodeSizeMultiplier": 1.97433031532938,
   "lineSizeMultiplier": 2.77687168279738,
-  "collapse-forces": false,
+  "collapse-forces": true,
   "centerStrength": 0.654261629722136,
   "repelStrength": 18.2803621604746,
   "linkStrength": 0.634217920699344,
   "linkDistance": 30,
-  "scale": 0.321336429858165,
+  "scale": 0.4505081846770133,
   "close": false
 }

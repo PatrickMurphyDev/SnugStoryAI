@@ -11,27 +11,10 @@
             "id": "a980688f661c8fd8",
             "type": "leaf",
             "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Documentation/gameplay/NPC's.canvas",
-                "viewState": {
-                  "x": 97.5656112272949,
-                  "y": 233.9601570090241,
-                  "zoom": -1.1967285032976462
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "NPC's"
-            }
-          },
-          {
-            "id": "ad7105a1867fad05",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           },
           {
@@ -189,9 +172,11 @@
   },
   "active": "a980688f661c8fd8",
   "lastOpenFiles": [
+    "Documentation/gameplay/Loop/endgame/Endgame.md",
+    "Documentation/images/FamilyRelationships.png",
+    "Documentation/gameplay/NPC's.canvas",
     "Documentation/gameplay/Island -- Asbury's Reef.md",
     "Pasted image 20250221034725.png",
-    "Documentation/gameplay/NPC's.canvas",
     "Documentation/Story.canvas",
     "Documentation/Chars.canvas",
     "Documentation/MapComponent.canvas",
@@ -215,7 +200,6 @@
     "public/public/images/mapminipaths.psd.crswap",
     "coverage/lcov-report/sort-arrow-sprite.png",
     "coverage/lcov-report/favicon.png",
-    "Documentation/images/FamilyRelationships.png",
     "Documentation/images/FSMPatrol.png",
     "Documentation/images/homescreenmenu.png",
     "Documentation/images/images.jpeg",
@@ -242,8 +226,6 @@
     "Narra.md",
     "Documentation/dbViz/characters/000000000000000000000001.md",
     "Documentation/dbViz/characters/000000000000000000000053.md",
-    "Documentation/dbViz/characters/000000000000000000000052.md",
-    "Documentation/dbViz/characters/000000000000000000000054.md",
-    "Documentation/dbViz/characters/CharacterDetails/000000000000000000000001.md"
+    "Documentation/dbViz/characters/000000000000000000000052.md"
   ]
 }

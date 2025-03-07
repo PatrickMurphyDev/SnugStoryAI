@@ -215,7 +215,7 @@ export class GameMapScene extends GameScene {
           this.playerInventory.addItem(ItemsEnum.Item2, 5);
         }
       )
-    );
+    ); 
 
     // Add Andi NPC
     this.CollideEntities.push(

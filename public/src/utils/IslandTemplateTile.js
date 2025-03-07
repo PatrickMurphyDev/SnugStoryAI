@@ -259,6 +259,16 @@ const apiInterface = () => {
     getJobPositions: () => {
       return [];
     },
+    getCharacterSchedule: (id) => {
+      let characterSchedules = [];
+      const matchID = function (schedule) {
+        if (schedule.character_id === id) {
+          return schedule;
+        }
+        return null;
+      };
+      return characterSchedules.map(matchID);
+    },
     getCharacters: () => {
       return [
         {
