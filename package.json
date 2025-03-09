@@ -7,10 +7,11 @@
   },
   "scripts": {
     "start": "concurrently \"npm run --prefix ./server/ start\" \"npm run --prefix ./public start\"",
-	"test": "jest"
+    "test": "jest"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "dependency-cruiser": "^16.10.0",
     "jest": "^27.5.1"
   }
 }
